@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id  String  @id  @default(uuid())
+  fName   String
+  lName   String
+  email   String  @unique
+  password  String //hash password
+  profile   String?
+  createdAt  DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  reviews Review[]
+}
+
+model Review {
+  id    String  @id @default(uuid())
+  userId    String
+  user     User   @relation(fields: [userId], references: [id])
+
+  comment   String?
+  rating   Float       // like 1, 2, 3.5
+
+  createdAt  DateTime    @default(now())
+
+  destinationId  String
+  destination    Destination @relation(fields: [destinationId], references: [id])
+
+
+//indexing for fast query
+  @@index([userId])
+  @@index([destinationId])
+}
+
+model Destination {
+  id   String   @id   @default(uuid())
+  name   String
+  imageUrl  String[]
+  reviews  Review[]
+  // nodeid needed to point to map
+
+
+}
