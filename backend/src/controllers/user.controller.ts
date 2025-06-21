@@ -8,6 +8,7 @@ import prisma from "../db/index.js";
 import jwt from 'jsonwebtoken'
 import { dmmfToRuntimeDataModel } from "@prisma/client/runtime/library";
 import type { AuthenticatedUser, AuthenticatedRequest } from "../middleware/auth.js";
+import { uploadeCloudinary } from "../utils/cloudinary.js";
 
 const generateToken = (id: string) => {
     return jwt.sign({
@@ -20,13 +21,22 @@ const generateToken = (id: string) => {
 }
 
 export const registerUser = asyncHandler(async(req: Request, res: Response) => {
-    const { fName, lName, email, password, profile } = req.body;
+    const { fName, lName, email, password } = req.body;
 
-    if([fName, lName, email, password].some(f=>f.trim()==='')) {
+    if([fName, lName, email, password].some(f=>f?.trim()==='')) {
         throw new ApiError(400, "All the field required.");
     }
 
     //if profile handle uploade to cloudinary
+
+  //  console.log(req);
+    
+   let profileUrl: string | undefined
+
+   if(req.file?.path) {
+    const response = await uploadeCloudinary(req.file?.path);
+    profileUrl = response?.url;
+   }
 
     const userExist = await prisma.user.findUnique({
         where: {
@@ -46,6 +56,7 @@ export const registerUser = asyncHandler(async(req: Request, res: Response) => {
             lName: lName,
             email: email,
             password: hashPassword,
+            profile: profileUrl
             //profile needed
         }
     })
@@ -59,6 +70,7 @@ export const registerUser = asyncHandler(async(req: Request, res: Response) => {
         fName: true,
         lName: true,
         email: true,
+        profile: true,
         // prfoile needed if exist
     }
     })
@@ -116,6 +128,7 @@ export const signIn = asyncHandler(async(req:Request, res: Response) => {
             fName: true,
             lName: true,
             email: true,
+            profile: true,
         }
     });
 
