@@ -222,7 +222,8 @@ const Home = () => {
                 <div>
                   <strong>{i === 0 ? "Start" : i === destinations.length - 1 ? "End" : `Destination ${i}`}</strong>
                   <br />
-                  {dest.name || `${dest.lat.toFixed(5)}, ${dest.lon.toFixed(5)}`}
+                  {dest.name ||
+                    `${dest.lat.toFixed(5)}, ${dest.lon.toFixed(5)}`}
                   <br />
                   <button onClick={() => removeDestination(i)}>Remove</button>
                 </div>
