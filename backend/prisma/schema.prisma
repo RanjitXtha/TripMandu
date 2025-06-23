@@ -53,4 +53,6 @@ model Destination {
   name     String
   imageUrl String[]
   reviews  Review[]
+  lat     Float?
+  lon     Float?
 }
