@@ -9,7 +9,6 @@ import { setUser } from "./features/auth";
 import type { AppDispatch } from "./app/store";
 import { useDispatch } from "react-redux";
 import type { User } from "./types/user";
-import Header from "./components/Header";
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
 
