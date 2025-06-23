@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma/client"
+  output   = "../src/generated/prisma/client"
 }
 
 datasource db {
@@ -23,42 +23,34 @@ model graph_nodes {
 }
 
 model User {
-  id  String  @id  @default(uuid())
-  fName   String
-  lName   String
-  email   String  @unique
-  password  String //hash password
+  id        String   @id @default(uuid())
+  fName     String
+  lName     String
+  email     String   @unique
+  password  String
   profile   String?
-  createdAt  DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  reviews Review[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  reviews   Review[]
 }
 
 model Review {
-  id    String  @id @default(uuid())
-  userId    String
-  user     User   @relation(fields: [userId], references: [id])
+  id            String      @id @default(uuid())
+  userId        String
+  comment       String?
+  rating        Float
+  createdAt     DateTime    @default(now())
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
 
-  comment   String?
-  rating   Float       // like 1, 2, 3.5
-
-  createdAt  DateTime    @default(now())
-
-  destinationId  String
-  destination    Destination @relation(fields: [destinationId], references: [id])
-
-
-//indexing for fast query
   @@index([userId])
   @@index([destinationId])
 }
 
 model Destination {
-  id   String   @id   @default(uuid())
-  name   String
-  imageUrl  String[]
+  id       String   @id @default(uuid())
+  name     String
+  imageUrl String[]
   reviews  Review[]
-  // nodeid needed to point to map
-
-
 }
