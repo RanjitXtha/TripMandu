@@ -13,6 +13,7 @@ export const getRoute = asyncHandler(async(req: Request, res: Response)=>{
        throw new ApiError(400, "Coordinates required");
     }
 
+
     const startId = nearestNode(start, nodeMap);
     const goalId = nearestNode(end, nodeMap);
 

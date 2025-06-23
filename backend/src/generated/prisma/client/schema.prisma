@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model graph_edges {
+  source   BigInt
+  target   BigInt
+  distance Float?
+
+  @@id([source, target])
+}
+
+model graph_nodes {
+  node_id BigInt @id
+  lat     Float?
+  lon     Float?
+}
+
+model User {
+  id        String   @id @default(uuid())
+  fName     String
+  lName     String
+  email     String   @unique
+  password  String
+  profile   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  reviews   Review[]
+}
+
+model Review {
+  id            String      @id @default(uuid())
+  userId        String
+  comment       String?
+  rating        Float
+  createdAt     DateTime    @default(now())
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([destinationId])
+}
+
+model Destination {
+  id       String   @id @default(uuid())
+  name     String
+  imageUrl String[]
+  reviews  Review[]
+}
