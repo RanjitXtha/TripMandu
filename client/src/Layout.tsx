@@ -6,7 +6,7 @@ const Layout = () => {
   return (
     <div className="relative">
       <Header />
-      <Overlay />
+      {/* <Overlay /> */}
       <Footer />
       <Home />
     </div>
