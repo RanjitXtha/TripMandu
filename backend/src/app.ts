@@ -3,7 +3,10 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 const app = express();
-app.use(cors()); //options for origin, methods, credentials and allowheaders
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+})); //options for origin, methods, credentials and allowheaders
 
 app.use(express.json()); //limit can be define for json payloads
 app.use(express.urlencoded({ extended: true })); //for forData (form paylaods)
