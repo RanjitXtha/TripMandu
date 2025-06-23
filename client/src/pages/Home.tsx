@@ -117,9 +117,12 @@ const Home = () => {
       }
       setLoading(true);
       try {
-        const response = await axios.post("http://localhost:8080/api/map/getRoute", {
-          waypoints: destinations.map((d) => ({ lat: d.lat, lon: d.lon })),
-        });
+         const start = destinations[0];
+    const end = destinations[destinations.length - 1];
+    const response = await axios.post("http://localhost:8080/api/map/getRoute", {
+      start: { lat: start.lat, lon: start.lon },
+      end: { lat: end.lat, lon: end.lon },
+    });
         const data = response.data;
         console.log("Received path data:", data);
         if (!data.path || !Array.isArray(data.path)) {
