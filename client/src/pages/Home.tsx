@@ -23,16 +23,16 @@ const touristDestinations: Location[] = [
 ];
 
 const ClickHandler = ({
-  addDestinationMode,
-  onAddDestination,
+  enabled,
+  onMapClick,
 }: {
-  addDestinationMode: boolean;
-  onAddDestination: (latlng: [number, number]) => void;
+  enabled: boolean;
+  onMapClick: (latlng: [number, number]) => void;
 }) => {
   useMapEvents({
     click(e) {
-      if (addDestinationMode) {
-        onAddDestination([e.latlng.lat, e.latlng.lng]);
+      if (enabled) {
+        onMapClick([e.latlng.lat, e.latlng.lng]);
       }
     },
   });
@@ -40,37 +40,30 @@ const ClickHandler = ({
 };
 
 const Home = () => {
-  // Array of destinations including start, intermediate stops, and end
   const [destinations, setDestinations] = useState<Location[]>([]);
-
+  const [clickMarkers, setClickMarkers] = useState<Location[]>([]);
   const [loading, setLoading] = useState(false);
   const [myloc, setMyloc] = useState<{ lat: number; lon: number } | null>(null);
   const [addDestinationMode, setAddDestinationMode] = useState(false);
+  const [markerMode, setMarkerMode] = useState<"none" | "start" | "end">(
+    "none"
+  );
 
-  // Get user location once on mount
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          setMyloc({ lat: pos.coords.latitude, lon: pos.coords.longitude });
-        },
-        () => {
-          // error or denied geolocation
-        }
-      );
+      navigator.geolocation.getCurrentPosition((pos) => {
+        setMyloc({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+      });
     }
   }, []);
 
-  // Helper to set Start (first item)
   const setStart = (latlng: [number, number]) => {
     setDestinations((prev) => {
       if (prev.length === 0) return [{ lat: latlng[0], lon: latlng[1] }];
-      // Replace first item
       return [{ lat: latlng[0], lon: latlng[1] }, ...prev.slice(1)];
     });
   };
 
-  // Helper to set End (last item)
   const setEnd = (latlng: [number, number]) => {
     setDestinations((prev) => {
       if (prev.length === 0) return [{ lat: latlng[0], lon: latlng[1] }];
@@ -84,7 +77,6 @@ const Home = () => {
     });
   };
 
-  // Add intermediate destination (append before end or at end if no end)
   const addDestination = (latlng: [number, number]) => {
     setDestinations((prev) => {
       if (prev.length <= 1) {
@@ -101,20 +93,36 @@ const Home = () => {
     });
   };
 
-  // Remove a destination by index
   const removeDestination = (index: number) => {
     setDestinations((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // Clear start or end by removing first or last destination
   const clearStart = () => {
     setDestinations((prev) => (prev.length > 0 ? prev.slice(1) : prev));
   };
+
   const clearEnd = () => {
     setDestinations((prev) => (prev.length > 0 ? prev.slice(0, -1) : prev));
   };
 
-  // Fetch route for all destinations in order if at least start and end present
+  const removeClickMarker = (lat: number, lon: number) => {
+    setClickMarkers((prev) =>
+      prev.filter((m) => m.lat !== lat || m.lon !== lon)
+    );
+  };
+
+  const handleMapClick = (latlng: [number, number]) => {
+    if (markerMode === "start") {
+      setStart(latlng);
+      setMarkerMode("none");
+    } else if (markerMode === "end") {
+      setEnd(latlng);
+      setMarkerMode("none");
+    } else if (addDestinationMode) {
+      setClickMarkers((prev) => [...prev, { lat: latlng[0], lon: latlng[1] }]);
+    }
+  };
+
   const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
 
   useEffect(() => {
@@ -135,14 +143,12 @@ const Home = () => {
           }
         );
         const data = response.data;
-        console.log("Received path data:", data);
         if (!data.path || !Array.isArray(data.path)) {
           alert("Invalid route data received from server");
           setPathCoords([]);
-          setLoading(false);
-          return;
+        } else {
+          setPathCoords(data.path);
         }
-        setPathCoords(data.path);
       } catch (error) {
         console.error("Request failed:", error);
         alert("Error fetching route");
@@ -156,7 +162,6 @@ const Home = () => {
 
   return (
     <div style={{ display: "flex", height: "100vh" }}>
-      {/* Sidebar */}
       <div
         style={{
           width: 300,
@@ -167,6 +172,7 @@ const Home = () => {
         }}
       >
         <h3>Route Planner</h3>
+
         <div style={{ marginBottom: 20 }}>
           <strong>Start:</strong>
           <br />
@@ -182,6 +188,8 @@ const Home = () => {
           ) : (
             <em>Not set</em>
           )}
+          <br />
+          <button onClick={() => setMarkerMode("start")}>Set from Map</button>
         </div>
 
         <div style={{ marginBottom: 20 }}>
@@ -199,6 +207,8 @@ const Home = () => {
           ) : (
             <em>Not set</em>
           )}
+          <br />
+          <button onClick={() => setMarkerMode("end")}>Set from Map</button>
         </div>
 
         <div style={{ marginBottom: 20 }}>
@@ -217,14 +227,8 @@ const Home = () => {
               ? "Add Destinations Mode ON"
               : "Add Destinations Mode OFF"}
           </button>
-          <p style={{ fontSize: 12, color: "#555", marginTop: 5 }}>
-            {addDestinationMode
-              ? "Click on the map to add intermediate destinations."
-              : "Toggle to add multiple destinations on map clicks."}
-          </p>
         </div>
 
-        {/* List all destinations */}
         <div>
           <h4>Destinations:</h4>
           {destinations.length === 0 && <p>No destinations added yet.</p>}
@@ -234,13 +238,7 @@ const Home = () => {
                 {d.name || `${d.lat.toFixed(5)}, ${d.lon.toFixed(5)}`}{" "}
                 <button
                   onClick={() => removeDestination(i)}
-                  style={{
-                    marginLeft: 8,
-                    color: "red",
-                    cursor: "pointer",
-                    border: "none",
-                    background: "none",
-                  }}
+                  style={{ marginLeft: 8, color: "red", cursor: "pointer" }}
                 >
                   ✕
                 </button>
@@ -263,23 +261,36 @@ const Home = () => {
           />
 
           <ClickHandler
-            addDestinationMode={addDestinationMode}
-            onAddDestination={(latlng) => addDestination(latlng)}
+            enabled={markerMode !== "none" || addDestinationMode}
+            onMapClick={handleMapClick}
           />
 
-          {/* Tourist Destinations */}
           {touristDestinations.map((place, idx) => (
             <Marker key={"tourist-" + idx} position={[place.lat, place.lon]}>
               <Popup>
                 <div>
                   <strong>{place.name}</strong>
                   <br />
-                  <button onClick={() => setStart([place.lat, place.lon])}>
-                    Set as Start
+                  <button
+                    onClick={() => addDestination([place.lat, place.lon])}
+                  >
+                    Add as Destination
                   </button>
+                </div>
+              </Popup>
+            </Marker>
+          ))}
+
+          {clickMarkers.map((marker, idx) => (
+            <Marker key={"click-" + idx} position={[marker.lat, marker.lon]}>
+              <Popup>
+                <div>
+                  <strong>Custom Marker</strong>
                   <br />
-                  <button onClick={() => setEnd([place.lat, place.lon])}>
-                    Set as End
+                  <button
+                    onClick={() => addDestination([marker.lat, marker.lon])}
+                  >
+                    Add as Destination
                   </button>
                   <br />
                   <button
@@ -292,13 +303,8 @@ const Home = () => {
             </Marker>
           ))}
 
-          {/* Destination Markers */}
           {destinations.map((dest, i) => (
-            <Marker
-              key={"dest-" + i}
-              position={[dest.lat, dest.lon]}
-              // Different colors for start/end/intermediate could be done with custom icons
-            >
+            <Marker key={"dest-" + i} position={[dest.lat, dest.lon]}>
               <Popup>
                 <div>
                   <strong>
@@ -318,12 +324,10 @@ const Home = () => {
             </Marker>
           ))}
 
-          {/* Show route */}
           {pathCoords.length > 0 && (
             <Polyline positions={pathCoords} color="blue" weight={5} />
           )}
 
-          {/* Show user location */}
           {myloc && (
             <Marker position={[myloc.lat, myloc.lon]}>
               <Popup>My Location</Popup>
