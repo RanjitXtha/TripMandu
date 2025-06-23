@@ -15,7 +15,7 @@ app.use(cookieParser());
 // routes file
 
 import UserRouter from './routes/user.route.js';
-
+import mapRouter from "./routes/map.route.js";
 app.use('/api/v1/user', UserRouter);
-
+app.use(mapRouter);
 export { app };
