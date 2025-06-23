@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import Header from "./components/Header";
-import Overlay from "./components/Overlay";
-const App = () => {
-  return (
-    <>
-      <Header />
-      <Overlay />
-    </>
-  );
-};
-
-=======
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./Layout";
 import Home from "./pages/Home";
@@ -22,30 +9,30 @@ import { setUser } from "./features/auth";
 import type { AppDispatch } from "./app/store";
 import { useDispatch } from "react-redux";
 import type { User } from "./types/user";
+import Header from "./components/Header";
 const App = () => {
-
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    const localHost = async() => {
-      const token = localStorage.getItem('token');
-      if(!token) return null;
+    const localHost = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return null;
       try {
         const response = await api.get("/user/protected", {
           headers: {
             Authorization: `Bearer ${token}`,
-          }
-        })
-        
-        if(response.data.success) {
+          },
+        });
+
+        if (response.data.success) {
           console.log(response?.data?.data);
           const data: User = response?.data?.data;
           dispatch(setUser(data));
         }
-      } catch (err:any) {
+      } catch (err: any) {
         console.error(err?.message);
       }
-    }
+    };
     localHost();
   }, [dispatch]);
   return (
@@ -54,8 +41,8 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           {/* Unprotected Route */}
-          <Route path="register" element={<Register />} />
-          <Route path="login" element={<SignIn />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<SignIn />} />
 
           {/* Protected Route */}
         </Route>
@@ -64,5 +51,4 @@ const App = () => {
   );
 };
 
->>>>>>> origin/ranjit
 export default App;

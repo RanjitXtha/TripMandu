@@ -49,7 +49,7 @@ const Overlay: React.FC = () => {
   const sites: Site[] = siteData[selectedPlace] || [];
 
   return (
-    <div className="absolute top-1/2 transform -translate-y-1/2 mt-4 ml-4 h-150 w-120 rounded-2xl shadow-lg overflow-hidden">
+    <div className="absolute z-50 bg-white top-1/2 transform -translate-y-1/2 mt-4 ml-4 h-150 w-120 rounded-2xl shadow-lg overflow-hidden">
       <select
         className="text-lg font-semibold px-4 outline-hidden"
         value={selectedPlace}

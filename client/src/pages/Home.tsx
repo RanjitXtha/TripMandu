@@ -74,9 +74,13 @@ const Home = () => {
   const setEnd = (latlng: [number, number]) => {
     setDestinations((prev) => {
       if (prev.length === 0) return [{ lat: latlng[0], lon: latlng[1] }];
-      if (prev.length === 1) return [prev[0], { lat: latlng[0], lon: latlng[1] }];
+      if (prev.length === 1)
+        return [prev[0], { lat: latlng[0], lon: latlng[1] }];
       // Replace last item
-      return [...prev.slice(0, prev.length - 1), { lat: latlng[0], lon: latlng[1] }];
+      return [
+        ...prev.slice(0, prev.length - 1),
+        { lat: latlng[0], lon: latlng[1] },
+      ];
     });
   };
 
@@ -88,7 +92,11 @@ const Home = () => {
         return [...prev, { lat: latlng[0], lon: latlng[1] }];
       } else {
         // Insert before last (end)
-        return [...prev.slice(0, prev.length - 1), { lat: latlng[0], lon: latlng[1] }, prev[prev.length - 1]];
+        return [
+          ...prev.slice(0, prev.length - 1),
+          { lat: latlng[0], lon: latlng[1] },
+          prev[prev.length - 1],
+        ];
       }
     });
   };
@@ -117,12 +125,15 @@ const Home = () => {
       }
       setLoading(true);
       try {
-         const start = destinations[0];
-    const end = destinations[destinations.length - 1];
-    const response = await axios.post("http://localhost:8080/api/map/getRoute", {
-      start: { lat: start.lat, lon: start.lon },
-      end: { lat: end.lat, lon: end.lon },
-    });
+        const start = destinations[0];
+        const end = destinations[destinations.length - 1];
+        const response = await axios.post(
+          "http://localhost:8080/api/map/getRoute",
+          {
+            start: { lat: start.lat, lon: start.lon },
+            end: { lat: end.lat, lon: end.lon },
+          }
+        );
         const data = response.data;
         console.log("Received path data:", data);
         if (!data.path || !Array.isArray(data.path)) {
@@ -161,7 +172,10 @@ const Home = () => {
           <br />
           {destinations[0] ? (
             <>
-              {destinations[0].name || `${destinations[0].lat.toFixed(5)}, ${destinations[0].lon.toFixed(5)}`}
+              {destinations[0].name ||
+                `${destinations[0].lat.toFixed(
+                  5
+                )}, ${destinations[0].lon.toFixed(5)}`}
               <br />
               <button onClick={clearStart}>Clear Start</button>
             </>
@@ -176,7 +190,9 @@ const Home = () => {
           {destinations.length > 1 ? (
             <>
               {destinations[destinations.length - 1].name ||
-                `${destinations[destinations.length - 1].lat.toFixed(5)}, ${destinations[destinations.length - 1].lon.toFixed(5)}`}
+                `${destinations[destinations.length - 1].lat.toFixed(
+                  5
+                )}, ${destinations[destinations.length - 1].lon.toFixed(5)}`}
               <br />
               <button onClick={clearEnd}>Clear End</button>
             </>
@@ -197,7 +213,9 @@ const Home = () => {
               borderRadius: 4,
             }}
           >
-            {addDestinationMode ? "Add Destinations Mode ON" : "Add Destinations Mode OFF"}
+            {addDestinationMode
+              ? "Add Destinations Mode ON"
+              : "Add Destinations Mode OFF"}
           </button>
           <p style={{ fontSize: 12, color: "#555", marginTop: 5 }}>
             {addDestinationMode
@@ -233,7 +251,7 @@ const Home = () => {
       </div>
 
       {/* Map */}
-      <div style={{ flexGrow: 1 }}>
+      <div style={{ flexGrow: 1, zIndex: 1 }}>
         <MapContainer
           center={[27.67, 85.43]}
           zoom={14}
@@ -264,7 +282,9 @@ const Home = () => {
                     Set as End
                   </button>
                   <br />
-                  <button onClick={() => addDestination([place.lat, place.lon])}>
+                  <button
+                    onClick={() => addDestination([place.lat, place.lon])}
+                  >
                     Add as Destination
                   </button>
                 </div>
@@ -289,7 +309,8 @@ const Home = () => {
                       : `Destination ${i}`}
                   </strong>
                   <br />
-                  {dest.name || `${dest.lat.toFixed(5)}, ${dest.lon.toFixed(5)}`}
+                  {dest.name ||
+                    `${dest.lat.toFixed(5)}, ${dest.lon.toFixed(5)}`}
                   <br />
                   <button onClick={() => removeDestination(i)}>Remove</button>
                 </div>
