@@ -1,6 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Layout from "./Layout";
-import Home from "./pages/Home";
 import Register from "./pages/Register";
 import SignIn from "./pages/SignIn";
 import { useEffect } from "react";
@@ -9,6 +7,7 @@ import { setUser } from "./features/auth";
 import type { AppDispatch } from "./app/store";
 import { useDispatch } from "react-redux";
 import type { User } from "./types/user";
+import Home from "./pages/Home";
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -37,14 +36,12 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          {/* Unprotected Route */}
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<SignIn />} />
+        <Route index element={<Home />} />
+        {/* Unprotected Route */}
+        <Route path="register" element={<Register />} />
+        <Route path="login" element={<SignIn />} />
 
-          {/* Protected Route */}
-        </Route>
+        {/* Protected Route */}
       </Routes>
     </BrowserRouter>
   );
