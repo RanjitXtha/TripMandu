@@ -4,6 +4,7 @@ import { verifyJWT } from "../middleware/auth.js";
 import { upload } from "../middleware/multer.middleware.js";
 
 const router = Router();
+
 router.route("/register").post(upload.single('profile')
     ,registerUser);
 router.route('/signIn').post(signIn);
