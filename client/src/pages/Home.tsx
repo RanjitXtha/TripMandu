@@ -69,27 +69,19 @@ const Home = () => {
       if (prev.length === 0) return [{ lat: latlng[0], lon: latlng[1] }];
       if (prev.length === 1)
         return [prev[0], { lat: latlng[0], lon: latlng[1] }];
-      // Replace last item
-      return [
-        ...prev.slice(0, prev.length - 1),
-        { lat: latlng[0], lon: latlng[1] },
-      ];
+      return [...prev.slice(0, -1), { lat: latlng[0], lon: latlng[1] }];
     });
   };
 
   const addDestination = (latlng: [number, number]) => {
     setDestinations((prev) => {
-      if (prev.length <= 1) {
-        // Just add at end
+      if (prev.length <= 1)
         return [...prev, { lat: latlng[0], lon: latlng[1] }];
-      } else {
-        // Insert before last (end)
-        return [
-          ...prev.slice(0, prev.length - 1),
-          { lat: latlng[0], lon: latlng[1] },
-          prev[prev.length - 1],
-        ];
-      }
+      return [
+        ...prev.slice(0, -1),
+        { lat: latlng[0], lon: latlng[1] },
+        prev[prev.length - 1],
+      ];
     });
   };
 
@@ -217,10 +209,6 @@ const Home = () => {
             style={{
               backgroundColor: addDestinationMode ? "#4caf50" : undefined,
               color: addDestinationMode ? "white" : undefined,
-              padding: "8px 12px",
-              border: "none",
-              cursor: "pointer",
-              borderRadius: 4,
             }}
           >
             {addDestinationMode
@@ -248,7 +236,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Map */}
       <div style={{ flexGrow: 1, zIndex: 1 }}>
         <MapContainer
           center={[27.67, 85.43]}
@@ -294,9 +281,10 @@ const Home = () => {
                   </button>
                   <br />
                   <button
-                    onClick={() => addDestination([place.lat, place.lon])}
+                    style={{ color: "red" }}
+                    onClick={() => removeClickMarker(marker.lat, marker.lon)}
                   >
-                    Add as Destination
+                    Delete Marker
                   </button>
                 </div>
               </Popup>
