@@ -55,4 +55,14 @@ model Destination {
   reviews  Review[]
   lat     Float?
   lon     Float?
+  tag     Tag
+}
+
+enum Tag {
+  CULTURAL
+  HISTORICAL
+  RELIGIOUS
+  VIEWPOINT
+  LOCAL_MARKET
+  MUSEUM
 }
