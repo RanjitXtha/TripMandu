@@ -37,14 +37,12 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+        <Route path="/" element={<Layout />} />
           {/* Unprotected Route */}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<SignIn />} />
 
           {/* Protected Route */}
-        </Route>
       </Routes>
     </BrowserRouter>
   );

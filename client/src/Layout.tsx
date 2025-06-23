@@ -1,6 +1,5 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Overlay from "./components/Overlay";
 import Home from "./pages/Home";
 const Layout = () => {
   return (
