@@ -1,10 +1,12 @@
-
+import Header from "./components/Header";
+import Overlay from "./components/Overlay";
 const App = () => {
   return (
-    <div className="text-3xl">
-      hello
-    </div>
-  )
-}
+    <>
+      <Header />
+      <Overlay />
+    </>
+  );
+};
 
-export default App
+export default App;
