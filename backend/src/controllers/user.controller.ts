@@ -21,6 +21,7 @@ const generateToken = (id: string) => {
 }
 
 export const registerUser = asyncHandler(async(req: Request, res: Response) => {
+    console.log("recieved");
     const { fName, lName, email, password } = req.body;
 
     if([fName, lName, email, password].some(f=>f?.trim()==='')) {
