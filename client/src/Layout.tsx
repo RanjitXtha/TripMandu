@@ -1,11 +1,15 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Overlay from "./components/Overlay";
+import { Outlet } from "react-router-dom";
 const Layout = () => {
   return (
     <div className="relative">
       <Header />
-      <Overlay />
+      <main>
+{/* <Overlay /> */}
+       <Outlet />
+      </main>
+      
       <Footer />
      
     </div>
