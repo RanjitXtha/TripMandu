@@ -9,7 +9,6 @@ type SiteData = {
 
 const places: string[] = ["Kathmandu", "Bhaktapur", "Lalitpur"];
 
-// Updated sites structure
 const siteData: SiteData = {
   Kathmandu: [
     {
@@ -21,6 +20,11 @@ const siteData: SiteData = {
       site: "Boudhanath",
       image: "../assets/boudha.jpg",
       about: "Boudhanath is one of the largest stupas in the world...",
+    },
+    {
+      site: "Swayambhunath",
+      image: "../assets/swayambhu.jpg",
+      about: "Swayambhunath Temple",
     },
   ],
   Bhaktapur: [
@@ -49,7 +53,7 @@ const ShowSites: React.FC = () => {
   const sites: Site[] = siteData[selectedPlace] || [];
 
   return (
-    <div>
+    <div className="">
       <select
         className="text-lg font-semibold px-4 py-2 outline-hidden"
         value={selectedPlace}
