@@ -1,45 +1,35 @@
-import { useState, useEffect } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Polyline,
-  useMapEvents,
-} from "react-leaflet";
-import "leaflet/dist/leaflet.css";
+import { useEffect, useRef, useState } from "react";
+import maplibregl from "maplibre-gl";
+import { Map, NavigationControl, Source, Layer } from "@vis.gl/react-maplibre";
+import "maplibre-gl/dist/maplibre-gl.css";
 import axios from "axios";
 
-type Location = {
-  name?: string;
-  lat: number;
-  lon: number;
-};
+// Extend window interface for popup actions
+declare global {
+  interface Window {
+    addDest: (latlng: [number, number]) => void;
+    delDest: (index: number) => void;
+    delClick: (lat: number, lon: number) => void;
+  }
+}
 
-const touristDestinations: Location[] = [
+const touristDestinations = [
   { name: "Pashupatinath Temple", lat: 27.710535, lon: 85.34883 },
   { name: "Swayambhunath Temple", lat: 27.714938, lon: 85.2904 },
   { name: "Kathmandu Durbar Square", lat: 27.704347, lon: 85.306735 },
 ];
 
-const ClickHandler = ({ enabled, onMapClick }: { enabled: boolean; onMapClick: (latlng: [number, number]) => void }) => {
-  useMapEvents({
-    click(e) {
-      if (enabled) {
-        onMapClick([e.latlng.lat, e.latlng.lng]);
-      }
-    },
-  });
-  return null;
-};
-
 const Home = () => {
-  const [destinations, setDestinations] = useState<Location[]>([]);
-  const [clickMarkers, setClickMarkers] = useState<Location[]>([]);
+  const mapRef = useRef<maplibregl.Map | null>(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const [destinations, setDestinations] = useState<{ lat: number; lon: number; name?: string }[]>([]);
+  const [clickMarkers, setClickMarkers] = useState<{ lat: number; lon: number }[]>([]);
   const [loading, setLoading] = useState(false);
   const [myloc, setMyloc] = useState<{ lat: number; lon: number } | null>(null);
   const [addDestinationMode, setAddDestinationMode] = useState(false);
   const [markerMode, setMarkerMode] = useState<"none" | "start" | "end">("none");
+  const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
+  const markersRef = useRef<maplibregl.Marker[]>([]);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -49,25 +39,79 @@ const Home = () => {
     }
   }, []);
 
-  const setStart = (latlng: [number, number]) => {
+  useEffect(() => {
+    if (!mapLoaded || !mapRef.current) return;
+
+    markersRef.current.forEach((m) => m.remove());
+    markersRef.current = [];
+
+    const allMarkers = [
+      ...touristDestinations.map((place) => ({
+        lat: place.lat,
+        lon: place.lon,
+        html: `<strong>${place.name}</strong><br/><button onclick='window.addDest([${place.lat}, ${place.lon}])'>Add as Destination</button>`
+      })),
+      ...clickMarkers.map((place) => ({
+        lat: place.lat,
+        lon: place.lon,
+        html: `<strong>Custom Marker</strong><br/><button onclick='window.addDest([${place.lat}, ${place.lon}])'>Add as Destination</button><br/><button style='color:red' onclick='window.delClick(${place.lat}, ${place.lon})'>Delete Marker</button>`
+      })),
+      ...destinations.map((place, i) => ({
+        lat: place.lat,
+        lon: place.lon,
+        html: `<strong>${i === 0 ? "Start" : i === destinations.length - 1 ? "End" : `Destination ${i}`}</strong><br/>${place.name || `${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}`}<br/><button onclick='window.delDest(${i})'>Remove</button>`
+      })),
+    ];
+
+    allMarkers.forEach(({ lat, lon, html }) => {
+      const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
+      const marker = new maplibregl.Marker().setLngLat([lon, lat]).setPopup(popup).addTo(mapRef.current!);
+      markersRef.current.push(marker);
+    });
+
+    if (myloc) {
+      const popup = new maplibregl.Popup().setText("My Location");
+      const marker = new maplibregl.Marker({ color: "green" })
+        .setLngLat([myloc.lon, myloc.lat])
+        .setPopup(popup)
+        .addTo(mapRef.current!);
+      markersRef.current.push(marker);
+    }
+  }, [mapLoaded, clickMarkers, destinations, myloc]);
+
+  useEffect(() => {
+    const handleClick = (e: maplibregl.MapMouseEvent) => {
+      const latlng: [number, number] = [e.lngLat.lat, e.lngLat.lng];
+      if (markerMode === "start") {
+        setStart(latlng);
+        setMarkerMode("none");
+      } else if (markerMode === "end") {
+        setEnd(latlng);
+        setMarkerMode("none");
+      } else if (addDestinationMode) {
+        setClickMarkers((prev) => [...prev, { lat: latlng[0], lon: latlng[1] }]);
+      }
+    };
+
+    const map = mapRef.current;
+    if (map) {
+      map.on("click", handleClick);
+      return () => map.off("click", handleClick);
+    }
+  }, [markerMode, addDestinationMode]);
+
+  const setStart = ([lat, lon]: [number, number]) => {
     setDestinations((prev) => {
-      if (prev.length === 0) return [{ lat: latlng[0], lon: latlng[1] }];
-      return [{ lat: latlng[0], lon: latlng[1] }, ...prev.slice(1)];
+      if (prev.length === 0) return [{ lat, lon }];
+      return [{ lat, lon }, ...prev.slice(1)];
     });
   };
 
-  const setEnd = (latlng: [number, number]) => {
+  const setEnd = ([lat, lon]: [number, number]) => {
     setDestinations((prev) => {
-      if (prev.length === 0) return [{ lat: latlng[0], lon: latlng[1] }];
-      if (prev.length === 1) return [prev[0], { lat: latlng[0], lon: latlng[1] }];
-      return [...prev.slice(0, -1), { lat: latlng[0], lon: latlng[1] }];
-    });
-  };
-
-  const addDestination = (latlng: [number, number]) => {
-    setDestinations((prev) => {
-      if (prev.length <= 1) return [...prev, { lat: latlng[0], lon: latlng[1] }];
-      return [...prev.slice(0, -1), { lat: latlng[0], lon: latlng[1] }, prev[prev.length - 1]];
+      if (prev.length === 0) return [{ lat, lon }];
+      if (prev.length === 1) return [prev[0], { lat, lon }];
+      return [...prev.slice(0, -1), { lat, lon }];
     });
   };
 
@@ -75,56 +119,26 @@ const Home = () => {
     setDestinations((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const clearStart = () => {
-    setDestinations((prev) => (prev.length > 0 ? prev.slice(1) : prev));
-  };
-
-  const clearEnd = () => {
-    setDestinations((prev) => (prev.length > 0 ? prev.slice(0, -1) : prev));
-  };
-
   const removeClickMarker = (lat: number, lon: number) => {
     setClickMarkers((prev) => prev.filter((m) => m.lat !== lat || m.lon !== lon));
   };
 
-  const handleMapClick = (latlng: [number, number]) => {
-    if (markerMode === "start") {
-      setStart(latlng);
-      setMarkerMode("none");
-    } else if (markerMode === "end") {
-      setEnd(latlng);
-      setMarkerMode("none");
-    } else if (addDestinationMode) {
-      setClickMarkers((prev) => [...prev, { lat: latlng[0], lon: latlng[1] }]);
-    }
-  };
-
-  const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
+  const clearStart = () => setDestinations((prev) => prev.slice(1));
+  const clearEnd = () => setDestinations((prev) => prev.slice(0, -1));
 
   useEffect(() => {
     const fetchRoute = async () => {
-      if (destinations.length < 2) {
-        setPathCoords([]);
-        return;
-      }
+      if (destinations.length < 2) return setPathCoords([]);
       setLoading(true);
       try {
         const start = destinations[0];
         const end = destinations[destinations.length - 1];
-        const response = await axios.post("http://localhost:8080/api/map/getRoute", {
-          start: { lat: start.lat, lon: start.lon },
-          end: { lat: end.lat, lon: end.lon },
-        });
-        const data = response.data;
-        if (!data.path || !Array.isArray(data.path)) {
-          alert("Invalid route data received from server");
-          setPathCoords([]);
-        } else {
-          setPathCoords(data.path);
-        }
-      } catch (error) {
-        console.error("Request failed:", error);
-        alert("Error fetching route");
+        const res = await axios.post("http://localhost:8080/api/map/getRoute", { start, end });
+        const data = res.data;
+        if (!data.path || !Array.isArray(data.path)) return setPathCoords([]);
+        setPathCoords(data.path);
+      } catch (e) {
+        console.error(e);
         setPathCoords([]);
       } finally {
         setLoading(false);
@@ -132,6 +146,12 @@ const Home = () => {
     };
     fetchRoute();
   }, [destinations]);
+
+  useEffect(() => {
+    window.addDest = (latlng: [number, number]) => setDestinations((prev) => [...prev, { lat: latlng[0], lon: latlng[1] }]);
+    window.delDest = (index: number) => removeDestination(index);
+    window.delClick = (lat: number, lon: number) => removeClickMarker(lat, lon);
+  }, []);
 
   return (
     <div style={{ display: "flex", height: "100vh" }}>
@@ -183,58 +203,37 @@ const Home = () => {
           </ul>
         </div>
       </div>
+      <div style={{ flexGrow: 1 }}>
+        <Map
+          mapLib={maplibregl}
+          initialViewState={{ latitude: 27.67, longitude: 85.43, zoom: 14 }}
+          mapStyle="https://tiles.openfreemap.org/styles/liberty"
+          style={{ height: "100%", width: "100%" }}
+          onLoad={({ target }: { target: maplibregl.Map }) => {
+            mapRef.current = target;
+            setMapLoaded(true);
+          }}>
+          <NavigationControl position="top-right" />
 
-      <div style={{ flexGrow: 1,zIndex:1 }}>
-        <MapContainer center={[27.67, 85.43]} zoom={14} style={{ height: "100%", width: "100%" }}>
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
-
-          <ClickHandler enabled={markerMode !== "none" || addDestinationMode} onMapClick={handleMapClick} />
-
-          {touristDestinations.map((place, idx) => (
-            <Marker key={"tourist-" + idx} position={[place.lat, place.lon]}>
-              <Popup>
-                <div>
-                  <strong>{place.name}</strong>
-                  <br />
-                  <button onClick={() => addDestination([place.lat, place.lon])}>Add as Destination</button>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-
-          {clickMarkers.map((marker, idx) => (
-            <Marker key={"click-" + idx} position={[marker.lat, marker.lon]}>
-              <Popup>
-                <div>
-                  <strong>Custom Marker</strong>
-                  <br />
-                  <button onClick={() => addDestination([marker.lat, marker.lon])}>Add as Destination</button>
-                  <br />
-                  <button style={{ color: "red" }} onClick={() => removeClickMarker(marker.lat, marker.lon)}>Delete Marker</button>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-
-          {destinations.map((dest, i) => (
-            <Marker key={"dest-" + i} position={[dest.lat, dest.lon]}>
-              <Popup>
-                <div>
-                  <strong>{i === 0 ? "Start" : i === destinations.length - 1 ? "End" : `Destination ${i}`}</strong>
-                  <br />
-                  {dest.name ||
-                    `${dest.lat.toFixed(5)}, ${dest.lon.toFixed(5)}`}
-                  <br />
-                  <button onClick={() => removeDestination(i)}>Remove</button>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-
-          {pathCoords.length > 0 && <Polyline positions={pathCoords} color="blue" weight={5} />}
-
-          {myloc && <Marker position={[myloc.lat, myloc.lon]}><Popup>My Location</Popup></Marker>}
-        </MapContainer>
+          {pathCoords.length > 1 && (
+            <Source
+              id="route"
+              type="geojson"
+              data={{
+                type: "Feature",
+                geometry: {
+                  type: "LineString",
+                  coordinates: pathCoords.map(([lat, lon]) => [lon, lat]),
+                },
+              }}>
+              <Layer
+                id="route-line"
+                type="line"
+                paint={{ "line-color": "#0074D9", "line-width": 4 }}
+              />
+            </Source>
+          )}
+        </Map>
       </div>
     </div>
   );
