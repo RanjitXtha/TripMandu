@@ -190,7 +190,8 @@ export const protectedRoute = asyncHandler(async(req: AuthenticatedRequest, res:
             id: true,
             email: true,
             fName: true,
-            lName: true
+            lName: true,
+            profile:true,
         }
     });
 
