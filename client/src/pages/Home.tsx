@@ -8,6 +8,7 @@ import Header from "../components/Header";
 import ShowSites from "../components/ShowSites";
 import Overlay from "../components/Overlay";
 import Footer from "../components/Footer";
+import Search from "../components/Search";
 
 type OverlayView = "none" | "showSites" | "routePlanner";
 
@@ -76,6 +77,7 @@ const Home = () => {
   return (
     <div className="flex">
       <Header onSelectView={(view) => setOverlayView(view)} />
+        <Search />
       {overlayView !== "none" && (
         <Overlay>
           {overlayView === "showSites" && <ShowSites />}

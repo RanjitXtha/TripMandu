@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import type { RootState } from "../app/store";
+
 interface HeaderProps {
   onSelectView: (view: "none" | "showSites" | "routePlanner") => void;
 }
@@ -38,6 +39,7 @@ const Header = ({ onSelectView }: HeaderProps) => {
       <div className="w-9 h-9 oveflow-hidden rounded-full bg-gray-300 flex items-center justify-center">
        <img className="h-full w-full rounded-full " src={user.profile} alt="profile" />
       </div>
+
     </header>
   );
 };
