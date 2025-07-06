@@ -14,7 +14,7 @@ type OverlayView = "none" | "showSites" | "routePlanner";
 const touristDestinations: Location[] = [
   { name: "Pashupatinath Temple", lat: 27.710535, lon: 85.34883 },
   { name: "Swayambhunath Temple", lat: 27.714938, lon: 85.2904 },
-  { name: "Kathmandu Durbar Square", lat: 27.704347, lon: 85.306735 },
+  { name: "Kathmandu Durbar Square", lat:27.70415, lon: 85.30647 },
 ];
 
 const Home = () => {
