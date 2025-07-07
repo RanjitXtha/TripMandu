@@ -9,6 +9,7 @@
       "lon": 85.34861111
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Pashupatinath_Temple",
+    "category": "religious",
     "tags": [
       "religious"
     ]
@@ -23,6 +24,7 @@
       "lon": 85.36194444
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Boudha_Stupa",
+    "category": "religious",
     "tags": [
       "religious"
     ]
@@ -37,113 +39,9 @@
       "lon": 85.29
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Swayambhunath",
-    "tags": []
-  },
-  {
-    "name": "Kathmandu Durbar Square",
-    "wiki_title": "Kathmandu Durbar Square",
-    "description": "Kathmandu Durbar Square is a historically and culturally significant site in Kathmandu, Nepal. It is one of the three Durbar Squares in the Kathmandu Valley in Nepal that are UNESCO World Heritage Sites.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Basantapurpalace.JPG/330px-Basantapurpalace.JPG",
-    "coordinates": {
-      "lat": 27.70415,
-      "lon": 85.30647
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Kathmandu_Durbar_Square",
+    "category": "religious",
     "tags": [
-      "historic"
-    ]
-  },
-  {
-    "name": "Patan Durbar Square",
-    "wiki_title": "Patan Durbar Square",
-    "description": "Patan Durbar Square is situated at the centre of the city of Lalitpur in Nepal. It is one of the three Durbar Squares in the Kathmandu Valley, all of which are UNESCO World Heritage Sites. One of its attractions is the medieval royal palace where the Malla Kings of Lalitpur resided.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Patan_Durbar_Square_entrance_2022.jpg/330px-Patan_Durbar_Square_entrance_2022.jpg",
-    "coordinates": {
-      "lat": 27.6734,
-      "lon": 85.325
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Patan_Durbar_Square",
-    "tags": [
-      "historic"
-    ]
-  },
-  {
-    "name": "Bhaktapur Durbar Square",
-    "wiki_title": "Bhaktapur Durbar Square",
-    "description": "Bhaktapur Durbar Square is a former royal palace complex located in Bhaktapur, Nepal. It housed the Malla kings of Nepal from 14th to 15th century and the kings of the Kingdom of Bhaktapur from 15th to late 18th century until the kingdom was conquered in 1769. Today, this square is recognised by UNESCO, managed jointly by the Archeological Department of Nepal and Bhaktapur Municipality, and is undergoing extensive restoration due to the damages from the earthquake in 1934 and the recent earthquake of 2015.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Bhaktapurs-Durbar-Square-before-the-1932-earthquake.jpg/330px-Bhaktapurs-Durbar-Square-before-the-1932-earthquake.jpg",
-    "coordinates": {
-      "lat": 27.672027,
-      "lon": 85.428108
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur_Durbar_Square",
-    "tags": [
-      "historic"
-    ]
-  },
-  {
-    "name": "Garden of Dreams",
-    "wiki_title": "Garden of Dreams",
-    "description": "The Garden of Dreams, also, the Garden of Six Seasons, is a neo-classical garden in Kaiser Mahal Kathmandu, Nepal, built in 1920. Designed by Kishore Narshingh, it consists of 6,895 square metres (74,220 sq ft) of gardens with three pavilions, an amphitheater, ponds, pergolas, and urns. From the mid-1960s, upon the death of its patron, Kaiser Sumsher Rana, it lay in neglect but was recently restored with the help of the Austrian government.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Garden_of_Dreams.jpg/330px-Garden_of_Dreams.jpg",
-    "coordinates": null,
-    "wikiUrl": "https://en.wikipedia.org/wiki/Garden_of_Dreams",
-    "tags": [
-      "natural"
-    ]
-  },
-  {
-    "name": "Thamel",
-    "wiki_title": "Thamel",
-    "description": "Thamel is a commercial neighborhood located in Kathmandu, the capital of Nepal. The name comes from Tha Bahi, indicating its root origin to have come from the Newa community, the indigenous people of Kathmandu Valley. Tha Bahi has been the centre of the tourist industry in Kathmandu for over four decades, starting from the hippie days, when many artists came to Nepal and spent weeks in Thamel. It is considered the hotspot for tourism inside the Kathmandu valley.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Thamel_at_night_-_Kathmandu%2C_Nepal_-_panoramio_%281%29.jpg/330px-Thamel_at_night_-_Kathmandu%2C_Nepal_-_panoramio_%281%29.jpg",
-    "coordinates": {
-      "lat": 27.71515556,
-      "lon": 85.31021944
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Thamel",
-    "tags": []
-  },
-  {
-    "name": "Kopan Monastery",
-    "wiki_title": "Kopan Monastery",
-    "description": "Kopan Monastery is a Tibetan Buddhist monastery near Boudhanath, on the outskirts of Kathmandu, Nepal. It is a member of the Foundation for the Preservation of the Mahayana Tradition (FPMT), an international network of Gelugpa dharma centers, and once served as its headquarters.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Kopan_01.JPG/330px-Kopan_01.JPG",
-    "coordinates": {
-      "lat": 27.74222222,
-      "lon": 85.36416667
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Kopan_Monastery",
-    "tags": [
-      "monastery"
-    ]
-  },
-  {
-    "name": "Narayanhiti Palace Museum",
-    "wiki_title": "Narayanhiti Palace Museum",
-    "description": "The Narayanhiti Palace Museum is a public museum in Kathmandu, Nepal located east of the Kaiser Mahal and next to Thamel. The museum was created in 2008 from the complex of the former Narayanhiti Palace following the 2006 revolution. Before the revolution, the palace was the residence and principal workplace of the monarch of the Kingdom of Nepal, and hosted occasions of state.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Narayanhiti_Palace_Museum%2C_crop.jpg/330px-Narayanhiti_Palace_Museum%2C_crop.jpg",
-    "coordinates": {
-      "lat": 27.7156,
-      "lon": 85.32
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Narayanhiti_Palace_Museum",
-    "tags": [
-      "historic"
-    ]
-  },
-  {
-    "name": "Hanuman Dhoka Museum",
-    "wiki_title": "Hanuman Dhoka",
-    "description": "Hanuman Dhoka is a complex of structures with the Royal Palace of the Malla kings and also of the Shah dynasty in the Durbar Square of central Kathmandu, Nepal.The Hanuman Dhoka Palace gets its name from the stone image of Hanuman, the Hindu deity, that sits near the main entryway. 'Dhoka' means door or gate in Nepali. The buildings were severely damaged in the 2015 earthquake.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Hanuman_Dhoka_Durbar_Square_Kathmandu_%282023%29_01.jpg/330px-Hanuman_Dhoka_Durbar_Square_Kathmandu_%282023%29_01.jpg",
-    "coordinates": {
-      "lat": 27.7042,
-      "lon": 85.3075
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Hanuman_Dhoka",
-    "tags": [
-      "historic"
+      "religious"
     ]
   },
   {
@@ -151,8 +49,12 @@
     "wiki_title": "Budhanilkantha Temple",
     "description": "Budanilkantha Temple, located in Budhanilkantha, Nepal, is a Hindu open air temple dedicated to Lord Mahavishnu. Budhanilkantha Temple is also known as the Narayanthan Temple for Hindus, and can be identified by a large reclining statue of Lord Mahavishnu. However In the Buddhist community, the term \"Buddhanilkantha\" refers to one of the various manifestations of Avalokiteshvara. The name means \"Blue-Throated Buddha.\"",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Budhanilkantha_Narayan_Murti_%282023%29_-_IMG_03.jpg/330px-Budhanilkantha_Narayan_Murti_%282023%29_-_IMG_03.jpg",
-    "coordinates": null,
+    "coordinates": {
+      "lat":27.778175, 
+      "lon":85.362321
+    },
     "wikiUrl": "https://en.wikipedia.org/wiki/Budhanilkantha_Temple",
+    "category": "religious",
     "tags": [
       "religious"
     ]
@@ -167,23 +69,9 @@
       "lon": 85.42788889
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Changu_Narayan_Temple",
+    "category": "religious",
     "tags": [
       "religious"
-    ]
-  },
-  {
-    "name": "Rani Pokhari",
-    "wiki_title": "Rani Pokhari",
-    "description": "Rani Pokhari, originally known as Nhu Pukhu, is a historic artificial pond located in the heart of Kathmandu, Nepal. The square-shaped tank dates from the 17th century, and was built on the eastern side of the then city limits. It lies just outside a former city gate. The pond is one of Kathmandu's most famous landmarks and is known for its religious and aesthetic significance. Its dimensions are 180m by 140m.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Rani_Pokhari_2020-IMG_0226.jpg/330px-Rani_Pokhari_2020-IMG_0226.jpg",
-    "coordinates": {
-      "lat": 27.707847,
-      "lon": 85.315447
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Rani_Pokhari",
-    "tags": [
-      "historic",
-      "natural"
     ]
   },
   {
@@ -191,8 +79,12 @@
     "wiki_title": "Seto Machindranath",
     "description": "Seto Machindranath, also known as Janabaha Dyo, Avalokiteśvara, Karunamaya, Guanyin is a deity worshiped by both Hindus and Buddhists in Kathmandu, Nepal. The temple of Seto Machindranath is located in Jana Bahal. Located at Keltole between Asan and Indra Chok in central Kathmandu, the temple is believed to have been established around the 10th century. Seto Machindranath is worshiped as an aspect of Avalokiteshvara.",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Seto_Machchhindra_03.jpg/330px-Seto_Machchhindra_03.jpg",
-    "coordinates": null,
+    "coordinates":{
+      "lat":27.706615, 
+      "lon":85.310088
+    },
     "wikiUrl": "https://en.wikipedia.org/wiki/Seto_Machindranath",
+    "category": "religious",
     "tags": [
       "religious"
     ]
@@ -207,7 +99,10 @@
       "lon": 85.30583
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Kasthamandap",
-    "tags": []
+    "category": "religious",
+    "tags": [
+      "religious"
+    ]
   },
   {
     "name": "Taleju Temple",
@@ -219,74 +114,10 @@
       "lon": 85.308008
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Taleju_Temple%2C_Kathmandu",
+    "category": "religious",
     "tags": [
       "religious",
       "historic"
-    ]
-  },
-  {
-    "name": "Itum Bahal",
-    "wiki_title": "Bogeyman",
-    "description": "The bogeyman is a mythical creature typically used to frighten children into good behavior. Bogeymen have no specific appearances, and conceptions vary drastically by household and culture, but they are most commonly depicted as masculine, androgynous or even feminine monsters that punish children for misbehavior. The bogeyman, and conceptually similar monsters can be found in many cultures around the world. Bogeymen may target a specific act or general misbehavior, depending on the purpose of invoking the figure, often on the basis of a warning from an authority figure to a child. The term is sometimes used as a non-specific personification of, or metonym for, terror – and sometimes the Devil.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Francisco_de_Goya%2C_Que_viene_el_coco_%28Here_Comes_the_Bogey-Man%29%2C_published_1799%2C_NGA_7459.jpg/330px-Francisco_de_Goya%2C_Que_viene_el_coco_%28Here_Comes_the_Bogey-Man%29%2C_published_1799%2C_NGA_7459.jpg",
-    "coordinates": null,
-    "wikiUrl": "https://en.wikipedia.org/wiki/Bogeyman",
-    "tags": []
-  },
-  {
-    "name": "Asan Bazaar",
-    "wiki_title": "Asan, Kathmandu",
-    "description": "Asan is a ceremonial, market and residential square in central Kathmandu, the capital of Nepal. It is one of the most well-known historical locations in the city and is famed for its bazaar, festival calendar and strategic location. Asan has been described as a fine Newar example of a traditional Asian bazaar. The Tuladhar, Maharjan, Shrestha, Bajracharya and Shakya castes make up most of the population.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/AnnapurnaAjima1.jpg/330px-AnnapurnaAjima1.jpg",
-    "coordinates": {
-      "lat": 27.7075,
-      "lon": 85.31222222
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Asan%2C_Kathmandu",
-    "tags": [
-      "historic",
-      "market"
-    ]
-  },
-  {
-    "name": "Sundari Chowk",
-    "wiki_title": "Patan Durbar Square",
-    "description": "Patan Durbar Square is situated at the centre of the city of Lalitpur in Nepal. It is one of the three Durbar Squares in the Kathmandu Valley, all of which are UNESCO World Heritage Sites. One of its attractions is the medieval royal palace where the Malla Kings of Lalitpur resided.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Patan_Durbar_Square_entrance_2022.jpg/330px-Patan_Durbar_Square_entrance_2022.jpg",
-    "coordinates": {
-      "lat": 27.6734,
-      "lon": 85.325
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Patan_Durbar_Square",
-    "tags": [
-      "historic"
-    ]
-  },
-  {
-    "name": "Golden Temple (Hiranya Varna Mahavihar)",
-    "wiki_title": "Hiranya Varna Mahavihar",
-    "description": "Hiraṇyavarṇa Mahāvihāra, also Kwa Baha: informally called The Golden Temple with literal meaning \"Gold-colored Great Monastery\", is a historical vihara situated in Patan, Nepal.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/2015-03-30_04-15_Nepal_926_Patan%2C_Lalitpur%2C_Golden_Temple_%2816769604853%29.jpg/330px-2015-03-30_04-15_Nepal_926_Patan%2C_Lalitpur%2C_Golden_Temple_%2816769604853%29.jpg",
-    "coordinates": {
-      "lat": 27.67533333,
-      "lon": 85.32466667
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Hiranya_Varna_Mahavihar",
-    "tags": [
-      "religious",
-      "historic",
-      "monastery"
-    ]
-  },
-  {
-    "name": "Mahabouddha Temple",
-    "wiki_title": "Mahabouddha Temple",
-    "description": "Mahaboudha Temple is a shikhara Newar Buddhist temple in Lalitpur, Nepal.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Mahaboudha_%289651389724%29.jpg/330px-Mahaboudha_%289651389724%29.jpg",
-    "coordinates": null,
-    "wikiUrl": "https://en.wikipedia.org/wiki/Mahabouddha_Temple",
-    "tags": [
-      "religious"
     ]
   },
   {
@@ -299,6 +130,7 @@
       "lon": 75.8155
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Birla_Mandir%2C_Jaipur",
+    "category": "religious",
     "tags": [
       "religious"
     ]
@@ -313,6 +145,7 @@
       "lon": 83.87169444
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Muktinath",
+    "category": "religious",
     "tags": [
       "religious"
     ]
@@ -327,21 +160,207 @@
       "lon": 85.12
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Bajrabarahi",
-    "tags": []
+    "category": "religious",
+    "tags": [
+      "religious"
+    ]
   },
   {
-    "name": "National Museum of Nepal",
-    "wiki_title": "National Museum of Nepal",
-    "description": "National Museum, located at the base of Swayambhu, a sacred hill in the Kathmandu Valley, is the first Nepalese museum. Covering an area of approximately 50 Ropani, the museum comprises various buildings, gardens, and open spaces within its premises. Its primary function is to preserve and exhibit rare and valuable art treasures.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Nepal.Museum.JPG/330px-Nepal.Museum.JPG",
+    "name": "Dakshinkali Temple",
+    "wiki_title": "Dakshinkali Temple",
+    "description": "Dakshinkali Temple is a Hindu temple in Nepal dedicated to the goddess Kali. Dakshin Kali is typically shown with her right foot on Shiva's chest—while depictions showing Kali with her left foot on Shiva's chest depict the even more fearsome Vamakali. Animal sacrifices, particularly of cockerels and uncastrated male goats, are the main way that the goddess is worshipped, and this is especially seen during the Dashain festival. Dakshin Kali Temple has also the same religious value as Pashupatinath Temple and Manakamana Temple in Nepal. The temple has more tourist attractions as it is a popular hiking destination located near Pharping village in Nepal. Mother Dakshinakali is the most popular form of Kali. She is the benevolent mother, who protects her devotees and children from mishaps and misfortunes.it usually closes at 11.30 Am for rituals and open at next day.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Dakshin_Kali_main_Temple.JPG/330px-Dakshin_Kali_main_Temple.JPG",
     "coordinates": {
-      "lat": 27.7056,
-      "lon": 85.289
+      "lat": 27.58333333,
+      "lon": 85.25
     },
-    "wikiUrl": "https://en.wikipedia.org/wiki/National_Museum_of_Nepal",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Dakshinkali_Temple",
+    "category": "religious",
+    "tags": [
+      "religious"
+    ]
+  },
+  {
+    "name": "Doleshwar Mahadev Temple",
+    "wiki_title": "Doleshwor Mahadeva Temple",
+    "description": "Doleshwor Mahadeva is a temple of the Hindu god Shiva in Suryabinayak, southeastern Bhaktapur District, Nepal.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Doleshwar_Mahadev.jpg/330px-Doleshwar_Mahadev.jpg",
+    "coordinates": {
+      "lat": 27.63888889,
+      "lon": 85.43805556
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Doleshwor_Mahadeva_Temple",
+    "category": "religious",
+    "tags": [
+      "religious"
+    ]
+  },
+  {
+    "name": "Kathmandu Durbar Square",
+    "wiki_title": "Kathmandu Durbar Square",
+    "description": "Kathmandu Durbar Square is a historically and culturally significant site in Kathmandu, Nepal. It is one of the three Durbar Squares in the Kathmandu Valley in Nepal that are UNESCO World Heritage Sites.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Basantapurpalace.JPG/330px-Basantapurpalace.JPG",
+    "coordinates": {
+      "lat": 27.70415,
+      "lon": 85.30647
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Kathmandu_Durbar_Square",
+    "category": "historic",
+    "tags": [
+      "historic"
+    ]
+  },
+  {
+    "name": "Patan Durbar Square",
+    "wiki_title": "Patan Durbar Square",
+    "description": "Patan Durbar Square is situated at the centre of the city of Lalitpur in Nepal. It is one of the three Durbar Squares in the Kathmandu Valley, all of which are UNESCO World Heritage Sites. One of its attractions is the medieval royal palace where the Malla Kings of Lalitpur resided.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Patan_Durbar_Square_entrance_2022.jpg/330px-Patan_Durbar_Square_entrance_2022.jpg",
+    "coordinates": {
+      "lat": 27.6734,
+      "lon": 85.325
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Patan_Durbar_Square",
+    "category": "historic",
+    "tags": [
+      "historic"
+    ]
+  },
+  {
+    "name": "Bhaktapur Durbar Square",
+    "wiki_title": "Bhaktapur Durbar Square",
+    "description": "Bhaktapur Durbar Square is a former royal palace complex located in Bhaktapur, Nepal. It housed the Malla kings of Nepal from 14th to 15th century and the kings of the Kingdom of Bhaktapur from 15th to late 18th century until the kingdom was conquered in 1769. Today, this square is recognised by UNESCO, managed jointly by the Archeological Department of Nepal and Bhaktapur Municipality, and is undergoing extensive restoration due to the damages from the earthquake in 1934 and the recent earthquake of 2015.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Bhaktapurs-Durbar-Square-before-the-1932-earthquake.jpg/330px-Bhaktapurs-Durbar-Square-before-the-1932-earthquake.jpg",
+    "coordinates": {
+      "lat": 27.672027,
+      "lon": 85.428108
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur_Durbar_Square",
+    "category": "historic",
+    "tags": [
+      "historic"
+    ]
+  },
+  {
+    "name": "Hanuman Dhoka",
+    "wiki_title": "Hanuman Dhoka",
+    "description": "Hanuman Dhoka is a complex of structures with the Royal Palace of the Malla kings and also of the Shah dynasty in the Durbar Square of central Kathmandu, Nepal.The Hanuman Dhoka Palace gets its name from the stone image of Hanuman, the Hindu deity, that sits near the main entryway. 'Dhoka' means door or gate in Nepali. The buildings were severely damaged in the 2015 earthquake.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Hanuman_Dhoka_Durbar_Square_Kathmandu_%282023%29_01.jpg/330px-Hanuman_Dhoka_Durbar_Square_Kathmandu_%282023%29_01.jpg",
+    "coordinates": {
+      "lat": 27.7042,
+      "lon": 85.3075
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Hanuman_Dhoka",
+    "category": "historic",
+    "tags": [
+      "historic"
+    ]
+  },
+  {
+    "name": "55 Window Palace",
+    "wiki_title": "Bhaktapur Durbar Square",
+    "description": "Bhaktapur Durbar Square is a former royal palace complex located in Bhaktapur, Nepal. It housed the Malla kings of Nepal from 14th to 15th century and the kings of the Kingdom of Bhaktapur from 15th to late 18th century until the kingdom was conquered in 1769. Today, this square is recognised by UNESCO, managed jointly by the Archeological Department of Nepal and Bhaktapur Municipality, and is undergoing extensive restoration due to the damages from the earthquake in 1934 and the recent earthquake of 2015.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Bhaktapurs-Durbar-Square-before-the-1932-earthquake.jpg/330px-Bhaktapurs-Durbar-Square-before-the-1932-earthquake.jpg",
+    "coordinates": {
+      "lat": 27.672027,
+      "lon": 85.428108
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur_Durbar_Square",
+    "category": "historic",
+    "tags": [
+      "historic"
+    ]
+  },
+  {
+    "name": "Sundari Chowk",
+    "wiki_title": "Patan Durbar Square",
+    "description": "Patan Durbar Square is situated at the centre of the city of Lalitpur in Nepal. It is one of the three Durbar Squares in the Kathmandu Valley, all of which are UNESCO World Heritage Sites. One of its attractions is the medieval royal palace where the Malla Kings of Lalitpur resided.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Patan_Durbar_Square_entrance_2022.jpg/330px-Patan_Durbar_Square_entrance_2022.jpg",
+    "coordinates": {
+      "lat": 27.6734,
+      "lon": 85.325
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Patan_Durbar_Square",
+    "category": "historic",
+    "tags": [
+      "historic"
+    ]
+  },
+  {
+    "name": "Golden Temple (Hiranya Varna Mahavihar)",
+    "wiki_title": "Hiranya Varna Mahavihar",
+    "description": "Hiraṇyavarṇa Mahāvihāra, also Kwa Baha: informally called The Golden Temple with literal meaning \"Gold-colored Great Monastery\", is a historical vihara situated in Patan, Nepal.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/2015-03-30_04-15_Nepal_926_Patan%2C_Lalitpur%2C_Golden_Temple_%2816769604853%29.jpg/330px-2015-03-30_04-15_Nepal_926_Patan%2C_Lalitpur%2C_Golden_Temple_%2816769604853%29.jpg",
+    "coordinates": {
+      "lat": 27.67533333,
+      "lon": 85.32466667
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Hiranya_Varna_Mahavihar",
+    "category": "historic",
     "tags": [
       "historic",
-      "natural"
+      "religious",
+      "monastery"
+    ]
+  },
+  {
+    "name": "Nagbahal Hiti",
+    "wiki_title": "Nagbahal Hiti",
+    "description": "Nagbahal Hiti, also known as Elhānani Hiti is an old, presumably 8th-century, dhunge dhara in Nagbahal, a former Buddhist monastery in the city of Patan, Nepal. In spite of efforts to restore this dhunge dhara, the water is no longer used by the majority of people in the area. However, the space is still being used for cultural events.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Patan_%284659524676%29.jpg/330px-Patan_%284659524676%29.jpg",
+    "coordinates": {
+      "lat": 27.67597222,
+      "lon": 85.32419444
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Nagbahal_Hiti",
+    "category": "historic",
+    "tags": [
+      "historic",
+      "monastery"
+    ]
+  },
+  {
+    "name": "Pulchowk Stupa",
+    "wiki_title": "Lalitpur, Nepal",
+    "description": "Lalitpur is a metropolitan city and fourth most populous city of Nepal with 299,843 inhabitants living in 49,044 households per the 2021 census. It is located in the south-central part of Kathmandu Valley, a large valley in the high plateaus in central Nepal, at an altitude of 1,400 metres.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Nepal_Patan_Mangal.jpg/330px-Nepal_Patan_Mangal.jpg",
+    "coordinates": {
+      "lat": 27.66666667,
+      "lon": 85.31666667
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Lalitpur%2C_Nepal",
+    "category": "historic",
+    "tags": [
+      "historic"
+    ]
+  },
+  {
+    "name": "Ashok Stupa (Lalitpur)",
+    "wiki_title": "Lalitpur, Nepal",
+    "description": "Lalitpur is a metropolitan city and fourth most populous city of Nepal with 299,843 inhabitants living in 49,044 households per the 2021 census. It is located in the south-central part of Kathmandu Valley, a large valley in the high plateaus in central Nepal, at an altitude of 1,400 metres.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Nepal_Patan_Mangal.jpg/330px-Nepal_Patan_Mangal.jpg",
+    "coordinates": {
+      "lat": 27.66666667,
+      "lon": 85.31666667
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Lalitpur%2C_Nepal",
+    "category": "historic",
+    "tags": [
+      "historic"
+    ]
+  },
+  {
+    "name": "Kopan Monastery",
+    "wiki_title": "Kopan Monastery",
+    "description": "Kopan Monastery is a Tibetan Buddhist monastery near Boudhanath, on the outskirts of Kathmandu, Nepal. It is a member of the Foundation for the Preservation of the Mahayana Tradition (FPMT), an international network of Gelugpa dharma centers, and once served as its headquarters.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Kopan_01.JPG/330px-Kopan_01.JPG",
+    "coordinates": {
+      "lat": 27.74222222,
+      "lon": 85.36416667
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Kopan_Monastery",
+    "category": "monastery",
+    "tags": [
+      "monastery"
     ]
   },
   {
@@ -354,18 +373,100 @@
       "lon": 85.2612
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Seto_Gumba",
+    "category": "monastery",
     "tags": [
       "monastery"
     ]
   },
   {
-    "name": "Tribhuvan Museum",
-    "wiki_title": "Tribhuvan Museum",
-    "description": "The Tribhuvan Museum is a museum located in Nepal. It is located alongside Birendra Museum and Mahendra Museum. It contains personal artefacts that belonged to King Tribhuvan Bir Bikram Shah, who is internationally known Nepalese king in the modern history. \n",
-    "image": null,
-    "coordinates": null,
-    "wikiUrl": "https://en.wikipedia.org/wiki/Tribhuvan_Museum",
+    "name": "Pharping Monastery",
+    "wiki_title": "Pharping",
+    "description": "Pharping is a small Newar town lying above the Bagmati river on the southern edge of the Kathmandu valley, about 23 km from the capital. It is now part of the Dakshinkali Municipality.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Pharping-16-Felder-2007-gje.jpg/330px-Pharping-16-Felder-2007-gje.jpg",
+    "coordinates": {
+      "lat": 27.6,
+      "lon": 85.26666667
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Pharping",
+    "category": "monastery",
     "tags": [
+      "monastery"
+    ]
+  },
+  {
+    "name": "Manjushree Park",
+    "wiki_title": "Chobhar",
+    "description": "Chobhar is a village in Kathmandu District in the Bagmati Zone of central Nepal and part of Kirtipur Municipality. At the time of the 1991 Nepal census it had a population of 5,627 living in 1,109 households.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Chobhar-Terrassenlandschaft-20-2007-gje.jpg/330px-Chobhar-Terrassenlandschaft-20-2007-gje.jpg",
+    "coordinates": {
+      "lat": 27.66666667,
+      "lon": 85.28333333
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Chobhar",
+    "category": "natural",
+    "tags": [
+      "natural"
+    ]
+  },
+  {
+    "name": "Taudaha Lake",
+    "wiki_title": "Taudaha Lake",
+    "description": "Taudaha Lake is a small lake in the outskirts of Kathmandu, in Nepal.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Photowalk_WLE_2023_in_Nepal_-_July_8_-_6.jpg/330px-Photowalk_WLE_2023_in_Nepal_-_July_8_-_6.jpg",
+    "coordinates": {
+      "lat": 27.6487,
+      "lon": 85.282
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Taudaha_Lake",
+    "category": "natural",
+    "tags": [
+      "natural"
+    ]
+  },
+  {
+    "name": "Shankhamul Ghat",
+    "wiki_title": "Bagmati River",
+    "description": "The Bagmati River flows through the Kathmandu valley of Nepal, separating the cities of Kathmandu and Patan, before flowing through Madesh Province of southern Nepal and joining the Kamla River in the Indian state of Bihar. It is considered holy by both Hindus and Buddhists. A number of Hindu temples are located on its banks.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Pashupatinath2.jpg/330px-Pashupatinath2.jpg",
+    "coordinates": {
+      "lat": 25.73225,
+      "lon": 86.36472222
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Bagmati_River",
+    "category": "natural",
+    "tags": [
+      "natural",
+      "religious"
+    ]
+  },
+  {
+    "name": "Thamel",
+    "wiki_title": "Thamel",
+    "description": "Thamel is a commercial neighborhood located in Kathmandu, the capital of Nepal. The name comes from Tha Bahi, indicating its root origin to have come from the Newa community, the indigenous people of Kathmandu Valley. Tha Bahi has been the centre of the tourist industry in Kathmandu for over four decades, starting from the hippie days, when many artists came to Nepal and spent weeks in Thamel. It is considered the hotspot for tourism inside the Kathmandu valley.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Thamel_at_night_-_Kathmandu%2C_Nepal_-_panoramio_%281%29.jpg/330px-Thamel_at_night_-_Kathmandu%2C_Nepal_-_panoramio_%281%29.jpg",
+    "coordinates": {
+      "lat": 27.71515556,
+      "lon": 85.31021944
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Thamel",
+    "category": "market",
+    "tags": [
+      "market"
+    ]
+  },
+  {
+    "name": "Asan Bazaar",
+    "wiki_title": "Asan, Kathmandu",
+    "description": "Asan is a ceremonial, market and residential square in central Kathmandu, the capital of Nepal. It is one of the most well-known historical locations in the city and is famed for its bazaar, festival calendar and strategic location. Asan has been described as a fine Newar example of a traditional Asian bazaar. The Tuladhar, Maharjan, Shrestha, Bajracharya and Shakya castes make up most of the population.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/AnnapurnaAjima1.jpg/330px-AnnapurnaAjima1.jpg",
+    "coordinates": {
+      "lat": 27.7075,
+      "lon": 85.31222222
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Asan%2C_Kathmandu",
+    "category": "market",
+    "tags": [
+      "market",
       "historic"
     ]
   },
@@ -379,9 +480,10 @@
       "lon": 85.3096
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Indra_Chowk",
+    "category": "market",
     "tags": [
-      "historic",
-      "market"
+      "market",
+      "historic"
     ]
   },
   {
@@ -394,8 +496,43 @@
       "lon": 85.3075
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Old_Freak_Street",
+    "category": "market",
     "tags": [
+      "market",
       "historic"
+    ]
+  },
+  {
+    "name": "Narayanhiti Palace Museum",
+    "wiki_title": "Narayanhiti Palace Museum",
+    "description": "The Narayanhiti Palace Museum is a public museum in Kathmandu, Nepal located east of the Kaiser Mahal and next to Thamel. The museum was created in 2008 from the complex of the former Narayanhiti Palace following the 2006 revolution. Before the revolution, the palace was the residence and principal workplace of the monarch of the Kingdom of Nepal, and hosted occasions of state.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Narayanhiti_Palace_Museum%2C_crop.jpg/330px-Narayanhiti_Palace_Museum%2C_crop.jpg",
+    "coordinates": {
+      "lat": 27.7156,
+      "lon": 85.32
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Narayanhiti_Palace_Museum",
+    "category": "museum",
+    "tags": [
+      "museum",
+      "historic"
+    ]
+  },
+  {
+    "name": "National Museum of Nepal",
+    "wiki_title": "National Museum of Nepal",
+    "description": "National Museum, located at the base of Swayambhu, a sacred hill in the Kathmandu Valley, is the first Nepalese museum. Covering an area of approximately 50 Ropani, the museum comprises various buildings, gardens, and open spaces within its premises. Its primary function is to preserve and exhibit rare and valuable art treasures.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Nepal.Museum.JPG/330px-Nepal.Museum.JPG",
+    "coordinates": {
+      "lat": 27.7056,
+      "lon": 85.289
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/National_Museum_of_Nepal",
+    "category": "museum",
+    "tags": [
+      "museum",
+      "historic",
+      "natural"
     ]
   },
   {
@@ -408,35 +545,11 @@
       "lon": 85.45
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Sankhu",
+    "category": "village",
     "tags": [
+      "village",
       "historic"
     ]
-  },
-  {
-    "name": "Dakshinkali Temple",
-    "wiki_title": "Dakshinkali Temple",
-    "description": "Dakshinkali Temple is a Hindu temple in Nepal dedicated to the goddess Kali. Dakshin Kali is typically shown with her right foot on Shiva's chest—while depictions showing Kali with her left foot on Shiva's chest depict the even more fearsome Vamakali. Animal sacrifices, particularly of cockerels and uncastrated male goats, are the main way that the goddess is worshipped, and this is especially seen during the Dashain festival. Dakshin Kali Temple has also the same religious value as Pashupatinath Temple and Manakamana Temple in Nepal. The temple has more tourist attractions as it is a popular hiking destination located near Pharping village in Nepal. Mother Dakshinakali is the most popular form of Kali. She is the benevolent mother, who protects her devotees and children from mishaps and misfortunes.it usually closes at 11.30 Am for rituals and open at next day.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Dakshin_Kali_main_Temple.JPG/330px-Dakshin_Kali_main_Temple.JPG",
-    "coordinates": {
-      "lat": 27.58333333,
-      "lon": 85.25
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Dakshinkali_Temple",
-    "tags": [
-      "religious"
-    ]
-  },
-  {
-    "name": "Pharping Monastery",
-    "wiki_title": "Pharping",
-    "description": "Pharping is a small Newar town lying above the Bagmati river on the southern edge of the Kathmandu valley, about 23 km from the capital. It is now part of the Dakshinkali Municipality.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Pharping-16-Felder-2007-gje.jpg/330px-Pharping-16-Felder-2007-gje.jpg",
-    "coordinates": {
-      "lat": 27.6,
-      "lon": 85.26666667
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Pharping",
-    "tags": []
   },
   {
     "name": "Kirtipur",
@@ -448,7 +561,239 @@
       "lon": 85.27694444
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Kirtipur",
+    "category": "village",
     "tags": [
+      "village",
+      "religious"
+    ]
+  },
+  {
+    "name": "Patan Museum",
+    "wiki_title": "Patan Museum",
+    "description": "The Patan Museum is a museum located in Patan, Lalitpur, Nepal. The museum falls under the UNESCO's World Heritage Sites. The Patan Museum was inaugurated in 1997 by Late King Birendra Bir Bikram Shah. The Patan Museum displays the traditional sacred arts of Nepal in an illustrious architectural setting. Its home is an old residential court of Patan Durbar, one of the royal palaces of former Malla Kings of the Kathmandu Valley. The museum quadrangle is known as Keshav Narayan Chowk.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Patan_museum-Patan_Durbar_Square-2054.jpg/330px-Patan_museum-Patan_Durbar_Square-2054.jpg",
+    "coordinates": {
+      "lat": 27.6730952,
+      "lon": 85.325638
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Patan_Museum",
+    "category": "museum",
+    "tags": [
+      "museum",
+      "historic"
+    ]
+  },
+  {
+    "name": "Kumbheshwar Temple",
+    "wiki_title": "Kumbheshwar Temple",
+    "description": "Kumbheshwar Temple is one of the oldest Hindu temples, situated 200m from the northern part of Patan Durbar Square. It was built in the 14th century by King Jayasthiti Malla which makes it the oldest temple in Patan. It is one of the two free-standing, five-story temples, the other being the famous Nyatapola temple of Bhaktapur. The temple is noted for its graceful proportions and fine woodcarvings and is dedicated to Shiva, as indicated by the large Nandi, or bull, facing the temple.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/A_morning_at_Kumbeshwar_Temple%2C_Patan_%28January_2023%29_-_IMG_09.jpg/330px-A_morning_at_Kumbeshwar_Temple%2C_Patan_%28January_2023%29_-_IMG_09.jpg",
+    "coordinates": {
+      "lat": 27.67666667,
+      "lon": 85.32583333
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Kumbheshwar_Temple",
+    "category": "religious",
+    "tags": [
+      "religious",
+      "historic"
+    ]
+  },
+  {
+    "name": "Mahabouddha Temple",
+    "wiki_title": "Mahabouddha Temple",
+    "description": "Mahaboudha Temple is a shikhara Newar Buddhist temple in Lalitpur, Nepal.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Mahaboudha_%289651389724%29.jpg/330px-Mahaboudha_%289651389724%29.jpg",
+    "coordinates":{
+      "lat":27.668982936750428,
+      "lon": 85.32711449105761
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Mahabouddha_Temple",
+    "category": "religious",
+    "tags": [
+      "religious"
+    ]
+  },
+  {
+    "name": "Kwa Bahal (Golden Temple)",
+    "wiki_title": "Hiranya Varna Mahavihar",
+    "description": "Hiraṇyavarṇa Mahāvihāra, also Kwa Baha: informally called The Golden Temple with literal meaning \"Gold-colored Great Monastery\", is a historical vihara situated in Patan, Nepal.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/2015-03-30_04-15_Nepal_926_Patan%2C_Lalitpur%2C_Golden_Temple_%2816769604853%29.jpg/330px-2015-03-30_04-15_Nepal_926_Patan%2C_Lalitpur%2C_Golden_Temple_%2816769604853%29.jpg",
+    "coordinates": {
+      "lat": 27.67533333,
+      "lon": 85.32466667
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Hiranya_Varna_Mahavihar",
+    "category": "monastery",
+    "tags": [
+      "monastery",
+      "religious",
+      "historic"
+    ]
+  },
+  {
+    "name": "Ashok Stupa",
+    "wiki_title": "Ashoka",
+    "description": "Ashoka, also known as Asoka or Aśoka, and popularly known as Ashoka the Great, was Emperor of Magadha from c. 268 BCE until his death in 232 BCE, and the third ruler from the Mauryan dynasty. His empire covered a large part of the Indian subcontinent, stretching from present-day Afghanistan in the west to present-day Bangladesh in the east, with its capital at Pataliputra. A patron of Buddhism, he is credited with playing an important role in the spread of Buddhism across ancient Asia.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Ashoka%27s_visit_to_the_Ramagrama_stupa_Sanchi_Stupa_1_Southern_gateway.jpg/330px-Ashoka%27s_visit_to_the_Ramagrama_stupa_Sanchi_Stupa_1_Southern_gateway.jpg",
+    "coordinates":  {
+      "lat": 27.665048229942013,
+      "lon": 85.32339695331977
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Ashoka",
+    "category": "historic",
+    "tags": [
+      "historic"
+    ]
+  },
+  {
+    "name": "Rato Machhendranath Temple (Patan)",
+    "wiki_title": "Matsyendranatha",
+    "description": "Matsyendranātha, also known as Matsyendra, Macchindranāth, Mīnanātha and Minapa was a saint and yogi in a number of Buddhist and Hindu traditions. He is considered the revivalist of hatha yoga as well as the author of some of its earliest texts. He is also seen as the founder of the natha sampradaya, having received the teachings from Shiva. He is associated with Kaula Shaivism. He is also one of the eighty-four mahasiddhas and considered the guru of Gorakshanath, another known figure in early hatha yoga. He is revered by both Hindus and Buddhists and is sometimes regarded as an incarnation of Avalokiteśvara.",
+    "image": null,
+    "coordinates": {
+      "lat":27.67027858694675,
+      "lon": 85.32288734572462
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Matsyendranatha",
+    "category": "religious",
+    "tags": [
+      "religious"
+    ]
+  },
+  {
+    "name": "Harishankar Temple",
+    "wiki_title": "Harishankar Temple",
+    "description": "Sri Sri Harisankar Devasthana is a temple on the slopes of Gandhamardhan hills, Bolangir District of Odisha in India. It is popular for its scenes of nature and connection to two Hindu lords, Vishnu and Shiva. As a holy place, along with a stream passing on the granite bed, it has given some visitors a feeling of peace. On the opposite of side of the Gandhamardhan hills is the temple of Nrusinghanath. The plateau between the two temples has been found to have ancient Buddhist ruins, which are considered to be remnants of the ancient Parimalgiri University.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Harishankar_Temple.jpg/330px-Harishankar_Temple.jpg",
+    "coordinates": {
+      "lat": 20.854406,
+      "lon": 82.86061
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Harishankar_Temple",
+    "category": "religious",
+    "tags": [
+      "religious"
+    ]
+  },
+  {
+    "name": "Nyatapola Temple",
+    "wiki_title": "Nyatapola Temple",
+    "description": "Nyātāpola is a five tiered temple located in the central part of Bhaktapur, Nepal. It is the tallest monument within the city and is also the tallest temple of Nepal. This temple was commissioned by King Bhupatindra Malla, the construction of which lasted for six months from December 1701 to July 1702. The temple has survived four major earthquakes and its aftershocks including the recent 7.8 magnitude April 2015 earthquake which caused major damage the city of Bhaktapur.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Kathmandu_und_Bhaktapur_2013-05-11_16-03-39.jpg/330px-Kathmandu_und_Bhaktapur_2013-05-11_16-03-39.jpg",
+    "coordinates": {
+      "lat": 27.67138889,
+      "lon": 85.42861111
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Nyatapola_Temple",
+    "category": "religious",
+    "tags": [
+      "religious"
+    ]
+  },
+  {
+    "name": "Bhaktapur Durbar Square",
+    "wiki_title": "Bhaktapur Durbar Square",
+    "description": "Bhaktapur Durbar Square is a former royal palace complex located in Bhaktapur, Nepal. It housed the Malla kings of Nepal from 14th to 15th century and the kings of the Kingdom of Bhaktapur from 15th to late 18th century until the kingdom was conquered in 1769. Today, this square is recognised by UNESCO, managed jointly by the Archeological Department of Nepal and Bhaktapur Municipality, and is undergoing extensive restoration due to the damages from the earthquake in 1934 and the recent earthquake of 2015.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Bhaktapurs-Durbar-Square-before-the-1932-earthquake.jpg/330px-Bhaktapurs-Durbar-Square-before-the-1932-earthquake.jpg",
+    "coordinates": {
+      "lat": 27.672027,
+      "lon": 85.428108
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur_Durbar_Square",
+    "category": "historic",
+    "tags": [
+      "historic"
+    ]
+  },
+  {
+    "name": "55 Window Palace",
+    "wiki_title": "Bhaktapur Durbar Square",
+    "description": "Bhaktapur Durbar Square is a former royal palace complex located in Bhaktapur, Nepal. It housed the Malla kings of Nepal from 14th to 15th century and the kings of the Kingdom of Bhaktapur from 15th to late 18th century until the kingdom was conquered in 1769. Today, this square is recognised by UNESCO, managed jointly by the Archeological Department of Nepal and Bhaktapur Municipality, and is undergoing extensive restoration due to the damages from the earthquake in 1934 and the recent earthquake of 2015.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Bhaktapurs-Durbar-Square-before-the-1932-earthquake.jpg/330px-Bhaktapurs-Durbar-Square-before-the-1932-earthquake.jpg",
+    "coordinates": {
+      "lat": 27.672027,
+      "lon": 85.428108
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur_Durbar_Square",
+    "category": "historic",
+    "tags": [
+      "historic"
+    ]
+  },
+  {
+    "name": "Dattatreya Temple",
+    "wiki_title": "Kalo Dungar",
+    "description": "Kalo Dungar or Black Hill is the highest point in Kutch, Gujarat, India, at 462 m (1,516 ft). It is located 97 km (60 mi) from District headquarters of Bhuj and 25 km (16 mi) from nearest town Khavda.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Rann_of_Kutch_-_Highest_Point.jpg/330px-Rann_of_Kutch_-_Highest_Point.jpg",
+    "coordinates": {
+      "lat": 23.93416667,
+      "lon": 69.81388889
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Kalo_Dungar",
+    "category": "religious",
+    "tags": [
+      "religious"
+    ]
+  },
+  {
+    "name": "Taumadhi Square",
+    "wiki_title": "Bhaktapur",
+    "description": "Bhaktapur, known locally as Khwopa and historically called Bhadgaon, is a city in the east corner of the Kathmandu Valley in Nepal located about 13 kilometres (8.1 mi) from the capital city, Kathmandu. Bhaktapur is the smallest city of Nepal as well as the most densely populated. Along with Kathmandu and Lalitpur, Bhaktapur is one of the three main cities of the Kathmandu Valley and is a major Newar settlement of the country. The city is also known for its Newar tradition, cuisine and artisans. Bhaktapur suffered heavy damage in the April 2015 earthquake.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Nyatpola_%26_Bhairav_Temple.jpg/330px-Nyatpola_%26_Bhairav_Temple.jpg",
+    "coordinates": {
+      "lat": 27.67222222,
+      "lon": 85.42777778
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur",
+    "category": "historic",
+    "tags": [
+      "historic"
+    ]
+  },
+  {
+    "name": "Siddha Pokhari",
+    "wiki_title": "Gupha Pokhari",
+    "description": "Gupha Pokhari also spelled Gufa Pokhari is a natural pond 2,890 metres (9,480 ft)\nabove sea level in Chainpur Municipality of Sankhuwasabha District of Nepal, and a holy pilgrimage site for Kirat, Hindus and Buddhists.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Guphapokhari_waking_up%21.jpg/330px-Guphapokhari_waking_up%21.jpg",
+    "coordinates": {
+      "lat": 27.28527778,
+      "lon": 87.50638889
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Gupha_Pokhari",
+    "category": "natural",
+    "tags": [
+      "natural"
+    ]
+  },
+  {
+    "name": "Nagarkot View Tower",
+    "wiki_title": "Palanpur",
+    "description": "Palanpur is a city and a headquarters of Banaskantha district in the Indian state of Gujarat. Palanpur is the ancestral home to an industry of Indian diamond merchants.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Kirtistambh_of_Palanpur_Gujarat.jpg/330px-Kirtistambh_of_Palanpur_Gujarat.jpg",
+    "coordinates": {
+      "lat": 24.17222222,
+      "lon": 72.43333333
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Palanpur",
+    "category": "natural",
+    "tags": [
+      "natural"
+    ]
+  },
+  {
+    "name": "Changunarayan Museum",
+    "wiki_title": "Changu Narayan Temple",
+    "description": "Changu Narayan is an ancient Hindu and Buddhist temple, located on a hilltop of Changu in Changunarayan Municipality of Bhaktapur District, Nepal. The temple is considered to be built in the 4th century AD and is one of the oldest Hindu temples in Nepal. The temple is dedicated to Lord Vishnu, one of three principal deities in Hinduism.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Nepal_-_Changu_Narayan_%283566057331%29.jpg/330px-Nepal_-_Changu_Narayan_%283566057331%29.jpg",
+    "coordinates": {
+      "lat": 27.71627778,
+      "lon": 85.42788889
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Changu_Narayan_Temple",
+    "category": "museum",
+    "tags": [
+      "museum",
       "religious"
     ]
   }
