@@ -25,6 +25,7 @@ interface MapViewProps {
   addDestinationMode: boolean;
   myloc: { lat: number; lon: number } | null;
   pathCoords: [number, number][];
+  setSelectedMarker:React.Dispatch<React.SetStateAction<number | null>>
 }
 
   const MapView = ({
@@ -38,6 +39,7 @@ interface MapViewProps {
   addDestinationMode,
   myloc,
   pathCoords,
+  setSelectedMarker
 }: MapViewProps) => {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -68,10 +70,14 @@ interface MapViewProps {
       })),
     ];
 
-    allMarkers.forEach(({ lat, lon, html }) => {
+    allMarkers.forEach(({ lat, lon, html },index) => {
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
       const marker = new maplibregl.Marker().setLngLat([lon, lat]).setPopup(popup).addTo(mapRef.current!);
       markersRef.current.push(marker);
+
+       marker.getElement().addEventListener("click", () => {
+      setSelectedMarker(index); 
+  });
     });
 
     if (myloc) {
