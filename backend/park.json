@@ -1,0 +1,115 @@
+{
+  "metadata": {
+    "totalDestinations": 16,
+    "successful": 16,
+    "failed": 0,
+    "generatedAt": "2025-07-07T12:00:00.000Z",
+    "script": "Kathmandu Valley Nature and Park Destinations Enricher"
+  },
+  "destinations": [
+    {
+      "name": "Garden of Dreams",
+      "description": "A historic neo-classical garden in the heart of Kathmandu, popular among tourists for its tranquility and beautiful landscaping.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Garden_of_Dreams.jpg/500px-Garden_of_Dreams.jpg",
+      "coordinates": {
+        "lat": 27.7091,
+        "lon": 85.3206
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Garden_of_Dreams",
+      "categories": [
+        "park",
+        "tourist_attraction",
+         "nature"
+    ],
+      "lastUpdated": "2025-07-07T12:00:00.000Z",
+      "searchQuery": "Garden of Dreams Nepal"
+    },
+    {
+      "name": "Central Zoo, Jawalakhel",
+      "description": "The only zoo in Kathmandu Valley, home to a variety of animals and a popular spot for family outings.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Pond_inside_the_central_zoo%2C_Jawalakhel.jpg/500px-Pond_inside_the_central_zoo%2C_Jawalakhel.jpg",
+      "coordinates": {
+        "lat": 27.6712,
+        "lon": 85.2905
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Central_Zoo",
+      "categories": [
+        "tourist_attraction",
+         "nature",
+        "park"],
+      "lastUpdated": "2025-07-07T12:00:00.000Z",
+      "searchQuery": "Central Zoo Jawalakhel Nepal"
+    },
+    {
+      "name": "Shivapuri Nagarjun National Park",
+      "description": "A protected forest area north of Kathmandu offering nature trails, rich biodiversity, and spiritual sites.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/A_view_of_Shivapuri_national_park_from_Sundarijal.jpg/500px-A_view_of_Shivapuri_national_park_from_Sundarijal.jpg",
+      "coordinates": {
+        "lat": 27.7446,
+        "lon": 85.3240
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Shivapuri_Nagarjun_National_Park",
+      "categories": ["nature",
+      "park"],
+      "lastUpdated": "2025-07-07T12:00:00.000Z",
+      "searchQuery": "Shivapuri Nagarjun National Park Nepal"
+    },
+    {
+      "name": "Godavari Botanical Garden",
+      "description": "A botanical garden near Lalitpur known for its variety of plants and orchids.",
+      "image": null,
+      "coordinates": {
+        "lat": 27.6286,
+        "lon": 85.3563
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Godavari_Botanical_Garden",
+      "categories": [
+        "park", "nature",
+        "tourist_attraction"],
+      "lastUpdated": "2025-07-07T12:00:00.000Z",
+      "searchQuery": "Godavari Botanical Garden Nepal"
+    },
+    {
+      "name": "Nagarkot Hill Station",
+      "description": "Famous hill station east of Kathmandu, offering stunning views of the Himalayas including Mount Everest.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/2015-03-18_Nagarkot_Hotel_Galaxy_DSCF2094.jpg/500px-2015-03-18_Nagarkot_Hotel_Galaxy_DSCF2094.jpg",
+      "coordinates": {
+        "lat": 27.7084,
+        "lon": 85.5183
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Nagarkot",
+      "categories": ["hill", "nature", "tourist_attraction", "viewpoint"],
+      "lastUpdated": "2025-07-07T12:00:00.000Z",
+      "searchQuery": "Nagarkot Nepal"
+    },
+    {
+      "name": "Rani Pokhari",
+      "description": "A historic artificial pond in Kathmandu, surrounded by a park and significant in local festivals.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Rani_Pokhari_2020-IMG_0226.jpg/500px-Rani_Pokhari_2020-IMG_0226.jpg",
+      "coordinates": {
+        "lat": 27.7122,
+        "lon": 85.3133
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Rani_Pokhari",
+      "categories": ["pond", 
+      "historic",
+       "park",
+      "tourist_attraction"],
+      "lastUpdated": "2025-07-07T12:00:00.000Z",
+      "searchQuery": "Rani Pokhari Nepal"
+    },
+    {
+      "name": "Budhanilkantha Garden Area",
+      "description": "Gardens surrounding the Budhanilkantha temple, known for its large reclining Vishnu statue.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Jhanda-park.jpg/500px-Jhanda-park.jpg",
+      "coordinates": {
+        "lat": 27.7430,
+        "lon": 85.3245
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Budhanilkantha",
+      "categories": ["park", "nature", "religious"],
+      "lastUpdated": "2025-07-07T12:00:00.000Z",
+      "searchQuery": "Budhanilkantha Garden Area Nepal"
+    }
+  ]
+}

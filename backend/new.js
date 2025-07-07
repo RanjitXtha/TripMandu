@@ -1,118 +1,103 @@
 import { writeFileSync } from "fs";
 
+// Your destinations list
 
+// Keyword-based category detection
 const categorizedDestinations = [
-  { name: "Amitabha Monastery", categories: ["buddhist", "monastery", "religious", "tourist_attraction"] },
-  { name: "Benchen Monastery", categories: ["buddhist", "monastery", "religious"] },
-  { name: "Boudhanath", categories: ["buddhist", "stupa", "temple", "religious", "heritage_site"] },
-  { name: "Ka-Nying Shedrub Ling", categories: ["buddhist", "monastery", "religious"] },
-  { name: "Kindo Baha", categories: ["buddhist", "monastery", "religious"] },
-  { name: "Kopan Monastery", categories: ["buddhist", "monastery", "religious", "tourist_attraction"] },
-  { name: "Pranidhipurna Mahavihar", categories: ["buddhist", "monastery", "religious"] },
-  { name: "Seto Gumba", categories: ["buddhist", "monastery", "religious", "tourist_attraction"] },
-  { name: "Swayambhunath", categories: ["buddhist", "stupa", "temple", "religious", "heritage_site"] },
-  { name: "Tergar Osel Ling Monastery", categories: ["buddhist", "monastery", "religious"] },
-  { name: "Tharlam Monastery", categories: ["buddhist", "monastery", "religious"] },
-  { name: "Vidhyeshvari Vajra Yogini Temple", categories: ["buddhist", "temple", "religious"] },
-  { name: "Hiranya Varna Mahavihar", categories: ["buddhist", "monastery", "religious", "heritage_site"] }
+  { name: "Garden of Dreams", categories: ["park", "garden", "tourist_attraction", "nature"] },
+  { name: "Central Zoo, Jawalakhel", categories: ["zoo", "park", "tourist_attraction", "nature", "entertainment"] },
+  { name: "Phulchowki Hill", categories: ["hill", "nature", "park", "hiking", "tourist_attraction"] },
+  { name: "Shivapuri Nagarjun National Park", categories: ["national_park", "nature", "forest", "hiking", "park", "wildlife"] },
+  { name: "Godavari Botanical Garden", categories: ["botanical_garden", "park", "nature", "garden", "tourist_attraction"] },
+  { name: "Nagarkot Hill Station", categories: ["hill", "nature", "tourist_attraction", "viewpoint"] },
+  { name: "Bishnumati River Park", categories: ["park", "nature", "river", "recreation"] },
+  { name: "Dakshinkali Temple and Surrounding Forest", categories: ["temple", "nature", "forest", "park", "religious"] },
+  { name: "Basantapur Durbar Square Garden", categories: ["garden", "historic", "park", "heritage_site"] },
+  { name: "Rani Pokhari", categories: ["pond", "historic", "park", "heritage_site", "tourist_attraction"] },
+  { name: "Patan Durbar Square Gardens", categories: ["garden", "historic", "park", "heritage_site"] },
+  { name: "Nagarjun Forest Reserve", categories: ["forest", "nature", "park", "wildlife"] },
+  { name: "Balaju Water Garden", categories: ["garden", "park", "nature", "water_feature"] },
+  { name: "Tribhuvan Park", categories: ["park", "recreation", "nature", "tourist_attraction"] },
+  { name: "Pashupatinath Riverfront Park", categories: ["park", "nature", "river", "religious"] },
+  { name: "Budhanilkantha Garden Area", categories: ["garden", "park", "nature", "religious"] }
 ];
 
 
-
-// Enhanced Wikipedia API fetch helper with better error handling and retries
+// Fetch Wikipedia data with multi-strategy search
 async function fetchWikipediaData(place, retries = 3) {
-  const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(place.name + " Nepal")}&format=json&origin=*`;
-  
+  const searchTerms = [
+    `${place.name} Nepal`,
+    `${place.name}`,
+    `${place.name} Kathmandu`,
+    `${place.name} stupa`,
+    `${place.name} monastery`
+  ];
+
   for (let attempt = 1; attempt <= retries; attempt++) {
-    try {
-      console.log(`Fetching data for: ${place.name} (attempt ${attempt}/${retries})`);
-      
-      const searchRes = await fetch(searchUrl);
-      if (!searchRes.ok) {
-        throw new Error(`Search API returned ${searchRes.status}`);
-      }
-      
-      const searchData = await searchRes.json();
-      const bestMatch = searchData.query?.search?.[0]?.title;
-      
-      if (!bestMatch) {
-        return { 
-          name: place.name, 
-          categories: Array.isArray(place.category) ? place.category : [place.category], 
-          error: "No Wikipedia match found.",
-          searchAttempted: place.name + " Nepal"
-        };
-      }
+    for (const term of searchTerms) {
+      try {
+        console.log(`Fetching data for: ${place.name} (attempt ${attempt}/${retries}) using term: "${term}"`);
 
-      const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(bestMatch)}`;
-      const summaryRes = await fetch(summaryUrl);
-      
-      if (!summaryRes.ok) {
-        throw new Error(`Summary API returned ${summaryRes.status}`);
-      }
+        const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(term)}&format=json&origin=*`;
+        const searchRes = await fetch(searchUrl);
 
-      const data = await summaryRes.json();
-
-      // Normalize place.category to array
-      const categories = Array.isArray(place.category) ? [...place.category] : [place.category];
-      const desc = (data.extract || "").toLowerCase();
-
-      // Enhanced category detection with more specific keywords
-      const categoryMappings = {
-        religious: ["temple", "stupa", "buddha", "hindu", "shrine", "sacred", "deity", "worship", "pilgrimage", "vishnu", "shiva", "ganesh"],
-        historic: ["durbar", "palace", "historic", "heritage", "ancient", "medieval", "built in", "century", "dynasty", "architecture", "unesco"],
-        market: ["market", "bazaar", "shopping", "commercial", "trade", "vendors", "mall", "shops"],
-        natural: ["garden", "lake", "pond", "park", "hill", "mountain", "forest", "nature", "botanical", "wildlife", "valley", "gorge"],
-        monastery: ["monastery", "gompa", "vihara", "mahavihar", "monks", "buddhist monastery", "abbey", "nunnery"],
-        museum: ["museum", "gallery", "collection", "artifacts", "exhibits", "art", "cultural center"],
-        tourist_attraction: ["tourist", "attraction", "visitors", "sightseeing", "landmark", "viewpoint", "cable car", "trekking"],
-        hotel: ["hotel", "resort", "lodge", "guest house", "accommodation", "stay", "hospitality"],
-        restaurant: ["restaurant", "dining", "food", "cuisine", "meal", "kitchen", "eatery"],
-        cafe: ["cafe", "coffee", "bakery", "tea", "bistro", "coffeehouse"],
-        entertainment: ["bar", "club", "nightlife", "casino", "music", "entertainment", "pub"],
-        village: ["village", "town", "settlement", "community", "traditional", "ethnic"],
-        business: ["business", "company", "office", "commercial", "service"]
-      };
-
-      // Add categories based on description keywords
-      for (const [category, keywords] of Object.entries(categoryMappings)) {
-        if (keywords.some(keyword => desc.includes(keyword))) {
-          categories.push(category);
+        if (!searchRes.ok) {
+          throw new Error(`Search API returned ${searchRes.status}`);
         }
-      }
 
-      // Remove duplicates and lowercase categories
-      const uniqueCategories = Array.from(new Set(categories.map(c => c.toLowerCase())));
+        const searchData = await searchRes.json();
+        const bestMatch = searchData.query?.search?.[0]?.title;
 
-      return {
-        name: place.name,
-        wiki_title: data.title,
-        description: data.extract,
-        image: data.thumbnail?.source || null,
-        coordinates: data.coordinates || null,
-        wikiUrl: data.content_urls?.desktop?.page || null,
-        categories: uniqueCategories,
-        lastUpdated: new Date().toISOString(),
-        searchQuery: place.name + " Nepal"
-      };
-      
-    } catch (err) {
-      console.warn(`Attempt ${attempt} failed for ${place.name}: ${err.message}`);
-      if (attempt === retries) {
-        return { 
-          name: place.name, 
-          categories: Array.isArray(place.category) ? place.category : [place.category], 
-          error: `Failed after ${retries} attempts: ${err.message}`,
-          lastUpdated: new Date().toISOString()
+        if (!bestMatch) continue;
+
+        const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(bestMatch)}`;
+        const summaryRes = await fetch(summaryUrl);
+
+        if (!summaryRes.ok) {
+          throw new Error(`Summary API returned ${summaryRes.status}`);
+        }
+
+        const data = await summaryRes.json();
+        const description = (data.extract || "").toLowerCase();
+        const categories = Array.isArray(place.categories) ? [...place.categories] : [];
+
+        // Add categories based on description
+        for (const [category, keywords] of Object.entries(categoryMappings)) {
+          if (keywords.some(keyword => description.includes(keyword))) {
+            categories.push(category);
+          }
+        }
+
+        const uniqueCategories = Array.from(new Set(categories.map(c => c.toLowerCase())));
+
+        return {
+          name: place.name,
+          wiki_title: data.title,
+          description: data.extract,
+          image: data.thumbnail?.source || null,
+          coordinates: data.coordinates || null,
+          wikiUrl: data.content_urls?.desktop?.page || null,
+          categories: uniqueCategories,
+          lastUpdated: new Date().toISOString(),
+          searchQuery: term
         };
+      } catch (err) {
+        console.warn(`Attempt ${attempt} failed for ${place.name} using term "${term}": ${err.message}`);
       }
-      // Wait before retrying
-      await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
     }
+
+    await new Promise(resolve => setTimeout(resolve, 1000 * attempt)); // Retry delay
   }
+
+  return {
+    name: place.name,
+    categories: Array.isArray(place.categories) ? place.categories : [],
+    error: `Failed after ${retries} attempts.`,
+    lastUpdated: new Date().toISOString()
+  };
 }
 
-// Enhanced main function with progress tracking and better error handling
+// Main enrichment function
 async function enrichAllDestinations() {
   const enriched = [];
   const total = categorizedDestinations.length;
@@ -124,11 +109,11 @@ async function enrichAllDestinations() {
   for (let i = 0; i < categorizedDestinations.length; i++) {
     const place = categorizedDestinations[i];
     const progress = `[${i + 1}/${total}]`;
-    
+
     try {
       const data = await fetchWikipediaData(place);
       enriched.push(data);
-      
+
       if (data.error) {
         failed++;
         console.log(`${progress} ❌ ${place.name}: ${data.error}`);
@@ -141,18 +126,16 @@ async function enrichAllDestinations() {
       console.log(`${progress} ❌ ${place.name}: Unexpected error - ${err.message}`);
       enriched.push({
         name: place.name,
-        categories: Array.isArray(place.category) ? place.category : [place.category],
+        categories: Array.isArray(place.categories) ? place.categories : [],
         error: `Unexpected error: ${err.message}`,
         lastUpdated: new Date().toISOString()
       });
     }
 
-    // Rate limiting with random jitter to avoid overwhelming the API
-    const delay = 500 + Math.random() * 300;
+    const delay = 500 + Math.random() * 300; // Random jitter for rate limiting
     await new Promise(resolve => setTimeout(resolve, delay));
   }
 
-  // Save results with metadata
   const output = {
     metadata: {
       totalDestinations: total,
@@ -164,28 +147,28 @@ async function enrichAllDestinations() {
     destinations: enriched
   };
 
-  writeFileSync("monument.json", JSON.stringify(output, null, 2));
-  
+  writeFileSync("enriched_destinations.json", JSON.stringify(output, null, 2));
+
   console.log(`\n🎉 Enrichment complete!`);
   console.log(`✅ Successful: ${successful}`);
   console.log(`❌ Failed: ${failed}`);
   console.log(`📁 Data saved to enriched_destinations.json`);
-  
-  // Save a summary of categories
+
+  // Category distribution summary
   const categoryStats = {};
   enriched.forEach(dest => {
     dest.categories.forEach(cat => {
       categoryStats[cat] = (categoryStats[cat] || 0) + 1;
     });
   });
-  
+
   console.log(`\n📊 Category distribution:`);
   Object.entries(categoryStats)
-    .sort(([,a], [,b]) => b - a)
+    .sort(([, a], [, b]) => b - a)
     .forEach(([cat, count]) => {
       console.log(`  ${cat}: ${count}`);
     });
 }
 
-// Run the enrichment
+// Start process
 enrichAllDestinations().catch(console.error);
