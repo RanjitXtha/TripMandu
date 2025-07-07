@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import { Map, NavigationControl, Source, Layer } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import type { Location } from "../types/types";
+import axios from "axios";
 
 // Extend window interface for popup actions
 declare global {
@@ -13,6 +13,11 @@ declare global {
   }
 }
 
+const touristDestinations = [
+  { name: "Pashupatinath Temple", lat: 27.710535, lon: 85.34883 },
+  { name: "Swayambhunath Temple", lat: 27.714938, lon: 85.2904 },
+  { name: "Kathmandu Durbar Square", lat: 27.704347, lon: 85.306735 },
+];
 
 interface MapViewProps {
   touristDestinations: Location[];
@@ -25,26 +30,33 @@ interface MapViewProps {
   addDestinationMode: boolean;
   myloc: { lat: number; lon: number } | null;
   pathCoords: [number, number][];
-  setSelectedMarker:React.Dispatch<React.SetStateAction<number | null>>
 }
 
-  const MapView = ({
-  touristDestinations,
-  clickMarkers,
-  setClickMarkers,
-  destinations,
-  setDestinations,
-  markerMode,
-  setMarkerMode,
-  addDestinationMode,
-  myloc,
-  pathCoords,
-  setSelectedMarker
-}: MapViewProps) => {
+const MapView = (
+  {
+     touristDestinations,
+        clickMarkers,
+        setClickMarkers,
+        destinations,
+        setDestinations,
+        markerMode,
+        setMarkerMode,
+        addDestinationMode,
+        myloc,
+        pathCoords,
+  }:MapViewProps 
+) => {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const markersRef = useRef<maplibregl.Marker[]>([]);
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        setMyloc({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (!mapLoaded || !mapRef.current) return;
@@ -70,14 +82,10 @@ interface MapViewProps {
       })),
     ];
 
-    allMarkers.forEach(({ lat, lon, html },index) => {
+    allMarkers.forEach(({ lat, lon, html }) => {
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
       const marker = new maplibregl.Marker().setLngLat([lon, lat]).setPopup(popup).addTo(mapRef.current!);
       markersRef.current.push(marker);
-
-       marker.getElement().addEventListener("click", () => {
-      setSelectedMarker(index); 
-  });
     });
 
     if (myloc) {
@@ -134,6 +142,29 @@ interface MapViewProps {
     setClickMarkers((prev) => prev.filter((m) => m.lat !== lat || m.lon !== lon));
   };
 
+  const clearStart = () => setDestinations((prev) => prev.slice(1));
+  const clearEnd = () => setDestinations((prev) => prev.slice(0, -1));
+
+  useEffect(() => {
+    const fetchRoute = async () => {
+      if (destinations.length < 2) return setPathCoords([]);
+      setLoading(true);
+      try {
+        const start = destinations[0];
+        const end = destinations[destinations.length - 1];
+        const res = await axios.post("http://localhost:8080/api/map/getRoute", { start, end });
+        const data = res.data;
+        if (!data.path || !Array.isArray(data.path)) return setPathCoords([]);
+        setPathCoords(data.path);
+      } catch (e) {
+        console.error(e);
+        setPathCoords([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRoute();
+  }, [destinations]);
 
   useEffect(() => {
     window.addDest = (latlng: [number, number]) => setDestinations((prev) => [...prev, { lat: latlng[0], lon: latlng[1] }]);
@@ -142,8 +173,56 @@ interface MapViewProps {
   }, []);
 
   return (
-    <div >
-      <div style={{ display: "flex", height: "100vh" }}>
+    <div style={{ display: "flex", height: "100vh" }}>
+      <div style={{ width: 300, padding: 10, borderRight: "1px solid #ccc", backgroundColor: "#f9f9f9", overflowY: "auto" }}>
+        <h3>Route Planner</h3>
+
+        <div style={{ marginBottom: 20 }}>
+          <strong>Start:</strong><br />
+          {destinations[0] ? (
+            <>
+              {destinations[0].name || `${destinations[0].lat.toFixed(5)}, ${destinations[0].lon.toFixed(5)}`}<br />
+              <button onClick={clearStart}>Clear Start</button>
+            </>
+          ) : <em>Not set</em>}
+          <br />
+          <button onClick={() => setMarkerMode("start")}>Set from Map</button>
+        </div>
+
+        <div style={{ marginBottom: 20 }}>
+          <strong>End:</strong><br />
+          {destinations.length > 1 ? (
+            <>
+              {destinations[destinations.length - 1].name || `${destinations[destinations.length - 1].lat.toFixed(5)}, ${destinations[destinations.length - 1].lon.toFixed(5)}`}<br />
+              <button onClick={clearEnd}>Clear End</button>
+            </>
+          ) : <em>Not set</em>}
+          <br />
+          <button onClick={() => setMarkerMode("end")}>Set from Map</button>
+        </div>
+
+        <div style={{ marginBottom: 20 }}>
+          <button
+            onClick={() => setAddDestinationMode(!addDestinationMode)}
+            style={{ backgroundColor: addDestinationMode ? "#4caf50" : undefined, color: addDestinationMode ? "white" : undefined }}>
+            {addDestinationMode ? "Add Destinations Mode ON" : "Add Destinations Mode OFF"}
+          </button>
+        </div>
+
+        <div>
+          <h4>Destinations:</h4>
+          {destinations.length === 0 && <p>No destinations added yet.</p>}
+          <ul style={{ paddingLeft: 20 }}>
+            {destinations.map((d, i) => (
+              <li key={i} style={{ marginBottom: 6 }}>
+                {d.name || `${d.lat.toFixed(5)}, ${d.lon.toFixed(5)}`} {" "}
+                <button onClick={() => removeDestination(i)} style={{ marginLeft: 8, color: "red", cursor: "pointer" }}>✕</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div style={{ flexGrow: 1 }}>
         <Map
           mapLib={maplibregl}
           initialViewState={{ latitude: 27.67, longitude: 85.43, zoom: 14 }}

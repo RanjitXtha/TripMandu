@@ -1,45 +1,67 @@
 import { useState, useEffect } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Polyline,
-  useMapEvents,
-} from "react-leaflet";
+import MapView from "../components/MapView";
+import RoutePlanner from "../components/RoutePlanner";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
+import type { Location ,TouristDestination} from "../types/types";
+import Header from "../components/Header";
+import ShowSites from "../components/ShowSites";
+import Overlay from "../components/Overlay";
+import Footer from "../components/Footer";
+import Search from "../components/Search";
 
-type Location = {
-  name?: string;
-  lat: number;
-  lon: number;
-};
+type OverlayView = "none" | "showSites" | "routePlanner";
 
-const touristDestinations: Location[] = [
-  { name: "Pashupatinath Temple", lat: 27.710535, lon: 85.34883 },
-  { name: "Swayambhunath Temple", lat: 27.714938, lon: 85.2904 },
-  { name: "Kathmandu Durbar Square", lat: 27.704347, lon: 85.306735 },
-];
 
-const ClickHandler = ({ enabled, onMapClick }: { enabled: boolean; onMapClick: (latlng: [number, number]) => void }) => {
-  useMapEvents({
-    click(e) {
-      if (enabled) {
-        onMapClick([e.latlng.lat, e.latlng.lng]);
-      }
-    },
-  });
-  return null;
-};
+
 
 const Home = () => {
+  const [overlayView, setOverlayView] = useState<OverlayView>("none");
   const [destinations, setDestinations] = useState<Location[]>([]);
   const [clickMarkers, setClickMarkers] = useState<Location[]>([]);
   const [loading, setLoading] = useState(false);
   const [myloc, setMyloc] = useState<{ lat: number; lon: number } | null>(null);
   const [addDestinationMode, setAddDestinationMode] = useState(false);
-  const [markerMode, setMarkerMode] = useState<"none" | "start" | "end">("none");
+
+  const [selectedMarker,setSelectedMarker]=  useState<null|number>(null);
+
+  const [touristDestinations,setTouristDestinations] = useState<TouristDestination[]>([]);
+  const [touristDestinationsCoords,setTouristDestinationsCoords] =  useState<Location[]>([]);
+  const [markerMode, setMarkerMode] = useState<"none" | "start" | "end">(
+    "none"
+  );
+
+  useEffect(()=>{
+    const GetDesinations = async()=>{
+ const response = await fetch('/destinations.json');
+ const destinations:TouristDestination[] = await response.json();
+
+ const mappedDestinations:Location[] = destinations.map((destination)=>{
+  return{
+    name:destination.name,
+    lat:destination.coordinates?.lat,
+    lon:destination.coordinates?.lon
+  }
+ })
+ console.log(destinations)
+ setTouristDestinations(destinations);
+ setTouristDestinationsCoords(mappedDestinations);
+
+  
+    }
+
+    GetDesinations()
+   
+  },[])
+
+
+  useEffect(()=>{
+    if(selectedMarker===null)return
+
+    setOverlayView('showSites');
+    console.log('marker'+selectedMarker);
+
+  },[selectedMarker])
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -49,6 +71,7 @@ const Home = () => {
     }
   }, []);
 
+<<<<<<< HEAD
   const setStart = (latlng: [number, number]) => {
     setDestinations((prev) => {
       if (prev.length === 0) return [{ lat: latlng[0], lon: latlng[1] }];
@@ -99,6 +122,8 @@ const Home = () => {
     }
   };
 
+=======
+>>>>>>> origin/ranjit
   const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
 
   useEffect(() => {
@@ -111,10 +136,13 @@ const Home = () => {
       try {
         const start = destinations[0];
         const end = destinations[destinations.length - 1];
-        const response = await axios.post("http://localhost:8080/api/map/getRoute", {
-          start: { lat: start.lat, lon: start.lon },
-          end: { lat: end.lat, lon: end.lon },
-        });
+        const response = await axios.post(
+          "http://localhost:8080/api/map/getRoute",
+          {
+            start: { lat: start.lat, lon: start.lon },
+            end: { lat: end.lat, lon: end.lon },
+          }
+        );
         const data = response.data;
         if (!data.path || !Array.isArray(data.path)) {
           alert("Invalid route data received from server");
@@ -134,6 +162,7 @@ const Home = () => {
   }, [destinations]);
 
   return (
+<<<<<<< HEAD
     <div style={{ display: "flex", height: "100vh" }}>
       <div style={{ width: 300, padding: 10, borderRight: "1px solid #ccc", backgroundColor: "#f9f9f9", overflowY: "auto" }}>
         <h3>Route Planner</h3>
@@ -235,7 +264,45 @@ const Home = () => {
 
           {myloc && <Marker position={[myloc.lat, myloc.lon]}><Popup>My Location</Popup></Marker>}
         </MapContainer>
+=======
+    <div className="flex">
+      <Header onSelectView={(view) => setOverlayView(view)} />
+        {/* <Search /> */}
+      {overlayView !== "none" && (
+        <Overlay>
+          {(overlayView === "showSites" && selectedMarker!==null) && <ShowSites siteData={touristDestinations[selectedMarker]} />}
+          {overlayView === "routePlanner" && (
+            <RoutePlanner
+              destinations={destinations}
+              setDestinations={setDestinations}
+              markerMode={markerMode}
+              setMarkerMode={setMarkerMode}
+              addDestinationMode={addDestinationMode}
+              setAddDestinationMode={setAddDestinationMode}
+            />
+          )}
+        </Overlay>
+      )}
+<div className="bg-green-400 h-screen w-full">
+      
+    
+      <MapView
+      
+        touristDestinations={touristDestinationsCoords}
+        clickMarkers={clickMarkers}
+        setClickMarkers={setClickMarkers}
+        destinations={destinations}
+        setDestinations={setDestinations}
+        markerMode={markerMode}
+        setMarkerMode={setMarkerMode}
+        addDestinationMode={addDestinationMode}
+        myloc={myloc}
+        pathCoords={pathCoords}
+        setSelectedMarker={setSelectedMarker}
+      />
+>>>>>>> origin/ranjit
       </div>
+      <Footer />
     </div>
   );
 };

@@ -1,0 +1,195 @@
+{
+  "metadata": {
+    "totalDestinations": 23,
+    "successful": 0,
+    "failed": 23,
+    "generatedAt": "2025-07-07T09:06:22.952Z",
+    "script": "Enhanced Kathmandu Destinations Enricher"
+  },
+  "destinations": [
+    {
+      "name": "Boudhanath Stupa",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:04:24.610Z"
+    },
+    {
+      "name": "Swayambhunath Stupa",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:04:29.918Z"
+    },
+    {
+      "name": "Namo Buddha Stupa",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:04:35.247Z"
+    },
+    {
+      "name": "Kopan Monastery",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:04:40.538Z"
+    },
+    {
+      "name": "Seto Gumba (White Monastery)",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:04:46.019Z"
+    },
+    {
+      "name": "Pharping Monastery",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:04:51.284Z"
+    },
+    {
+      "name": "Pullahari Monastery",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:04:56.482Z"
+    },
+    {
+      "name": "Panga Mahavihar",
+      "categories": [
+        null
+      ],
+      "error": "No Wikipedia match found.",
+      "searchAttempted": "Panga Mahavihar Nepal"
+    },
+    {
+      "name": "Yampi Mahavihar",
+      "categories": [
+        null
+      ],
+      "error": "No Wikipedia match found.",
+      "searchAttempted": "Yampi Mahavihar Nepal"
+    },
+    {
+      "name": "Kwa Bahal (Golden Temple)",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:05:03.936Z"
+    },
+    {
+      "name": "Itumbahal",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:05:09.048Z"
+    },
+    {
+      "name": "Hiranya Varna Mahavihar",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:05:14.549Z"
+    },
+    {
+      "name": "Ananda Kuti Vihar",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:05:24.601Z"
+    },
+    {
+      "name": "Shree Karma Raja Mahavihar",
+      "categories": [
+        null
+      ],
+      "error": "No Wikipedia match found.",
+      "searchAttempted": "Shree Karma Raja Mahavihar Nepal"
+    },
+    {
+      "name": "Khawalung Monastery",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:05:30.924Z"
+    },
+    {
+      "name": "Tergar Osel Ling Monastery",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:05:39.515Z"
+    },
+    {
+      "name": "Thrangu Tashi Yangtse Monastery",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:05:47.126Z"
+    },
+    {
+      "name": "Benchen Monastery",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:05:52.722Z"
+    },
+    {
+      "name": "Shechen Monastery",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:05:58.195Z"
+    },
+    {
+      "name": "Guru Lhakhang Monastery",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:06:06.389Z"
+    },
+    {
+      "name": "Rigon Tashi Choeling Monastery",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:06:11.460Z"
+    },
+    {
+      "name": "Drepung Gompa",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:06:16.705Z"
+    },
+    {
+      "name": "Druk Amitabha Mountain Monastery",
+      "categories": [
+        null
+      ],
+      "error": "Failed after 3 attempts: Cannot read properties of undefined (reading 'toLowerCase')",
+      "lastUpdated": "2025-07-07T09:06:22.178Z"
+    }
+  ]
+}

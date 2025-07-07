@@ -1,78 +1,15 @@
-import React, { useState, type ChangeEvent } from "react";
-import FilterTabs from "./FilterTabs"; // Assuming this is your custom component
-import SiteCard from "./SiteCard"; // Assuming this is your custom component
-import type { Site } from "../types/types";
+import React from "react";
 
-type SiteData = {
-  [place: string]: Site[];
-};
-
-const places: string[] = ["Kathmandu", "Bhaktapur", "Lalitpur"];
-
-// Updated sites structure
-const siteData: SiteData = {
-  Kathmandu: [
-    {
-      site: "Pashupatinath",
-      image: "../assets/image.jpg",
-      about: "Pashupatinath Temple is the oldest Hindu temple in Kathmandu...",
-    },
-    {
-      site: "Boudhanath",
-      image: "../assets/boudha.jpg",
-      about: "Boudhanath is one of the largest stupas in the world...",
-    },
-  ],
-  Bhaktapur: [
-    {
-      site: "Bhaktapur Durbar Square",
-      image: "../assets/bhaktapur.jpg",
-      about: "A historic palace complex filled with temples and courtyards...",
-    },
-  ],
-  Lalitpur: [
-    {
-      site: "Patan Durbar Square",
-      image: "../assets/patan.jpg",
-      about: "Patan Durbar Square is renowned for its Newar architecture...",
-    },
-  ],
-};
-
-const Overlay: React.FC = () => {
-  const [selectedPlace, setSelectedPlace] = useState("Kathmandu");
-
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedPlace(e.target.value);
-  };
-
-  const sites: Site[] = siteData[selectedPlace] || [];
-
+const Overlay: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="absolute z-50 bg-white top-1/2 transform -translate-y-1/2 mt-4 ml-4 h-150 w-120 rounded-2xl shadow-lg overflow-hidden">
-      <select
-        className="text-lg font-semibold px-4 outline-hidden"
-        value={selectedPlace}
-        id="place-select"
-        title="Select a place"
-        onChange={handleChange}
-      >
-        {places.map((place) => (
-          <option key={place} value={place}>
-            {place}
-          </option>
-        ))}
-      </select>
-
-      <div>
-        <FilterTabs />
-      </div>
-
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
-        {sites.map((site, idx) => (
-          <SiteCard key={idx} {...site} />
-        ))}
-      </div>
+    <div
+      className="absolute z-50 bg-white 
+      mt-4 ml-4 
+      rounded-3xl shadow-lg 
+      overflow-auto inline-block
+      transition-all duration-400 ease-in-out top-[4rem] bottom-0"
+    >
+      {children}
     </div>
   );
 };
