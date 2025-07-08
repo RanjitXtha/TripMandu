@@ -1,194 +1,85 @@
 {
   "metadata": {
-    "totalDestinations": 16,
+    "totalDestinations": 7,
     "successful": 0,
-    "failed": 16,
-    "generatedAt": "2025-07-07T11:22:28.582Z",
+    "failed": 7,
+    "generatedAt": "2025-07-07T11:50:23.693Z",
     "script": "Enhanced Kathmandu Destinations Enricher"
   },
   "destinations": [
     {
-      "name": "Garden of Dreams",
+      "name": "St. Mary’s Church, Kathmandu",
       "categories": [
-        "park",
-        "garden",
-        "tourist_attraction",
-        "nature"
-      ],
-      "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:18:26.595Z"
-    },
-    {
-      "name": "Central Zoo, Jawalakhel",
-      "categories": [
-        "zoo",
-        "park",
-        "tourist_attraction",
-        "nature",
-        "entertainment"
-      ],
-      "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:18:43.205Z"
-    },
-    {
-      "name": "Phulchowki Hill",
-      "categories": [
-        "hill",
-        "nature",
-        "park",
-        "hiking",
-        "tourist_attraction"
-      ],
-      "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:19:04.788Z"
-    },
-    {
-      "name": "Shivapuri Nagarjun National Park",
-      "categories": [
-        "national_park",
-        "nature",
-        "forest",
-        "hiking",
-        "park",
-        "wildlife"
-      ],
-      "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:19:20.728Z"
-    },
-    {
-      "name": "Godavari Botanical Garden",
-      "categories": [
-        "botanical_garden",
-        "park",
-        "nature",
-        "garden",
-        "tourist_attraction"
-      ],
-      "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:19:39.378Z"
-    },
-    {
-      "name": "Nagarkot Hill Station",
-      "categories": [
-        "hill",
-        "nature",
-        "tourist_attraction",
-        "viewpoint"
-      ],
-      "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:19:54.637Z"
-    },
-    {
-      "name": "Bishnumati River Park",
-      "categories": [
-        "park",
-        "nature",
-        "river",
-        "recreation"
-      ],
-      "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:20:10.167Z"
-    },
-    {
-      "name": "Dakshinkali Temple and Surrounding Forest",
-      "categories": [
-        "temple",
-        "nature",
-        "forest",
-        "park",
-        "religious"
-      ],
-      "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:20:24.982Z"
-    },
-    {
-      "name": "Basantapur Durbar Square Garden",
-      "categories": [
-        "garden",
         "historic",
-        "park",
+        "church",
+        "religious",
         "heritage_site"
       ],
       "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:20:40.350Z"
+      "lastUpdated": "2025-07-07T11:48:46.799Z"
     },
     {
-      "name": "Rani Pokhari",
+      "name": "Kathmandu Gurdwara Sahib",
       "categories": [
-        "pond",
         "historic",
-        "park",
-        "heritage_site",
-        "tourist_attraction"
-      ],
-      "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:20:55.334Z"
-    },
-    {
-      "name": "Patan Durbar Square Gardens",
-      "categories": [
-        "garden",
-        "historic",
-        "park",
+        "gurdwara",
+        "religious",
         "heritage_site"
       ],
       "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:21:11.228Z"
+      "lastUpdated": "2025-07-07T11:49:01.685Z"
     },
     {
-      "name": "Nagarjun Forest Reserve",
+      "name": "Jama Masjid, Kathmandu",
       "categories": [
-        "forest",
-        "nature",
-        "park",
-        "wildlife"
+        "historic",
+        "mosque",
+        "religious",
+        "heritage_site"
       ],
       "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:21:27.800Z"
+      "lastUpdated": "2025-07-07T11:49:20.630Z"
     },
     {
-      "name": "Balaju Water Garden",
+      "name": "Indrachowk Mosque",
       "categories": [
-        "garden",
-        "park",
-        "nature",
-        "water_feature"
-      ],
-      "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:21:45.059Z"
-    },
-    {
-      "name": "Tribhuvan Park",
-      "categories": [
-        "park",
-        "recreation",
-        "nature",
-        "tourist_attraction"
-      ],
-      "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:22:00.625Z"
-    },
-    {
-      "name": "Pashupatinath Riverfront Park",
-      "categories": [
-        "park",
-        "nature",
-        "river",
+        "historic",
+        "mosque",
         "religious"
       ],
       "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:22:13.307Z"
+      "lastUpdated": "2025-07-07T11:49:32.685Z"
     },
     {
-      "name": "Budhanilkantha Garden Area",
+      "name": "Changunarayan Church",
       "categories": [
-        "garden",
-        "park",
-        "nature",
+        "historic",
+        "church",
         "religious"
       ],
       "error": "Failed after 3 attempts.",
-      "lastUpdated": "2025-07-07T11:22:28.024Z"
+      "lastUpdated": "2025-07-07T11:49:52.737Z"
+    },
+    {
+      "name": "Church of the Assumption, Lalitpur",
+      "categories": [
+        "historic",
+        "church",
+        "religious",
+        "heritage_site"
+      ],
+      "error": "Failed after 3 attempts.",
+      "lastUpdated": "2025-07-07T11:50:10.517Z"
+    },
+    {
+      "name": "Musalman Mosque, Bhaktapur",
+      "categories": [
+        "historic",
+        "mosque",
+        "religious"
+      ],
+      "error": "Failed after 3 attempts.",
+      "lastUpdated": "2025-07-07T11:50:22.917Z"
     }
   ]
 }

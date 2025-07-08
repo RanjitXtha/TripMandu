@@ -57,7 +57,7 @@
     {
       "name": "Godavari Botanical Garden",
       "description": "A botanical garden near Lalitpur known for its variety of plants and orchids.",
-      "image": null,
+      "image": "https://i0.wp.com/travellingmandala.com/wp-content/uploads/2024/07/bot-gard-entry-edited.jpg?w=1008&ssl=1",
       "coordinates": {
         "lat": 27.6286,
         "lon": 85.3563
@@ -78,7 +78,7 @@
         "lon": 85.5183
       },
       "wikiUrl": "https://en.wikipedia.org/wiki/Nagarkot",
-      "categories": ["hill", "nature", "tourist_attraction", "viewpoint"],
+      "categories": ["nature", "tourist_attraction"],
       "lastUpdated": "2025-07-07T12:00:00.000Z",
       "searchQuery": "Nagarkot Nepal"
     },
@@ -110,6 +110,68 @@
       "categories": ["park", "nature", "religious"],
       "lastUpdated": "2025-07-07T12:00:00.000Z",
       "searchQuery": "Budhanilkantha Garden Area Nepal"
+    },
+     {
+      "name": "Bhrikutimandap Park",
+      "description": "Also known as Kathmandu Fun Park, a prominent recreational area in the heart of Kathmandu.",
+      "image": "https://d2kihw5e8drjh5.cloudfront.net/eyJidWNrZXQiOiJ1dGEtaW1hZ2VzIiwia2V5IjoicGxhY2VfaW1nL2M5MmE1N2M4MjZlMjQ3ZGRiY2JiNDM4MzAzYWIyNGFhIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2NDAsImhlaWdodCI6NjQwLCJmaXQiOiJpbnNpZGUifSwicm90YXRlIjpudWxsLCJ0b0Zvcm1hdCI6ICJ3ZWJwIn19",
+      "coordinates": {
+        "lat": 27.70141,
+        "lon": 85.31829
+      },
+      "categories": [
+        "park",
+        "nature"
+      ],
+      "lastUpdated": "2025-07-08TXX:XX:XX.XXX Z",
+      "searchQuery": "Bhrikutimandap Park Kathmandu"
+    },
+     {
+      "name": "Sundarijal",
+      "description": "A scenic area known for its beautiful waterfalls, streams, and as a gateway to Shivapuri Nagarjun National Park's hiking trails. A popular spot for day trips and picnics.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/The_waterfall_Sweet_Sixteen%2C_Sundarijal%2C_Nepal_%283729403856%29.jpg/500px-The_waterfall_Sweet_Sixteen%2C_Sundarijal%2C_Nepal_%283729403856%29.jpg",
+      "coordinates": {
+        "lat": 27.7295,
+        "lon": 85.4055
+      },
+      "categories": [
+        "park",
+        "nature"
+        
+      ],
+      "lastUpdated": "2025-07-08T15:40:10.000Z",
+      "searchQuery": "Sundarijal Kathmandu"
+    },
+     {
+      "name": "Chandragiri Hills",
+      "description": "A popular hill station southwest of Kathmandu accessible by cable car, offering breathtaking panoramic views of the Kathmandu Valley and the Himalayan range, including Mount Everest on clear days. It also has a temple and park facilities at the top.",
+      "image": "https://www.chandragirihills.com/wp-content/themes/yootheme/cache/88/bhaleshwor-mahadeve-templet-8850f2d3.jpeg",
+      "coordinates": {
+        "lat": 27.66580,
+        "lon": 85.20519
+      },
+      "categories": [
+        "religious",
+        "tourist_attraction",
+        "nature"
+      ],
+      "lastUpdated": "2025-07-08T15:40:10.000Z",
+      "searchQuery": "Chandragiri Hills Kathmandu"
+    },
+    {
+      "name": "Champadevi Hill",
+      "description": "Located in the southwest hills of Kathmandu, this is a popular hiking destination offering panoramic views of the Kathmandu Valley and various Himalayan ranges. It's also a pilgrimage site with a temple at the summit.",
+      "image": "https://himalayantrekkers.com/_next/image?url=https%3A%2F%2Fapi.himalayantrekkers.com%2Fapi%2Ffile-upload%2Ftrips%252FMarch2021%252Fchampadevi-day-hike.jpg&w=1920&q=75",
+      "coordinates": {
+        "lat": 27.64585,
+        "lon": 85.25335
+      },
+      "categories": [
+        "religious",
+        "nature"
+      ],
+      "lastUpdated": "2025-07-08T15:40:10.000Z",
+      "searchQuery": "Champadevi Hill Kathmandu"
     }
   ]
 }

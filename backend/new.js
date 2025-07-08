@@ -4,22 +4,13 @@ import { writeFileSync } from "fs";
 
 // Keyword-based category detection
 const categorizedDestinations = [
-  { name: "Garden of Dreams", categories: ["park", "garden", "tourist_attraction", "nature"] },
-  { name: "Central Zoo, Jawalakhel", categories: ["zoo", "park", "tourist_attraction", "nature", "entertainment"] },
-  { name: "Phulchowki Hill", categories: ["hill", "nature", "park", "hiking", "tourist_attraction"] },
-  { name: "Shivapuri Nagarjun National Park", categories: ["national_park", "nature", "forest", "hiking", "park", "wildlife"] },
-  { name: "Godavari Botanical Garden", categories: ["botanical_garden", "park", "nature", "garden", "tourist_attraction"] },
-  { name: "Nagarkot Hill Station", categories: ["hill", "nature", "tourist_attraction", "viewpoint"] },
-  { name: "Bishnumati River Park", categories: ["park", "nature", "river", "recreation"] },
-  { name: "Dakshinkali Temple and Surrounding Forest", categories: ["temple", "nature", "forest", "park", "religious"] },
-  { name: "Basantapur Durbar Square Garden", categories: ["garden", "historic", "park", "heritage_site"] },
-  { name: "Rani Pokhari", categories: ["pond", "historic", "park", "heritage_site", "tourist_attraction"] },
-  { name: "Patan Durbar Square Gardens", categories: ["garden", "historic", "park", "heritage_site"] },
-  { name: "Nagarjun Forest Reserve", categories: ["forest", "nature", "park", "wildlife"] },
-  { name: "Balaju Water Garden", categories: ["garden", "park", "nature", "water_feature"] },
-  { name: "Tribhuvan Park", categories: ["park", "recreation", "nature", "tourist_attraction"] },
-  { name: "Pashupatinath Riverfront Park", categories: ["park", "nature", "river", "religious"] },
-  { name: "Budhanilkantha Garden Area", categories: ["garden", "park", "nature", "religious"] }
+  { name: "St. Mary’s Church, Kathmandu", categories: ["historic", "church", "religious", "heritage_site"] },
+  { name: "Kathmandu Gurdwara Sahib", categories: ["historic", "gurdwara", "religious", "heritage_site"] },
+  { name: "Jama Masjid, Kathmandu", categories: ["historic", "mosque", "religious", "heritage_site"] },
+  { name: "Indrachowk Mosque", categories: ["historic", "mosque", "religious"] },
+  { name: "Changunarayan Church", categories: ["historic", "church", "religious"] },
+  { name: "Church of the Assumption, Lalitpur", categories: ["historic", "church", "religious", "heritage_site"] },
+  { name: "Musalman Mosque, Bhaktapur", categories: ["historic", "mosque", "religious"] }
 ];
 
 
