@@ -48,7 +48,10 @@
     "wiki_title": "Budhanilkantha Temple",
     "description": "Budanilkantha Temple, located in Budhanilkantha, Nepal, is a Hindu open air temple dedicated to Lord Mahavishnu. Budhanilkantha Temple is also known as the Narayanthan Temple for Hindus, and can be identified by a large reclining statue of Lord Mahavishnu. However In the Buddhist community, the term \"Buddhanilkantha\" refers to one of the various manifestations of Avalokiteshvara. The name means \"Blue-Throated Buddha.\"",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Budhanilkantha_Narayan_Murti_%282023%29_-_IMG_03.jpg/330px-Budhanilkantha_Narayan_Murti_%282023%29_-_IMG_03.jpg",
-    "coordinates": null,
+     "coordinates": {
+      "lat": 27.778123711371876,
+      "lon": 85.36229743056067
+    },
     "wikiUrl": "https://en.wikipedia.org/wiki/Budhanilkantha_Temple",
     "categories": [
       "religious",
@@ -75,7 +78,10 @@
     "wiki_title": "Seto Machindranath",
     "description": "Seto Machindranath, also known as Janabaha Dyo, Avalokiteśvara, Karunamaya, Guanyin is a deity worshiped by both Hindus and Buddhists in Kathmandu, Nepal. The temple of Seto Machindranath is located in Jana Bahal. Located at Keltole between Asan and Indra Chok in central Kathmandu, the temple is believed to have been established around the 10th century. Seto Machindranath is worshiped as an aspect of Avalokiteshvara.",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Seto_Machchhindra_03.jpg/330px-Seto_Machchhindra_03.jpg",
-    "coordinates": null,
+      "coordinates":{
+      "lat":27.706615, 
+      "lon":85.310088
+    },
     "wikiUrl": "https://en.wikipedia.org/wiki/Seto_Machindranath",
     "categories": [
       "religious",
@@ -208,20 +214,11 @@
     "wiki_title": "List of Hindu temples in Nepal",
     "description": "This is a list of major Hindu temples in Nepal, alphabetically sorted by district.",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Janki_Mandir.JPG/330px-Janki_Mandir.JPG",
-    "coordinates": null,
+      "coordinates": {
+      "lat":27.57475120792642,
+      "lon":85.31286023754146
+    },
     "wikiUrl": "https://en.wikipedia.org/wiki/List_of_Hindu_temples_in_Nepal",
-    "categories": [
-      "religious",
-      "temple"
-    ]
-  },
-  {
-    "name": "Bhimsen Temple",
-    "wiki_title": "Bhimsen Temple",
-    "description": "The Bhimsen Mandir or Bhimsen Temple is an 18th-century Hindu temple located in Nalamukh, Pokhara, Nepal. Bhimsen is the patron deity of people of Newari ethnicity. The temple like many in Nepal has erotic carvings on the struts.",
-    "image": null,
-    "coordinates": null,
-    "wikiUrl": "https://en.wikipedia.org/wiki/Bhimsen_Temple",
     "categories": [
       "religious",
       "temple"
@@ -283,18 +280,6 @@
       "lon": 85.3075
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Hanuman_Dhoka",
-    "categories": [
-      "historic",
-      "monument"
-    ]
-  },
-  {
-    "name": "Dattatreya Square",
-    "wiki_title": "Palace",
-    "description": "A palace is a large residence, often serving as a royal residence or the home for a head of state or another high-ranking dignitary, such as a bishop or archbishop. The word is derived from the Latin name palātium, for Palatine Hill in Rome which housed the Imperial residences.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Winter_Palace_Panorama_3.jpg/330px-Winter_Palace_Panorama_3.jpg",
-    "coordinates": null,
-    "wikiUrl": "https://en.wikipedia.org/wiki/Palace",
     "categories": [
       "historic",
       "monument"
@@ -438,18 +423,14 @@
     ]
   },
   {
-    "name": "Panga Mahavihar",
-    "categories": [
-      "monastery"
-    ],
-    "error": "No Wikipedia match found."
-  },
-  {
     "name": "Garden of Dreams",
     "wiki_title": "Garden of Dreams",
-    "description": "The Garden of Dreams, also, the Garden of Six Seasons, is a neo-classical garden in Kaiser Mahal Kathmandu, Nepal, built in 1920. Designed by Kishore Narshingh, it consists of 6,895 square metres (74,220 sq ft) of gardens with three pavilions, an amphitheater, ponds, pergolas, and urns. From the mid-1960s, upon the death of its patron, Kaiser Sumsher Rana, it lay in neglect but was recently restored with the help of the Austrian government.",
+    "description": "The Garden of Dreams, also, the Garden of Six Seasons, is a neo-classical garden in Kaiser Mahal Kathmandu, Nepal, built in 1920. Designed by Kishore Narshingh, it consists of 6,895 square metres (74,220 sqft) of gardens with three pavilions, an amphitheater, ponds, pergolas, and urns. From the mid-1960s, upon the death of its patron, Kaiser Sumsher Rana, it lay in neglect but was recently restored with the help of the Austrian government.",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Garden_of_Dreams.jpg/330px-Garden_of_Dreams.jpg",
-    "coordinates": null,
+    "coordinates": {
+        "lat":27.714208586061023, 
+        "lon":85.31456
+    },
     "wikiUrl": "https://en.wikipedia.org/wiki/Garden_of_Dreams",
     "categories": [
       "natural",
@@ -483,17 +464,6 @@
     "categories": [
       "natural",
       "park"
-    ]
-  },
-  {
-    "name": "Shankhamul Ghat",
-    "wiki_title": "Satya Mohan Joshi",
-    "description": "Satya Mohan Joshi was a Nepalese writer and scholar. Joshi is known for his research on the history and culture of Nepal. He also served as the chancellor of the Nepal Bhasa Academy.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Satya_Mohan_Joshi_%28cropped%29.jpg/330px-Satya_Mohan_Joshi_%28cropped%29.jpg",
-    "coordinates": null,
-    "wikiUrl": "https://en.wikipedia.org/wiki/Satya_Mohan_Joshi",
-    "categories": [
-      "natural"
     ]
   },
   {
@@ -561,17 +531,6 @@
     ]
   },
   {
-    "name": "Itum Bahal",
-    "wiki_title": "Bogeyman",
-    "description": "The bogeyman is a mythical creature typically used to frighten children into good behavior. Bogeymen have no specific appearances, and conceptions vary drastically by household and culture, but they are most commonly depicted as masculine, androgynous or even feminine monsters that punish children for misbehavior. The bogeyman, and conceptually similar monsters can be found in many cultures around the world. Bogeymen may target a specific act or general misbehavior, depending on the purpose of invoking the figure, often on the basis of a warning from an authority figure to a child. The term is sometimes used as a non-specific personification of, or metonym for, terror – and sometimes the Devil.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Francisco_de_Goya%2C_Que_viene_el_coco_%28Here_Comes_the_Bogey-Man%29%2C_published_1799%2C_NGA_7459.jpg/330px-Francisco_de_Goya%2C_Que_viene_el_coco_%28Here_Comes_the_Bogey-Man%29%2C_published_1799%2C_NGA_7459.jpg",
-    "coordinates": null,
-    "wikiUrl": "https://en.wikipedia.org/wiki/Bogeyman",
-    "categories": [
-      "market"
-    ]
-  },
-  {
     "name": "Narayanhiti Palace Museum",
     "wiki_title": "Narayanhiti Palace Museum",
     "description": "The Narayanhiti Palace Museum is a public museum in Kathmandu, Nepal located east of the Kaiser Mahal and next to Thamel. The museum was created in 2008 from the complex of the former Narayanhiti Palace following the 2006 revolution. Before the revolution, the palace was the residence and principal workplace of the monarch of the Kingdom of Nepal, and hosted occasions of state.",
@@ -606,24 +565,14 @@
     ]
   },
   {
-    "name": "Natural History Museum",
-    "wiki_title": "Natural history museum",
-    "description": "A natural history museum or museum of natural history is a scientific institution with natural history collections that include current and historical records of animals, plants, fungi, ecosystems, geology, paleontology, climatology, and more.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Smithsonian-Museum_of_Natural_History_%28cropped%29.jpg/330px-Smithsonian-Museum_of_Natural_History_%28cropped%29.jpg",
-    "coordinates": null,
-    "wikiUrl": "https://en.wikipedia.org/wiki/Natural_history_museum",
-    "categories": [
-      "museum",
-      "historic",
-      "monument"
-    ]
-  },
-  {
     "name": "Tribhuvan Museum",
     "wiki_title": "Tribhuvan Museum",
     "description": "The Tribhuvan Museum is a museum located in Nepal. It is located alongside Birendra Museum and Mahendra Museum. It contains personal artefacts that belonged to King Tribhuvan Bir Bikram Shah, who is internationally known Nepalese king in the modern history. \n",
     "image": null,
-    "coordinates": null,
+    "coordinates": {
+        "lat":27.704402963698715, 
+        "lon":85.30734160871042
+    },
     "wikiUrl": "https://en.wikipedia.org/wiki/Tribhuvan_Museum",
     "categories": [
       "museum",
@@ -731,63 +680,27 @@
     "wiki_title": "Ashoka",
     "description": "Ashoka, also known as Asoka or Aśoka, and popularly known as Ashoka the Great, was Emperor of Magadha from c. 268 BCE until his death in 232 BCE, and the third ruler from the Mauryan dynasty. His empire covered a large part of the Indian subcontinent, stretching from present-day Afghanistan in the west to present-day Bangladesh in the east, with its capital at Pataliputra. A patron of Buddhism, he is credited with playing an important role in the spread of Buddhism across ancient Asia.",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Ashoka%27s_visit_to_the_Ramagrama_stupa_Sanchi_Stupa_1_Southern_gateway.jpg/330px-Ashoka%27s_visit_to_the_Ramagrama_stupa_Sanchi_Stupa_1_Southern_gateway.jpg",
-    "coordinates": null,
+       "coordinates": {
+      "lat": 27.66666667,
+      "lon": 85.31666667
+    },
     "wikiUrl": "https://en.wikipedia.org/wiki/Ashoka",
     "categories": [
       "historic"
     ]
   },
   {
-    "name": "Machhendranath Temple (Patan)",
+    "name": "Rato Machhendranath Temple (Patan)",
     "wiki_title": "Matsyendranatha",
     "description": "Matsyendranātha, also known as Matsyendra, Macchindranāth, Mīnanātha and Minapa was a saint and yogi in a number of Buddhist and Hindu traditions. He is considered the revivalist of hatha yoga as well as the author of some of its earliest texts. He is also seen as the founder of the natha sampradaya, having received the teachings from Shiva. He is associated with Kaula Shaivism. He is also one of the eighty-four mahasiddhas and considered the guru of Gorakshanath, another known figure in early hatha yoga. He is revered by both Hindus and Buddhists and is sometimes regarded as an incarnation of Avalokiteśvara.",
     "image": null,
-    "coordinates": null,
+      "coordinates": {
+      "lat":27.67027858694675,
+      "lon": 85.32288734572462
+    },
     "wikiUrl": "https://en.wikipedia.org/wiki/Matsyendranatha",
     "categories": [
       "religious"
-    ]
-  },
-  {
-    "name": "Rudravarna Mahavihar",
-    "wiki_title": "List of Buddhist temples in Nepal",
-    "description": "This is a list of Buddhist temples, monasteries, stupas, and pagodas in Nepal for which there are Wikipedia articles, sorted by location.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/IMG_0361_Kathmandu_Bodnath.jpg/330px-IMG_0361_Kathmandu_Bodnath.jpg",
-    "coordinates": null,
-    "wikiUrl": "https://en.wikipedia.org/wiki/List_of_Buddhist_temples_in_Nepal",
-    "categories": [
-      "monastery",
-      "temple",
-      "religious"
-    ]
-  },
-  {
-    "name": "Bhinchhebahal",
-    "categories": [
-      "historic"
-    ],
-    "error": "No Wikipedia match found."
-  },
-  {
-    "name": "Yatkhā Bahal",
-    "categories": [
-      "historic"
-    ],
-    "error": "No Wikipedia match found."
-  },
-  {
-    "name": "Harishankar Temple",
-    "wiki_title": "Harishankar Temple",
-    "description": "Sri Sri Harisankar Devasthana is a temple on the slopes of Gandhamardhan hills, Bolangir District of Odisha in India. It is popular for its scenes of nature and connection to two Hindu lords, Vishnu and Shiva. As a holy place, along with a stream passing on the granite bed, it has given some visitors a feeling of peace. On the opposite of side of the Gandhamardhan hills is the temple of Nrusinghanath. The plateau between the two temples has been found to have ancient Buddhist ruins, which are considered to be remnants of the ancient Parimalgiri University.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Harishankar_Temple.jpg/330px-Harishankar_Temple.jpg",
-    "coordinates": {
-      "lat": 20.854406,
-      "lon": 82.86061
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Harishankar_Temple",
-    "categories": [
-      "religious",
-      "temple"
     ]
   },
   {
@@ -836,34 +749,6 @@
     ]
   },
   {
-    "name": "Dattatreya Temple",
-    "wiki_title": "Kalo Dungar",
-    "description": "Kalo Dungar or Black Hill is the highest point in Kutch, Gujarat, India, at 462 m (1,516 ft). It is located 97 km (60 mi) from District headquarters of Bhuj and 25 km (16 mi) from nearest town Khavda.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Rann_of_Kutch_-_Highest_Point.jpg/330px-Rann_of_Kutch_-_Highest_Point.jpg",
-    "coordinates": {
-      "lat": 23.93416667,
-      "lon": 69.81388889
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Kalo_Dungar",
-    "categories": [
-      "religious"
-    ]
-  },
-  {
-    "name": "Pottery Square",
-    "wiki_title": "Dholavira",
-    "description": "Dholavira is an archaeological site at Khadirbet in Bhachau Taluka of Kutch District, in the state of Gujarat in western India, which has taken its name from a modern-day village 1 kilometre (0.62 mi) south of it. This village is 165 km (103 mi) from Radhanpur. Also known locally as Kotada timba, the site contains ruins of a city of the ancient Indus Valley civilization. Earthquakes have repeatedly affected Dholavira, including a particularly severe one around 2600 BCE.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/DHOLAVIRA_SITE_%2824%29.jpg/330px-DHOLAVIRA_SITE_%2824%29.jpg",
-    "coordinates": {
-      "lat": 23.88860556,
-      "lon": 70.21363611
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Dholavira",
-    "categories": [
-      "market"
-    ]
-  },
-  {
     "name": "Taumadhi Square",
     "wiki_title": "Bhaktapur",
     "description": "Bhaktapur, known locally as Khwopa and historically called Bhadgaon, is a city in the east corner of the Kathmandu Valley in Nepal located about 13 kilometres (8.1 mi) from the capital city, Kathmandu. Bhaktapur is the smallest city of Nepal as well as the most densely populated. Along with Kathmandu and Lalitpur, Bhaktapur is one of the three main cities of the Kathmandu Valley and is a major Newar settlement of the country. The city is also known for its Newar tradition, cuisine and artisans. Bhaktapur suffered heavy damage in the April 2015 earthquake.",
@@ -873,18 +758,6 @@
       "lon": 85.42777778
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur",
-    "categories": [
-      "historic",
-      "monument"
-    ]
-  },
-  {
-    "name": "Peacock Window",
-    "wiki_title": "Newar window",
-    "description": "Newār window refers to the elaborately carved wooden window which is the distinguishing feature of traditional Newa architecture. The ornate windows have been described as a symbol of Newar culture and artistry. The level of design and carving of the Newar window reached its peak in the mid-18th century. They are found on palaces, private residences and sacred houses across Nepal Mandala.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Beautiful_panels_of_Hanuman_Dhoka_2023_January_%28im_01.jpg/330px-Beautiful_panels_of_Hanuman_Dhoka_2023_January_%28im_01.jpg",
-    "coordinates": null,
-    "wikiUrl": "https://en.wikipedia.org/wiki/Newar_window",
     "categories": [
       "historic",
       "monument"

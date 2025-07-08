@@ -23,3 +23,12 @@ export type TouristDestination = {
   wikiUrl:string,
   wiki_title:string
 }
+
+
+export type NearByDestinationType = {
+  lat:number,
+  lon:number,
+  name:string,
+  categories:[]
+}
+

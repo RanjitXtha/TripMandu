@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import { Map, NavigationControl, Source, Layer } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import type { Location } from "../types/types";
+import type { Location ,NearByDestinationType} from "../types/types";
 
 // Extend window interface for popup actions
 declare global {
@@ -26,6 +26,7 @@ interface MapViewProps {
   myloc: { lat: number; lon: number } | null;
   pathCoords: [number, number][];
   setSelectedMarker:React.Dispatch<React.SetStateAction<number | null>>
+  nearByDestinations: NearByDestinationType[]
 }
 
   const MapView = ({
@@ -39,7 +40,8 @@ interface MapViewProps {
   addDestinationMode,
   myloc,
   pathCoords,
-  setSelectedMarker
+  setSelectedMarker,
+  nearByDestinations
 }: MapViewProps) => {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -68,17 +70,38 @@ interface MapViewProps {
         lon: place.lon,
         html: `<strong>${i === 0 ? "Start" : i === destinations.length - 1 ? "End" : `Destination ${i}`}</strong><br/>${place.name || `${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}`}<br/><button onclick='window.delDest(${i})'>Remove</button>`
       })),
+
+         ...nearByDestinations.map((place, i) => ({
+        lat: place.lat,
+        lon: place.lon,
+        html: `<strong>${i === 0 ? "Start" : i === destinations.length - 1 ? "End" : `Destination ${i}`}</strong><br/>${place.name || `${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}`}<br/><button onclick='window.delDest(${i})'>Remove</button>`
+      })),
     ];
 
-    allMarkers.forEach(({ lat, lon, html },index) => {
-      const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
-      const marker = new maplibregl.Marker().setLngLat([lon, lat]).setPopup(popup).addTo(mapRef.current!);
-      markersRef.current.push(marker);
 
-       marker.getElement().addEventListener("click", () => {
-      setSelectedMarker(index); 
+allMarkers.forEach(({ lat, lon, html }, index) => {
+  const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
+
+  const markerEl = document.createElement('div');
+  markerEl.className = 'custom-marker';
+  markerEl.style.width = '20px';
+  markerEl.style.height = '20px';
+  markerEl.style.borderRadius = '50%';
+  markerEl.style.backgroundColor = 'tomato';
+  markerEl.style.border = '2px solid white';
+  markerEl.style.cursor = 'pointer';
+
+  const marker = new maplibregl.Marker({ element: markerEl })
+    .setLngLat([lon, lat])
+    .setPopup(popup)
+    .addTo(mapRef.current!);
+
+  markersRef.current.push(marker);
+
+  marker.getElement().addEventListener("click", () => {
+    setSelectedMarker(index);
   });
-    });
+});
 
     if (myloc) {
       const popup = new maplibregl.Popup().setText("My Location");

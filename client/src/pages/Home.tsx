@@ -3,7 +3,7 @@ import MapView from "../components/MapView";
 import RoutePlanner from "../components/RoutePlanner";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
-import type { Location ,TouristDestination} from "../types/types";
+import type { Location ,TouristDestination ,NearByDestinationType} from "../types/types";
 import Header from "../components/Header";
 import ShowSites from "../components/ShowSites";
 import Overlay from "../components/Overlay";
@@ -11,6 +11,7 @@ import Footer from "../components/Footer";
 import Search from "../components/Search";
 
 type OverlayView = "none" | "showSites" | "routePlanner";
+
 
 
 
@@ -24,7 +25,7 @@ const Home = () => {
   const [addDestinationMode, setAddDestinationMode] = useState(false);
 
   const [selectedMarker,setSelectedMarker]=  useState<null|number>(null);
-
+  const [nearByDestinations, setNearByDestinations] = useState<NearByDestinationType[]>([]);
   const [touristDestinations,setTouristDestinations] = useState<TouristDestination[]>([]);
   const [touristDestinationsCoords,setTouristDestinationsCoords] =  useState<Location[]>([]);
   const [markerMode, setMarkerMode] = useState<"none" | "start" | "end">(
@@ -63,15 +64,61 @@ const Home = () => {
 
   },[selectedMarker])
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => {
-        setMyloc({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+useEffect(() => {
+  if (!navigator.geolocation) return;
+
+  const watchId = navigator.geolocation.watchPosition(
+    (pos) => {
+      setMyloc({
+        lat: pos.coords.latitude,
+        lon: pos.coords.longitude,
       });
+    },
+    (err) => {
+      console.error("Error watching location:", err);
+    },
+    {
+      enableHighAccuracy: true,
+      maximumAge: 1000,
+      timeout: 10000,
     }
-  }, []);
+  );
+
+  return () => {
+    // Clean up when component unmounts
+    navigator.geolocation.clearWatch(watchId);
+  };
+}, []);
 
   const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
+
+   const getNearByDestination = async()=>{
+        setNearByDestinations([]);
+
+      
+          const start = destinations[0];
+        const end = destinations[destinations.length - 1];
+          if(!start && !end){
+            return
+          }
+          
+        try{
+        const response = await axios.post(
+          "http://localhost:8080/api/map/getNearByNodes",
+          {
+            lat: end.lat,
+            lon: end.lon
+      
+          }
+        );
+
+        const result = response.data.results;
+        setNearByDestinations(result);
+        }catch(err){
+          console.log(err);
+        }
+        
+    }
 
   useEffect(() => {
     const fetchRoute = async () => {
@@ -96,6 +143,7 @@ const Home = () => {
           setPathCoords([]);
         } else {
           setPathCoords(data.path);
+            getNearByDestination();
         }
       } catch (error) {
         console.error("Request failed:", error);
@@ -105,7 +153,10 @@ const Home = () => {
         setLoading(false);
       }
     };
+
+   
     fetchRoute();
+  
   }, [destinations]);
 
   return (
@@ -143,6 +194,7 @@ const Home = () => {
         myloc={myloc}
         pathCoords={pathCoords}
         setSelectedMarker={setSelectedMarker}
+        nearByDestinations = {nearByDestinations}
       />
       </div>
       <Footer />
