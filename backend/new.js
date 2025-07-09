@@ -1,63 +1,72 @@
 import { writeFileSync } from "fs";
 
-// Your destinations list
-
-// Keyword-based category detection
+// ------------------------------
+// 1. Temple List (Static)
+// ------------------------------
 const categorizedDestinations = [
-  { name: "St. Mary’s Church, Kathmandu", categories: ["historic", "church", "religious", "heritage_site"] },
-  { name: "Kathmandu Gurdwara Sahib", categories: ["historic", "gurdwara", "religious", "heritage_site"] },
-  { name: "Jama Masjid, Kathmandu", categories: ["historic", "mosque", "religious", "heritage_site"] },
-  { name: "Indrachowk Mosque", categories: ["historic", "mosque", "religious"] },
-  { name: "Changunarayan Church", categories: ["historic", "church", "religious"] },
-  { name: "Church of the Assumption, Lalitpur", categories: ["historic", "church", "religious", "heritage_site"] },
-  { name: "Musalman Mosque, Bhaktapur", categories: ["historic", "mosque", "religious"] }
+  // 🏨 Hotels
+  { name: "Hyatt Regency Kathmandu", categories: ["hotel", "luxury", "5_star", "famous", "kathmandu_valley"] },
+  { name: "Dwarika’s Hotel", categories: ["hotel", "heritage", "luxury", "unesco_awarded", "kathmandu_valley"] },
+  { name: "Hotel Shanker", categories: ["hotel", "heritage", "luxury", "palace", "kathmandu_valley"] },
+  { name: "Hilton Kathmandu", categories: ["hotel", "luxury", "modern", "skyscraper", "kathmandu_valley"] },
+  { name: "Kathmandu Marriott Hotel", categories: ["hotel", "luxury", "modern", "international", "kathmandu_valley"] },
+
+  // 🍽️ Restaurants
+  { name: "Krishnarpan", categories: ["restaurant", "fine_dining", "nepali", "heritage", "kathmandu_valley"] },
+  { name: "Chez Caroline", categories: ["restaurant", "french", "heritage", "fine_dining", "baber_mahal", "kathmandu_valley"] },
+
+  // ☕ Cafés
+  { name: "Kaiser Café", categories: ["cafe", "garden", "heritage", "baber_mahal", "kathmandu_valley"] },
+  { name: "OR2K", categories: ["cafe", "vegetarian", "middle_eastern", "popular", "thamel", "kathmandu_valley"] },
+  { name: "The Bakery Café", categories: ["cafe", "casual", "social_enterprise", "nepali_chain", "kathmandu_valley"] },
+  { name: "Taza Treats", categories: ["cafe", "syrian", "sweets", "patan", "kathmandu_valley"] },
+  { name: "New Orleans Café", categories: ["cafe", "casual", "music", "international", "thamel", "kathmandu_valley"] },
+  { name: "Krishna Pauroti", categories: ["bakery", "historic", "nepali", "snacks", "iconic", "kathmandu_valley"] },
+  { name: "Ujamaa Café", categories: ["cafe", "quiet", "work_friendly", "budget", "hidden_gem", "kathmandu_valley"] }
 ];
 
 
-// Fetch Wikipedia data with multi-strategy search
+// ------------------------------
+// 2. Wikipedia Data Enricher
+// ------------------------------
 async function fetchWikipediaData(place, retries = 3) {
   const searchTerms = [
     `${place.name} Nepal`,
     `${place.name}`,
     `${place.name} Kathmandu`,
-    `${place.name} stupa`,
-    `${place.name} monastery`
+    `${place.name} temple`,
+    `${place.name} stupa`
   ];
 
   for (let attempt = 1; attempt <= retries; attempt++) {
     for (const term of searchTerms) {
       try {
-        console.log(`Fetching data for: ${place.name} (attempt ${attempt}/${retries}) using term: "${term}"`);
+        console.log(`🔍 Searching: ${term}`);
 
         const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(term)}&format=json&origin=*`;
         const searchRes = await fetch(searchUrl);
-
-        if (!searchRes.ok) {
-          throw new Error(`Search API returned ${searchRes.status}`);
-        }
-
         const searchData = await searchRes.json();
-        const bestMatch = searchData.query?.search?.[0]?.title;
 
+        const bestMatch = searchData.query?.search?.[0]?.title;
         if (!bestMatch) continue;
 
         const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(bestMatch)}`;
         const summaryRes = await fetch(summaryUrl);
-
-        if (!summaryRes.ok) {
-          throw new Error(`Summary API returned ${summaryRes.status}`);
-        }
+        if (!summaryRes.ok) continue;
 
         const data = await summaryRes.json();
         const description = (data.extract || "").toLowerCase();
+
         const categories = Array.isArray(place.categories) ? [...place.categories] : [];
 
-        // Add categories based on description
-        for (const [category, keywords] of Object.entries(categoryMappings)) {
-          if (keywords.some(keyword => description.includes(keyword))) {
-            categories.push(category);
-          }
-        }
+        // Dynamically add more categories based on keywords
+        if (description.includes("buddhist")) categories.push("buddhist");
+        if (description.includes("shiva")) categories.push("shiva");
+        if (description.includes("vishnu")) categories.push("vishnu");
+        if (description.includes("shakti") || description.includes("goddess")) categories.push("shakti_peeth");
+        if (description.includes("syncretic") || (description.includes("buddhist") && description.includes("hindu")))
+          categories.push("syncretic");
+        if (description.includes("unesco") || description.includes("heritage")) categories.push("heritage_site");
 
         const uniqueCategories = Array.from(new Set(categories.map(c => c.toLowerCase())));
 
@@ -73,93 +82,50 @@ async function fetchWikipediaData(place, retries = 3) {
           searchQuery: term
         };
       } catch (err) {
-        console.warn(`Attempt ${attempt} failed for ${place.name} using term "${term}": ${err.message}`);
+        console.warn(`⚠️ Error for "${place.name}" (attempt ${attempt}): ${err.message}`);
       }
     }
 
-    await new Promise(resolve => setTimeout(resolve, 1000 * attempt)); // Retry delay
+    await new Promise(res => setTimeout(res, 1000 * attempt)); // exponential backoff
   }
 
   return {
     name: place.name,
     categories: Array.isArray(place.categories) ? place.categories : [],
-    error: `Failed after ${retries} attempts.`,
+    error: `❌ Failed after ${retries} attempts.`,
     lastUpdated: new Date().toISOString()
   };
 }
 
-// Main enrichment function
+// ------------------------------
+// 3. Run the Enrichment
+// ------------------------------
 async function enrichAllDestinations() {
   const enriched = [];
-  const total = categorizedDestinations.length;
-  let successful = 0;
+  let success = 0;
   let failed = 0;
 
-  console.log(`Starting enrichment of ${total} destinations...\n`);
-
-  for (let i = 0; i < categorizedDestinations.length; i++) {
-    const place = categorizedDestinations[i];
-    const progress = `[${i + 1}/${total}]`;
-
-    try {
-      const data = await fetchWikipediaData(place);
-      enriched.push(data);
-
-      if (data.error) {
-        failed++;
-        console.log(`${progress} ❌ ${place.name}: ${data.error}`);
-      } else {
-        successful++;
-        console.log(`${progress} ✅ ${place.name}: Found ${data.categories.length} categories`);
-      }
-    } catch (err) {
+  for (const place of categorizedDestinations) {
+    console.log(`📌 Fetching: ${place.name}`);
+    const data = await fetchWikipediaData(place);
+    enriched.push(data);
+    if (data.error) {
       failed++;
-      console.log(`${progress} ❌ ${place.name}: Unexpected error - ${err.message}`);
-      enriched.push({
-        name: place.name,
-        categories: Array.isArray(place.categories) ? place.categories : [],
-        error: `Unexpected error: ${err.message}`,
-        lastUpdated: new Date().toISOString()
-      });
+    } else {
+      success++;
     }
 
-    const delay = 500 + Math.random() * 300; // Random jitter for rate limiting
-    await new Promise(resolve => setTimeout(resolve, delay));
+    await new Promise(res => setTimeout(res, 500)); // delay for API rate limits
   }
 
-  const output = {
-    metadata: {
-      totalDestinations: total,
-      successful: successful,
-      failed: failed,
-      generatedAt: new Date().toISOString(),
-      script: "Enhanced Kathmandu Destinations Enricher"
-    },
-    destinations: enriched
-  };
-
-  writeFileSync("enriched_destinations.json", JSON.stringify(output, null, 2));
-
-  console.log(`\n🎉 Enrichment complete!`);
-  console.log(`✅ Successful: ${successful}`);
-  console.log(`❌ Failed: ${failed}`);
-  console.log(`📁 Data saved to enriched_destinations.json`);
-
-  // Category distribution summary
-  const categoryStats = {};
-  enriched.forEach(dest => {
-    dest.categories.forEach(cat => {
-      categoryStats[cat] = (categoryStats[cat] || 0) + 1;
-    });
-  });
-
-  console.log(`\n📊 Category distribution:`);
-  Object.entries(categoryStats)
-    .sort(([, a], [, b]) => b - a)
-    .forEach(([cat, count]) => {
-      console.log(`  ${cat}: ${count}`);
-    });
+  writeFileSync("resturent.json", JSON.stringify(enriched, null, 2));
+  console.log("\n✅ Done!");
+  console.log(`🟢 Success: ${success}`);
+  console.log(`🔴 Failed: ${failed}`);
+  console.log(`📁 Output saved to: temple.json`);
 }
 
-// Start process
-enrichAllDestinations().catch(console.error);
+// ------------------------------
+// 4. Start the Process
+// ------------------------------
+enrichAllDestinations();
