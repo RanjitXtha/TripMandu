@@ -26,7 +26,8 @@ interface MapViewProps {
   myloc: { lat: number; lon: number } | null;
   pathCoords: [number, number][];
   setSelectedMarker:React.Dispatch<React.SetStateAction<number | null>>
-  nearByDestinations: NearByDestinationType[]
+  nearByDestinations: NearByDestinationType[];
+   tspOrder: number[];
 }
 
   const MapView = ({
@@ -41,7 +42,8 @@ interface MapViewProps {
   myloc,
   pathCoords,
   setSelectedMarker,
-  nearByDestinations
+  nearByDestinations,
+  tspOrder
 }: MapViewProps) => {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -53,6 +55,13 @@ interface MapViewProps {
 
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
+    
+
+const orderMap: Record<number, number> = {};
+
+tspOrder.forEach((destIndex, orderIndex) => {
+  orderMap[destIndex] = orderIndex + 1;
+});
 
     const allMarkers = [
       ...touristDestinations.map((place) => ({
@@ -65,11 +74,12 @@ interface MapViewProps {
         lon: place.lon,
         html: `<strong>Custom Marker</strong><br/><button onclick='window.addDest([${place.lat}, ${place.lon}])'>Add as Destination</button><br/><button style='color:red' onclick='window.delClick(${place.lat}, ${place.lon})'>Delete Marker</button>`
       })),
-      ...destinations.map((place, i) => ({
-        lat: place.lat,
-        lon: place.lon,
-        html: `<strong>${i === 0 ? "Start" : i === destinations.length - 1 ? "End" : `Destination ${i}`}</strong><br/>${place.name || `${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}`}<br/><button onclick='window.delDest(${i})'>Remove</button>`
-      })),
+...destinations.map((place, i) => ({
+  lat: place.lat,
+  lon: place.lon,
+  html: `<strong>Destination ${orderMap[i] ?? i + 1}</strong><br/>${place.name || `${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}`}<br/><button onclick='window.delDest(${i})'>Remove</button>`,
+  label: `${orderMap[i] ?? i + 1}`
+})),
 
          ...nearByDestinations.map((place, i) => ({
         lat: place.lat,
