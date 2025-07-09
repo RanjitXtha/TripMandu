@@ -92,33 +92,6 @@ useEffect(() => {
 
   const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
 
-   const getNearByDestination = async()=>{
-        setNearByDestinations([]);
-
-      
-          const start = destinations[0];
-        const end = destinations[destinations.length - 1];
-          if(!start && !end){
-            return
-          }
-          
-        try{
-        const response = await axios.post(
-          "http://localhost:8080/api/map/getNearByNodes",
-          {
-            lat: end.lat,
-            lon: end.lon
-      
-          }
-        );
-
-        const result = response.data.results;
-        setNearByDestinations(result);
-        }catch(err){
-          console.log(err);
-        }
-        
-    }
 
   useEffect(() => {
     const fetchRoute = async () => {
@@ -143,7 +116,7 @@ useEffect(() => {
           setPathCoords([]);
         } else {
           setPathCoords(data.path);
-            getNearByDestination();
+        
         }
       } catch (error) {
         console.error("Request failed:", error);
@@ -165,7 +138,7 @@ useEffect(() => {
         {/* <Search /> */}
       {overlayView !== "none" && (
         <Overlay>
-          {(overlayView === "showSites" && selectedMarker!==null) && <ShowSites siteData={touristDestinations[selectedMarker]} />}
+          {(overlayView === "showSites" && selectedMarker!==null) && <ShowSites myloc={myloc} setNearByDestinations={setNearByDestinations} siteData={touristDestinations[selectedMarker]} />}
           {overlayView === "routePlanner" && (
             <RoutePlanner
               destinations={destinations}

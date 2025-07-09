@@ -1,19 +1,50 @@
-import React, { useState, type ChangeEvent } from "react";
+import React, { useEffect, useState, type ChangeEvent } from "react";
 import FilterTabs from "./FilterTabs"; // Assuming this is your custom component
 import SiteCard from "./SiteCard"; // Assuming this is your custom component
-import type {  TouristDestination } from "../types/types";
+import type {  NearByDestinationType, TouristDestination } from "../types/types";
+import axios from "axios";
 
 
 const places: string[] = ["Kathmandu", "Bhaktapur", "Lalitpur"];
 
 
-const ShowSites = ({siteData}:{ siteData: TouristDestination }) => {
+const ShowSites = ({siteData , setNearByDestinations, myloc}:{ siteData: TouristDestination , 
+  setNearByDestinations:React.Dispatch<React.SetStateAction<NearByDestinationType[]>> ,
+  myloc:{ lat: number, lon: number } | null
+}) => {
   const [selectedPlace, setSelectedPlace] = useState("Kathmandu");
   console.log(siteData)
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedPlace(e.target.value);
   };
+
+  useEffect(()=>{
+
+   const getNearByDestination = async()=>{
+    
+        setNearByDestinations([]);
+
+        try{
+        const response = await axios.post(
+          "http://localhost:8080/api/map/getNearByNodes",
+          {
+            lat: myloc?.lat,
+            lon: myloc?.lon
+      
+          }
+        );
+
+        const result = response.data.results;
+        setNearByDestinations(result);
+        }catch(err){
+          console.log(err);
+        }
+        
+    }
+
+    getNearByDestination();
+  },[])
 
 
   return (
