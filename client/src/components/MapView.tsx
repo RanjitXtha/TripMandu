@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import { Map, NavigationControl, Source, Layer } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import type { Location } from "../types/types";
+import type { Location, OverlayView } from "../types/types";
 
 // Extend window interface for popup actions
 declare global {
@@ -12,7 +12,6 @@ declare global {
     delClick: (lat: number, lon: number) => void;
   }
 }
-
 
 interface MapViewProps {
   touristDestinations: Location[];
@@ -25,10 +24,12 @@ interface MapViewProps {
   addDestinationMode: boolean;
   myloc: { lat: number; lon: number } | null;
   pathCoords: [number, number][];
-  setSelectedMarker:React.Dispatch<React.SetStateAction<number | null>>
+  selectedMarker: number | null;
+  setSelectedMarker: React.Dispatch<React.SetStateAction<number | null>>;
+  setOverlayView: React.Dispatch<React.SetStateAction<OverlayView>>;
 }
 
-  const MapView = ({
+const MapView = ({
   touristDestinations,
   clickMarkers,
   setClickMarkers,
@@ -39,12 +40,13 @@ interface MapViewProps {
   addDestinationMode,
   myloc,
   pathCoords,
-  setSelectedMarker
+  selectedMarker,
+  setSelectedMarker,
+  setOverlayView,
 }: MapViewProps) => {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const markersRef = useRef<maplibregl.Marker[]>([]);
-
 
   useEffect(() => {
     if (!mapLoaded || !mapRef.current) return;
@@ -56,28 +58,50 @@ interface MapViewProps {
       ...touristDestinations.map((place) => ({
         lat: place.lat,
         lon: place.lon,
-        html: `<strong>${place.name}</strong><br/><button onclick='window.addDest([${place.lat}, ${place.lon}])'>Add as Destination</button>`
+        html: `<strong>${place.name}</strong><br/><button onclick='window.addDest([${place.lat}, ${place.lon}])'>Add as Destination</button>`,
       })),
       ...clickMarkers.map((place) => ({
         lat: place.lat,
         lon: place.lon,
-        html: `<strong>Custom Marker</strong><br/><button onclick='window.addDest([${place.lat}, ${place.lon}])'>Add as Destination</button><br/><button style='color:red' onclick='window.delClick(${place.lat}, ${place.lon})'>Delete Marker</button>`
+        html: `<strong>Custom Marker</strong><br/><button onclick='window.addDest([${place.lat}, ${place.lon}])'>Add as Destination</button><br/><button style='color:red' onclick='window.delClick(${place.lat}, ${place.lon})'>Delete Marker</button>`,
       })),
       ...destinations.map((place, i) => ({
         lat: place.lat,
         lon: place.lon,
-        html: `<strong>${i === 0 ? "Start" : i === destinations.length - 1 ? "End" : `Destination ${i}`}</strong><br/>${place.name || `${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}`}<br/><button onclick='window.delDest(${i})'>Remove</button>`
+        html: `<strong>${
+          i === 0
+            ? "Start"
+            : i === destinations.length - 1
+            ? "End"
+            : `Destination ${i}`
+        }</strong><br/>${
+          place.name || `${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}`
+        }<br/><button onclick='window.delDest(${i})'>Remove</button>`,
       })),
     ];
 
-    allMarkers.forEach(({ lat, lon, html },index) => {
+    allMarkers.forEach(({ lat, lon, html }, index) => {
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
-      const marker = new maplibregl.Marker().setLngLat([lon, lat]).setPopup(popup).addTo(mapRef.current!);
+      const marker = new maplibregl.Marker()
+        .setLngLat([lon, lat])
+        .setPopup(popup)
+        .addTo(mapRef.current!);
       markersRef.current.push(marker);
 
-       marker.getElement().addEventListener("click", () => {
-      setSelectedMarker(index); 
-  });
+      marker.getElement().addEventListener("click", () => {
+        const map = mapRef.current;
+        if (map) {
+          map.flyTo({ center: [lon, lat], zoom: 15 }); //  optional zoom
+        }
+        setOverlayView("showSites");
+
+        if (selectedMarker === index) {
+          setSelectedMarker(null);
+          setTimeout(() => setSelectedMarker(index), 0); // force remount
+        } else {
+          setSelectedMarker(index);
+        }
+      });
     });
 
     if (myloc) {
@@ -100,7 +124,10 @@ interface MapViewProps {
         setEnd(latlng);
         setMarkerMode("none");
       } else if (addDestinationMode) {
-        setClickMarkers((prev) => [...prev, { lat: latlng[0], lon: latlng[1] }]);
+        setClickMarkers((prev) => [
+          ...prev,
+          { lat: latlng[0], lon: latlng[1] },
+        ]);
       }
     };
 
@@ -131,18 +158,20 @@ interface MapViewProps {
   };
 
   const removeClickMarker = (lat: number, lon: number) => {
-    setClickMarkers((prev) => prev.filter((m) => m.lat !== lat || m.lon !== lon));
+    setClickMarkers((prev) =>
+      prev.filter((m) => m.lat !== lat || m.lon !== lon)
+    );
   };
 
-
   useEffect(() => {
-    window.addDest = (latlng: [number, number]) => setDestinations((prev) => [...prev, { lat: latlng[0], lon: latlng[1] }]);
+    window.addDest = (latlng: [number, number]) =>
+      setDestinations((prev) => [...prev, { lat: latlng[0], lon: latlng[1] }]);
     window.delDest = (index: number) => removeDestination(index);
     window.delClick = (lat: number, lon: number) => removeClickMarker(lat, lon);
   }, []);
 
   return (
-    <div >
+    <div>
       <div style={{ display: "flex", height: "100vh" }}>
         <Map
           mapLib={maplibregl}
@@ -152,7 +181,8 @@ interface MapViewProps {
           onLoad={({ target }: { target: maplibregl.Map }) => {
             mapRef.current = target;
             setMapLoaded(true);
-          }}>
+          }}
+        >
           <NavigationControl position="top-right" />
 
           {pathCoords.length > 1 && (
@@ -165,7 +195,8 @@ interface MapViewProps {
                   type: "LineString",
                   coordinates: pathCoords.map(([lat, lon]) => [lon, lat]),
                 },
-              }}>
+              }}
+            >
               <Layer
                 id="route-line"
                 type="line"

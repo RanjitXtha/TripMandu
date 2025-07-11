@@ -7,7 +7,7 @@ const Overlay: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       mt-4 ml-4 
       rounded-3xl shadow-lg 
       overflow-auto inline-block
-      transition-all duration-400 ease-in-out top-[4rem] bottom-0"
+      transition-all duration-400 ease-in-out top-[4rem] bottom-[3rem]"
     >
       {children}
     </div>

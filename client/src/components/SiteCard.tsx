@@ -1,18 +1,39 @@
+import { X } from "lucide-react"; // optional icon
 import React from "react";
 import { Card, CardContent } from "./ui/Card";
-import type { Site , TouristDestination } from "../types/types";
+import type { TouristDestination } from "../types/types";
 
-const EventCard: React.FC<TouristDestination> = ({category,coordinates,description,image,name,tags,wikiUrl,wiki_title  }) => {
+const SiteCard: React.FC<TouristDestination & { onBack?: () => void }> = ({
+  category,
+  coordinates,
+  description,
+  image,
+  name,
+  tags,
+  wikiUrl,
+  wiki_title,
+  onBack,
+}) => {
   return (
-    <Card className="relative rounded-2xl overflow-hidden shadow-lg">
-      <img src={image} alt={name} className="w-full h-48 object-cover" />
-      <div className="absolute top-2 left-2 rounded-full px-3 py-2">Image</div>
+    <Card className="relative rounded-2xl overflow-hidden shadow-lg max-w-[400px]">
+      {/* Close Button */}
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="absolute top-2 right-2 z-10 bg-white p-1 rounded-full shadow hover:bg-gray-100"
+          aria-label="Close"
+        >
+          <X size={20} />
+        </button>
+      )}
+
+      <img src={image} alt={name} className="w-full h-60 object-cover" />
       <CardContent className="p-4">
         <h3 className="text-lg font-semibold mb-2">{name}</h3>
-        <div className="flex items-center text-sm text-gray-600">{description}</div>
+        <div className="text-sm text-gray-600">{description}</div>
       </CardContent>
     </Card>
   );
 };
 
-export default EventCard;
+export default SiteCard;

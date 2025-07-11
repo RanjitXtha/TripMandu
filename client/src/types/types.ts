@@ -4,6 +4,8 @@ export type Site = {
   about: string;
 };
 
+export type OverlayView = "none" | "showSites" | "routePlanner";
+
 export type Location = {
   name?: string;
   lat: number;
@@ -11,15 +13,15 @@ export type Location = {
 };
 
 export type TouristDestination = {
-  category:string,
-  coordinates:{
-    lat:number,
-    lon:number
-  },
-  description:string,
-  image:string,
-  name:string,
-  tags:[],
-  wikiUrl:string,
-  wiki_title:string
-}
+  category: string;
+  coordinates: {
+    lat: number;
+    lon: number;
+  };
+  description: string;
+  image: string;
+  name: string;
+  tags: [];
+  wikiUrl: string;
+  wiki_title: string;
+};

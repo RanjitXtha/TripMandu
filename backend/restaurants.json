@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Nanglo Restaurant",
+    "wiki_title": "Durbar Marg",
+    "description": "Durbar Marg or Durbarmarg is a broad, long avenue in the Nepali capital, Kathmandu. It can be considered the heart of the city, akin to the Champs Elysées and the chief avenues of many capitals. As it leads to the Royal Palace of Narayanhiti, it is also known the King's Way among foreigners, Durbar meaning, as in the Moghul Empire, a royal gathering or court. It is a major tourist draw, vying with Thamel. It is flanked by luxury hotels, restaurants serving international cuisine, global shopping brand outlets in refined centres including expensive boutiques, travel agencies, a couple of embassies, commercial banking headquarters, and premium real estate such as international airline offices.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Royalpalacektm2006.JPG/330px-Royalpalacektm2006.JPG",
+    "coordinates": null,
+    "wikiUrl": "https://en.wikipedia.org/wiki/Durbar_Marg",
+    "categories": [
+      "restaurant",
+      "historic",
+      "monument",
+      "hotel",
+      "business"
+    ]
+  },
+  {
+    "name": "Bhojan Griha",
+    "wiki_title": "Culture of Kathmandu",
+    "description": "The ancient and refined traditional culture of Kathmandu, for that matter in the whole of Nepal, is an uninterrupted and exceptional meeting of the Hindu and Buddhist ethos practiced by its highly religious people. It has also embraced in its fold the cultural diversity provided by the other religions such as Kirat, Jainism, Islam and Christianity.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Stone_carving_in_Kathmandu.jpg/330px-Stone_carving_in_Kathmandu.jpg",
+    "coordinates": null,
+    "wikiUrl": "https://en.wikipedia.org/wiki/Culture_of_Kathmandu",
+    "categories": [
+      "restaurant"
+    ]
+  },
+  {
+    "name": "OR2K",
+    "categories": [
+      "restaurant"
+    ],
+    "error": "No Wikipedia match found."
+  },
+  {
+    "name": "Le Sherpa",
+    "wiki_title": "Sherpa people",
+    "description": "The Sherpa people are one of the Tibetan ethnic groups native to the most mountainous regions of Nepal, India, and the Tibetan Autonomous Region of China.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Younger_Generations_of_Sherpa_in_Traditional_Costumes.jpg/330px-Younger_Generations_of_Sherpa_in_Traditional_Costumes.jpg",
+    "coordinates": null,
+    "wikiUrl": "https://en.wikipedia.org/wiki/Sherpa_people",
+    "categories": [
+      "restaurant"
+    ]
+  }
+]
