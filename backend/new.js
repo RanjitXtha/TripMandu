@@ -3,27 +3,7 @@ import { writeFileSync } from "fs";
 // ------------------------------
 // 1. Temple List (Static)
 // ------------------------------
-const categorizedDestinations = [
-  // 🏨 Hotels
-  { name: "Hyatt Regency Kathmandu", categories: ["hotel", "luxury", "5_star", "famous", "kathmandu_valley"] },
-  { name: "Dwarika’s Hotel", categories: ["hotel", "heritage", "luxury", "unesco_awarded", "kathmandu_valley"] },
-  { name: "Hotel Shanker", categories: ["hotel", "heritage", "luxury", "palace", "kathmandu_valley"] },
-  { name: "Hilton Kathmandu", categories: ["hotel", "luxury", "modern", "skyscraper", "kathmandu_valley"] },
-  { name: "Kathmandu Marriott Hotel", categories: ["hotel", "luxury", "modern", "international", "kathmandu_valley"] },
 
-  // 🍽️ Restaurants
-  { name: "Krishnarpan", categories: ["restaurant", "fine_dining", "nepali", "heritage", "kathmandu_valley"] },
-  { name: "Chez Caroline", categories: ["restaurant", "french", "heritage", "fine_dining", "baber_mahal", "kathmandu_valley"] },
-
-  // ☕ Cafés
-  { name: "Kaiser Café", categories: ["cafe", "garden", "heritage", "baber_mahal", "kathmandu_valley"] },
-  { name: "OR2K", categories: ["cafe", "vegetarian", "middle_eastern", "popular", "thamel", "kathmandu_valley"] },
-  { name: "The Bakery Café", categories: ["cafe", "casual", "social_enterprise", "nepali_chain", "kathmandu_valley"] },
-  { name: "Taza Treats", categories: ["cafe", "syrian", "sweets", "patan", "kathmandu_valley"] },
-  { name: "New Orleans Café", categories: ["cafe", "casual", "music", "international", "thamel", "kathmandu_valley"] },
-  { name: "Krishna Pauroti", categories: ["bakery", "historic", "nepali", "snacks", "iconic", "kathmandu_valley"] },
-  { name: "Ujamaa Café", categories: ["cafe", "quiet", "work_friendly", "budget", "hidden_gem", "kathmandu_valley"] }
-];
 
 
 // ------------------------------
