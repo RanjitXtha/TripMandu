@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import type { RootState } from "../app/store";
 
 interface HeaderProps {
-  onSelectView: (view: "none" | "showSites" | "routePlanner") => void;
+  onSelectView: (view: "none" | "popularSite" | "routePlanner") => void;
+  setSelectedMarker: React.Dispatch<React.SetStateAction<number|null>>
 }
 
-const Header = ({ onSelectView }: HeaderProps) => {
+const Header = ({ onSelectView,setSelectedMarker }: HeaderProps) => {
   const user = useSelector((state:RootState)=>state.user);
   console.log(user)
   return (
@@ -14,13 +15,13 @@ const Header = ({ onSelectView }: HeaderProps) => {
       <h1 className="text-xl font-bold">TripMandu</h1>
       <nav className="flex gap-6">
         <button
-          onClick={() => onSelectView("showSites")}
+          onClick={() => {setSelectedMarker(null);onSelectView("popularSite")}}
           className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black hover:underline"
         >
           Popular Sites
         </button>
         <button
-          onClick={() => onSelectView("none")}
+          onClick={() => {setSelectedMarker(null);onSelectView("none")}}
           className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black hover:underline"
         >
           Map
@@ -28,6 +29,7 @@ const Header = ({ onSelectView }: HeaderProps) => {
 
         <button
           onClick={() => {
+            setSelectedMarker(null);
             onSelectView("routePlanner");
           }}
           className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black hover:underline"

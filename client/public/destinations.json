@@ -9,9 +9,9 @@
       "lon": 85.34861111
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Pashupatinath_Temple",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "temple"
     ]
   },
   {
@@ -24,9 +24,9 @@
       "lon": 85.36194444
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Boudha_Stupa",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "temple"
     ]
   },
   {
@@ -39,8 +39,7 @@
       "lon": 85.29
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Swayambhunath",
-    "category": "religious",
-    "tags": [
+    "categories": [
       "religious"
     ]
   },
@@ -49,14 +48,14 @@
     "wiki_title": "Budhanilkantha Temple",
     "description": "Budanilkantha Temple, located in Budhanilkantha, Nepal, is a Hindu open air temple dedicated to Lord Mahavishnu. Budhanilkantha Temple is also known as the Narayanthan Temple for Hindus, and can be identified by a large reclining statue of Lord Mahavishnu. However In the Buddhist community, the term \"Buddhanilkantha\" refers to one of the various manifestations of Avalokiteshvara. The name means \"Blue-Throated Buddha.\"",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Budhanilkantha_Narayan_Murti_%282023%29_-_IMG_03.jpg/330px-Budhanilkantha_Narayan_Murti_%282023%29_-_IMG_03.jpg",
-    "coordinates": {
-      "lat":27.778175, 
-      "lon":85.362321
+     "coordinates": {
+      "lat": 27.778123711371876,
+      "lon": 85.36229743056067
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Budhanilkantha_Temple",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "temple"
     ]
   },
   {
@@ -69,9 +68,9 @@
       "lon": 85.42788889
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Changu_Narayan_Temple",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "temple"
     ]
   },
   {
@@ -79,14 +78,14 @@
     "wiki_title": "Seto Machindranath",
     "description": "Seto Machindranath, also known as Janabaha Dyo, Avalokiteśvara, Karunamaya, Guanyin is a deity worshiped by both Hindus and Buddhists in Kathmandu, Nepal. The temple of Seto Machindranath is located in Jana Bahal. Located at Keltole between Asan and Indra Chok in central Kathmandu, the temple is believed to have been established around the 10th century. Seto Machindranath is worshiped as an aspect of Avalokiteshvara.",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Seto_Machchhindra_03.jpg/330px-Seto_Machchhindra_03.jpg",
-    "coordinates":{
+      "coordinates":{
       "lat":27.706615, 
       "lon":85.310088
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Seto_Machindranath",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "temple"
     ]
   },
   {
@@ -99,8 +98,7 @@
       "lon": 85.30583
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Kasthamandap",
-    "category": "religious",
-    "tags": [
+    "categories": [
       "religious"
     ]
   },
@@ -114,10 +112,11 @@
       "lon": 85.308008
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Taleju_Temple%2C_Kathmandu",
-    "category": "religious",
-    "tags": [
+    "categories": [
       "religious",
-      "historic"
+      "temple",
+      "historic",
+      "monument"
     ]
   },
   {
@@ -130,9 +129,9 @@
       "lon": 75.8155
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Birla_Mandir%2C_Jaipur",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "temple"
     ]
   },
   {
@@ -145,9 +144,9 @@
       "lon": 83.87169444
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Muktinath",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "temple"
     ]
   },
   {
@@ -160,9 +159,23 @@
       "lon": 85.12
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Bajrabarahi",
-    "category": "religious",
-    "tags": [
+    "categories": [
       "religious"
+    ]
+  },
+  {
+    "name": "Surya Vinayak Temple",
+    "wiki_title": "Konark Sun Temple",
+    "description": "Konark Sun Temple is a 13th-century CE Hindu Sun temple at Konark about 35 kilometres (22 mi) northeast from Puri city on the coastline in Puri district, Odisha, India. The temple is attributed to king Narasingha Deva I of the Eastern Ganga dynasty about 1250 CE. It is the pinnacle of Hindu Orissan architecture. Dedicated to the Hindu Sun-god Surya, it reflects the pinnacle of kalingan architecture and artistic excellence, what remains of the temple complex has the appearance of a 100-foot (30 m) high chariot with immense wheels and horses, all carved from stone. Once over 200 feet (61 m) high, much of the temple is now in ruins, in particular the large shikara tower over the sanctuary; at one time this rose much higher than the mandapa that remains. The structures and elements that have survived are famed for their intricate artwork, iconography, and themes, including erotic kama and mithuna scenes. Also called the Surya Devalaya, it is a classic illustration of the Odisha style of Architecture or Kalinga architecture.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Konarka_Temple.jpg/330px-Konarka_Temple.jpg",
+    "coordinates": {
+      "lat": 19.8875,
+      "lon": 86.09472222
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Konark_Sun_Temple",
+    "categories": [
+      "religious",
+      "temple"
     ]
   },
   {
@@ -175,9 +188,10 @@
       "lon": 85.25
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Dakshinkali_Temple",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "temple",
+      "tourist_attraction"
     ]
   },
   {
@@ -190,9 +204,24 @@
       "lon": 85.43805556
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Doleshwor_Mahadeva_Temple",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "temple"
+    ]
+  },
+  {
+    "name": "Tika Bhairab Temple",
+    "wiki_title": "List of Hindu temples in Nepal",
+    "description": "This is a list of major Hindu temples in Nepal, alphabetically sorted by district.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Janki_Mandir.JPG/330px-Janki_Mandir.JPG",
+      "coordinates": {
+      "lat":27.57475120792642,
+      "lon":85.31286023754146
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/List_of_Hindu_temples_in_Nepal",
+    "categories": [
+      "religious",
+      "temple"
     ]
   },
   {
@@ -205,9 +234,9 @@
       "lon": 85.30647
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Kathmandu_Durbar_Square",
-    "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "monument"
     ]
   },
   {
@@ -220,9 +249,10 @@
       "lon": 85.325
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Patan_Durbar_Square",
-    "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "monument",
+      "tourist_attraction"
     ]
   },
   {
@@ -235,9 +265,9 @@
       "lon": 85.428108
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur_Durbar_Square",
-    "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "monument"
     ]
   },
   {
@@ -250,9 +280,9 @@
       "lon": 85.3075
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Hanuman_Dhoka",
-    "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "monument"
     ]
   },
   {
@@ -265,9 +295,9 @@
       "lon": 85.428108
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur_Durbar_Square",
-    "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "monument"
     ]
   },
   {
@@ -280,9 +310,10 @@
       "lon": 85.325
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Patan_Durbar_Square",
-    "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "monument",
+      "tourist_attraction"
     ]
   },
   {
@@ -295,10 +326,11 @@
       "lon": 85.32466667
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Hiranya_Varna_Mahavihar",
-    "category": "historic",
-    "tags": [
+    "categories": [
       "historic",
+      "temple",
       "religious",
+      "monument",
       "monastery"
     ]
   },
@@ -312,10 +344,10 @@
       "lon": 85.32419444
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Nagbahal_Hiti",
-    "category": "historic",
-    "tags": [
+    "categories": [
       "historic",
-      "monastery"
+      "monastery",
+      "religious"
     ]
   },
   {
@@ -328,8 +360,7 @@
       "lon": 85.31666667
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Lalitpur%2C_Nepal",
-    "category": "historic",
-    "tags": [
+    "categories": [
       "historic"
     ]
   },
@@ -343,8 +374,7 @@
       "lon": 85.31666667
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Lalitpur%2C_Nepal",
-    "category": "historic",
-    "tags": [
+    "categories": [
       "historic"
     ]
   },
@@ -358,9 +388,9 @@
       "lon": 85.36416667
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Kopan_Monastery",
-    "category": "monastery",
-    "tags": [
-      "monastery"
+    "categories": [
+      "monastery",
+      "religious"
     ]
   },
   {
@@ -373,9 +403,9 @@
       "lon": 85.2612
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Seto_Gumba",
-    "category": "monastery",
-    "tags": [
-      "monastery"
+    "categories": [
+      "monastery",
+      "religious"
     ]
   },
   {
@@ -388,9 +418,23 @@
       "lon": 85.26666667
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Pharping",
-    "category": "monastery",
-    "tags": [
+    "categories": [
       "monastery"
+    ]
+  },
+  {
+    "name": "Garden of Dreams",
+    "wiki_title": "Garden of Dreams",
+    "description": "The Garden of Dreams, also, the Garden of Six Seasons, is a neo-classical garden in Kaiser Mahal Kathmandu, Nepal, built in 1920. Designed by Kishore Narshingh, it consists of 6,895 square metres (74,220 sqft) of gardens with three pavilions, an amphitheater, ponds, pergolas, and urns. From the mid-1960s, upon the death of its patron, Kaiser Sumsher Rana, it lay in neglect but was recently restored with the help of the Austrian government.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Garden_of_Dreams.jpg/330px-Garden_of_Dreams.jpg",
+    "coordinates": {
+        "lat":27.714208586061023, 
+        "lon":85.31456
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Garden_of_Dreams",
+    "categories": [
+      "natural",
+      "park"
     ]
   },
   {
@@ -403,8 +447,7 @@
       "lon": 85.28333333
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Chobhar",
-    "category": "natural",
-    "tags": [
+    "categories": [
       "natural"
     ]
   },
@@ -418,25 +461,9 @@
       "lon": 85.282
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Taudaha_Lake",
-    "category": "natural",
-    "tags": [
-      "natural"
-    ]
-  },
-  {
-    "name": "Shankhamul Ghat",
-    "wiki_title": "Bagmati River",
-    "description": "The Bagmati River flows through the Kathmandu valley of Nepal, separating the cities of Kathmandu and Patan, before flowing through Madesh Province of southern Nepal and joining the Kamla River in the Indian state of Bihar. It is considered holy by both Hindus and Buddhists. A number of Hindu temples are located on its banks.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Pashupatinath2.jpg/330px-Pashupatinath2.jpg",
-    "coordinates": {
-      "lat": 25.73225,
-      "lon": 86.36472222
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Bagmati_River",
-    "category": "natural",
-    "tags": [
+    "categories": [
       "natural",
-      "religious"
+      "park"
     ]
   },
   {
@@ -449,8 +476,7 @@
       "lon": 85.31021944
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Thamel",
-    "category": "market",
-    "tags": [
+    "categories": [
       "market"
     ]
   },
@@ -464,10 +490,11 @@
       "lon": 85.31222222
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Asan%2C_Kathmandu",
-    "category": "market",
-    "tags": [
+    "categories": [
       "market",
-      "historic"
+      "historic",
+      "monument",
+      "business"
     ]
   },
   {
@@ -480,10 +507,11 @@
       "lon": 85.3096
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Indra_Chowk",
-    "category": "market",
-    "tags": [
+    "categories": [
       "market",
-      "historic"
+      "historic",
+      "monument",
+      "business"
     ]
   },
   {
@@ -496,10 +524,10 @@
       "lon": 85.3075
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Old_Freak_Street",
-    "category": "market",
-    "tags": [
+    "categories": [
       "market",
-      "historic"
+      "historic",
+      "monument"
     ]
   },
   {
@@ -512,10 +540,10 @@
       "lon": 85.32
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Narayanhiti_Palace_Museum",
-    "category": "museum",
-    "tags": [
+    "categories": [
       "museum",
-      "historic"
+      "historic",
+      "monument"
     ]
   },
   {
@@ -528,11 +556,28 @@
       "lon": 85.289
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/National_Museum_of_Nepal",
-    "category": "museum",
-    "tags": [
+    "categories": [
       "museum",
       "historic",
+      "monument",
+      "park",
       "natural"
+    ]
+  },
+  {
+    "name": "Tribhuvan Museum",
+    "wiki_title": "Tribhuvan Museum",
+    "description": "The Tribhuvan Museum is a museum located in Nepal. It is located alongside Birendra Museum and Mahendra Museum. It contains personal artefacts that belonged to King Tribhuvan Bir Bikram Shah, who is internationally known Nepalese king in the modern history. \n",
+    "image": null,
+    "coordinates": {
+        "lat":27.704402963698715, 
+        "lon":85.30734160871042
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Tribhuvan_Museum",
+    "categories": [
+      "museum",
+      "historic",
+      "monument"
     ]
   },
   {
@@ -545,10 +590,10 @@
       "lon": 85.45
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Sankhu",
-    "category": "village",
-    "tags": [
+    "categories": [
       "village",
-      "historic"
+      "historic",
+      "monument"
     ]
   },
   {
@@ -561,9 +606,9 @@
       "lon": 85.27694444
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Kirtipur",
-    "category": "village",
-    "tags": [
+    "categories": [
       "village",
+      "temple",
       "religious"
     ]
   },
@@ -577,10 +622,10 @@
       "lon": 85.325638
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Patan_Museum",
-    "category": "museum",
-    "tags": [
+    "categories": [
       "museum",
-      "historic"
+      "historic",
+      "monument"
     ]
   },
   {
@@ -593,10 +638,11 @@
       "lon": 85.32583333
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Kumbheshwar_Temple",
-    "category": "religious",
-    "tags": [
+    "categories": [
       "religious",
-      "historic"
+      "temple",
+      "historic",
+      "monument"
     ]
   },
   {
@@ -604,14 +650,14 @@
     "wiki_title": "Mahabouddha Temple",
     "description": "Mahaboudha Temple is a shikhara Newar Buddhist temple in Lalitpur, Nepal.",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Mahaboudha_%289651389724%29.jpg/330px-Mahaboudha_%289651389724%29.jpg",
-    "coordinates":{
+        "coordinates":{
       "lat":27.668982936750428,
       "lon": 85.32711449105761
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Mahabouddha_Temple",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "temple"
     ]
   },
   {
@@ -624,11 +670,12 @@
       "lon": 85.32466667
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Hiranya_Varna_Mahavihar",
-    "category": "monastery",
-    "tags": [
+    "categories": [
       "monastery",
+      "temple",
       "religious",
-      "historic"
+      "historic",
+      "monument"
     ]
   },
   {
@@ -636,13 +683,12 @@
     "wiki_title": "Ashoka",
     "description": "Ashoka, also known as Asoka or Aśoka, and popularly known as Ashoka the Great, was Emperor of Magadha from c. 268 BCE until his death in 232 BCE, and the third ruler from the Mauryan dynasty. His empire covered a large part of the Indian subcontinent, stretching from present-day Afghanistan in the west to present-day Bangladesh in the east, with its capital at Pataliputra. A patron of Buddhism, he is credited with playing an important role in the spread of Buddhism across ancient Asia.",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Ashoka%27s_visit_to_the_Ramagrama_stupa_Sanchi_Stupa_1_Southern_gateway.jpg/330px-Ashoka%27s_visit_to_the_Ramagrama_stupa_Sanchi_Stupa_1_Southern_gateway.jpg",
-    "coordinates":  {
-      "lat": 27.665048229942013,
-      "lon": 85.32339695331977
+       "coordinates": {
+      "lat": 27.66666667,
+      "lon": 85.31666667
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Ashoka",
-    "category": "historic",
-    "tags": [
+    "categories": [
       "historic"
     ]
   },
@@ -651,28 +697,12 @@
     "wiki_title": "Matsyendranatha",
     "description": "Matsyendranātha, also known as Matsyendra, Macchindranāth, Mīnanātha and Minapa was a saint and yogi in a number of Buddhist and Hindu traditions. He is considered the revivalist of hatha yoga as well as the author of some of its earliest texts. He is also seen as the founder of the natha sampradaya, having received the teachings from Shiva. He is associated with Kaula Shaivism. He is also one of the eighty-four mahasiddhas and considered the guru of Gorakshanath, another known figure in early hatha yoga. He is revered by both Hindus and Buddhists and is sometimes regarded as an incarnation of Avalokiteśvara.",
     "image": null,
-    "coordinates": {
+      "coordinates": {
       "lat":27.67027858694675,
       "lon": 85.32288734572462
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Matsyendranatha",
-    "category": "religious",
-    "tags": [
-      "religious"
-    ]
-  },
-  {
-    "name": "Harishankar Temple",
-    "wiki_title": "Harishankar Temple",
-    "description": "Sri Sri Harisankar Devasthana is a temple on the slopes of Gandhamardhan hills, Bolangir District of Odisha in India. It is popular for its scenes of nature and connection to two Hindu lords, Vishnu and Shiva. As a holy place, along with a stream passing on the granite bed, it has given some visitors a feeling of peace. On the opposite of side of the Gandhamardhan hills is the temple of Nrusinghanath. The plateau between the two temples has been found to have ancient Buddhist ruins, which are considered to be remnants of the ancient Parimalgiri University.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Harishankar_Temple.jpg/330px-Harishankar_Temple.jpg",
-    "coordinates": {
-      "lat": 20.854406,
-      "lon": 82.86061
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Harishankar_Temple",
-    "category": "religious",
-    "tags": [
+    "categories": [
       "religious"
     ]
   },
@@ -686,9 +716,9 @@
       "lon": 85.42861111
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Nyatapola_Temple",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "temple"
     ]
   },
   {
@@ -701,9 +731,9 @@
       "lon": 85.428108
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur_Durbar_Square",
-    "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "monument"
     ]
   },
   {
@@ -716,24 +746,9 @@
       "lon": 85.428108
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur_Durbar_Square",
-    "category": "historic",
-    "tags": [
-      "historic"
-    ]
-  },
-  {
-    "name": "Dattatreya Temple",
-    "wiki_title": "Kalo Dungar",
-    "description": "Kalo Dungar or Black Hill is the highest point in Kutch, Gujarat, India, at 462 m (1,516 ft). It is located 97 km (60 mi) from District headquarters of Bhuj and 25 km (16 mi) from nearest town Khavda.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Rann_of_Kutch_-_Highest_Point.jpg/330px-Rann_of_Kutch_-_Highest_Point.jpg",
-    "coordinates": {
-      "lat": 23.93416667,
-      "lon": 69.81388889
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Kalo_Dungar",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "historic",
+      "monument"
     ]
   },
   {
@@ -746,24 +761,25 @@
       "lon": 85.42777778
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur",
-    "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "monument"
     ]
   },
   {
     "name": "Siddha Pokhari",
-    "wiki_title": "Gupha Pokhari",
-    "description": "Gupha Pokhari also spelled Gufa Pokhari is a natural pond 2,890 metres (9,480 ft)\nabove sea level in Chainpur Municipality of Sankhuwasabha District of Nepal, and a holy pilgrimage site for Kirat, Hindus and Buddhists.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Guphapokhari_waking_up%21.jpg/330px-Guphapokhari_waking_up%21.jpg",
+    "wiki_title": "Bhaktapur",
+    "description": "Bhaktapur, known locally as Khwopa and historically called Bhadgaon, is a city in the east corner of the Kathmandu Valley in Nepal located about 13 kilometres (8.1 mi) from the capital city, Kathmandu. Bhaktapur is the smallest city of Nepal as well as the most densely populated. Along with Kathmandu and Lalitpur, Bhaktapur is one of the three main cities of the Kathmandu Valley and is a major Newar settlement of the country. The city is also known for its Newar tradition, cuisine and artisans. Bhaktapur suffered heavy damage in the April 2015 earthquake.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Nyatpola_%26_Bhairav_Temple.jpg/330px-Nyatpola_%26_Bhairav_Temple.jpg",
     "coordinates": {
-      "lat": 27.28527778,
-      "lon": 87.50638889
+      "lat": 27.672011229571616,
+      "lon":  85.420648894996
     },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Gupha_Pokhari",
-    "category": "natural",
-    "tags": [
-      "natural"
+    "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur",
+    "categories": [
+      "natural",
+      "historic",
+      "monument"
     ]
   },
   {
@@ -776,8 +792,7 @@
       "lon": 72.43333333
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Palanpur",
-    "category": "natural",
-    "tags": [
+    "categories": [
       "natural"
     ]
   },
@@ -791,9 +806,9 @@
       "lon": 85.42788889
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Changu_Narayan_Temple",
-    "category": "museum",
-    "tags": [
+    "categories": [
       "museum",
+      "temple",
       "religious"
     ]
   }

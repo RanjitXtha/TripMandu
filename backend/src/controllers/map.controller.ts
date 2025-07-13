@@ -3,6 +3,7 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 import { aStar, nearestNode, haversineDistance } from '../utils/RouteAlgorithms.js';
 import { Request, Response } from "express";
 import { graph,nodeMap } from "../index.js";
+import prisma from "../db/index.js";
 
 export const getRoute = asyncHandler(async(req: Request, res: Response)=>{
     const {start,end}= req.body;
@@ -35,5 +36,39 @@ export const getRoute = asyncHandler(async(req: Request, res: Response)=>{
     res.json({ path: pathCoords });
 
 });
+
+
+export const getNearByNodes = asyncHandler(async(req: Request, res: Response)=>{
+  const {lat,lon} = req.body;
+  const radiusMeters=500;
+
+    if (!lat || !lon) {
+    return res.status(400).json({ error: "Latitude and longitude required" });
+  }
+  
+  try{
+
+ 
+  const results = await prisma.$queryRawUnsafe(`
+    SELECT
+      name,
+      lat,
+      lon,
+      categories
+    FROM point_of_interests
+    WHERE ST_DWithin(
+      geom::geography,
+      ST_SetSRID(ST_MakePoint(${lon}, ${lat}), 4326)::geography,
+      ${radiusMeters}
+    )
+  `);
+
+  return res.status(200).json({results})
+   }catch(err){
+     return res.status(500).json({message:err})
+   }
+  
+
+})
 
 

@@ -1,276 +1,163 @@
 import { useState, useEffect } from "react";
 import MapView from "../components/MapView";
 import RoutePlanner from "../components/RoutePlanner";
-import "leaflet/dist/leaflet.css";
 import axios from "axios";
-import type { Location ,TouristDestination} from "../types/types";
+import type { Location, TouristDestination, NearByDestinationType } from "../types/types";
 import Header from "../components/Header";
 import ShowSites from "../components/ShowSites";
 import Overlay from "../components/Overlay";
 import Footer from "../components/Footer";
-import Search from "../components/Search";
+import PopularSites from "../components/PopularSites";
 
-type OverlayView = "none" | "showSites" | "routePlanner";
-
-
-
+type OverlayView = "none" | "popularSite" | "routePlanner";
 
 const Home = () => {
+  // States
   const [overlayView, setOverlayView] = useState<OverlayView>("none");
   const [destinations, setDestinations] = useState<Location[]>([]);
   const [clickMarkers, setClickMarkers] = useState<Location[]>([]);
   const [loading, setLoading] = useState(false);
   const [myloc, setMyloc] = useState<{ lat: number; lon: number } | null>(null);
   const [addDestinationMode, setAddDestinationMode] = useState(false);
+  const [selectedMarker, setSelectedMarker] = useState<null | number>(null);
+  const [nearByDestinations, setNearByDestinations] = useState<NearByDestinationType[]>([]);
+  const [touristDestinations, setTouristDestinations] = useState<TouristDestination[]>([]);
+  const [touristDestinationsCoords, setTouristDestinationsCoords] = useState<Location[]>([]);
+  const [markerMode, setMarkerMode] = useState<"none" | "start" | "end">("none");
+  const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
+  const [tspOrder, setTspOrder] = useState<number[]>([]);
 
-  const [selectedMarker,setSelectedMarker]=  useState<null|number>(null);
+  const getDistance = (a: Location, b: Location): number => {
+    const R = 6371; // Earth radius in km
+    const toRad = (deg: number) => deg * (Math.PI / 180);
+    const dLat = toRad(b.lat - a.lat);
+    const dLon = toRad(b.lon - a.lon);
+    const lat1 = toRad(a.lat);
+    const lat2 = toRad(b.lat);
 
-  const [touristDestinations,setTouristDestinations] = useState<TouristDestination[]>([]);
-  const [touristDestinationsCoords,setTouristDestinationsCoords] =  useState<Location[]>([]);
-  const [markerMode, setMarkerMode] = useState<"none" | "start" | "end">(
-    "none"
-  );
+    const aa = Math.sin(dLat / 2) ** 2 + Math.sin(dLon / 2) ** 2 * Math.cos(lat1) * Math.cos(lat2);
+    const c = 2 * Math.atan2(Math.sqrt(aa), Math.sqrt(1 - aa));
+    return R * c;
+  };
 
-  useEffect(()=>{
-    const GetDesinations = async()=>{
- const response = await fetch('/destinations.json');
- const destinations:TouristDestination[] = await response.json();
-
- const mappedDestinations:Location[] = destinations.map((destination)=>{
-  return{
-    name:destination.name,
-    lat:destination.coordinates?.lat,
-    lon:destination.coordinates?.lon
-  }
- })
- console.log(destinations)
- setTouristDestinations(destinations);
- setTouristDestinationsCoords(mappedDestinations);
-
-  
+  // Brute force permutations for TSP (works well for ≤8 points)
+  const permute = (arr: number[]): number[][] => {
+    if (arr.length <= 1) return [arr];
+    const res: number[][] = [];
+    for (let i = 0; i < arr.length; i++) {
+      const rest = [...arr.slice(0, i), ...arr.slice(i + 1)];
+      for (const p of permute(rest)) res.push([arr[i], ...p]);
     }
+    return res;
+  };
 
-    GetDesinations()
-   
-  },[])
+  // Solve TSP returning best visiting order of indices
+  const solveTSP = (locations: Location[]): number[] => {
+    const indices = Array.from({ length: locations.length }, (_, i) => i);
+    const allOrders = permute(indices);
 
+    let minDist = Infinity;
+    let bestOrder: number[] = [];
 
-  useEffect(()=>{
-    if(selectedMarker===null)return
-
-    setOverlayView('showSites');
-    console.log('marker'+selectedMarker);
-
-  },[selectedMarker])
+    for (const order of allOrders) {
+      let dist = 0;
+      for (let i = 0; i < order.length - 1; i++) {
+        dist += getDistance(locations[order[i]], locations[order[i + 1]]);
+      }
+      if (dist < minDist) {
+        minDist = dist;
+        bestOrder = order;
+      }
+    }
+    return bestOrder;
+  };
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => {
-        setMyloc({ lat: pos.coords.latitude, lon: pos.coords.longitude });
-      });
-    }
+    // Load initial tourist destinations from JSON
+    const GetDestinations = async () => {
+      const response = await fetch("/destinations.json");
+      const destinations: TouristDestination[] = await response.json();
+      const coords = destinations.map((d) => ({
+        name: d.name,
+        lat: d.coordinates?.lat,
+        lon: d.coordinates?.lon,
+      }));
+      setTouristDestinations(destinations);
+      setTouristDestinationsCoords(coords);
+    };
+    GetDestinations();
   }, []);
 
-<<<<<<< HEAD
-  const setStart = (latlng: [number, number]) => {
-    setDestinations((prev) => {
-      if (prev.length === 0) return [{ lat: latlng[0], lon: latlng[1] }];
-      return [{ lat: latlng[0], lon: latlng[1] }, ...prev.slice(1)];
-    });
-  };
+  useEffect(() => {
+    if (selectedMarker === null) return;
+    setOverlayView("popularSite");
+  }, [selectedMarker]);
 
-  const setEnd = (latlng: [number, number]) => {
-    setDestinations((prev) => {
-      if (prev.length === 0) return [{ lat: latlng[0], lon: latlng[1] }];
-      if (prev.length === 1) return [prev[0], { lat: latlng[0], lon: latlng[1] }];
-      return [...prev.slice(0, -1), { lat: latlng[0], lon: latlng[1] }];
-    });
-  };
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    const watchId = navigator.geolocation.watchPosition(
+      (pos) => setMyloc({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+      (err) => console.error("Location error:", err),
+      { enableHighAccuracy: true, maximumAge: 1000, timeout: 10000 }
+    );
+    return () => navigator.geolocation.clearWatch(watchId);
+  }, []);
 
-  const addDestination = (latlng: [number, number]) => {
-    setDestinations((prev) => {
-      if (prev.length <= 1) return [...prev, { lat: latlng[0], lon: latlng[1] }];
-      return [...prev.slice(0, -1), { lat: latlng[0], lon: latlng[1] }, prev[prev.length - 1]];
-    });
-  };
-
-  const removeDestination = (index: number) => {
-    setDestinations((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const clearStart = () => {
-    setDestinations((prev) => (prev.length > 0 ? prev.slice(1) : prev));
-  };
-
-  const clearEnd = () => {
-    setDestinations((prev) => (prev.length > 0 ? prev.slice(0, -1) : prev));
-  };
-
-  const removeClickMarker = (lat: number, lon: number) => {
-    setClickMarkers((prev) => prev.filter((m) => m.lat !== lat || m.lon !== lon));
-  };
-
-  const handleMapClick = (latlng: [number, number]) => {
-    if (markerMode === "start") {
-      setStart(latlng);
-      setMarkerMode("none");
-    } else if (markerMode === "end") {
-      setEnd(latlng);
-      setMarkerMode("none");
-    } else if (addDestinationMode) {
-      setClickMarkers((prev) => [...prev, { lat: latlng[0], lon: latlng[1] }]);
-    }
-  };
-
-=======
->>>>>>> origin/ranjit
   const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
 
   useEffect(() => {
-    const fetchRoute = async () => {
-      if (destinations.length < 2) {
-        setPathCoords([]);
-        return;
-      }
-      setLoading(true);
-      try {
-        const start = destinations[0];
-        const end = destinations[destinations.length - 1];
-        const response = await axios.post(
-          "http://localhost:8080/api/map/getRoute",
-          {
-            start: { lat: start.lat, lon: start.lon },
-            end: { lat: end.lat, lon: end.lon },
-          }
-        );
-        const data = response.data;
-        if (!data.path || !Array.isArray(data.path)) {
-          alert("Invalid route data received from server");
-          setPathCoords([]);
-        } else {
-          setPathCoords(data.path);
-        }
-      } catch (error) {
-        console.error("Request failed:", error);
-        alert("Error fetching route");
-        setPathCoords([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchRoute();
+    setPathCoords([]);
+    setTspOrder([]);
   }, [destinations]);
 
+  // Calculate TSP and fetch route
+  const calculateTSPRoute = async () => {
+    if (destinations.length < 2) {
+      alert("Please add at least two destinations");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const order = solveTSP(destinations);
+      setTspOrder(order);
+
+      let fullPath: [number, number][] = [];
+      for (let i = 0; i < order.length - 1; i++) {
+        const start = destinations[order[i]];
+        const end = destinations[order[i + 1]];
+
+        const res = await axios.post("http://localhost:8080/api/map/getRoute", {
+          start: { lat: start.lat, lon: start.lon },
+          end: { lat: end.lat, lon: end.lon },
+        });
+
+        const legPath: [number, number][] = res.data.path;
+
+        if (legPath && Array.isArray(legPath)) {
+          if (fullPath.length > 0) legPath.shift();
+          fullPath = fullPath.concat(legPath);
+        } else {
+          throw new Error("Invalid path data from server");
+        }
+      }
+
+      setPathCoords(fullPath);
+    } catch (error) {
+      console.error("TSP route calculation failed", error);
+      alert("Failed to calculate route");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-<<<<<<< HEAD
-    <div style={{ display: "flex", height: "100vh" }}>
-      <div style={{ width: 300, padding: 10, borderRight: "1px solid #ccc", backgroundColor: "#f9f9f9", overflowY: "auto" }}>
-        <h3>Route Planner</h3>
-
-        <div style={{ marginBottom: 20 }}>
-          <strong>Start:</strong><br />
-          {destinations[0] ? (
-            <>
-              {destinations[0].name || `${destinations[0].lat.toFixed(5)}, ${destinations[0].lon.toFixed(5)}`}<br />
-              <button onClick={clearStart}>Clear Start</button>
-            </>
-          ) : <em>Not set</em>}
-          <br />
-          <button onClick={() => setMarkerMode("start")}>Set from Map</button>
-        </div>
-
-        <div style={{ marginBottom: 20 }}>
-          <strong>End:</strong><br />
-          {destinations.length > 1 ? (
-            <>
-              {destinations[destinations.length - 1].name || `${destinations[destinations.length - 1].lat.toFixed(5)}, ${destinations[destinations.length - 1].lon.toFixed(5)}`}<br />
-              <button onClick={clearEnd}>Clear End</button>
-            </>
-          ) : <em>Not set</em>}
-          <br />
-          <button onClick={() => setMarkerMode("end")}>Set from Map</button>
-        </div>
-
-        <div style={{ marginBottom: 20 }}>
-          <button
-            onClick={() => setAddDestinationMode(!addDestinationMode)}
-            style={{ backgroundColor: addDestinationMode ? "#4caf50" : undefined, color: addDestinationMode ? "white" : undefined }}>
-            {addDestinationMode ? "Add Destinations Mode ON" : "Add Destinations Mode OFF"}
-          </button>
-        </div>
-
-        <div>
-          <h4>Destinations:</h4>
-          {destinations.length === 0 && <p>No destinations added yet.</p>}
-          <ul style={{ paddingLeft: 20 }}>
-            {destinations.map((d, i) => (
-              <li key={i} style={{ marginBottom: 6 }}>
-                {d.name || `${d.lat.toFixed(5)}, ${d.lon.toFixed(5)}`} {" "}
-                <button onClick={() => removeDestination(i)} style={{ marginLeft: 8, color: "red", cursor: "pointer" }}>✕</button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <div style={{ flexGrow: 1,zIndex:1 }}>
-        <MapContainer center={[27.67, 85.43]} zoom={14} style={{ height: "100%", width: "100%" }}>
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
-
-          <ClickHandler enabled={markerMode !== "none" || addDestinationMode} onMapClick={handleMapClick} />
-
-          {touristDestinations.map((place, idx) => (
-            <Marker key={"tourist-" + idx} position={[place.lat, place.lon]}>
-              <Popup>
-                <div>
-                  <strong>{place.name}</strong>
-                  <br />
-                  <button onClick={() => addDestination([place.lat, place.lon])}>Add as Destination</button>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-
-          {clickMarkers.map((marker, idx) => (
-            <Marker key={"click-" + idx} position={[marker.lat, marker.lon]}>
-              <Popup>
-                <div>
-                  <strong>Custom Marker</strong>
-                  <br />
-                  <button onClick={() => addDestination([marker.lat, marker.lon])}>Add as Destination</button>
-                  <br />
-                  <button style={{ color: "red" }} onClick={() => removeClickMarker(marker.lat, marker.lon)}>Delete Marker</button>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-
-          {destinations.map((dest, i) => (
-            <Marker key={"dest-" + i} position={[dest.lat, dest.lon]}>
-              <Popup>
-                <div>
-                  <strong>{i === 0 ? "Start" : i === destinations.length - 1 ? "End" : `Destination ${i}`}</strong>
-                  <br />
-                  {dest.name ||
-                    `${dest.lat.toFixed(5)}, ${dest.lon.toFixed(5)}`}
-                  <br />
-                  <button onClick={() => removeDestination(i)}>Remove</button>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-
-          {pathCoords.length > 0 && <Polyline positions={pathCoords} color="blue" weight={5} />}
-
-          {myloc && <Marker position={[myloc.lat, myloc.lon]}><Popup>My Location</Popup></Marker>}
-        </MapContainer>
-=======
     <div className="flex">
       <Header onSelectView={(view) => setOverlayView(view)} />
         {/* <Search /> */}
       {overlayView !== "none" && (
         <Overlay>
-          {(overlayView === "showSites" && selectedMarker!==null) && <ShowSites siteData={touristDestinations[selectedMarker]} />}
+          {overlayView === "popularSite" && <PopularSites />}
           {overlayView === "routePlanner" && (
             <RoutePlanner
               destinations={destinations}
@@ -280,6 +167,9 @@ const Home = () => {
               addDestinationMode={addDestinationMode}
               setAddDestinationMode={setAddDestinationMode}
             />
+          )}
+          {selectedMarker !== null && (
+            <ShowSites myloc={myloc} setNearByDestinations={setNearByDestinations} siteData={touristDestinations[selectedMarker]} />
           )}
         </Overlay>
       )}
@@ -300,7 +190,6 @@ const Home = () => {
         pathCoords={pathCoords}
         setSelectedMarker={setSelectedMarker}
       />
->>>>>>> origin/ranjit
       </div>
       <Footer />
     </div>
