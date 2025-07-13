@@ -11,8 +11,6 @@ import PopularSites from "../components/PopularSites";
 
 type OverlayView = "none" | "popularSite" | "routePlanner";
 
-// distance and tsp helpers same as before (getDistance, permute, solveTSP)...
-
 const Home = () => {
   // States
   const [overlayView, setOverlayView] = useState<OverlayView>("none");
@@ -30,50 +28,49 @@ const Home = () => {
   const [tspOrder, setTspOrder] = useState<number[]>([]);
 
   const getDistance = (a: Location, b: Location): number => {
-  const R = 6371; // Earth radius in km
-  const toRad = (deg: number) => deg * (Math.PI / 180);
-  const dLat = toRad(b.lat - a.lat);
-  const dLon = toRad(b.lon - a.lon);
-  const lat1 = toRad(a.lat);
-  const lat2 = toRad(b.lat);
+    const R = 6371; // Earth radius in km
+    const toRad = (deg: number) => deg * (Math.PI / 180);
+    const dLat = toRad(b.lat - a.lat);
+    const dLon = toRad(b.lon - a.lon);
+    const lat1 = toRad(a.lat);
+    const lat2 = toRad(b.lat);
 
-  const aa = Math.sin(dLat / 2) ** 2 + Math.sin(dLon / 2) ** 2 * Math.cos(lat1) * Math.cos(lat2);
-  const c = 2 * Math.atan2(Math.sqrt(aa), Math.sqrt(1 - aa));
-  return R * c;
-};
+    const aa = Math.sin(dLat / 2) ** 2 + Math.sin(dLon / 2) ** 2 * Math.cos(lat1) * Math.cos(lat2);
+    const c = 2 * Math.atan2(Math.sqrt(aa), Math.sqrt(1 - aa));
+    return R * c;
+  };
 
-// Brute force permutations for TSP (works well for ≤8 points)
-const permute = (arr: number[]): number[][] => {
-  if (arr.length <= 1) return [arr];
-  const res: number[][] = [];
-  for (let i = 0; i < arr.length; i++) {
-    const rest = [...arr.slice(0, i), ...arr.slice(i + 1)];
-    for (const p of permute(rest)) res.push([arr[i], ...p]);
-  }
-  return res;
-};
-
-// Solve TSP returning best visiting order of indices
-const solveTSP = (locations: Location[]): number[] => {
-  const indices = Array.from({ length: locations.length }, (_, i) => i);
-  const allOrders = permute(indices);
-
-  let minDist = Infinity;
-  let bestOrder: number[] = [];
-
-  for (const order of allOrders) {
-    let dist = 0;
-    for (let i = 0; i < order.length - 1; i++) {
-      dist += getDistance(locations[order[i]], locations[order[i + 1]]);
+  // Brute force permutations for TSP (works well for ≤8 points)
+  const permute = (arr: number[]): number[][] => {
+    if (arr.length <= 1) return [arr];
+    const res: number[][] = [];
+    for (let i = 0; i < arr.length; i++) {
+      const rest = [...arr.slice(0, i), ...arr.slice(i + 1)];
+      for (const p of permute(rest)) res.push([arr[i], ...p]);
     }
-    if (dist < minDist) {
-      minDist = dist;
-      bestOrder = order;
-    }
-  }
-  return bestOrder;
-};
+    return res;
+  };
 
+  // Solve TSP returning best visiting order of indices
+  const solveTSP = (locations: Location[]): number[] => {
+    const indices = Array.from({ length: locations.length }, (_, i) => i);
+    const allOrders = permute(indices);
+
+    let minDist = Infinity;
+    let bestOrder: number[] = [];
+
+    for (const order of allOrders) {
+      let dist = 0;
+      for (let i = 0; i < order.length - 1; i++) {
+        dist += getDistance(locations[order[i]], locations[order[i + 1]]);
+      }
+      if (dist < minDist) {
+        minDist = dist;
+        bestOrder = order;
+      }
+    }
+    return bestOrder;
+  };
 
   useEffect(() => {
     // Load initial tourist destinations from JSON
@@ -106,7 +103,13 @@ const solveTSP = (locations: Location[]): number[] => {
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
-  // ** NEW: function to calculate tsp and fetch route on demand **
+  // Reset route and tspOrder when destinations change (clear route on destination change)
+  useEffect(() => {
+    setPathCoords([]);
+    setTspOrder([]);
+  }, [destinations]);
+
+  // Calculate TSP and fetch route
   const calculateTSPRoute = async () => {
     if (destinations.length < 2) {
       alert("Please add at least two destinations");
