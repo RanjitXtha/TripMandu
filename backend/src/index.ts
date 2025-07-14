@@ -6,7 +6,7 @@ import type { NodeMapType,GraphType, NodeType } from "./utils/types.js";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 8080;
+const PORT = Number(process.env.PORT) || 8080;
 export let nodeMap:NodeMapType = {};
 export let graph:GraphType = {};
 
@@ -22,7 +22,7 @@ async function main() {
         console.log("Graph data loaded into memory.");
 
 
-        app.listen(PORT, () => {
+        app.listen(PORT,'0.0.0.0',() => {
             console.log(`Server is running on port ${PORT}`);
         })
     } catch (error:any) {

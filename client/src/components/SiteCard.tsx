@@ -1,4 +1,4 @@
-import { X } from "lucide-react"; // optional icon
+import { X } from "lucide-react";
 import React from "react";
 import { Card, CardContent } from "./ui/Card";
 import type { TouristDestination } from "../types/types";

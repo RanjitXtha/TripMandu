@@ -1,24 +1,46 @@
-import React, { useState, type ChangeEvent } from "react";
+import React, { useEffect } from "react";
 import { X } from "lucide-react";
-import FilterTabs from "./FilterTabs"; // Assuming this is your custom component
-import SiteCard from "./SiteCard"; // Assuming this is your custom component
-import type { TouristDestination } from "../types/types";
-
-const places: string[] = ["Kathmandu", "Bhaktapur", "Lalitpur"];
+import SiteCard from "./SiteCard";
+import type { NearByDestinationType, TouristDestination } from "../types/types";
+import axios from "axios";
 
 const ShowSites = ({
   siteData,
+  setNearByDestinations,
+  myloc,
   onBack,
 }: {
   siteData: TouristDestination;
+  setNearByDestinations: React.Dispatch<
+    React.SetStateAction<NearByDestinationType[]>
+  >;
+  myloc: { lat: number; lon: number } | null;
   onBack?: () => void;
 }) => {
-  const [selectedPlace, setSelectedPlace] = useState("Kathmandu");
   console.log(siteData);
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedPlace(e.target.value);
-  };
+  useEffect(() => {
+    const getNearByDestination = async () => {
+      setNearByDestinations([]);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/api/map/getNearByNodes",
+          {
+            lat: myloc?.lat,
+            lon: myloc?.lon,
+          }
+        );
+
+        const result = response.data.results;
+        setNearByDestinations(result);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getNearByDestination();
+  }, []);
 
   return (
     <div className="w-[400px]">
@@ -31,7 +53,7 @@ const ShowSites = ({
           <X size={20} />
         </button>
       )}
-      <select
+      {/* <select
         className="text-lg font-semibold px-4 py-2 outline-hidden"
         value={selectedPlace}
         id="place-select"
@@ -43,15 +65,8 @@ const ShowSites = ({
             {place}
           </option>
         ))}
-      </select>
-
-      <div>
-        <FilterTabs />
-      </div>
-
-      <div className="flex-1 p-6">
-        <SiteCard {...siteData} />
-      </div>
+      </select> */}
+      <SiteCard {...siteData} />
     </div>
   );
 };
