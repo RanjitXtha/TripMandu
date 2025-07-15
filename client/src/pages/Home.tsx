@@ -12,7 +12,6 @@ import PopularSites from "../components/PopularSites";
 type OverlayView = "none" | "popularSite" | "routePlanner";
 
 const Home = () => {
-  // States
   const [overlayView, setOverlayView] = useState<OverlayView>("none");
   const [destinations, setDestinations] = useState<Location[]>([]);
   const [clickMarkers, setClickMarkers] = useState<Location[]>([]);
@@ -40,40 +39,44 @@ const Home = () => {
     return R * c;
   };
 
-  // Brute force permutations for TSP (works well for ≤8 points)
-  const permute = (arr: number[]): number[][] => {
-    if (arr.length <= 1) return [arr];
-    const res: number[][] = [];
-    for (let i = 0; i < arr.length; i++) {
-      const rest = [...arr.slice(0, i), ...arr.slice(i + 1)];
-      for (const p of permute(rest)) res.push([arr[i], ...p]);
-    }
-    return res;
-  };
+const solveTSP = (locations: Location[]): number[] => {
+  const n = locations.length;
+  if (n === 0) return [];
 
-  // Solve TSP returning best visiting order of indices
-  const solveTSP = (locations: Location[]): number[] => {
-    const indices = Array.from({ length: locations.length }, (_, i) => i);
-    const allOrders = permute(indices);
+  const visited = new Array(n).fill(false);
+  const order: number[] = [0]; // Start from index 0
+  visited[0] = true;
 
+  let current = 0;
+
+  for (let step = 1; step < n; step++) {
+    let nearest = -1;
     let minDist = Infinity;
-    let bestOrder: number[] = [];
 
-    for (const order of allOrders) {
-      let dist = 0;
-      for (let i = 0; i < order.length - 1; i++) {
-        dist += getDistance(locations[order[i]], locations[order[i + 1]]);
-      }
-      if (dist < minDist) {
-        minDist = dist;
-        bestOrder = order;
+    for (let i = 0; i < n; i++) {
+      if (!visited[i]) {
+        const dist = getDistance(locations[current], locations[i]);
+        if (dist < minDist) {
+          minDist = dist;
+          nearest = i;
+        }
       }
     }
-    return bestOrder;
-  };
+
+    if (nearest !== -1) {
+      visited[nearest] = true;
+      order.push(nearest);
+      current = nearest;
+    }
+  }
+
+  order.push(0);
+
+  return order;
+};
+
 
   useEffect(() => {
-    // Load initial tourist destinations from JSON
     const GetDestinations = async () => {
       const response = await fetch("/destinations.json");
       const destinations: TouristDestination[] = await response.json();
@@ -103,13 +106,12 @@ const Home = () => {
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
-  // Reset route and tspOrder when destinations change (clear route on destination change)
+
   useEffect(() => {
     setPathCoords([]);
     setTspOrder([]);
   }, [destinations]);
 
-  // Calculate TSP and fetch route
   const calculateTSPRoute = async () => {
     if (destinations.length < 2) {
       alert("Please add at least two destinations");

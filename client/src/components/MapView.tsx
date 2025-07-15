@@ -102,7 +102,7 @@ const MapView = ({
     }
 
     // Click markers (custom added markers)
-    clickMarkers.forEach((place, index) => {
+    clickMarkers.forEach((place) => {
       const html = `
         <strong>Custom Marker</strong><br/>
         <button onclick='window.addDest([${place.lat}, ${place.lon}])'>Add as Destination</button><br/>
@@ -208,7 +208,6 @@ const MapView = ({
         const btn = document.getElementById(popupId);
         if (btn) {
           btn.addEventListener("click", () => {
-            // Add my location as a destination without touristId
             setDestinations((prev) => [...prev, { lat: myloc.lat, lon: myloc.lon }]);
           });
         }
@@ -218,7 +217,7 @@ const MapView = ({
     mapLoaded,
     clickMarkers,
     destinations,
-    myloc,
+    myloc,, index
     tspOrder,
     pathCoords,
     touristDestinations,
@@ -227,7 +226,7 @@ const MapView = ({
   ]);
 
   // Map click handlers for adding custom markers or setting start/end
-  useEffect(() => {
+  useEffect(():any => {
     const handleClick = (e: maplibregl.MapMouseEvent) => {
       const latlng: [number, number] = [e.lngLat.lat, e.lngLat.lng];
       if (markerMode === "start") {
@@ -275,7 +274,6 @@ const MapView = ({
   useEffect(() => {
     window.addDest = (touristIndexOrLatlng: number | [number, number]) => {
       if (typeof touristIndexOrLatlng === "number") {
-        // Add from touristDestinations by index
         const td = touristDestinations[touristIndexOrLatlng];
         if (!td) return;
         setDestinations((prev) => [
@@ -283,7 +281,6 @@ const MapView = ({
           { lat: td.lat, lon: td.lon, touristId: touristIndexOrLatlng },
         ]);
       } else if (Array.isArray(touristIndexOrLatlng)) {
-        // Add custom latlng without touristId
         setDestinations((prev) => [
           ...prev,
           { lat: touristIndexOrLatlng[0], lon: touristIndexOrLatlng[1] },
