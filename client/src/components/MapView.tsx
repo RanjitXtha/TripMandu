@@ -77,12 +77,17 @@ const MapView = ({
       touristDestinations.forEach((place, index) => {
         const popupId = `tourist-info-${index}`;
         const html = `
-          <strong>${place.name}</strong><br/>
-          <button onclick='window.addDest(${index})'>Add as Destination</button><br/>
-          <button id="${popupId}" style="color:blue;cursor:pointer;margin-top:4px">View Site Info</button>
+        <div class="p-3 bg-white rounded shadow-md text-sm space-y-2">
+          <h3 class="font-semibold text-lg text-center">${place.name}</h3><br/>
+          <button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded px-2 py-2 transition cursor-pointer" onclick='window.addDest(${index})'>Add as Destination</button><br/>
+          <button id="${popupId}" class="w-full text-blue-600 hover:underline mt-1 cursor-pointer">View Site Info</button>
+        </div>
         `;
 
-        const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
+        const popup = new maplibregl.Popup({
+          offset: 25,
+          closeButton: true,
+        }).setHTML(html);
 
         const el = document.createElement("div");
         el.className = "custom-marker";
@@ -100,11 +105,56 @@ const MapView = ({
 
         markersRef.current.push(marker);
 
+        // let isHoveringMarker = false;
+        // let isHoveringPopup = false;
+        // let hoverTimeout: ReturnType<typeof setTimeout> | null = null;
+
+        // // Mouse enter on marker
+        // el.addEventListener("mouseenter", () => {
+        //   isHoveringMarker = true;
+        //   if (hoverTimeout) clearTimeout(hoverTimeout);
+        //   popup.addTo(mapRef.current!);
+        // });
+
+        // // Mouse leave from marker
+        // el.addEventListener("mouseleave", () => {
+        //   isHoveringMarker = false;
+        //   hoverTimeout = setTimeout(() => {
+        //     if (!isHoveringPopup) {
+        //       popup.remove();
+        //     }
+        //   }, 200); // slight delay to allow transition
+        // });
+
+        // // Track popup hover (after it's in DOM)
+        // popup.on("open", () => {
+        //   const popupEl = document.querySelector(".maplibregl-popup-content");
+        //   const popupContainer = popupEl?.parentElement;
+
+        //   if (popupContainer) {
+        //     popupContainer.addEventListener("mouseenter", () => {
+        //       console.log("hovered");
+        //       isHoveringPopup = true;
+        //       if (hoverTimeout) clearTimeout(hoverTimeout);
+        //     });
+
+        //     popupContainer.addEventListener("mouseleave", () => {
+        //       isHoveringPopup = false;
+        //       hoverTimeout = setTimeout(() => {
+        //         if (!isHoveringMarker) {
+        //           popup.remove();
+        //         }
+        //       }, 200);
+        //     });
+        //   }
+        // });
+
         marker.getElement().addEventListener("click", () => {
           const map = mapRef.current;
           if (map) {
-            map.flyTo({ center: [place.lon, place.lat], zoom: 15 }); //  optional zoom
+            map.flyTo({ center: [place.lon, place.lat], zoom: 15 });
           }
+
           setOverlayView("popularSite");
 
           if (selectedMarker === index) {
@@ -120,9 +170,11 @@ const MapView = ({
     // Click markers (custom added markers)
     clickMarkers.forEach((place, index) => {
       const html = `
-        <strong>Custom Marker</strong><br/>
-        <button onclick='window.addDest([${place.lat}, ${place.lon}])'>Add as Destination</button><br/>
-        <button style='color:red' onclick='window.delClick(${place.lat}, ${place.lon})'>Delete Marker</button>
+      <div class="p-3 bg-white rounded shadow-md text-sm space-y-2">
+        <h3 class="font-semibold text-lg">Custom Marker</h3><br/>
+        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded px-3 py-2 transition" onclick='window.addDest([${place.lat}, ${place.lon}])'>Add as Destination</button><br/>
+        <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded px-2 py-2 transition cursor-pointer"  onclick='window.delClick(${place.lat}, ${place.lon})'>Delete</button>
+      </div>
       `;
 
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
@@ -156,11 +208,17 @@ const MapView = ({
           : place.name;
 
       const html = `
-        <strong>Destination ${order}</strong><br/>
-        ${nameFromTourist ? `<em>${nameFromTourist}</em><br/>` : ""}
+      <div class="p-3 bg-white rounded shadow-md text-sm">
+        <h3 class="font-semibold text-lg text-center">Destination ${order}</h3><br/>
+        ${
+          nameFromTourist
+            ? `<p class="font-semibold text-md text-center">${nameFromTourist}</p><br/>`
+            : ""
+        }
         ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}<br/>
-        <button onclick='window.delDest(${i})'>Remove</button><br/>
-        <button id="${popupId}" style="color:blue;cursor:pointer;margin-top:4px">View Site Info</button>
+        <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded px-2 py-2 transition cursor-pointer" onclick='window.delDest(${i})'>Remove</button><br/>
+        <button id="${popupId}" class="w-full text-blue-600 hover:underline mt-1 cursor-pointer">View Site Info</button>
+      </div>
       `;
 
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
@@ -207,8 +265,10 @@ const MapView = ({
     if (myloc) {
       const popupId = "my-location-add-btn";
       const html = `
-        <strong>My Location</strong><br/>
-        <button id="${popupId}" style="color:blue;cursor:pointer;margin-top:4px">Add as Destination</button>
+      <div class="p-3 bg-white rounded shadow-md text-sm space-y-2">
+        <h3 class="font-semibold text-lg text-center">My Location</h3><br/>
+        <button id="${popupId}" class="w-full text-blue-600 hover:underline mt-1 cursor-pointer">Add as Destination</button>
+      </div>
       `;
 
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);

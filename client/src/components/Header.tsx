@@ -8,9 +8,9 @@ interface HeaderProps {
 
 const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
   const user = useSelector((state: RootState) => state.user);
-  console.log(user);
+  // console.log(user);
   return (
-    <header className="absolute z-50 bg-white right-1/2 transform translate-x-1/2 flex items-center justify-between p-3 mt-2 w-2/3 rounded-full shadow-lg m-auto">
+    <header className="absolute z-5 bg-white right-1/2 transform translate-x-1/2 flex items-center justify-between p-3 mt-2 w-2/3 rounded-full shadow-lg m-auto">
       <h1 className="text-xl font-bold">TripMandu</h1>
       <nav className="flex gap-6">
         <button
