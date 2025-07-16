@@ -1,4 +1,6 @@
 import { X } from "lucide-react";
+import React, { useEffect } from "react";
+import { reverseToName } from "../apiHandle/detination";
 import type { Location } from "../types/types";
 
 interface RoutePlannerProps {
@@ -20,6 +22,35 @@ const RoutePlanner = ({
   setAddDestinationMode,
   onBack,
 }: RoutePlannerProps) => {
+  useEffect(() => {
+    async function fetchNames() {
+      const updated = await Promise.all(
+        destinations.map(async (dest) => {
+          if (dest.name && dest.name.trim() !== "") return dest;
+
+          try {
+            const name = await reverseToName(dest.lat, dest.lon);
+            return { ...dest, name };
+          } catch {
+            return dest;
+          }
+        })
+      );
+
+      // Only update if any name changed to avoid infinite loop
+      const hasChanges = updated.some(
+        (u, i) => u.name !== destinations[i].name
+      );
+      if (hasChanges) {
+        setDestinations(updated);
+      }
+    }
+
+    if (destinations.length > 0) {
+      fetchNames();
+    }
+  }, [destinations, setDestinations]);
+
   const removeDestination = (index: number) => {
     setDestinations((prev) => prev.filter((_, i) => i !== index));
   };
@@ -55,7 +86,6 @@ const RoutePlanner = ({
                   5
                 )}, ${destinations[0].lon.toFixed(5)}`}
               <br />
-
               <button
                 className="mb-2 mr-2 mt-4 text-sm px-4 py-2 rounded-full font-medium bg-black text-white"
                 onClick={clearStart}
@@ -66,7 +96,6 @@ const RoutePlanner = ({
           ) : (
             <em className="mr-2">Not Set</em>
           )}
-
           <button
             className={`mb-2 text-sm px-4 py-2 font-medium border rounded-full ${
               markerMode === "start" ? "bg-black text-white" : ""
@@ -77,6 +106,7 @@ const RoutePlanner = ({
           </button>
         </div>
 
+        {/* End */}
         <div className="mb-2 p-2 shadow-lg rounded-3xl">
           <strong>End:</strong>
           <br />
@@ -97,7 +127,6 @@ const RoutePlanner = ({
           ) : (
             <em className="mr-2">Not set</em>
           )}
-
           <button
             className={`mb-2 text-sm px-4 py-2 font-medium border rounded-full ${
               markerMode === "end" ? "bg-black text-white" : ""
@@ -108,6 +137,7 @@ const RoutePlanner = ({
           </button>
         </div>
 
+        {/* Add Destination Mode */}
         <div className="mb-2">
           <button
             className={`${
@@ -123,21 +153,22 @@ const RoutePlanner = ({
           </button>
         </div>
 
+        {/* Destination List */}
         <div className="mb-2 p-2 shadow-lg rounded-3xl">
           <strong>Destinations</strong>
           {destinations.length === 0 && <p>No destinations added yet.</p>}
-          <ul className="mb-2 ">
+          <ul className="mb-2">
             {destinations.map((d, i) => (
               <li
                 key={i}
-                className="mb-3  w-2/3 rounded-full m-auto bg-green-500 text-white"
+                className="relative mb-3 w-2/3 rounded-full m-auto bg-green-500 text-white px-4 py-1"
               >
                 {d.name || `${d.lat.toFixed(5)}, ${d.lon.toFixed(5)}`}
                 <button
-                  className="absolute right-4 text-red-600"
+                  className="absolute right-2 top-1 text-red-600 font-bold"
                   onClick={() => removeDestination(i)}
                 >
-                  X
+                  ×
                 </button>
               </li>
             ))}

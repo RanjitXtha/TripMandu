@@ -13,6 +13,7 @@ import Overlay from "../components/Overlay";
 import Footer from "../components/Footer";
 import SiteCard from "../components/SiteCard";
 import PopularSites from "../components/PopularSites";
+import { getAllPoints, type Destination } from "../apiHandle/detination";
 
 const Home = () => {
   const [overlayView, setOverlayView] = useState<OverlayView>("none");

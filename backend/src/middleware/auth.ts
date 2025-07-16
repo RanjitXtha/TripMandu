@@ -10,6 +10,7 @@ export interface AuthenticatedUser {
   fName?: string;
   lName?: string;
 }
+
 export interface AuthenticatedRequest extends Request {
   user?: AuthenticatedUser;
 }
