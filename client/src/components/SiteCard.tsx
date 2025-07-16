@@ -4,14 +4,9 @@ import { Card, CardContent } from "./ui/Card";
 import type { TouristDestination } from "../types/types";
 
 const SiteCard: React.FC<TouristDestination & { onBack?: () => void }> = ({
-  category,
-  coordinates,
   description,
   image,
   name,
-  tags,
-  wikiUrl,
-  wiki_title,
   onBack,
 }) => {
   return (
