@@ -53,36 +53,43 @@ const Home = () => {
     return R * c;
   };
 
-  // Brute force permutations for TSP (works well for ≤8 points)
-  const permute = (arr: number[]): number[][] => {
-    if (arr.length <= 1) return [arr];
-    const res: number[][] = [];
-    for (let i = 0; i < arr.length; i++) {
-      const rest = [...arr.slice(0, i), ...arr.slice(i + 1)];
-      for (const p of permute(rest)) res.push([arr[i], ...p]);
-    }
-    return res;
-  };
-
-  // Solve TSP returning best visiting order of indices
   const solveTSP = (locations: Location[]): number[] => {
-    const indices = Array.from({ length: locations.length }, (_, i) => i);
-    const allOrders = permute(indices);
+    const n = locations.length;
+    if (n === 0) return [];
+    if (n === 1) return [0];
 
-    let minDist = Infinity;
-    let bestOrder: number[] = [];
+    const visited = new Array(n).fill(false);
+    const order: number[] = [0]; // Start from first destination (index 0)
+    visited[0] = true;
 
-    for (const order of allOrders) {
-      let dist = 0;
-      for (let i = 0; i < order.length - 1; i++) {
-        dist += getDistance(locations[order[i]], locations[order[i + 1]]);
+    let current = 0;
+
+    // Use greedy nearest neighbor algorithm
+    for (let step = 1; step < n; step++) {
+      let nearest = -1;
+      let minDist = Infinity;
+
+      // Find nearest unvisited destination
+      for (let i = 0; i < n; i++) {
+        if (!visited[i]) {
+          const dist = getDistance(locations[current], locations[i]);
+          if (dist < minDist) {
+            minDist = dist;
+            nearest = i;
+          }
+        }
       }
-      if (dist < minDist) {
-        minDist = dist;
-        bestOrder = order;
+
+      if (nearest !== -1) {
+        visited[nearest] = true;
+        order.push(nearest);
+        current = nearest;
       }
     }
-    return bestOrder;
+
+    // Return to starting point
+    order.push(0);
+    return order;
   };
 
   useEffect(() => {
@@ -142,13 +149,16 @@ const Home = () => {
 
     setIsLoading(true);
     try {
-      const order = solveTSP(destinations);
-      setTspOrder(order);
+      // Solve TSP using greedy nearest neighbor algorithm
+      const tspOrderResult = solveTSP(destinations);
+      setTspOrder(tspOrderResult);
 
       let fullPath: [number, number][] = [];
-      for (let i = 0; i < order.length - 1; i++) {
-        const start = destinations[order[i]];
-        const end = destinations[order[i + 1]];
+
+      // Calculate route for each segment in TSP order
+      for (let i = 0; i < tspOrderResult.length - 1; i++) {
+        const start = destinations[tspOrderResult[i]];
+        const end = destinations[tspOrderResult[i + 1]];
 
         const res = await axios.post("http://localhost:8080/api/map/getRoute", {
           start: { lat: start.lat, lon: start.lon },

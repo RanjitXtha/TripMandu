@@ -57,18 +57,28 @@ const MapView = ({
   const [mapLoaded, setMapLoaded] = useState(false);
   const markersRef = useRef<maplibregl.Marker[]>([]);
 
+  // Helper function to get display number for markers
+  const getDisplayNumber = (destinationIndex: number): number => {
+    if (tspOrder.length === 0) {
+      // If no TSP calculated, show sequential numbers
+      return destinationIndex + 1;
+    }
+
+    // Find the position of this destination in the TSP order
+    const position = tspOrder.indexOf(destinationIndex);
+    if (position === -1) {
+      // If not found in TSP order (shouldn't happen), fallback to sequential
+      return destinationIndex + 1;
+    }
+    return position + 1; // Convert to 1-based numbering
+  };
+
   useEffect(() => {
     if (!mapLoaded || !mapRef.current) return;
 
     // Clear old markers
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
-
-    // Map destination index to order for route numbering
-    const orderMap: Record<number, number> = {};
-    tspOrder.forEach((destIndex, orderIndex) => {
-      orderMap[destIndex] = orderIndex + 1;
-    });
 
     const showTouristMarkers = pathCoords.length === 0;
 
@@ -104,50 +114,6 @@ const MapView = ({
           .addTo(mapRef.current!);
 
         markersRef.current.push(marker);
-
-        // let isHoveringMarker = false;
-        // let isHoveringPopup = false;
-        // let hoverTimeout: ReturnType<typeof setTimeout> | null = null;
-
-        // // Mouse enter on marker
-        // el.addEventListener("mouseenter", () => {
-        //   isHoveringMarker = true;
-        //   if (hoverTimeout) clearTimeout(hoverTimeout);
-        //   popup.addTo(mapRef.current!);
-        // });
-
-        // // Mouse leave from marker
-        // el.addEventListener("mouseleave", () => {
-        //   isHoveringMarker = false;
-        //   hoverTimeout = setTimeout(() => {
-        //     if (!isHoveringPopup) {
-        //       popup.remove();
-        //     }
-        //   }, 200); // slight delay to allow transition
-        // });
-
-        // // Track popup hover (after it's in DOM)
-        // popup.on("open", () => {
-        //   const popupEl = document.querySelector(".maplibregl-popup-content");
-        //   const popupContainer = popupEl?.parentElement;
-
-        //   if (popupContainer) {
-        //     popupContainer.addEventListener("mouseenter", () => {
-        //       console.log("hovered");
-        //       isHoveringPopup = true;
-        //       if (hoverTimeout) clearTimeout(hoverTimeout);
-        //     });
-
-        //     popupContainer.addEventListener("mouseleave", () => {
-        //       isHoveringPopup = false;
-        //       hoverTimeout = setTimeout(() => {
-        //         if (!isHoveringMarker) {
-        //           popup.remove();
-        //         }
-        //       }, 200);
-        //     });
-        //   }
-        // });
 
         marker.getElement().addEventListener("click", () => {
           const map = mapRef.current;
@@ -198,7 +164,7 @@ const MapView = ({
 
     // Destination markers (selected destinations with route info)
     destinations.forEach((place, i) => {
-      const order = orderMap[i] ?? i + 1;
+      const displayNumber = getDisplayNumber(i);
       const popupId = `dest-info-${i}`;
 
       // Use the name from touristDestinations if touristId exists
@@ -209,7 +175,7 @@ const MapView = ({
 
       const html = `
       <div class="p-3 bg-white rounded shadow-md text-sm">
-        <h3 class="font-semibold text-lg text-center">Destination ${order}</h3><br/>
+        <h3 class="font-semibold text-lg text-center">Destination ${displayNumber}</h3><br/>
         ${
           nameFromTourist
             ? `<p class="font-semibold text-md text-center">${nameFromTourist}</p><br/>`
@@ -237,7 +203,7 @@ const MapView = ({
       el.style.alignItems = "center";
       el.style.justifyContent = "center";
       el.style.cursor = "pointer";
-      el.innerText = String(order);
+      el.innerText = String(displayNumber);
 
       const marker = new maplibregl.Marker({ element: el })
         .setLngLat([place.lon, place.lat])
