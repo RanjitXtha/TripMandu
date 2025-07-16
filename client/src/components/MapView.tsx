@@ -168,7 +168,7 @@ const MapView = ({
     }
 
     // Click markers (custom added markers)
-    clickMarkers.forEach((place, index) => {
+    clickMarkers.forEach((place) => {
       const html = `
       <div class="p-3 bg-white rounded shadow-md text-sm space-y-2">
         <h3 class="font-semibold text-lg">Custom Marker</h3><br/>
@@ -298,6 +298,7 @@ const MapView = ({
     clickMarkers,
     destinations,
     myloc,
+    index,
     tspOrder,
     pathCoords,
     touristDestinations,
@@ -359,7 +360,6 @@ const MapView = ({
   useEffect(() => {
     window.addDest = (touristIndexOrLatlng: number | [number, number]) => {
       if (typeof touristIndexOrLatlng === "number") {
-        // Add from touristDestinations by index
         const td = touristDestinations[touristIndexOrLatlng];
         if (!td) return;
         setDestinations((prev) => [
@@ -367,7 +367,6 @@ const MapView = ({
           { lat: td.lat, lon: td.lon, touristId: touristIndexOrLatlng },
         ]);
       } else if (Array.isArray(touristIndexOrLatlng)) {
-        // Add custom latlng without touristId
         setDestinations((prev) => [
           ...prev,
           { lat: touristIndexOrLatlng[0], lon: touristIndexOrLatlng[1] },
