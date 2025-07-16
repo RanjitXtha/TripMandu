@@ -106,7 +106,8 @@ const Home = () => {
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
-  // Reset route and tspOrder when destinations change (clear route on destination change)
+  const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
+
   useEffect(() => {
     setPathCoords([]);
     setTspOrder([]);
@@ -154,9 +155,10 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <Header setSelectedMarker={setSelectedMarker} onSelectView={setOverlayView} />
-      <div className="flex-grow flex">
+    <div className="flex">
+      <Header onSelectView={(view) => setOverlayView(view)} />
+        {/* <Search /> */}
+      {overlayView !== "none" && (
         <Overlay>
           {overlayView === "popularSite" && <PopularSites />}
           {overlayView === "routePlanner" && (
@@ -173,32 +175,24 @@ const Home = () => {
             <ShowSites myloc={myloc} setNearByDestinations={setNearByDestinations} siteData={touristDestinations[selectedMarker]} />
           )}
         </Overlay>
-
-        <div className="w-full bg-green-400 relative">
-          <MapView
-            touristDestinations={touristDestinationsCoords}
-            clickMarkers={clickMarkers}
-            setClickMarkers={setClickMarkers}
-            destinations={destinations}
-            setDestinations={setDestinations}
-            markerMode={markerMode}
-            setMarkerMode={setMarkerMode}
-            addDestinationMode={addDestinationMode}
-            myloc={myloc}
-            pathCoords={pathCoords}
-            setSelectedMarker={setSelectedMarker}
-            nearByDestinations={nearByDestinations}
-            tspOrder={tspOrder}
-          />
-          {/* Calculate TSP Button */}
-          <button
-            disabled={loading}
-            onClick={calculateTSPRoute}
-            className="absolute top-4 right-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
-          >
-            {loading ? "Calculating..." : "Calculate TSP Route"}
-          </button>
-        </div>
+      )}
+<div className="bg-green-400 h-screen w-full">
+      
+    
+      <MapView
+      
+        touristDestinations={touristDestinationsCoords}
+        clickMarkers={clickMarkers}
+        setClickMarkers={setClickMarkers}
+        destinations={destinations}
+        setDestinations={setDestinations}
+        markerMode={markerMode}
+        setMarkerMode={setMarkerMode}
+        addDestinationMode={addDestinationMode}
+        myloc={myloc}
+        pathCoords={pathCoords}
+        setSelectedMarker={setSelectedMarker}
+      />
       </div>
       <Footer />
     </div>
