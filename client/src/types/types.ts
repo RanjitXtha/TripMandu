@@ -11,17 +11,11 @@ export type Location = {
 };
 
 export type TouristDestination = {
-  category:string,
-  coordinates:{
-    lat:number,
-    lon:number
-  },
-  description:string,
-  image:string,
+  lat: number;
+  lon: number;
+  description?:string,
+  image?:string,
   name:string,
-  tags:[],
-  wikiUrl:string,
-  wiki_title:string
 }
 
 

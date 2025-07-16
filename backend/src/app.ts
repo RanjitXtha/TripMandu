@@ -3,8 +3,10 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 const app = express();
+
+
 app.use(cors({
-  origin: '*',
+  origin: "http://localhost:5173",
   credentials: true
 }));//options for origin, methods, credentials and allowheaders
 
@@ -19,10 +21,12 @@ app.use(cookieParser());
 
 import mapRouter from "./routes/map.route.js";
 import router from "./routes/user.route.js";
-app.use('/api/v1/user', router);
-app.get('/',(req,res)=>{
-  console.log("req made")
-  res.send('Hello')
-})
+import destinationRouter from "./routes/destination.route.js";
+app.use('/api/user', router);
+app.use("/api/destination", destinationRouter)
+// app.get('/',(req,res)=>{
+//   console.log("req made")
+//   res.send('Hello')
+// })
 app.use(mapRouter);
 export { app };

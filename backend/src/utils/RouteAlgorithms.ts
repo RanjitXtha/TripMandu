@@ -84,3 +84,5 @@ function nearestNode(point:NodeType, nodeMap:NodeMapType) {
 }
 
 export { aStar, nearestNode, haversineDistance };
+
+

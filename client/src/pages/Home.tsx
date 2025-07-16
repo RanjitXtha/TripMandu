@@ -8,6 +8,7 @@ import ShowSites from "../components/ShowSites";
 import Overlay from "../components/Overlay";
 import Footer from "../components/Footer";
 import PopularSites from "../components/PopularSites";
+import { getAllPoints, type Destination } from "../apiHandle/detination";
 
 type OverlayView = "none" | "popularSite" | "routePlanner";
 
@@ -75,18 +76,20 @@ const Home = () => {
   useEffect(() => {
     // Load initial tourist destinations from JSON
     const GetDestinations = async () => {
-      const response = await fetch("/destinations.json");
-      const destinations: TouristDestination[] = await response.json();
+      const response = await getAllPoints();
+      const destinations: Destination[] = response.data
       const coords = destinations.map((d) => ({
         name: d.name,
-        lat: d.coordinates?.lat,
-        lon: d.coordinates?.lon,
+        lat: d.lat,
+        lon: d.lon,
       }));
       setTouristDestinations(destinations);
       setTouristDestinationsCoords(coords);
     };
     GetDestinations();
   }, []);
+
+
 
   useEffect(() => {
     if (selectedMarker === null) return;
