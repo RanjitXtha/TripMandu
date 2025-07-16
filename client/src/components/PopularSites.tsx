@@ -74,7 +74,7 @@ const PopularSites = ({
   // }, []);
 
   return (
-    <div className="p-2 w-[650px]">
+    <div className="p-2 ">
       {onBack && (
         <button
           onClick={onBack}
