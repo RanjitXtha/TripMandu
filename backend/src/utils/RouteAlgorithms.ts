@@ -83,4 +83,41 @@ function nearestNode(point:NodeType, nodeMap:NodeMapType) {
  return nearestId;
 }
 
-export { aStar, nearestNode, haversineDistance };
+
+const solveTSP = (locations: NodeType[]): number[] => {
+  const n = locations.length;
+  if (n === 0) return [];
+
+  const visited = new Array(n).fill(false);
+  const order: number[] = [0];
+  visited[0] = true;
+
+  let current = 0;
+
+  for (let step = 1; step < n; step++) {
+    let nearest = -1;
+    let minDist = Infinity;
+
+    for (let i = 0; i < n; i++) {
+      if (!visited[i]) {
+        const dist = haversineDistance(locations[current], locations[i]);
+        if (dist < minDist) {
+          minDist = dist;
+          nearest = i;
+        }
+      }
+    }
+
+    if (nearest !== -1) {
+      visited[nearest] = true;
+      order.push(nearest);
+      current = nearest;
+    }
+  }
+
+  order.push(0);
+
+  return order;
+};
+
+export { aStar, nearestNode, haversineDistance,solveTSP };

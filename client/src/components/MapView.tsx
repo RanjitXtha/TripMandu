@@ -49,18 +49,28 @@ const MapView = ({
   const [mapLoaded, setMapLoaded] = useState(false);
   const markersRef = useRef<maplibregl.Marker[]>([]);
 
+  // Helper function to get display number for markers
+  const getDisplayNumber = (destinationIndex: number): number => {
+    if (tspOrder.length === 0) {
+      // If no TSP calculated, show sequential numbers
+      return destinationIndex + 1;
+    }
+    
+    // Find the position of this destination in the TSP order
+    const position = tspOrder.indexOf(destinationIndex);
+    if (position === -1) {
+      // If not found in TSP order (shouldn't happen), fallback to sequential
+      return destinationIndex + 1;
+    }
+    return position + 1; // Convert to 1-based numbering
+  };
+
   useEffect(() => {
     if (!mapLoaded || !mapRef.current) return;
 
     // Clear old markers
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
-
-    // Map destination index to order for route numbering
-    const orderMap: Record<number, number> = {};
-    tspOrder.forEach((destIndex, orderIndex) => {
-      orderMap[destIndex] = orderIndex + 1;
-    });
 
     const showTouristMarkers = pathCoords.length === 0;
 
@@ -130,7 +140,7 @@ const MapView = ({
 
     // Destination markers (selected destinations with route info)
     destinations.forEach((place, i) => {
-      const order = orderMap[i] ?? i + 1;
+      const displayNumber = getDisplayNumber(i);
       const popupId = `dest-info-${i}`;
 
       // Use the name from touristDestinations if touristId exists
@@ -140,7 +150,7 @@ const MapView = ({
           : place.name;
 
       const html = `
-        <strong>Destination ${order}</strong><br/>
+        <strong>Destination ${displayNumber}</strong><br/>
         ${nameFromTourist ? `<em>${nameFromTourist}</em><br/>` : ""}
         ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}<br/>
         <button onclick='window.delDest(${i})'>Remove</button><br/>
@@ -163,7 +173,7 @@ const MapView = ({
       el.style.alignItems = "center";
       el.style.justifyContent = "center";
       el.style.cursor = "pointer";
-      el.innerText = String(order);
+      el.innerText = String(displayNumber);
 
       const marker = new maplibregl.Marker({ element: el })
         .setLngLat([place.lon, place.lat])
@@ -217,7 +227,7 @@ const MapView = ({
     mapLoaded,
     clickMarkers,
     destinations,
-    myloc,, index
+    myloc,
     tspOrder,
     pathCoords,
     touristDestinations,

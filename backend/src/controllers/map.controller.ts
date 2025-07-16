@@ -71,3 +71,9 @@ export const getNearByNodes = asyncHandler(async(req: Request, res: Response)=>{
 })
 
 
+const solveTSP = async(req: Request, res: Response) => {
+  
+}
+
+
+
