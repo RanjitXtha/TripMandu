@@ -13,7 +13,6 @@ export type Location = {
 };
 
 export type TouristDestination = {
-  category: string;
   coordinates: {
     lat: number;
     lon: number;
@@ -21,9 +20,6 @@ export type TouristDestination = {
   description: string;
   image: string;
   name: string;
-  tags: [];
-  wikiUrl: string;
-  wiki_title: string;
 };
 
 export type NearByDestinationType = {

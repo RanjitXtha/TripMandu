@@ -9,18 +9,16 @@ import type {
   NearByDestinationType,
 } from "../types/types";
 import Header from "../components/Header";
-import ShowSites from "../components/ShowSites";
 import Overlay from "../components/Overlay";
 import Footer from "../components/Footer";
 import SiteCard from "../components/SiteCard";
-
-type OverlayView = "none" | "popularSite" | "routePlanner";
+import PopularSites from "../components/PopularSites";
 
 const Home = () => {
   const [overlayView, setOverlayView] = useState<OverlayView>("none");
   const [destinations, setDestinations] = useState<Location[]>([]);
   const [clickMarkers, setClickMarkers] = useState<Location[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [myloc, setMyloc] = useState<{ lat: number; lon: number } | null>(null);
   const [addDestinationMode, setAddDestinationMode] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState<null | number>(null);
@@ -54,54 +52,63 @@ const Home = () => {
     return R * c;
   };
 
+  // Brute force permutations for TSP (works well for ≤8 points)
+  const permute = (arr: number[]): number[][] => {
+    if (arr.length <= 1) return [arr];
+    const res: number[][] = [];
+    for (let i = 0; i < arr.length; i++) {
+      const rest = [...arr.slice(0, i), ...arr.slice(i + 1)];
+      for (const p of permute(rest)) res.push([arr[i], ...p]);
+    }
+    return res;
+  };
+
+  // Solve TSP returning best visiting order of indices
   const solveTSP = (locations: Location[]): number[] => {
-    const n = locations.length;
-    if (n === 0) return [];
+    const indices = Array.from({ length: locations.length }, (_, i) => i);
+    const allOrders = permute(indices);
 
-    const visited = new Array(n).fill(false);
-    const order: number[] = [0]; // Start from index 0
-    visited[0] = true;
+    let minDist = Infinity;
+    let bestOrder: number[] = [];
 
-    let current = 0;
-
-    for (let step = 1; step < n; step++) {
-      let nearest = -1;
-      let minDist = Infinity;
-
-      for (let i = 0; i < n; i++) {
-        if (!visited[i]) {
-          const dist = getDistance(locations[current], locations[i]);
-          if (dist < minDist) {
-            minDist = dist;
-            nearest = i;
-          }
-        }
+    for (const order of allOrders) {
+      let dist = 0;
+      for (let i = 0; i < order.length - 1; i++) {
+        dist += getDistance(locations[order[i]], locations[order[i + 1]]);
       }
-
-      if (nearest !== -1) {
-        visited[nearest] = true;
-        order.push(nearest);
-        current = nearest;
+      if (dist < minDist) {
+        minDist = dist;
+        bestOrder = order;
       }
     }
-
-    order.push(0);
-
-    return order;
+    return bestOrder;
   };
 
   useEffect(() => {
     const GetDestinations = async () => {
-      const response = await fetch("/destinations.json");
-      const destinations: TouristDestination[] = await response.json();
-      const coords = destinations.map((d) => ({
-        name: d.name,
-        lat: d.coordinates?.lat,
-        lon: d.coordinates?.lon,
-      }));
-      setTouristDestinations(destinations);
-      setTouristDestinationsCoords(coords);
+      try {
+        const response = await fetch("/destinations.json");
+        if (!response.ok) {
+          throw new Error("Failed to fetch destinations");
+        }
+
+        const destinations: TouristDestination[] = await response.json();
+
+        const coords = destinations.map((d) => ({
+          name: d.name,
+          lat: d.coordinates?.lat,
+          lon: d.coordinates?.lon,
+        }));
+
+        setTouristDestinations(destinations);
+        setTouristDestinationsCoords(coords);
+      } catch (error) {
+        console.error("Error fetching destinations:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
+
     GetDestinations();
   }, []);
 
@@ -132,7 +139,7 @@ const Home = () => {
       return;
     }
 
-    setLoading(true);
+    setIsLoading(true);
     try {
       const order = solveTSP(destinations);
       setTspOrder(order);
@@ -162,7 +169,7 @@ const Home = () => {
       console.error("TSP route calculation failed", error);
       alert("Failed to calculate route");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -190,11 +197,17 @@ const Home = () => {
                 />
               </div>
             ) : (
-              <ShowSites
+              // <ShowSites
+              //   myloc={myloc}
+              //   setNearByDestinations={setNearByDestinations}
+              //   siteData={touristDestinations[0]}
+              //   onBack={() => setOverlayView("none")}
+              // />
+              <PopularSites
                 myloc={myloc}
                 setNearByDestinations={setNearByDestinations}
-                siteData={touristDestinations[0]}
                 onBack={() => setOverlayView("none")}
+                touristDestinations={touristDestinations}
               />
             ))}
           {overlayView === "routePlanner" && (
@@ -231,11 +244,11 @@ const Home = () => {
         />
         {/* Calculate TSP Button */}
         <button
-          disabled={loading}
+          disabled={isLoading}
           onClick={calculateTSPRoute}
           className="absolute top-4 right-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
         >
-          {loading ? "Calculating..." : "Calculate TSP Route"}
+          {isLoading ? "Calculating..." : "Calculate TSP Route"}
         </button>
       </div>
       <Footer />
