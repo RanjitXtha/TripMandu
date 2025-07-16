@@ -3,10 +3,12 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 const app = express();
-app.use(cors({
-  origin: '*',
-  credentials: true
-}));//options for origin, methods, credentials and allowheaders
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+); //options for origin, methods, credentials and allowheaders
 
 app.use(express.json()); //limit can be define for json payloads
 app.use(express.urlencoded({ extended: true })); //for forData (form paylaods)
@@ -19,10 +21,10 @@ app.use(cookieParser());
 
 import mapRouter from "./routes/map.route.js";
 import router from "./routes/user.route.js";
-app.use('/api/v1/user', router);
-app.get('/',(req,res)=>{
-  console.log("req made")
-  res.send('Hello')
-})
+app.use("/api/v1/user", router);
+app.get("/", (req, res) => {
+  console.log("req made");
+  res.send("Hello");
+});
 app.use(mapRouter);
 export { app };

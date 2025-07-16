@@ -298,7 +298,6 @@ const MapView = ({
     clickMarkers,
     destinations,
     myloc,
-    index,
     tspOrder,
     pathCoords,
     touristDestinations,
