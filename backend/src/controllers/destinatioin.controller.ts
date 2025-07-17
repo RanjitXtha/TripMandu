@@ -70,7 +70,7 @@ export const getNearByLocations = asyncHandler(async(req: Request, res: Response
   LIMIT 10;
 `, longitude, latitude);
 
-console.log(results);
+//console.log(results);
 
 return res.status(200)
 .json(
