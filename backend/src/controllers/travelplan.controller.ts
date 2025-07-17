@@ -156,3 +156,96 @@ export const getPlanDestinationById = asyncHandler(async (req: AuthenticatedRequ
   return res.status(200).json(new ApiResponse(200, response, "Plan destinations retrieved successfully"));
 });
 
+export const deletePlanById = asyncHandler(async(req: AuthenticatedRequest, res: Response) => {
+  const user = req.user;
+
+  if(!user || !user.id) {
+    throw new ApiError(401, "Unauthrorized acccess");
+  }
+
+  const id = req.query.id as string;
+
+  if(!id) {
+    throw new ApiError(403, "Unauthorized access");
+  }
+
+  const plan = await prisma.travelPlan.findUnique(
+    {
+      where: {id}
+    }
+  );
+
+  if(!plan) {
+    throw new ApiError(404, "Plan doesnot exist.");
+  }
+
+ await prisma.planDestination.deleteMany({
+  where: { planId: id }, 
+});
+
+
+await prisma.travelPlan.delete({
+  where: { id },
+});
+
+  return res.status(200)
+       .json(new ApiResponse(200, {}, "Plan Destination deleted successfully."));
+})
+
+export const updatePlanById = asyncHandler(async(req: AuthenticatedRequest, res: Response) => {
+  const user = req.user;
+  if(!user || !user.id) {
+    throw new ApiResponse(401, "Unauthorized access");
+  }
+
+  const id = req.query.id as string;
+
+  if(!id) {
+    throw new ApiError(403, "Id not found");
+  }
+
+  const { planeName, destinations} = req.body;
+
+  if(!planeName || !Array.isArray(destinations) || destinations.length === 0) {
+    throw new ApiError(403, "ALl fields required");
+  }
+
+  const existingPlan = await prisma.travelPlan.findFirst({
+    where: {
+      id,
+      userId: user.id,
+    },
+  });
+
+  if (!existingPlan) {
+    throw new ApiError(404, "Travel plan not found");
+  }
+
+    const updatedPlan = await prisma.travelPlan.update({
+    where: { id },
+    data: {
+      name: planeName,
+      destinations: {
+        deleteMany: {},
+        create: destinations.map((d: any) => ({
+          destination: {
+            connect: { id: d.id },
+          },
+          order: d.order,
+          date: d.date ? new Date(d.date) : undefined,
+        })),
+      },
+    },
+    include: {
+      destinations: {
+        include: {
+          destination: true,
+        },
+      },
+    },
+  });
+
+  return res.status(200)
+      .json(new ApiResponse(200, updatedPlan, "Plan updated successfully."));
+
+})
