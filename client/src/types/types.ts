@@ -4,6 +4,8 @@ export type Site = {
   about: string;
 };
 
+export type OverlayView = "none" | "popularSite" | "routePlanner";
+
 export type Location = {
   name?: string;
   lat: number;
@@ -11,6 +13,16 @@ export type Location = {
 };
 
 export type TouristDestination = {
+<<<<<<< HEAD
+  coordinates: {
+    lat: number;
+    lon: number;
+  };
+  description: string;
+  image: string;
+  name: string;
+};
+=======
   lat: number;
   lon: number;
   description?:string,
@@ -18,11 +30,11 @@ export type TouristDestination = {
   name:string,
 }
 
+>>>>>>> origin/snk
 
 export type NearByDestinationType = {
-  lat:number,
-  lon:number,
-  name:string,
-  categories:[]
-}
-
+  lat: number;
+  lon: number;
+  name: string;
+  categories: [];
+};

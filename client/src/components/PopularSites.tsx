@@ -1,43 +1,100 @@
-import React, { useEffect, useState, type ChangeEvent } from "react";
-import FilterTabs from "./FilterTabs"; // Assuming this is your custom component
+import React, { useEffect, useState } from "react";
+import { X } from "lucide-react";
 import SiteCard from "./SiteCard";
+import type { NearByDestinationType, TouristDestination } from "../types/types";
+import axios from "axios";
 
-const places: string[] = ["Kathmandu", "Bhaktapur", "Lalitpur"];
+const PopularSites = ({
+  setNearByDestinations,
+  myloc,
+  onBack,
+  touristDestinations,
+}: {
+  setNearByDestinations: React.Dispatch<
+    React.SetStateAction<NearByDestinationType[]>
+  >;
+  myloc: { lat: number; lon: number } | null;
+  onBack?: () => void;
+  touristDestinations: TouristDestination[];
+}) => {
+  // const [touristDestinations, setTouristDestinations] = useState<
+  //   TouristDestination[]
+  // >([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-const PopularSites = () => {
-    
-      const [selectedPlace, setSelectedPlace] = useState("Kathmandu");
+  // useEffect(() => {
+  //   const GetDestinations = async () => {
+  //     try {
+  //       const response = await fetch("/destinations.json");
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch destinations");
+  //       }
 
-       const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-          setSelectedPlace(e.target.value);
-        };
-return (
-    <div className="">
-      <select
-        className="text-lg font-semibold px-4 py-2 outline-hidden"
-        value={selectedPlace}
-        id="place-select"
-        title="Select a place"
-        onChange={handleChange}
-      >
-        {places.map((place) => (
-          <option key={place} value={place}>
-            {place}
-          </option>
-        ))}
-      </select>
+  //       const destinations: TouristDestination[] = await response.json();
 
-      <div>
-        <FilterTabs />
-      </div>
+  //       // Optional: Extract coordinates if needed
+  //       // const coords = destinations.map((d) => ({
+  //       //   name: d.name,
+  //       //   lat: d.coordinates?.lat,
+  //       //   lon: d.coordinates?.lon,
+  //       // }));
 
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
-        
-          {/* <SiteCard {...siteData} /> */}
-     
-      </div>
+  //       setTouristDestinations(destinations);
+  //     } catch (error) {
+  //       console.error("Error fetching destinations:", error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   GetDestinations();
+  // }, []);
+
+  // useEffect(() => {
+  //   const getNearByDestination = async () => {
+  //     setNearByDestinations([]);
+
+  //     try {
+  //       const response = await axios.post(
+  //         "http://localhost:8080/api/map/getNearByNodes",
+  //         {
+  //           lat: myloc?.lat,
+  //           lon: myloc?.lon,
+  //         }
+  //       );
+
+  //       const result = response.data.results;
+  //       setNearByDestinations(result);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+
+  //   getNearByDestination();
+  // }, []);
+
+  return (
+    <div className="p-2 ">
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="absolute top-2 right-2 z-10 bg-white p-1 rounded-full shadow hover:bg-gray-100"
+          aria-label="Close"
+        >
+          <X size={20} />
+        </button>
+      )}
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {touristDestinations.map((site, index) => (
+            <SiteCard key={index} {...site} />
+          ))}
+        </div>
+      )}
     </div>
   );
-}
+};
 
-export default PopularSites
+export default PopularSites;

@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import React, { useEffect } from "react";
 import { reverseToName } from "../apiHandle/detination";
 import type { Location } from "../types/types";
@@ -9,6 +10,7 @@ interface RoutePlannerProps {
   setMarkerMode: (mode: "none" | "start" | "end") => void;
   addDestinationMode: boolean;
   setAddDestinationMode: (val: boolean) => void;
+  onBack?: () => void;
 }
 
 const RoutePlanner = ({
@@ -18,6 +20,7 @@ const RoutePlanner = ({
   setMarkerMode,
   addDestinationMode,
   setAddDestinationMode,
+  onBack,
 }: RoutePlannerProps) => {
   useEffect(() => {
     async function fetchNames() {
@@ -61,18 +64,27 @@ const RoutePlanner = ({
   };
 
   return (
-    <div className="w-[300px]">
+    <div className="w-[350px]">
       <div className="flex-col overflow-y-auto p-2 text-center">
-        <div className="text-lg font-semibold px-4 py-2">Route Planner</div>
-
-        {/* Start */}
+        {onBack && (
+          <button
+            onClick={onBack}
+            className="absolute top-2 right-2 z-10 bg-white p-1 rounded-full shadow hover:bg-gray-100"
+            aria-label="Close"
+          >
+            <X size={20} />
+          </button>
+        )}
+        <div className="text-lg font-semibold px-4 py-2 ">Route Planner</div>
         <div className="mb-2 p-2 shadow-lg rounded-3xl">
           <strong>Start:</strong>
           <br />
           {destinations[0] ? (
             <>
               {destinations[0].name ||
-                `${destinations[0].lat.toFixed(5)}, ${destinations[0].lon.toFixed(5)}`}
+                `${destinations[0].lat.toFixed(
+                  5
+                )}, ${destinations[0].lon.toFixed(5)}`}
               <br />
               <button
                 className="mb-2 mr-2 mt-4 text-sm px-4 py-2 rounded-full font-medium bg-black text-white"
