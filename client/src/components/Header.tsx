@@ -1,6 +1,8 @@
-import { useSelector } from "react-redux";
-//import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import type { RootState } from "../app/store";
+import { useNavigate } from "react-router-dom";
+import { clearUser } from "../features/auth";
 
 interface HeaderProps {
   onSelectView: (view: "none" | "popularSite" | "routePlanner") => void;
@@ -10,6 +12,21 @@ interface HeaderProps {
 const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
   const user = useSelector((state: RootState) => state.user);
   // console.log(user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    dispatch(clearUser());
+    localStorage.removeItem("token");
+    setMenuOpen(false);
+    navigate("/login");
+  };
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <header className="absolute z-5 bg-white right-1/2 transform translate-x-1/2 flex items-center justify-between p-3 mt-2 w-2/3 h-[50px] rounded-full shadow-lg m-auto">
       <h1 className="text-xl font-bold">TripMandu</h1>
@@ -19,7 +36,7 @@ const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
             setSelectedMarker(null);
             onSelectView("popularSite");
           }}
-          className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black hover:underline"
+          className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black  hover:bg-gray-100 hover:underline"
         >
           Popular Sites
         </button>
@@ -28,7 +45,7 @@ const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
             setSelectedMarker(null);
             onSelectView("none");
           }}
-          className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black hover:underline"
+          className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black  hover:bg-gray-100 hover:underline"
         >
           Map
         </button>
@@ -38,18 +55,45 @@ const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
             setSelectedMarker(null);
             onSelectView("routePlanner");
           }}
-          className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black hover:underline"
+          className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black  hover:bg-gray-100 hover:underline"
         >
           Plan Itinerary
         </button>
       </nav>
 
-      <div className="w-9 h-9 overflow-hidden rounded-full bg-gray-300 flex items-center justify-center">
-        <img
-          className="h-full w-full rounded-full "
-          src={user.profile}
-          alt="profile"
-        />
+      <div className="relative">
+        {user?.email ? (
+          <div>
+            <div
+              onClick={() => setMenuOpen((prev) => !prev)}
+              className="w-9 h-9 overflow-hidden rounded-full bg-gray-300 flex items-center justify-center cursor-pointer"
+            >
+              <img
+                className="h-full w-full rounded-full"
+                src={user.profile}
+                alt="profile"
+              />
+            </div>
+
+            {menuOpen && (
+              <div className="absolute right-0 mt-3 w-28 bg-white shadow-md rounded-full z-10">
+                <button
+                  onClick={handleLogout}
+                  className="w-full px-4 py-2 text-center text-sm hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <button
+            onClick={handleLogin}
+            className="px-4 py-2 bg-blue-600 text-white rounded-full text-sm hover:bg-blue-700"
+          >
+            Login
+          </button>
+        )}
       </div>
     </header>
   );
