@@ -38,9 +38,12 @@ export const createPlan = asyncHandler(
       },
       include: {
         destinations: {
-          include: {
-            destination: true,
-          },
+         select: {
+          id: true,
+          destinationId: true,
+          order: true,
+          date: true
+        }
         },
       },
     });
@@ -238,9 +241,12 @@ export const updatePlanById = asyncHandler(async(req: AuthenticatedRequest, res:
     },
     include: {
       destinations: {
-        include: {
-          destination: true,
-        },
+        select: {
+          id: true,
+          destinationId: true,
+          order: true,
+          date: true
+        }
       },
     },
   });

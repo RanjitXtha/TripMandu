@@ -1,0 +1,131 @@
+
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { api } from '../utils/axiosInstance';
+
+import type { PlanResponse, PlanForm } from "../types/plan.type";
+const TOKEN = localStorage.getItem("token");
+
+interface InitialPlan {
+  plan: PlanForm[];
+  isLoading: boolean;
+}
+
+
+const initialPlan: InitialPlan = {
+  plan: [],
+  isLoading: false,
+};
+
+export const getAllPlans = createAsyncThunk<PlanResponse, void>(
+  "plan/getAllPlans",
+  async () => {
+    const response = await api.get<PlanResponse>("/plan/getAllPlan", {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+    });
+    return response.data;
+  }
+);
+
+export const createPlan = createAsyncThunk<PlanResponse, PlanForm>(
+  "plan/create",
+  async (formData, thunkAPI) => {
+    try {
+      const res = await api.post<PlanResponse>("/plan/createPlan", formData,
+        {
+            headers: {
+                "Authorization": `Bearer ${TOKEN}`
+            }
+        }
+      );
+      return res.data;
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue(err.response?.data?.message || "Failed to create plan");
+    }
+  }
+);
+
+export const updatePlan = createAsyncThunk<PlanResponse, PlanForm>(
+  "plan/updatePlan",
+  async (formData, thunkAPI) => {
+    try {
+      const res = await api.put<PlanResponse>(
+        `/plan/updateRouteById/${formData.id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to update plan"
+      );
+    }
+  }
+);
+
+export const deletePlanById = createAsyncThunk<string, string>(
+  "plan/deletePlanById",
+  async (id, thunkAPI) => {
+    try {
+      await api.delete(`/plan/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      });
+
+      return id;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to delete plan"
+      );
+    }
+  }
+);
+
+const planSlice = createSlice({
+    name: "plan",
+    initialState: initialPlan,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(getAllPlans.pending,  (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getAllPlans.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const plan = action.payload;
+                console.log(plan);
+            })
+            .addCase(createPlan.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(createPlan.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const plan = action.payload;
+                console.log(plan);
+            })
+            .addCase(updatePlan.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updatePlan.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const plan = action.payload;
+                console.log(plan);
+            })
+            .addCase(deletePlanById.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(deletePlanById.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.plan = state.plan.filter(p => p.id !== action.payload)
+            })
+    ;}
+})
+
+
+export default planSlice.reducer;
