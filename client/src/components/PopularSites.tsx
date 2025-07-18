@@ -74,20 +74,22 @@ const PopularSites = ({
   // }, []);
 
   return (
-    <div className="p-2 ">
+    <div className="relative">
       {onBack && (
-        <button
-          onClick={onBack}
-          className="absolute top-2 right-2 z-10 bg-white p-1 rounded-full shadow hover:bg-gray-100"
-          aria-label="Close"
-        >
-          <X size={20} />
-        </button>
+        <div className="sticky top-1 z-10 flex justify-end">
+          <button
+            onClick={onBack}
+            className="bg-white p-1 rounded-3xl shadow hover:bg-gray-100"
+            aria-label="Close"
+          >
+            <X size={20} />
+          </button>
+        </div>
       )}
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
           {touristDestinations.map((site, index) => (
             <SiteCard key={index} {...site} />
           ))}

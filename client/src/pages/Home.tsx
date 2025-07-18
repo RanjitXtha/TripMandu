@@ -121,11 +121,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedMarker === null) return;
-    setOverlayView("popularSite");
-  }, [selectedMarker]);
-
-  useEffect(() => {
     if (!navigator.geolocation) return;
     const watchId = navigator.geolocation.watchPosition(
       (pos) =>
@@ -184,6 +179,12 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    if (selectedMarker !== null) {
+      setOverlayView("showSite");
+    }
+  }, [selectedMarker]);
+
   return (
     <div className="flex">
       <Header
@@ -198,29 +199,23 @@ const Home = () => {
 
       {overlayView !== "none" && (
         <Overlay>
-          {overlayView === "popularSite" &&
-            (selectedMarker !== null ? (
-              <div className="max-w-[400px] p-2">
-                <SiteCard
-                  key={`site-${selectedMarker}`} // force remount
-                  {...touristDestinations[selectedMarker]}
-                  onBack={() => setOverlayView("none")} //  back handler
-                />
-              </div>
-            ) : (
-              // <ShowSites
-              //   myloc={myloc}
-              //   setNearByDestinations={setNearByDestinations}
-              //   siteData={touristDestinations[0]}
-              //   onBack={() => setOverlayView("none")}
-              // />
-              <PopularSites
-                myloc={myloc}
-                setNearByDestinations={setNearByDestinations}
-                onBack={() => setOverlayView("none")}
-                touristDestinations={touristDestinations}
-              />
-            ))}
+          {overlayView === "showSite" && selectedMarker !== null && (
+            <SiteCard
+              key={`site-${selectedMarker}`} // force remount
+              {...touristDestinations[selectedMarker]}
+              onBack={() => setOverlayView("none")} //  back handler
+            />
+          )}
+
+          {overlayView === "popularSite" && selectedMarker === null && (
+            <PopularSites
+              myloc={myloc}
+              setNearByDestinations={setNearByDestinations}
+              onBack={() => setOverlayView("none")}
+              touristDestinations={touristDestinations}
+            />
+          )}
+
           {overlayView === "routePlanner" && (
             <RoutePlanner
               destinations={destinations}
@@ -257,9 +252,9 @@ const Home = () => {
         <button
           disabled={isLoading}
           onClick={calculateTSPRoute}
-          className="absolute top-4 right-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
+          className="absolute top-3 right-16 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[1.2rem] shadow-lg"
         >
-          {isLoading ? "Calculating..." : "Calculate TSP Route"}
+          {isLoading ? "Calculating..." : "Calculate Route"}
         </button>
       </div>
       <Footer />
