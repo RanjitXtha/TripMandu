@@ -31,5 +31,5 @@ app.use("/api/plan", planRouter);
 //   console.log("req made")
 //   res.send('Hello')
 // })
-app.use(mapRouter);
+app.use("/api/map", mapRouter);
 export { app };

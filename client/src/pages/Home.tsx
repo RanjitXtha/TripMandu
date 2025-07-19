@@ -93,7 +93,7 @@ const Home = () => {
 
   setIsLoading(true);
   try {
-    const res = await axios.post("http://localhost:8080/api/map-solveTsp", {
+    const res = await axios.post("http://localhost:8080/api/map/solveTsp", {
       destinations,
     });
 

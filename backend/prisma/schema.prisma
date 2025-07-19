@@ -62,7 +62,7 @@ model Destination {
   name        String
   description String?
   image       String?
-  // location    Unsupported("geometry")
+ location    Unsupported("geometry")
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
 
