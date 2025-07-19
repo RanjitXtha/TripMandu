@@ -1,39 +1,26 @@
 import prisma from "../db/index.js";
-import type { NodeMapType, GraphType } from "./types.js";
+import type { NodeMapType,GraphType } from "./types.js";
 
-
-function parseCoords(coord: string): [number, number] {
-  const [lon, lat] = coord.replace("POINT(", "").replace(")", "").split(" ");
-  return [parseFloat(lon), parseFloat(lat)];
-}
-
-export async function loadGraph() {
-  const rawNodes = await prisma.$queryRawUnsafe<
-    { id: number; coord: string }[]
-  >(`
-    SELECT id, ST_AsText(location) as coord FROM "Node";
-  `);
-
+export async function loadGraph(): Promise<{ nodeMap: NodeMapType; graph: GraphType }> {
+  const nodes = await prisma.graph_nodes.findMany();
   const nodeMap: NodeMapType = {};
-  for (const node of rawNodes) {
-    const [lon, lat] = parseCoords(node.coord);
-    nodeMap[node.id.toString()] = { lat, lon };
+
+  for (const node of nodes) {
+    const key = node.node_id.toString(); // convert bigint to string
+    nodeMap[key] = { lat: node.lat!, lon: node.lon! };
   }
 
-  // Fetch all edges with fromId, toId, cost
-  const rawEdges = await prisma.$queryRawUnsafe<
-    { fromId: number; toId: number; cost: number }[]
-  >(`
-    SELECT "fromId", "toId", cost FROM "Edge";
-  `);
-
+  const edges = await prisma.graph_edges.findMany();
   const graph: GraphType = {};
-  for (const edge of rawEdges) {
-    const from = edge.fromId.toString();
 
-    if (!graph[from]) graph[from] = [];
-    graph[from].push({ node: edge.toId, dist: edge.cost });
+  for (const edge of edges) {
+    const source = edge.source.toString(); // convert bigint to string
+    const target = Number(edge.target);    // keep as number for 'node'
+
+    if (!graph[source]) graph[source] = [];
+    graph[source].push({ node: target, dist: edge.distance! });
   }
 
   return { nodeMap, graph };
 }
+

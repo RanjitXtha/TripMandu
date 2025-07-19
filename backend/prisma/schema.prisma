@@ -8,28 +8,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Edge {
-  id                     Int      @id @default(autoincrement())
-  fromId                 Int
-  toId                   Int
-  cost                   Float    @default(1.0)
-  createdAt              DateTime @default(now())
-  updatedAt              DateTime
-  Node_Edge_fromIdToNode Node     @relation("Edge_fromIdToNode", fields: [fromId], references: [id])
-  Node_Edge_toIdToNode   Node     @relation("Edge_toIdToNode", fields: [toId], references: [id])
+model graph_edges {
+  source   BigInt
+  target   BigInt
+  distance Float?
 
-  @@unique([fromId, toId])
-  @@index([fromId])
-  @@index([toId])
+  @@id([source, target])
 }
 
-model Node {
-  id                     Int                     @id @default(autoincrement())
-  location               Unsupported("geometry")
-  createdAt              DateTime                @default(now())
-  updatedAt              DateTime
-  Edge_Edge_fromIdToNode Edge[]                  @relation("Edge_fromIdToNode")
-  Edge_Edge_toIdToNode   Edge[]                  @relation("Edge_toIdToNode")
+model graph_nodes {
+  node_id BigInt @id
+  lat     Float?
+  lon     Float?
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -72,7 +62,7 @@ model Destination {
   name        String
   description String?
   image       String?
-  location    Unsupported("geometry")
+  // location    Unsupported("geometry")
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
 

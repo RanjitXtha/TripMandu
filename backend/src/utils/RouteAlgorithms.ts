@@ -1,9 +1,10 @@
 import TinyQueue from "tinyqueue";
 import type { NodeMapType, GraphType, Graph, NodeType } from "./types.js";
 
-function haversineDistance(a: NodeType, b: NodeType) {
-  const R = 6371e3; // meters
-  const toRad = (deg: any) => (deg * Math.PI) / 180;
+// Calculates haversine distance between two nodes (in meters)
+function haversineDistance(a: NodeType, b: NodeType): number {
+  const R = 6371e3; // Earth's radius in meters
+  const toRad = (deg: number) => (deg * Math.PI) / 180;
 
   const dLat = toRad(b.lat - a.lat);
   const dLon = toRad(b.lon - a.lon);
@@ -18,6 +19,7 @@ function haversineDistance(a: NodeType, b: NodeType) {
   return R * c;
 }
 
+// A* pathfinding algorithm to find shortest path from startId to goalId
 function aStar(
   startId: number,
   goalId: number,
@@ -35,7 +37,7 @@ function aStar(
 
   while (queue.length > 0) {
     const current = queue.pop()!;
-    let currentId = Number(current.id);
+    let currentId = current.id;
 
     if (currentId === goalId) {
       const path = [currentId];
@@ -52,25 +54,25 @@ function aStar(
     const neighbors: Graph[] = graph[currentId] || [];
 
     for (const neighbor of neighbors) {
-      const neighborId = Number(neighbor.node);
+      const neighborId = neighbor.node;
       const tentativeG = gScore[currentId] + neighbor.dist;
 
       if (tentativeG < (gScore[neighborId] ?? Infinity)) {
         cameFrom[neighborId] = currentId;
         gScore[neighborId] = tentativeG;
-        const f =
-          tentativeG + haversineDistance(nodeMap[neighborId], nodeMap[goalId]);
+        const f = tentativeG + haversineDistance(nodeMap[neighborId], nodeMap[goalId]);
         queue.push({ id: neighborId, f });
       }
     }
   }
 
-  return null;
+  return null; // No path found
 }
 
-function nearestNode(point: NodeType, nodeMap: NodeMapType) {
+// Find nearest node in graph to given lat/lon
+function nearestNode(point: NodeType, nodeMap: NodeMapType): number | null {
   let minDist = Infinity;
-  let nearestId = null;
+  let nearestId: number | null = null;
 
   for (const id in nodeMap) {
     const dist = haversineDistance(point, nodeMap[id]);
@@ -79,10 +81,12 @@ function nearestNode(point: NodeType, nodeMap: NodeMapType) {
       nearestId = Number(id);
     }
   }
+
   return nearestId;
 }
 
-const solveTSP = (locations: NodeType[]): number[] => {
+// Greedy TSP solver (returns order of indices to visit)
+function solveTSP(locations: NodeType[]): number[] {
   const n = locations.length;
   if (n === 0) return [];
 
@@ -113,9 +117,8 @@ const solveTSP = (locations: NodeType[]): number[] => {
     }
   }
 
-  order.push(0);
-
+  order.push(0); // Return to start
   return order;
-};
+}
 
-export { aStar, nearestNode, haversineDistance, solveTSP };
+export { aStar, nearestNode, solveTSP, haversineDistance };
