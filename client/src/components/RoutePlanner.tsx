@@ -144,7 +144,7 @@ const RoutePlanner = ({
               addDestinationMode
                 ? "bg-green-500 border-green-500 text-white rounded"
                 : "border rounded"
-            } px-4 py-2 rounded`}
+            } px-4 py-2 rounded-3xl`}
             onClick={() => setAddDestinationMode(!addDestinationMode)}
           >
             {addDestinationMode

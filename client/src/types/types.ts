@@ -4,7 +4,7 @@ export type Site = {
   about: string;
 };
 
-export type OverlayView = "none" | "popularSite" | "routePlanner";
+export type OverlayView = "none" | "showSite" | "popularSite" | "routePlanner";
 
 export type Location = {
   name?: string;

@@ -85,12 +85,11 @@ const MapView = ({
     // Tourist destination markers (only when not showing route)
     if (showTouristMarkers) {
       touristDestinations.forEach((place, index) => {
-        const popupId = `tourist-info-${index}`;
+        // const popupId = `tourist-info-${index}`;
         const html = `
-        <div class="p-3 bg-white rounded shadow-md text-sm space-y-2">
-          <h3 class="font-semibold text-lg text-center">${place.name}</h3><br/>
-          <button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded px-2 py-2 transition cursor-pointer" onclick='window.addDest(${index})'>Add as Destination</button><br/>
-          <button id="${popupId}" class="w-full text-blue-600 hover:underline mt-1 cursor-pointer">View Site Info</button>
+        <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
+          <h3 class="font-semibold text-lg text-center">${place.name}</h3>
+          <button id="addDestination" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-0 px-2 py-2 transition cursor-pointer" onclick='window.addDest(${index})'>Add Destination</button><br/>
         </div>
         `;
 
@@ -121,7 +120,7 @@ const MapView = ({
             map.flyTo({ center: [place.lon, place.lat], zoom: 15 });
           }
 
-          setOverlayView("popularSite");
+          setOverlayView("showSite");
 
           if (selectedMarker === index) {
             setSelectedMarker(null);
@@ -130,16 +129,23 @@ const MapView = ({
             setSelectedMarker(index);
           }
         });
+
+        popup.on("open", () => {
+          const addDestination = document.getElementById("addDestination");
+          addDestination?.addEventListener("click", () => {
+            setOverlayView("none");
+          });
+        });
       });
     }
 
     // Click markers (custom added markers)
     clickMarkers.forEach((place) => {
       const html = `
-      <div class="p-3 bg-white rounded shadow-md text-sm space-y-2">
-        <h3 class="font-semibold text-lg">Custom Marker</h3><br/>
-        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded px-3 py-2 transition" onclick='window.addDest([${place.lat}, ${place.lon}])'>Add as Destination</button><br/>
-        <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded px-2 py-2 transition cursor-pointer"  onclick='window.delClick(${place.lat}, ${place.lon})'>Delete</button>
+      <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
+        <h3 class="font-semibold text-lg text-center">Custom Marker</h3>
+        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-2 px-2 py-2 transition cursor-pointer" onclick='window.addDest([${place.lat}, ${place.lon}])'>Add Destination</button><br/>
+        <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded-[1.2rem] shadow-lg mb-0  px-2 py-2 transition cursor-pointer"  onclick='window.delClick(${place.lat}, ${place.lon})'>Delete</button>
       </div>
       `;
 
@@ -174,15 +180,17 @@ const MapView = ({
           : place.name;
 
       const html = `
-      <div class="p-3 bg-white rounded shadow-md text-sm">
-        <h3 class="font-semibold text-lg text-center">Destination ${displayNumber}</h3><br/>
+      <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm">
+        <h3 class="font-semibold underline text-md text-center">Destination ${displayNumber}</h3>
         ${
           nameFromTourist
-            ? `<p class="font-semibold text-md text-center">${nameFromTourist}</p><br/>`
+            ? `<p class="font-bold text-md text-center">${nameFromTourist}</p>`
             : ""
         }
-        ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}<br/>
-        <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded px-2 py-2 transition cursor-pointer" onclick='window.delDest(${i})'>Remove</button><br/>
+        <div class="text-center">
+        ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}
+        </div>
+        <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded-[1.2rem] shadow-lg mb-0 mt-1 px-2 py-2 transition cursor-pointer" onclick='window.delDest(${i})'>Remove</button><br/>
         <button id="${popupId}" class="w-full text-blue-600 hover:underline mt-1 cursor-pointer">View Site Info</button>
       </div>
       `;
@@ -216,12 +224,24 @@ const MapView = ({
         const btn = document.getElementById(popupId);
         if (btn) {
           btn.addEventListener("click", () => {
-            // Set selectedMarker as touristId if available, else fallback to destination index
-            if (place.touristId !== undefined && place.touristId !== null) {
-              setSelectedMarker(place.touristId);
-            } else {
-              setSelectedMarker(i);
-            }
+            const markerId = place.touristId ?? i;
+
+            // Always set overlay view
+            setOverlayView("showSite");
+
+            // Force re-selection if same marker is selected
+            setSelectedMarker((prev) => {
+              if (prev === markerId) {
+                return null; // Unset to allow force update
+              } else {
+                return markerId;
+              }
+            });
+
+            // Reset to the same marker after brief delay (forces remount if needed)
+            setTimeout(() => {
+              setSelectedMarker(markerId);
+            }, 0);
           });
         }
       });
@@ -231,9 +251,9 @@ const MapView = ({
     if (myloc) {
       const popupId = "my-location-add-btn";
       const html = `
-      <div class="p-3 bg-white rounded shadow-md text-sm space-y-2">
+      <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
         <h3 class="font-semibold text-lg text-center">My Location</h3><br/>
-        <button id="${popupId}" class="w-full text-blue-600 hover:underline mt-1 cursor-pointer">Add as Destination</button>
+        <button id="${popupId}" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-0 px-2 py-2 transition cursor-pointer">Add Destination</button>
       </div>
       `;
 
