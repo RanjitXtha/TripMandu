@@ -1,1 +1,60 @@
 @import "tailwindcss";
+
+/* Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #45567c transparent;
+  padding-right: 8px; /* space inside content */
+}
+
+/* WebKit */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+/* .custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+} */
+
+/* .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #2563eb; 
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box; 
+} */
+
+.maplibregl-popup-content {
+  background-color: #f9fafb !important;
+  border-radius: 1.2rem !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1) !important;
+  /* border: 1px solid #d1d5db !important; */
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.maplibregl-popup-close-button {
+  position: absolute !important;
+  right: 0.5rem !important;
+  top: 0.25rem !important;
+  font-size: 1rem !important;
+  line-height: 1 !important;
+  /* padding: 0.25rem 0.5rem !important; */
+  border: none;
+  background: transparent !important;
+  color: #364151 !important;
+  transition: transform 0.15s ease;
+}
+
+.maplibregl-popup-close-button:hover {
+  color: #ef4444 !important; /* red-500 */
+}
+
+.maplibregl-popup-tip {
+  display: none;
+}
+
+.maplibregl-ctrl-bottom-right {
+  display: none !important;
+}

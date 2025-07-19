@@ -7,12 +7,13 @@ import prisma from "../db/index.js";
 
 export const getRoute = asyncHandler(async(req: Request, res: Response)=>{
     const {start,end}= req.body;
-    console.log("called");
-    console.log(start);
-    console.log(end);
+  //  console.log("called");
+   // console.log(start);
+  //  console.log(end);
     if (!start || !end) {
        throw new ApiError(400, "Coordinates required");
     }
+
 
     const startId = nearestNode(start, nodeMap);
     const goalId = nearestNode(end, nodeMap);

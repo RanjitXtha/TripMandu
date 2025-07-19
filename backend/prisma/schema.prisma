@@ -8,49 +8,87 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model graph_edges {
-  source   BigInt
-  target   BigInt
-  distance Float?
+model Edge {
+  id                     Int      @id @default(autoincrement())
+  fromId                 Int
+  toId                   Int
+  cost                   Float    @default(1.0)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime
+  Node_Edge_fromIdToNode Node     @relation("Edge_fromIdToNode", fields: [fromId], references: [id])
+  Node_Edge_toIdToNode   Node     @relation("Edge_toIdToNode", fields: [toId], references: [id])
 
-  @@id([source, target])
+  @@unique([fromId, toId])
+  @@index([fromId])
+  @@index([toId])
 }
 
-model graph_nodes {
-  node_id BigInt @id
-  lat     Float?
-  lon     Float?
+model Node {
+  id                     Int                     @id @default(autoincrement())
+  location               Unsupported("geometry")
+  createdAt              DateTime                @default(now())
+  updatedAt              DateTime
+  Edge_Edge_fromIdToNode Edge[]                  @relation("Edge_fromIdToNode")
+  Edge_Edge_toIdToNode   Edge[]                  @relation("Edge_toIdToNode")
 }
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model spatial_ref_sys {
+  srid      Int     @id
+  auth_name String? @db.VarChar(256)
+  auth_srid Int?
+  srtext    String? @db.VarChar(2048)
+  proj4text String? @db.VarChar(2048)
+}
+
+
 
 model User {
-  id        String   @id @default(uuid())
-  fName     String
-  lName     String
-  email     String   @unique
-  password  String
-  profile   String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  reviews   Review[]
+  id          String              @id @default(uuid())
+  fName       String
+  lName       String
+  email       String              @unique
+  password    String
+  profile     String?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  travelPlans TravelPlan[]
 }
 
-model Review {
-  id            String      @id @default(uuid())
-  userId        String
-  comment       String?
-  rating        Float
-  createdAt     DateTime    @default(now())
-  destinationId String
-  destination   Destination @relation(fields: [destinationId], references: [id])
-  user          User        @relation(fields: [userId], references: [id])
+model TravelPlan {
+  id          String              @id @default(uuid())
+  user        User                @relation(fields: [userId], references: [id])
+  userId      String
+  name        String?            
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
 
-  @@index([userId])
-  @@index([destinationId])
+  destinations PlanDestination[]
 }
 
 model Destination {
-  id       String   @id @default(uuid())
-  name     String
-  imageUrl String[]
-  reviews  Review[]
+  id          String              @id @default(uuid())
+  name        String
+  description String?
+  image       String?
+  location    Unsupported("geometry")
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  plans       PlanDestination[]
+}
+
+model PlanDestination {
+  id            String            @id @default(uuid())
+  plan          TravelPlan        @relation(fields: [planId], references: [id])
+  planId        String
+
+  destination   Destination       @relation(fields: [destinationId], references: [id])
+  destinationId String
+
+  order         Int            
+  date          DateTime?        
+
+  @@unique([planId, destinationId, order])
 }

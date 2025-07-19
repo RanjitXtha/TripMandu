@@ -1,0 +1,220 @@
+{
+  "metadata": {
+    "totalDestinations": 13,
+    "successful": 13,
+    "failed": 0,
+    "generatedAt": "2025-07-07T11:04:02.931Z",
+    "script": "Enhanced Kathmandu Destinations Enricher"
+  },
+  "destinations": [
+    {
+      "name": "Amitabha Monastery",
+      "wiki_title": "Amitabha Monastery",
+      "description": "Amitabha Monastery is a Himalayan Buddhist monastery in Nepal.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/AmitabhMonastery.jpg/330px-AmitabhMonastery.jpg",
+      "coordinates": {
+         "lat": 27.74441,
+        "lon": 85.36868
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Amitabha_Monastery",
+      "categories": [
+        "monastery",
+        "religious",
+        "tourist_attraction"
+      ],
+      "lastUpdated": "2025-07-07T11:03:44.466Z",
+      "searchQuery": "Amitabha Monastery Nepal"
+    },
+    {
+      "name": "Boudhanath",
+      "wiki_title": "Boudha Stupa",
+      "description": "Boudha Stupa ; or Jarung Kashor (Standard Tibetan: བྱ་རུང་ཁ་ཤོར།, Wylie: bya rung ka shor), also known as Khasti Chaitya or Khāsa Chaitya, is a stupa and major spiritual landmark seen as the embodiment of the enlightened mind of all the Buddhas, located in Boudhanath, within the city of Kathmandu, Nepal. Built in the northeast of Kathmandu Valley surrounded by rice paddies, the stupa gave birth to the origins of Tibetan Buddhism. It is filled with consecrated substances, and its massive mandala makes it the largest spherical stupa in Nepal and one of the largest in the world. In 1979 the Boudha Stupa became one of UNESCO's World Heritage Sites in Nepal.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Boudhanath_stupa_%2C_Kathmandu%2C_Nepal.jpg/330px-Boudhanath_stupa_%2C_Kathmandu%2C_Nepal.jpg",
+      "coordinates": {
+        "lat": 27.72138889,
+        "lon": 85.36194444
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Boudha_Stupa",
+      "categories": [
+        "buddhist",
+        "stupa",
+        "temple",
+        "religious",
+        "heritage_site",
+        "historic",
+        "natural",
+        "tourist_attraction"
+      ],
+      "lastUpdated": "2025-07-07T11:03:47.199Z",
+      "searchQuery": "Boudhanath Nepal"
+    },
+    {
+      "name": "Ka-Nying Shedrub Ling",
+      "wiki_title": "Ka-Nying Shedrub Ling",
+      "description": "Ka-Nying Shedrub Ling is a Tibetan Buddhist monastery near Boudhanath, on the outskirts of Kathmandu, Nepal. It has ties to both the Kagyu and Nyingma schools, hence the combined Ka-Nying in the name. Shedrub Ling means “sanctuary for learning and practice.”",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Ka-Nying_Shedrub_Ling.jpg/330px-Ka-Nying_Shedrub_Ling.jpg",
+      "coordinates": {
+        "lat": 27.724,
+        "lon": 85.36275
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Ka-Nying_Shedrub_Ling",
+      "categories": [
+        "buddhist",
+        "monastery",
+        "religious"
+      ],
+      "lastUpdated": "2025-07-07T11:03:48.731Z",
+      "searchQuery": "Ka-Nying Shedrub Ling Nepal"
+    },
+    {
+      "name": "Kindo Baha",
+      "wiki_title": "Kindo Baha",
+      "description": "Kindo Baha, also known as Kinnu Bāhā, Kindol Bāhāl or Kimdol Bāhāl, is a vihara in Kathmandu which was the hub for the resurgence of Theravada Buddhism in Nepal from the 1920s to the 1940s.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Aksobhya_kimdol_1687.jpg/330px-Aksobhya_kimdol_1687.jpg",
+      "coordinates": null,
+      "wikiUrl": "https://en.wikipedia.org/wiki/Kindo_Baha",
+      "categories": [
+        "buddhist",
+        "monastery",
+        "religious"
+      ],
+      "lastUpdated": "2025-07-07T11:03:50.221Z",
+      "searchQuery": "Kindo Baha Nepal"
+    },
+    {
+      "name": "Kopan Monastery",
+      "wiki_title": "Kopan Monastery",
+      "description": "Kopan Monastery is a Tibetan Buddhist monastery near Boudhanath, on the outskirts of Kathmandu, Nepal. It is a member of the Foundation for the Preservation of the Mahayana Tradition (FPMT), an international network of Gelugpa dharma centers, and once served as its headquarters.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Kopan_01.JPG/330px-Kopan_01.JPG",
+      "coordinates": {
+        "lat": 27.74222222,
+        "lon": 85.36416667
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Kopan_Monastery",
+      "categories": [
+        "buddhist",
+        "monastery",
+        "religious",
+        "tourist_attraction",
+        "museum"
+      ],
+      "lastUpdated": "2025-07-07T11:03:51.660Z",
+      "searchQuery": "Kopan Monastery Nepal"
+    },
+    {
+      "name": "Pranidhipurna Mahavihar",
+      "wiki_title": "Pranidhipurna Mahavihar",
+      "description": "Pranidhipurna Mahavihar is a Theravada Buddhist monastery in Balambu, Kathmandu which was a key base in the revival of Theravada Buddhism in Nepal in the 1940s.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Balambu_bihar_kathmandu.jpg/330px-Balambu_bihar_kathmandu.jpg",
+    "coordinates":{
+       "lat": 27.7142,
+        "lon": 85.3261
+    },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Pranidhipurna_Mahavihar",
+      "categories": [
+        "buddhist",
+        "monastery",
+        "religious"
+      ],
+      "lastUpdated": "2025-07-07T11:03:53.190Z",
+      "searchQuery": "Pranidhipurna Mahavihar Nepal"
+    },
+    {
+      "name": "Seto Gumba",
+      "wiki_title": "Seto Gumba",
+      "description": "Seto Gumba also known as Druk Amitabh Mountain, is a Buddhist monastery in Nepal. It is located in the Nagarjun Municipality of Kathmandu District. It is located outside the Ring Road, north of Swayambhu. While it used to be open for public visitors on Saturdays, it remained closed after the 2015 earthquake for maintenance and is now open for public visits on each Sunday.",
+      "image": null,
+      "coordinates": {
+        "lat": 27.7257,
+        "lon": 85.2612
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Seto_Gumba",
+      "categories": [
+        "monastery",
+        "religious",
+        "tourist_attraction",
+        "natural",
+        "museum"
+      ],
+      "lastUpdated": "2025-07-07T11:03:54.682Z",
+      "searchQuery": "Seto Gumba Nepal"
+    },
+    {
+      "name": "Swayambhunath",
+      "wiki_title": "Swayambhunath",
+      "description": "Swayambhu Maha Chaitya is an ancient religious complex atop a hill in the Kathmandu Valley, west of Kathmandu city. The Tibetan and Sanskrit name for the site means 'self-arising' or 'self-sprung'. For the Buddhist Newari people, the day-to-day religious practice at Swayambhu occupies a central position, and it is among the three most sacred Buddhist pilgrimage sites. For Tibetans and followers of Tibetan Buddhism, it is second only to Boudha. Swayambhu is the Sanskrit name.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Swayambhu%2C_Kathmandu%2C_Nepal.jpg/330px-Swayambhu%2C_Kathmandu%2C_Nepal.jpg",
+      "coordinates": {
+        "lat": 27.715,
+        "lon": 85.29
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Swayambhunath",
+      "categories": [
+        "temple",
+        "religious",
+       
+        "historic",
+        "natural"
+      ],
+      "lastUpdated": "2025-07-07T11:03:55.963Z",
+      "searchQuery": "Swayambhunath Nepal"
+    },
+    {
+      "name": "Tergar Osel Ling Monastery",
+      "wiki_title": "Tergar Osel Ling Monastery",
+      "description": "Tergar Osel Ling Monastery or Tergar Lungrik Osel Targyé Ling Monastery is a Tibetan Buddhist monastery in Kathmandu, Nepal of the Tergar Meditation Community.",
+      "image": null,
+      "coordinates": {
+        "lat": 27.71796389,
+        "lon": 85.27667222
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Tergar_Osel_Ling_Monastery",
+      "categories": [
+        "monastery",
+        "religious"
+        
+      ],
+      "lastUpdated": "2025-07-07T11:03:57.530Z",
+      "searchQuery": "Tergar Osel Ling Monastery Nepal"
+    },
+    
+    {
+      "name": "Vidhyeshvari Vajra YogiTempleni ",
+      "wiki_title": "Vidhyeshvari Vajra Yogini Temple",
+      "description": "The Vidhyeshvari Vajra Yogini Temple - also known as the Bijeśvarī Vajrayoginī, Bidjeshwori Bajra Jogini, Bijayaswar, Bidjeswori, or Visyasvari Temple - is a Newar Buddhist temple in the Kathmandu valley dedicated to the Vajrayāna Buddhist deity Vajrayoginī in her form as Akash Yogini. The temple stands on the west bank of the Bishnumati river next to the ancient religious site of the Ramadoli (Karnadip) cremation ground and is on the main path from Swayambhunath stupa to Kathmandu.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Bidjeswori_temple_2016-06-06.jpg/330px-Bidjeswori_temple_2016-06-06.jpg",
+      "coordinates": {
+        "lat": 27.4250,
+        "lon": 85.1755
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Vidhyeshvari_Vajra_Yogini_Temple",
+      "categories": [
+        "temple",
+        "religious",
+        "historic",
+        "natural"
+      ],
+      "lastUpdated": "2025-07-07T11:04:00.478Z",
+      "searchQuery": "Vidhyeshvari Vajra Yogini Temple Nepal"
+    },
+    {
+      "name": "Hiranya Varna Mahavihar",
+      "wiki_title": "Hiranya Varna Mahavihar",
+      "description": "Hiraṇyavarṇa Mahāvihāra, also Kwa Baha: informally called The Golden Temple with literal meaning \"Gold-colored Great Monastery\", is a historical vihara situated in Patan, Nepal.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/2015-03-30_04-15_Nepal_926_Patan%2C_Lalitpur%2C_Golden_Temple_%2816769604853%29.jpg/330px-2015-03-30_04-15_Nepal_926_Patan%2C_Lalitpur%2C_Golden_Temple_%2816769604853%29.jpg",
+      "coordinates": {
+        "lat": 27.67533333,
+        "lon": 85.32466667
+      },
+      "wikiUrl": "https://en.wikipedia.org/wiki/Hiranya_Varna_Mahavihar",
+      "categories": [
+        "monastery",
+        "religious",
+        "historic",
+        "market"
+      ],
+      "lastUpdated": "2025-07-07T11:04:02.205Z",
+      "searchQuery": "Hiranya Varna Mahavihar Nepal"
+    }
+  ]
+}

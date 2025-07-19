@@ -9,41 +9,13 @@
       "lon": 85.34861111
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Pashupatinath_Temple",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "historic",
+      "park"
     ]
   },
-  {
-    "name": "Boudhanath Stupa",
-    "wiki_title": "Boudha Stupa",
-    "description": "Boudha Stupa ; or Jarung Kashor (Standard Tibetan: བྱ་རུང་ཁ་ཤོར།, Wylie: bya rung ka shor), also known as Khasti Chaitya or Khāsa Chaitya, is a stupa and major spiritual landmark seen as the embodiment of the enlightened mind of all the Buddhas, located in Boudhanath, within the city of Kathmandu, Nepal. Built in the northeast of Kathmandu Valley surrounded by rice paddies, the stupa gave birth to the origins of Tibetan Buddhism. It is filled with consecrated substances, and its massive mandala makes it the largest spherical stupa in Nepal and one of the largest in the world. In 1979 the Boudha Stupa became one of UNESCO's World Heritage Sites in Nepal.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Boudhanath_stupa_%2C_Kathmandu%2C_Nepal.jpg/330px-Boudhanath_stupa_%2C_Kathmandu%2C_Nepal.jpg",
-    "coordinates": {
-      "lat": 27.72138889,
-      "lon": 85.36194444
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Boudha_Stupa",
-    "category": "religious",
-    "tags": [
-      "religious"
-    ]
-  },
-  {
-    "name": "Swayambhunath Stupa",
-    "wiki_title": "Swayambhunath",
-    "description": "Swayambhu Maha Chaitya is an ancient religious complex atop a hill in the Kathmandu Valley, west of Kathmandu city. The Tibetan and Sanskrit name for the site means 'self-arising' or 'self-sprung'. For the Buddhist Newari people, the day-to-day religious practice at Swayambhu occupies a central position, and it is among the three most sacred Buddhist pilgrimage sites. For Tibetans and followers of Tibetan Buddhism, it is second only to Boudha. Swayambhu is the Sanskrit name.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Swayambhu%2C_Kathmandu%2C_Nepal.jpg/330px-Swayambhu%2C_Kathmandu%2C_Nepal.jpg",
-    "coordinates": {
-      "lat": 27.715,
-      "lon": 85.29
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Swayambhunath",
-    "category": "religious",
-    "tags": [
-      "religious"
-    ]
-  },
+  
   {
     "name": "Budhanilkantha Temple",
     "wiki_title": "Budhanilkantha Temple",
@@ -54,9 +26,9 @@
       "lon":85.362321
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Budhanilkantha_Temple",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "historic"
     ]
   },
   {
@@ -69,9 +41,9 @@
       "lon": 85.42788889
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Changu_Narayan_Temple",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "historic"
     ]
   },
   {
@@ -84,9 +56,9 @@
       "lon":85.310088
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Seto_Machindranath",
-    "category": "religious",
-    "tags": [
-      "religious"
+    "categories": [
+      "religious",
+      "historic"
     ]
   },
   {
@@ -99,8 +71,7 @@
       "lon": 85.30583
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Kasthamandap",
-    "category": "religious",
-    "tags": [
+    "categories": [
       "religious"
     ]
   },
@@ -114,54 +85,24 @@
       "lon": 85.308008
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Taleju_Temple%2C_Kathmandu",
-    "category": "religious",
-    "tags": [
+    "categories": [
       "religious",
       "historic"
     ]
   },
-  {
-    "name": "Jagat Narayan Temple",
-    "wiki_title": "Birla Mandir, Jaipur",
-    "description": "Birla Mandir, Jaipur is a Hindu temple located in Jaipur, India and is one of many Birla mandirs. It was built by the B.M. Birla Foundation in 1988 and is constructed solely of white marble. It is dedicated to the Hindu goddess Lakshmi and god Vishnu (Narayan), whose images appear inside, along with other Hindu gods and goddesses and selections from the Gita and Upanishads. It is located in Jaipur's Tilak Nagar neighborhood near Moti Dungari hill.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Birla_Mandir_Jaipur_%282022-07%29.jpg/330px-Birla_Mandir_Jaipur_%282022-07%29.jpg",
-    "coordinates": {
-      "lat": 26.8921,
-      "lon": 75.8155
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Birla_Mandir%2C_Jaipur",
-    "category": "religious",
-    "tags": [
-      "religious"
-    ]
-  },
-  {
-    "name": "Shree Guhyeshwari Temple",
-    "wiki_title": "Muktinath",
-    "description": "Muktinath is an ancient Vishnu temple located in Mustang, Nepal. The temple of Muktinath, known as 'the lord of liberation', is sacred to both Hindus and Buddhists whom they worship as an abode of Hindu deity Vishnu and Buddhist deity Avalokiteśvara respectively. Located in the Muktinath valley at the foot of the Thorong La mountain pass, it is one of the world's highest temples at an altitude of 3,800 meters. The temple is given a status of one of the 108 Divya Desams of Hinduism as well as one of the eight most sacred shrines, known as Svayam Vyakta Ksetras, of Vaishnavism. It is also one of the 51 Shakta pithas, associated with the head of goddess Sati. The temple complex is known as Mukti Kshetra, which literally means \"the place of liberation (moksha)\" and is one of the Char Dham in Nepal.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/The_Muktinath_Temple.jpg/330px-The_Muktinath_Temple.jpg",
-    "coordinates": {
-      "lat": 28.81708333,
-      "lon": 83.87169444
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Muktinath",
-    "category": "religious",
-    "tags": [
-      "religious"
-    ]
-  },
+
   {
     "name": "Bajrabarahi Temple",
     "wiki_title": "Bajrabarahi",
     "description": "Bajrabarahi lies in Godawari Municipality of Lalitpur District in the Bagmati Province of Nepal. As of 2010 it had a population of 8821.",
-    "image": null,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc09VE2BcAMoGkbkTIAusW2O_oC1I-wyD0wepmtggkAOnSfa9lJMwYPJP7Fg&s",
     "coordinates": {
       "lat": 27.66,
       "lon": 85.12
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Bajrabarahi",
-    "category": "religious",
-    "tags": [
+    
+    "categories": [
       "religious"
     ]
   },
@@ -175,8 +116,7 @@
       "lon": 85.25
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Dakshinkali_Temple",
-    "category": "religious",
-    "tags": [
+    "categories": [
       "religious"
     ]
   },
@@ -190,26 +130,11 @@
       "lon": 85.43805556
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Doleshwor_Mahadeva_Temple",
-    "category": "religious",
-    "tags": [
+    "categories": [
       "religious"
     ]
   },
-  {
-    "name": "Kathmandu Durbar Square",
-    "wiki_title": "Kathmandu Durbar Square",
-    "description": "Kathmandu Durbar Square is a historically and culturally significant site in Kathmandu, Nepal. It is one of the three Durbar Squares in the Kathmandu Valley in Nepal that are UNESCO World Heritage Sites.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Basantapurpalace.JPG/330px-Basantapurpalace.JPG",
-    "coordinates": {
-      "lat": 27.70415,
-      "lon": 85.30647
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Kathmandu_Durbar_Square",
-    "category": "historic",
-    "tags": [
-      "historic"
-    ]
-  },
+
   {
     "name": "Patan Durbar Square",
     "wiki_title": "Patan Durbar Square",
@@ -220,9 +145,10 @@
       "lon": 85.325
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Patan_Durbar_Square",
-    "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "religious",
+      "museum"
     ]
   },
   {
@@ -235,9 +161,10 @@
       "lon": 85.428108
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur_Durbar_Square",
-    "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "religious",
+      "park"
     ]
   },
   {
@@ -251,8 +178,11 @@
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Hanuman_Dhoka",
     "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "religious",
+      "park",
+      "market"
     ]
   },
   {
@@ -265,9 +195,9 @@
       "lon": 85.428108
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Bhaktapur_Durbar_Square",
-    "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "museum"
     ]
   },
   {
@@ -280,9 +210,9 @@
       "lon": 85.325
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Patan_Durbar_Square",
-    "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "park"
     ]
   },
   {
@@ -295,8 +225,7 @@
       "lon": 85.32466667
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Hiranya_Varna_Mahavihar",
-    "category": "historic",
-    "tags": [
+    "categories": [
       "historic",
       "religious",
       "monastery"
@@ -313,7 +242,7 @@
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Nagbahal_Hiti",
     "category": "historic",
-    "tags": [
+    "categories": [
       "historic",
       "monastery"
     ]
@@ -328,9 +257,9 @@
       "lon": 85.31666667
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Lalitpur%2C_Nepal",
-    "category": "historic",
-    "tags": [
-      "historic"
+    "categories": [
+      "historic",
+      "religious"
     ]
   },
   {
@@ -343,39 +272,8 @@
       "lon": 85.31666667
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Lalitpur%2C_Nepal",
-    "category": "historic",
-    "tags": [
+    "categories": [
       "historic"
-    ]
-  },
-  {
-    "name": "Kopan Monastery",
-    "wiki_title": "Kopan Monastery",
-    "description": "Kopan Monastery is a Tibetan Buddhist monastery near Boudhanath, on the outskirts of Kathmandu, Nepal. It is a member of the Foundation for the Preservation of the Mahayana Tradition (FPMT), an international network of Gelugpa dharma centers, and once served as its headquarters.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Kopan_01.JPG/330px-Kopan_01.JPG",
-    "coordinates": {
-      "lat": 27.74222222,
-      "lon": 85.36416667
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Kopan_Monastery",
-    "category": "monastery",
-    "tags": [
-      "monastery"
-    ]
-  },
-  {
-    "name": "White Monastery (Seto Gumba)",
-    "wiki_title": "Seto Gumba",
-    "description": "Seto Gumba also known as Druk Amitabh Mountain, is a Buddhist monastery in Nepal. It is located in the Nagarjun Municipality of Kathmandu District. It is located outside the Ring Road, north of Swayambhu. While it used to be open for public visitors on Saturdays, it remained closed after the 2015 earthquake for maintenance and is now open for public visits on each Sunday.",
-    "image": null,
-    "coordinates": {
-      "lat": 27.7257,
-      "lon": 85.2612
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Seto_Gumba",
-    "category": "monastery",
-    "tags": [
-      "monastery"
     ]
   },
   {
@@ -388,41 +286,11 @@
       "lon": 85.26666667
     },
     "wikiUrl": "https://en.wikipedia.org/wiki/Pharping",
-    "category": "monastery",
-    "tags": [
+   "categories": [
       "monastery"
     ]
   },
-  {
-    "name": "Manjushree Park",
-    "wiki_title": "Chobhar",
-    "description": "Chobhar is a village in Kathmandu District in the Bagmati Zone of central Nepal and part of Kirtipur Municipality. At the time of the 1991 Nepal census it had a population of 5,627 living in 1,109 households.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Chobhar-Terrassenlandschaft-20-2007-gje.jpg/330px-Chobhar-Terrassenlandschaft-20-2007-gje.jpg",
-    "coordinates": {
-      "lat": 27.66666667,
-      "lon": 85.28333333
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Chobhar",
-    "category": "natural",
-    "tags": [
-      "natural"
-    ]
-  },
-  {
-    "name": "Taudaha Lake",
-    "wiki_title": "Taudaha Lake",
-    "description": "Taudaha Lake is a small lake in the outskirts of Kathmandu, in Nepal.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Photowalk_WLE_2023_in_Nepal_-_July_8_-_6.jpg/330px-Photowalk_WLE_2023_in_Nepal_-_July_8_-_6.jpg",
-    "coordinates": {
-      "lat": 27.6487,
-      "lon": 85.282
-    },
-    "wikiUrl": "https://en.wikipedia.org/wiki/Taudaha_Lake",
-    "category": "natural",
-    "tags": [
-      "natural"
-    ]
-  },
+
   {
     "name": "Shankhamul Ghat",
     "wiki_title": "Bagmati River",

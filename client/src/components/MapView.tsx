@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import { Map, NavigationControl, Source, Layer } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import type { Location, NearByDestinationType } from "../types/types";
+import type {
+  Location,
+  OverlayView,
+  NearByDestinationType,
+} from "../types/types";
 
 type LocationWithTouristId = Location & { touristId?: number };
 
@@ -25,7 +29,9 @@ interface MapViewProps {
   addDestinationMode: boolean;
   myloc: { lat: number; lon: number } | null;
   pathCoords: [number, number][];
+  selectedMarker: number | null;
   setSelectedMarker: React.Dispatch<React.SetStateAction<number | null>>;
+  setOverlayView: React.Dispatch<React.SetStateAction<OverlayView>>;
   nearByDestinations: NearByDestinationType[];
   tspOrder: number[];
 }
@@ -41,7 +47,9 @@ const MapView = ({
   addDestinationMode,
   myloc,
   pathCoords,
+  selectedMarker,
   setSelectedMarker,
+  setOverlayView,
   nearByDestinations,
   tspOrder,
 }: MapViewProps) => {
@@ -55,7 +63,7 @@ const MapView = ({
       // If no TSP calculated, show sequential numbers
       return destinationIndex + 1;
     }
-    
+
     // Find the position of this destination in the TSP order
     const position = tspOrder.indexOf(destinationIndex);
     if (position === -1) {
@@ -77,14 +85,18 @@ const MapView = ({
     // Tourist destination markers (only when not showing route)
     if (showTouristMarkers) {
       touristDestinations.forEach((place, index) => {
-        const popupId = `tourist-info-${index}`;
+        // const popupId = `tourist-info-${index}`;
         const html = `
-          <strong>${place.name}</strong><br/>
-          <button onclick='window.addDest(${index})'>Add as Destination</button><br/>
-          <button id="${popupId}" style="color:blue;cursor:pointer;margin-top:4px">View Site Info</button>
+        <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
+          <h3 class="font-semibold text-lg text-center">${place.name}</h3>
+          <button id="addDestination" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-0 px-2 py-2 transition cursor-pointer" onclick='window.addDest(${index})'>Add Destination</button><br/>
+        </div>
         `;
 
-        const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
+        const popup = new maplibregl.Popup({
+          offset: 25,
+          closeButton: true,
+        }).setHTML(html);
 
         const el = document.createElement("div");
         el.className = "custom-marker";
@@ -102,11 +114,27 @@ const MapView = ({
 
         markersRef.current.push(marker);
 
-        popup.on("open", () => {
-          const btn = document.getElementById(popupId);
-          if (btn) {
-            btn.addEventListener("click", () => setSelectedMarker(index));
+        marker.getElement().addEventListener("click", () => {
+          const map = mapRef.current;
+          if (map) {
+            map.flyTo({ center: [place.lon, place.lat], zoom: 15 });
           }
+
+          setOverlayView("showSite");
+
+          if (selectedMarker === index) {
+            setSelectedMarker(null);
+            setTimeout(() => setSelectedMarker(index), 0); // force remount
+          } else {
+            setSelectedMarker(index);
+          }
+        });
+
+        popup.on("open", () => {
+          const addDestination = document.getElementById("addDestination");
+          addDestination?.addEventListener("click", () => {
+            setOverlayView("none");
+          });
         });
       });
     }
@@ -114,9 +142,11 @@ const MapView = ({
     // Click markers (custom added markers)
     clickMarkers.forEach((place) => {
       const html = `
-        <strong>Custom Marker</strong><br/>
-        <button onclick='window.addDest([${place.lat}, ${place.lon}])'>Add as Destination</button><br/>
-        <button style='color:red' onclick='window.delClick(${place.lat}, ${place.lon})'>Delete Marker</button>
+      <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
+        <h3 class="font-semibold text-lg text-center">Custom Marker</h3>
+        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-2 px-2 py-2 transition cursor-pointer" onclick='window.addDest([${place.lat}, ${place.lon}])'>Add Destination</button><br/>
+        <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded-[1.2rem] shadow-lg mb-0  px-2 py-2 transition cursor-pointer"  onclick='window.delClick(${place.lat}, ${place.lon})'>Delete</button>
+      </div>
       `;
 
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
@@ -150,11 +180,19 @@ const MapView = ({
           : place.name;
 
       const html = `
-        <strong>Destination ${displayNumber}</strong><br/>
-        ${nameFromTourist ? `<em>${nameFromTourist}</em><br/>` : ""}
-        ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}<br/>
-        <button onclick='window.delDest(${i})'>Remove</button><br/>
-        <button id="${popupId}" style="color:blue;cursor:pointer;margin-top:4px">View Site Info</button>
+      <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm">
+        <h3 class="font-semibold underline text-md text-center">Destination ${displayNumber}</h3>
+        ${
+          nameFromTourist
+            ? `<p class="font-bold text-md text-center">${nameFromTourist}</p>`
+            : ""
+        }
+        <div class="text-center">
+        ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}
+        </div>
+        <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded-[1.2rem] shadow-lg mb-0 mt-1 px-2 py-2 transition cursor-pointer" onclick='window.delDest(${i})'>Remove</button><br/>
+        <button id="${popupId}" class="w-full text-blue-600 hover:underline mt-1 cursor-pointer">View Site Info</button>
+      </div>
       `;
 
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
@@ -186,12 +224,24 @@ const MapView = ({
         const btn = document.getElementById(popupId);
         if (btn) {
           btn.addEventListener("click", () => {
-            // Set selectedMarker as touristId if available, else fallback to destination index
-            if (place.touristId !== undefined && place.touristId !== null) {
-              setSelectedMarker(place.touristId);
-            } else {
-              setSelectedMarker(i);
-            }
+            const markerId = place.touristId ?? i;
+
+            // Always set overlay view
+            setOverlayView("showSite");
+
+            // Force re-selection if same marker is selected
+            setSelectedMarker((prev) => {
+              if (prev === markerId) {
+                return null; // Unset to allow force update
+              } else {
+                return markerId;
+              }
+            });
+
+            // Reset to the same marker after brief delay (forces remount if needed)
+            setTimeout(() => {
+              setSelectedMarker(markerId);
+            }, 0);
           });
         }
       });
@@ -201,8 +251,10 @@ const MapView = ({
     if (myloc) {
       const popupId = "my-location-add-btn";
       const html = `
-        <strong>My Location</strong><br/>
-        <button id="${popupId}" style="color:blue;cursor:pointer;margin-top:4px">Add as Destination</button>
+      <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
+        <h3 class="font-semibold text-lg text-center">My Location</h3><br/>
+        <button id="${popupId}" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-0 px-2 py-2 transition cursor-pointer">Add Destination</button>
+      </div>
       `;
 
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
@@ -218,7 +270,11 @@ const MapView = ({
         const btn = document.getElementById(popupId);
         if (btn) {
           btn.addEventListener("click", () => {
-            setDestinations((prev) => [...prev, { lat: myloc.lat, lon: myloc.lon }]);
+            // Add my location as a destination without touristId
+            setDestinations((prev) => [
+              ...prev,
+              { lat: myloc.lat, lon: myloc.lon },
+            ]);
           });
         }
       });
@@ -236,7 +292,7 @@ const MapView = ({
   ]);
 
   // Map click handlers for adding custom markers or setting start/end
-  useEffect(():any => {
+  useEffect(() => {
     const handleClick = (e: maplibregl.MapMouseEvent) => {
       const latlng: [number, number] = [e.lngLat.lat, e.lngLat.lng];
       if (markerMode === "start") {
@@ -246,7 +302,10 @@ const MapView = ({
         setEnd(latlng);
         setMarkerMode("none");
       } else if (addDestinationMode) {
-        setClickMarkers((prev) => [...prev, { lat: latlng[0], lon: latlng[1] }]);
+        setClickMarkers((prev) => [
+          ...prev,
+          { lat: latlng[0], lon: latlng[1] },
+        ]);
       }
     };
 
@@ -277,7 +336,9 @@ const MapView = ({
   };
 
   const removeClickMarker = (lat: number, lon: number) => {
-    setClickMarkers((prev) => prev.filter((m) => m.lat !== lat || m.lon !== lon));
+    setClickMarkers((prev) =>
+      prev.filter((m) => m.lat !== lat || m.lon !== lon)
+    );
   };
 
   // Setup global window functions
