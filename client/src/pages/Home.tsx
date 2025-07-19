@@ -27,7 +27,7 @@ const Home = () => {
     NearByDestinationType[]
   >([]);
   const [touristDestinations, setTouristDestinations] = useState<
-    TouristDestination[]
+    Destination[]
   >([]);
   const [touristDestinationsCoords, setTouristDestinationsCoords] = useState<
     Location[]
@@ -59,7 +59,7 @@ const Home = () => {
     if (n === 1) return [0];
 
     const visited = new Array(n).fill(false);
-    const order: number[] = [0]; // Start from first destination (index 0)
+    const order: number[] = [0];
     visited[0] = true;
 
     let current = 0;
@@ -95,17 +95,19 @@ const Home = () => {
   useEffect(() => {
     const GetDestinations = async () => {
       try {
-        const response = await fetch("/destinations.json");
-        if (!response.ok) {
+        const response = await getAllPoints();
+        if (!response.success) {
           throw new Error("Failed to fetch destinations");
         }
 
-        const destinations: TouristDestination[] = await response.json();
+        const destinations: Destination[] = response.data;
+
+        console.log(destinations);
 
         const coords = destinations.map((d) => ({
           name: d.name,
-          lat: d.coordinates?.lat,
-          lon: d.coordinates?.lon,
+          lat: d.lat,
+          lon: d.lon,
         }));
 
         setTouristDestinations(destinations);

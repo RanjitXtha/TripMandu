@@ -98,24 +98,30 @@ const planSlice = createSlice({
             })
             .addCase(getAllPlans.fulfilled, (state, action) => {
                 state.isLoading = false;
-                const plan = action.payload;
-                console.log(plan);
+                state.plan = action.payload.data;
             })
             .addCase(createPlan.pending, (state) => {
                 state.isLoading = true;
             })
             .addCase(createPlan.fulfilled, (state, action) => {
                 state.isLoading = false;
-                const plan = action.payload;
+                 const plan = action.payload.data[0];
+                state.plan.push(plan);
                 console.log(plan);
+                console.log(plan);
+                
             })
             .addCase(updatePlan.pending, (state) => {
                 state.isLoading = true;
+                
             })
             .addCase(updatePlan.fulfilled, (state, action) => {
                 state.isLoading = false;
-                const plan = action.payload;
-                console.log(plan);
+                const updatePlan = action.payload.data[0];
+                const index = state.plan.findIndex(p =>p.id === updatePlan.id);
+                if (index !== -1) {
+                    state.plan[index] = updatePlan;
+                }
             })
             .addCase(deletePlanById.pending, (state) => {
                 state.isLoading = true;
