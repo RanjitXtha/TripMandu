@@ -76,6 +76,7 @@ interface Location {
 }
 
 export const solveTSPHandler = asyncHandler(async (req: Request, res: Response) => {
+  console.log("TSP handler called");
   const { destinations }: { destinations: Location[] } = req.body;
 
   if (!Array.isArray(destinations) || destinations.length < 2) {
@@ -115,5 +116,9 @@ export const solveTSPHandler = asyncHandler(async (req: Request, res: Response) 
   return res.status(200).json({ path: fullPath, tspOrder });
 });
 
+
+export const helloMap = asyncHandler(async (req: Request, res: Response) => {
+  res.status(200).json({ message: "Hello from map controller!" });
+});
 
 
