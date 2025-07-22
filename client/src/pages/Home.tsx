@@ -4,7 +4,6 @@ import RoutePlanner from "../components/RoutePlanner";
 import axios from "axios";
 import type {
   Location,
-  TouristDestination,
   OverlayView,
   NearByDestinationType,
 } from "../types/types";
@@ -38,7 +37,7 @@ const Home = () => {
   const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
   const [tspOrder, setTspOrder] = useState<number[]>([]);
 
- 
+//  get all location points
   useEffect(() => {
     const GetDestinations = async () => {
       try {
@@ -48,10 +47,12 @@ const Home = () => {
         }
 
         const destinations: Destination[] = response.data;
+        console.log("Fetched destinations:", destinations);
 
-        console.log(destinations);
+
 
         const coords = destinations.map((d) => ({
+          id: d.id,
           name: d.name,
           lat: d.lat,
           lon: d.lon,
@@ -69,6 +70,8 @@ const Home = () => {
     GetDestinations();
   }, []);
 
+
+  // Get user's current location
   useEffect(() => {
     if (!navigator.geolocation) return;
     const watchId = navigator.geolocation.watchPosition(
@@ -80,10 +83,14 @@ const Home = () => {
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
+  // Reset path and TSP order when destinations change
+
   useEffect(() => {
     setPathCoords([]);
     setTspOrder([]);
   }, [destinations]);
+
+  // Calculate TSP route when destinations are updated
 
   const calculateTSPRoute = async () => {
   if (destinations.length < 2) {
@@ -93,11 +100,22 @@ const Home = () => {
 
   setIsLoading(true);
   try {
+    console.log("Calculating TSP route for destinations:", destinations);
     const res = await axios.post("http://localhost:8080/api/map/solveTsp", {
       destinations,
     });
 
-    const { path, tspOrder: order } = res.data;
+    console.log("TSP route response:", res.data);
+    const { path, tspResponse }: {
+      path: [number, number][], tspResponse: Record<string, { id: string; order: number }>
+    } = res.data;
+    console.log("TSP Order:", tspResponse);
+
+    const tspDataResponse = Object.values(tspResponse);
+    console.log("TSP Data Response:", tspDataResponse); 
+
+    const order = tspDataResponse.map(item => item?.order);
+  //  console.log("TSP Order Indices:", order);
 
     if (!Array.isArray(path)) throw new Error("Invalid path");
 

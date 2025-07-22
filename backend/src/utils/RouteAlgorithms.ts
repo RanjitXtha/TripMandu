@@ -87,6 +87,7 @@ function nearestNode(point: NodeType, nodeMap: NodeMapType): number | null {
 
 // Greedy TSP solver (returns order of indices to visit)
 function solveTSP(locations: NodeType[]): number[] {
+  console.log("Solving TSP for locations:", locations);
   const n = locations.length;
   if (n === 0) return [];
 
