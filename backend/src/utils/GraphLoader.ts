@@ -1,7 +1,6 @@
 import prisma from "../db/index.js";
 import type { NodeMapType, GraphType } from "./types.js";
 
-
 function parseCoords(coord: string): [number, number] {
   const [lon, lat] = coord.replace("POINT(", "").replace(")", "").split(" ");
   return [parseFloat(lon), parseFloat(lat)];
@@ -9,30 +8,28 @@ function parseCoords(coord: string): [number, number] {
 
 export async function loadGraph() {
   const rawNodes = await prisma.$queryRawUnsafe<
-    { id: number; coord: string }[]
+    { node_id: bigint; lat: number; lon: number }[]
   >(`
-    SELECT id, ST_AsText(location) as coord FROM "Node";
+    SELECT node_id, lat, lon FROM graph_nodes;
   `);
 
   const nodeMap: NodeMapType = {};
   for (const node of rawNodes) {
-    const [lon, lat] = parseCoords(node.coord);
-    nodeMap[node.id.toString()] = { lat, lon };
+    nodeMap[node.node_id.toString()] = { lat: node.lat, lon: node.lon };
   }
 
-  // Fetch all edges with fromId, toId, cost
   const rawEdges = await prisma.$queryRawUnsafe<
-    { fromId: number; toId: number; cost: number }[]
+    { source: bigint; target: bigint; distance: number | null }[]
   >(`
-    SELECT "fromId", "toId", cost FROM "Edge";
+    SELECT source, target, distance FROM graph_edges;
   `);
 
   const graph: GraphType = {};
   for (const edge of rawEdges) {
-    const from = edge.fromId.toString();
+    const from = edge.source.toString();
 
     if (!graph[from]) graph[from] = [];
-    graph[from].push({ node: edge.toId, dist: edge.cost });
+    graph[from].push({ node: Number(edge.target), dist: edge.distance ?? 0 });
   }
 
   return { nodeMap, graph };

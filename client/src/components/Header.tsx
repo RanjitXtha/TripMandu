@@ -11,7 +11,7 @@ interface HeaderProps {
 
 const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
   const user = useSelector((state: RootState) => state.user);
-  // console.log(user);
+  console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
