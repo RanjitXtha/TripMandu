@@ -7,9 +7,10 @@ export type Site = {
 export type OverlayView = "none" | "showSite" | "popularSite" | "routePlanner";
 
 export type Location = {
-  name?: string;
+  id?: string;
   lat: number;
   lon: number;
+  name?:string;
 };
 
 export type TouristDestination = {

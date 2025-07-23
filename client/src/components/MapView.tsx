@@ -360,10 +360,11 @@ const MapView = ({
     window.addDest = (touristIndexOrLatlng: number | [number, number]) => {
       if (typeof touristIndexOrLatlng === "number") {
         const td = touristDestinations[touristIndexOrLatlng];
+        console.log("Adding tourist destination:", td);
         if (!td) return;
         setDestinations((prev) => [
           ...prev,
-          { lat: td.lat, lon: td.lon, touristId: touristIndexOrLatlng },
+          { lat: td.lat, lon: td.lon, id: td?.id },
         ]);
       } else if (Array.isArray(touristIndexOrLatlng)) {
         setDestinations((prev) => [

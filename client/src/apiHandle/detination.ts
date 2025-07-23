@@ -29,7 +29,7 @@ export async function reverseToName(lat: number, long: number): Promise<string> 
 export async function getAllPoints(): Promise<DestinatinReponse> {
   try {
     const response = await api.get<DestinatinReponse>("/destination/getAllLocations");
-    console.log(response);
+    //console.log(response);
     return response.data;
   } catch (error: any) {
     console.error("Error fetching destinations:", error.message || error);
