@@ -1,15 +1,14 @@
 // only for response not detailed one destination
 
-interface PlanDestination {
+export interface PlanDestination {
     id: string;
-    destinationId: string;
+    destinationId?: string;
     order: number;
-    date: Date | null;
 }
 
 export interface PlanForm {
-    id: string;
-    name: string;
+    id?: string;
+    planName: string;
     destinations: PlanDestination[];
 }
 

@@ -13,8 +13,19 @@ import Footer from "../components/Footer";
 import SiteCard from "../components/SiteCard";
 import PopularSites from "../components/PopularSites";
 import { getAllPoints, type Destination } from "../apiHandle/detination";
+import PlanFormCard from "../components/plan/PlanForm";
+import type { PlanDestination } from "../types/plan.type";
+
+// for redux management states and exports
+import { useDispatch } from "react-redux";
+import type { AppDispatch, RootState } from "../app/store";
+import { createPlan, getAllPlans } from "../features/plan";
+import { useSelector } from "react-redux";
+import type { RootOptions } from "react-dom/client";
 
 const Home = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  // 
   const [overlayView, setOverlayView] = useState<OverlayView>("none");
   const [destinations, setDestinations] = useState<Location[]>([]);
   const [clickMarkers, setClickMarkers] = useState<Location[]>([]);
@@ -36,6 +47,12 @@ const Home = () => {
   );
   const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
   const [tspOrder, setTspOrder] = useState<number[]>([]);
+
+
+  // for plan state
+  const [isOpenPlanForm, setIsOpenPlanForm] = useState<boolean>(false);
+  const [togglePlanFormAndCalculateRoute, setTogglePlanFormAndCalculateRoute] = useState<boolean>(true);
+  const [plannedDestination, setPlannedDestination] = useState<PlanDestination[]>([])
 
 //  get all location points
   useEffect(() => {
@@ -94,6 +111,7 @@ const Home = () => {
 
   const calculateTSPRoute = async () => {
   if (destinations.length < 2) {
+    setTogglePlanFormAndCalculateRoute(false);
     alert("Please add at least two destinations");
     return;
   }
@@ -112,7 +130,9 @@ const Home = () => {
     console.log("TSP Order:", tspResponse);
 
     const tspDataResponse = Object.values(tspResponse);
-    console.log("TSP Data Response:", tspDataResponse); 
+    console.log("TSP Data Response:", tspDataResponse);
+
+    setPlannedDestination(tspDataResponse)
 
     const order = tspDataResponse.map(item => item?.order);
   //  console.log("TSP Order Indices:", order);
@@ -129,12 +149,42 @@ const Home = () => {
   }
 };
 
+// hanlde toggle state 
+
+const handletoggle = () => {
+  setTogglePlanFormAndCalculateRoute(p => !p);
+}
+
 
   useEffect(() => {
     if (selectedMarker !== null) {
       setOverlayView("showSite");
     }
   }, [selectedMarker]);
+
+
+  // to show plan form 
+    const handleSubmit = async (planName: string) => {
+      console.log("Planned Destination:", plannedDestination);
+      console.log("Plan Name: ", planName);
+      const desination = plannedDestination.slice(0, -1);
+      const data = {
+        planName, destinations:desination
+      }
+     await dispatch(createPlan(data));
+      console.log(data);
+    }
+
+    // just for fun
+
+    useEffect(() => {
+      const allPaln = dispatch(getAllPlans());
+      console.log("all palb by user", allPaln);
+    }, [])
+
+    const plan = useSelector((state: RootState) => state.plan);
+    console.log(plan);
+
 
   return (
     <div className="flex">
@@ -200,14 +250,46 @@ const Home = () => {
           setOverlayView={setOverlayView}
         />
         {/* Calculate TSP Button */}
-        <button
+        {
+          togglePlanFormAndCalculateRoute
+          ? (
+            <button
           disabled={isLoading}
-          onClick={calculateTSPRoute}
+          onClick={() => {
+            calculateTSPRoute();
+            handletoggle();
+          }}
           className="absolute top-3 right-16 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[1.2rem] shadow-lg"
         >
           {isLoading ? "Calculating..." : "Calculate Route"}
         </button>
+          )
+          : (
+            <button
+            onClick={() => {
+              setIsOpenPlanForm(true);
+             // alert("Click")
+            }} className="absolute top-3 right-16 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[1.2rem] shadow-lg">
+              Save Plan
+            </button>
+          )
+        }
+
+         
       </div>
+      {
+        // form overlay
+        isOpenPlanForm && 
+        <PlanFormCard
+        isOpen={isOpenPlanForm}
+        mode="create"
+        onSubmit={handleSubmit}
+        onClose={()=>{setIsOpenPlanForm(false)
+           handletoggle();
+        }}
+        />
+      }
+     
       <Footer />
     </div>
   );
