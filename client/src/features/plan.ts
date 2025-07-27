@@ -29,7 +29,7 @@ export const getAllPlans = createAsyncThunk<PlanResponse, void>(
 );
 
 export const createPlan = createAsyncThunk<PlanResponse, PlanForm>(
-  "plan/create",
+  "plan/createPlan",
   async (formData, thunkAPI) => {
     try {
       const res = await api.post<PlanResponse>("/plan/createPlan", formData,
@@ -105,10 +105,10 @@ const planSlice = createSlice({
             })
             .addCase(createPlan.fulfilled, (state, action) => {
                 state.isLoading = false;
+                console.log("Payload", action.payload.data);
                  const plan = action.payload.data[0];
                 state.plan.push(plan);
-                console.log(plan);
-                console.log(plan);
+                console.log("created plane: ", plan);
                 
             })
             .addCase(updatePlan.pending, (state) => {

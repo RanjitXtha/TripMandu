@@ -14,9 +14,9 @@ export const createPlan = asyncHandler(
       throw new ApiError(403, "Unauthorized accesss.");
     }
 
-    const { planeName, destinations } = req.body;
+    const { planName, destinations } = req.body;
 
-   // console.log(destinations);
+    console.log(destinations);
 
     if (!Array.isArray(destinations) && destinations.length === 0) {
       throw new ApiError(400, "Plan name and destinations are required.");
@@ -24,7 +24,7 @@ export const createPlan = asyncHandler(
 
     const tPlan = await prisma.travelPlan.create({
       data: {
-        name: planeName,
+        name: planName,
         userId: user?.id,
         destinations: {
           create: destinations.map((d: any) => ({

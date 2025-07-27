@@ -139,10 +139,10 @@ tspOrder.forEach((originalIndex, stepIndex) => {
   };
 });
 
-console.log("TSP Response: ", tspResponse);
+//console.log("TSP Response: ", tspResponse);
 
 
-console.log("TSP Response: ", tspResponse);
+//console.log("TSP Response: ", tspResponse);
 
 
   return res.status(200).json({ path: fullPath, tspResponse });
