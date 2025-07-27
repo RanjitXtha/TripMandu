@@ -25,9 +25,9 @@ const Home = () => {
   const [nearByDestinations, setNearByDestinations] = useState<
     NearByDestinationType[]
   >([]);
-  const [touristDestinations, setTouristDestinations] = useState<
-    Destination[]
-  >([]);
+  const [touristDestinations, setTouristDestinations] = useState<Destination[]>(
+    []
+  );
   const [touristDestinationsCoords, setTouristDestinationsCoords] = useState<
     Location[]
   >([]);
@@ -37,7 +37,7 @@ const Home = () => {
   const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
   const [tspOrder, setTspOrder] = useState<number[]>([]);
 
-//  get all location points
+  //  get all location points
   useEffect(() => {
     const GetDestinations = async () => {
       try {
@@ -48,8 +48,6 @@ const Home = () => {
 
         const destinations: Destination[] = response.data;
         console.log("Fetched destinations:", destinations);
-
-
 
         const coords = destinations.map((d) => ({
           id: d.id,
@@ -69,7 +67,6 @@ const Home = () => {
 
     GetDestinations();
   }, []);
-
 
   // Get user's current location
   useEffect(() => {
@@ -93,42 +90,45 @@ const Home = () => {
   // Calculate TSP route when destinations are updated
 
   const calculateTSPRoute = async () => {
-  if (destinations.length < 2) {
-    alert("Please add at least two destinations");
-    return;
-  }
+    if (destinations.length < 2) {
+      alert("Please add at least two destinations");
+      return;
+    }
 
-  setIsLoading(true);
-  try {
-    console.log("Calculating TSP route for destinations:", destinations);
-    const res = await axios.post("http://localhost:8080/api/map/solveTsp", {
-      destinations,
-    });
+    setIsLoading(true);
+    try {
+      console.log("Calculating TSP route for destinations:", destinations);
+      const res = await axios.post("http://localhost:8080/api/map/solveTsp", {
+        destinations,
+      });
 
-    console.log("TSP route response:", res.data);
-    const { path, tspResponse }: {
-      path: [number, number][], tspResponse: Record<string, { id: string; order: number }>
-    } = res.data;
-    console.log("TSP Order:", tspResponse);
+      console.log("TSP route response:", res.data);
+      const {
+        path,
+        tspResponse,
+      }: {
+        path: [number, number][];
+        tspResponse: Record<string, { id: string; order: number }>;
+      } = res.data;
+      console.log("TSP Order:", tspResponse);
 
-    const tspDataResponse = Object.values(tspResponse);
-    console.log("TSP Data Response:", tspDataResponse); 
+      const tspDataResponse = Object.values(tspResponse);
+      console.log("TSP Data Response:", tspDataResponse);
 
-    const order = tspDataResponse.map(item => item?.order);
-  //  console.log("TSP Order Indices:", order);
+      const order = tspDataResponse.map((item) => item?.order);
+      //  console.log("TSP Order Indices:", order);
 
-    if (!Array.isArray(path)) throw new Error("Invalid path");
+      if (!Array.isArray(path)) throw new Error("Invalid path");
 
-    setTspOrder(order);
-    setPathCoords(path);
-  } catch (err) {
-    console.error("Failed to calculate route:", err);
-    alert("Failed to calculate TSP route");
-  } finally {
-    setIsLoading(false);
-  }
-};
-
+      setTspOrder(order);
+      setPathCoords(path);
+    } catch (err) {
+      console.error("Failed to calculate route:", err);
+      alert("Failed to calculate TSP route");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (selectedMarker !== null) {
