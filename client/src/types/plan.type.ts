@@ -17,6 +17,7 @@ export interface NewPlanDestination {
     destination: Destination;
     order: number
 }
+
 export interface PlanForm {
     id?: string;
     planName: string;
@@ -57,4 +58,10 @@ export interface PlanResponseById {
     success: boolean;
     data: PlanSingle;
     message: string;
+}
+
+export interface FormCUResponse {
+  message: string;
+  success:boolean;
+  data: Plan;
 }

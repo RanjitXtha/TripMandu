@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from '../utils/axiosInstance';
 
-import type { PlanResponse, Plan, PlanForm } from "../types/plan.type";
+import type { PlanResponse, Plan, PlanForm, FormCUResponse} from "../types/plan.type";
 const TOKEN = localStorage.getItem("token");
 
 interface InitialPlan {
@@ -16,6 +16,8 @@ const initialPlan: InitialPlan = {
   isLoading: false,
 };
 
+
+
 export const getAllPlans = createAsyncThunk<PlanResponse, void>(
   "plan/getAllPlans",
   async () => {
@@ -28,11 +30,11 @@ export const getAllPlans = createAsyncThunk<PlanResponse, void>(
   }
 );
 
-export const createPlan = createAsyncThunk<PlanResponse, PlanForm>(
+export const createPlan = createAsyncThunk<FormCUResponse, PlanForm>(
   "plan/createPlan",
   async (formData, thunkAPI) => {
     try {
-      const res = await api.post<PlanResponse>("/plan/createPlan", formData,
+      const res = await api.post<FormCUResponse>("/plan/createPlan", formData,
         {
             headers: {
                 "Authorization": `Bearer ${TOKEN}`
@@ -46,11 +48,11 @@ export const createPlan = createAsyncThunk<PlanResponse, PlanForm>(
   }
 );
 
-export const updatePlan = createAsyncThunk<PlanResponse, PlanForm>(
+export const updatePlan = createAsyncThunk<FormCUResponse, PlanForm>(
   "plan/updatePlan",
   async (formData, thunkAPI) => {
     try {
-      const res = await api.put<PlanResponse>(
+      const res = await api.put<FormCUResponse>(
         `/plan/updateRouteById/${formData.id}`,
         formData,
         {
@@ -100,6 +102,7 @@ const planSlice = createSlice({
             })
             .addCase(getAllPlans.fulfilled, (state, action) => {
                 state.isLoading = false;
+               // console.log(action.payload.data);
                 state.plan = action.payload.data;
             })
             .addCase(createPlan.pending, (state) => {
@@ -107,8 +110,9 @@ const planSlice = createSlice({
             })
             .addCase(createPlan.fulfilled, (state, action) => {
                 state.isLoading = false;
-                console.log("Payload", action.payload.data);
-                 const plan = action.payload.data[0];
+                console.log("Payload", action.payload);
+                 const plan = action.payload.data;
+                 console.log("plan", plan);
                 state.plan.push(plan);
                 console.log("created plane: ", plan);
                 
@@ -119,7 +123,7 @@ const planSlice = createSlice({
             })
             .addCase(updatePlan.fulfilled, (state, action) => {
                 state.isLoading = false;
-                const updatePlan = action.payload.data[0];
+                const updatePlan = action.payload.data;
                 const index = state.plan.findIndex(p =>p.id === updatePlan.id);
                 if (index !== -1) {
                     state.plan[index] = updatePlan;
