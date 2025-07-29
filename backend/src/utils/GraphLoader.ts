@@ -1,7 +1,10 @@
 import prisma from "../db/index.js";
-import type { NodeMapType,GraphType } from "./types.js";
+import type { NodeMapType, GraphType } from "./types.js";
 
-export async function loadGraph(): Promise<{ nodeMap: NodeMapType; graph: GraphType }> {
+export async function loadGraph(): Promise<{
+  nodeMap: NodeMapType;
+  graph: GraphType;
+}> {
   const nodes = await prisma.graph_nodes.findMany();
   const nodeMap: NodeMapType = {};
 
@@ -15,7 +18,7 @@ export async function loadGraph(): Promise<{ nodeMap: NodeMapType; graph: GraphT
 
   for (const edge of edges) {
     const source = edge.source.toString(); // convert bigint to string
-    const target = Number(edge.target);    // keep as number for 'node'
+    const target = Number(edge.target); // keep as number for 'node'
 
     if (!graph[source]) graph[source] = [];
     graph[source].push({ node: target, dist: edge.distance! });
@@ -23,4 +26,3 @@ export async function loadGraph(): Promise<{ nodeMap: NodeMapType; graph: GraphT
 
   return { nodeMap, graph };
 }
-

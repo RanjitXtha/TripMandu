@@ -8,19 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model graph_edges {
-  source   BigInt
-  target   BigInt
-  distance Float?
-
-  @@id([source, target])
-}
-
-model graph_nodes {
-  node_id BigInt @id
-  lat     Float?
-  lon     Float?
-}
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model spatial_ref_sys {
@@ -31,54 +18,62 @@ model spatial_ref_sys {
   proj4text String? @db.VarChar(2048)
 }
 
-
-
 model User {
-  id          String              @id @default(uuid())
+  id          String       @id @default(uuid())
   fName       String
   lName       String
-  email       String              @unique
+  email       String       @unique
   password    String
   profile     String?
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
-
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
   travelPlans TravelPlan[]
 }
 
 model TravelPlan {
-  id          String              @id @default(uuid())
-  user        User                @relation(fields: [userId], references: [id])
-  userId      String
-  name        String?            
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
-
+  id           String            @id @default(uuid())
+  userId       String
+  name         String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
   destinations PlanDestination[]
+  user         User              @relation(fields: [userId], references: [id])
 }
 
 model Destination {
-  id          String              @id @default(uuid())
+  id          String                  @id @default(uuid())
   name        String
   description String?
   image       String?
- location    Unsupported("geometry")
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
-
+  location    Unsupported("geometry")
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @updatedAt
   plans       PlanDestination[]
 }
 
 model PlanDestination {
-  id            String            @id @default(uuid())
-  plan          TravelPlan        @relation(fields: [planId], references: [id])
+  id            String      @id @default(uuid())
   planId        String
-
-  destination   Destination       @relation(fields: [destinationId], references: [id])
   destinationId String
-
-  order         Int            
-  date          DateTime?        
+  order         Int
+  date          DateTime?
+  destination   Destination @relation(fields: [destinationId], references: [id])
+  plan          TravelPlan  @relation(fields: [planId], references: [id])
 
   @@unique([planId, destinationId, order])
+}
+
+model graph_edges {
+  source   BigInt
+  target   BigInt
+  distance Float?
+
+  @@id([source, target])
+}
+
+model graph_nodes {
+  node_id BigInt                   @id
+  lat     Float?
+  lon     Float?
+  geom    Unsupported("geometry")?
 }

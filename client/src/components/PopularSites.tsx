@@ -88,10 +88,12 @@ const PopularSites = ({
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-          {touristDestinations.map((site, index) => (
-            <SiteCard key={index} {...site} />
-          ))}
+        <div className="">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+            {touristDestinations.map((site, index) => (
+              <SiteCard key={index} {...site} />
+            ))}
+          </div>
         </div>
       )}
     </div>

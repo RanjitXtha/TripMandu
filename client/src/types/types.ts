@@ -10,16 +10,14 @@ export type Location = {
   id?: string;
   lat: number;
   lon: number;
-  name?:string;
+  name?: string;
 };
 
 export type TouristDestination = {
-  coordinates: {
-    lat: number;
-    lon: number;
-  };
+  lat: number;
+  lon: number;
   description: string;
-  image: string;
+  image?: string;
   name: string;
 };
 

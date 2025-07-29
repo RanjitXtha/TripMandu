@@ -2,9 +2,10 @@
 
 /* Firefox */
 .custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: #45567c transparent;
-  padding-right: 8px; /* space inside content */
+  /* scrollbar-width: none; */
+  /* scrollbar-color: #45567c transparent; */
+  padding-right: 0px;
+  padding-top: 0px;
 }
 
 /* WebKit */
@@ -49,10 +50,6 @@
 
 .maplibregl-popup-close-button:hover {
   color: #ef4444 !important; /* red-500 */
-}
-
-.maplibregl-popup-tip {
-  display: none;
 }
 
 .maplibregl-ctrl-bottom-right {

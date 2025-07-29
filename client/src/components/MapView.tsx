@@ -55,6 +55,7 @@ const MapView = ({
   tspOrder,
 }: MapViewProps) => {
   const mapRef = useRef<maplibregl.Map | null>(null);
+  const lastSelectedMarkerRef = useRef<number | string | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const markersRef = useRef<maplibregl.Marker[]>([]);
 
@@ -94,6 +95,7 @@ const MapView = ({
         const html = `
         <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
           <h3 class="font-semibold text-lg text-center">${place.name}</h3>
+          <hr class="mt-1 mb-3">
           <button id="addDestination" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-0 px-2 py-2 transition cursor-pointer" onclick='window.addDest(${index})'>Add Destination</button><br/>
         </div>
         `;
@@ -120,10 +122,9 @@ const MapView = ({
         markersRef.current.push(marker);
 
         marker.getElement().addEventListener("click", () => {
-          const map = mapRef.current;
-          if (map) {
-            map.flyTo({ center: [place.lon, place.lat], zoom: 15 });
-          }
+          lastSelectedMarkerRef.current = index;
+
+          mapRef.current?.flyTo({ center: [place.lon, place.lat], zoom: 15 });
 
           setOverlayView("showSite");
 
@@ -135,11 +136,17 @@ const MapView = ({
           }
         });
 
-        popup.on("open", () => {
-          const addDestination = document.getElementById("addDestination");
-          addDestination?.addEventListener("click", () => {
-            setOverlayView("none");
-          });
+        // popup.on("open", () => {
+        //   const addDestination = document.getElementById("addDestination");
+        //   addDestination?.addEventListener("click", () => {
+        //     setOverlayView("none");
+        //   });
+        // });
+
+        popup.on("close", () => {
+          if (lastSelectedMarkerRef.current === index) {
+            setTimeout(() => setOverlayView("none"), 0);
+          }
         });
       });
     }
@@ -149,6 +156,7 @@ const MapView = ({
       const html = `
       <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
         <h3 class="font-semibold text-lg text-center">Custom Marker</h3>
+        <hr class="mt-1 mb-3">
         <button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-2 px-2 py-2 transition cursor-pointer" onclick='window.addDest([${place.lat}, ${place.lon}])'>Add Destination</button><br/>
         <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded-[1.2rem] shadow-lg mb-0  px-2 py-2 transition cursor-pointer"  onclick='window.delClick(${place.lat}, ${place.lon})'>Delete</button>
       </div>
@@ -192,9 +200,7 @@ const MapView = ({
             ? `<p class="font-bold text-md text-center">${nameFromTourist}</p>`
             : ""
         }
-        <div class="text-center">
-        ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}
-        </div>
+        <hr class="mt-1 mb-3">
         <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded-[1.2rem] shadow-lg mb-0 mt-1 px-2 py-2 transition cursor-pointer" onclick='window.delDest(${i})'>Remove</button><br/>
         <button id="${popupId}" class="w-full text-blue-600 hover:underline mt-1 cursor-pointer">View Site Info</button>
       </div>
@@ -229,25 +235,25 @@ const MapView = ({
         const btn = document.getElementById(popupId);
         if (btn) {
           btn.addEventListener("click", () => {
-            const markerId = place.touristId ?? i;
+            const markerId = place.touristId ?? null;
 
-            // Always set overlay view
-            setOverlayView("showSite");
+            lastSelectedMarkerRef.current = markerId;
 
-            // Force re-selection if same marker is selected
-            setSelectedMarker((prev) => {
-              if (prev === markerId) {
-                return null; // Unset to allow force update
-              } else {
-                return markerId;
-              }
-            });
-
-            // Reset to the same marker after brief delay (forces remount if needed)
-            setTimeout(() => {
+            if (selectedMarker === markerId) {
+              setSelectedMarker(null);
+              setTimeout(() => setSelectedMarker(markerId), 0);
+            } else {
               setSelectedMarker(markerId);
-            }, 0);
+            }
+
+            setOverlayView("showSite");
           });
+        }
+      });
+
+      popup.on("close", () => {
+        if (lastSelectedMarkerRef.current === (place.touristId ?? null)) {
+          setTimeout(() => setOverlayView("none"), 0);
         }
       });
     });
@@ -257,7 +263,8 @@ const MapView = ({
       const popupId = "my-location-add-btn";
       const html = `
       <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
-        <h3 class="font-semibold text-lg text-center">My Location</h3><br/>
+        <h3 class="font-semibold text-lg text-center">My Location</h3>
+        <hr class="mt-1 mb-3">
         <button id="${popupId}" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-0 px-2 py-2 transition cursor-pointer">Add Destination</button>
       </div>
       `;
@@ -275,12 +282,19 @@ const MapView = ({
         const btn = document.getElementById(popupId);
         if (btn) {
           btn.addEventListener("click", () => {
+            lastSelectedMarkerRef.current = "myloc";
             // Add my location as a destination without touristId
             setDestinations((prev) => [
               ...prev,
               { lat: myloc.lat, lon: myloc.lon },
             ]);
           });
+        }
+      });
+
+      popup.on("close", () => {
+        if (lastSelectedMarkerRef.current === "myloc") {
+          setTimeout(() => setOverlayView("none"), 0);
         }
       });
     }
@@ -414,7 +428,7 @@ const MapView = ({
 
   return (
     <div>
-      <div style={{ display: "flex", height: "100vh" }}>
+      <div className="flex h-[100vh]">
         <Map
           mapLib={maplibregl}
           initialViewState={{ latitude: 27.67, longitude: 85.43, zoom: 14 }}
@@ -423,6 +437,11 @@ const MapView = ({
           onLoad={({ target }: { target: maplibregl.Map }) => {
             mapRef.current = target;
             setMapLoaded(true);
+
+            target.setMaxBounds([
+              [85.2025, 27.566721], // Southwest corner (lng, lat)
+              [85.561371, 27.815708], // Northeast corner (lng, lat)
+            ]);
           }}
         >
           <NavigationControl position="top-right" />

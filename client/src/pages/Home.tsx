@@ -26,7 +26,7 @@ import { useSearchLocation } from "../features/searchHook";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
-  // 
+  //
   const [overlayView, setOverlayView] = useState<OverlayView>("none");
   const [destinations, setDestinations] = useState<Location[]>([]);
   const [clickMarkers, setClickMarkers] = useState<Location[]>([]);
@@ -37,9 +37,9 @@ const Home = () => {
   const [nearByDestinations, setNearByDestinations] = useState<
     NearByDestinationType[]
   >([]);
-  const [touristDestinations, setTouristDestinations] = useState<
-    Destination[]
-  >([]);
+  const [touristDestinations, setTouristDestinations] = useState<Destination[]>(
+    []
+  );
   const [touristDestinationsCoords, setTouristDestinationsCoords] = useState<
     Location[]
   >([]);
@@ -49,11 +49,13 @@ const Home = () => {
   const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
   const [tspOrder, setTspOrder] = useState<number[]>([]);
 
-
   // for plan state
   const [isOpenPlanForm, setIsOpenPlanForm] = useState<boolean>(false);
-  const [togglePlanFormAndCalculateRoute, setTogglePlanFormAndCalculateRoute] = useState<boolean>(true);
-  const [plannedDestination, setPlannedDestination] = useState<PlanDestination[]>([])
+  const [togglePlanFormAndCalculateRoute, setTogglePlanFormAndCalculateRoute] =
+    useState<boolean>(true);
+  const [plannedDestination, setPlannedDestination] = useState<
+    PlanDestination[]
+  >([]);
 
 
   // get searched location(and selectd)
@@ -74,8 +76,6 @@ const Home = () => {
         const destinations: Destination[] = response.data;
         console.log("Fetched destinations:", destinations);
 
-
-
         const coords = destinations.map((d) => ({
           id: d.id,
           name: d.name,
@@ -94,7 +94,6 @@ const Home = () => {
 
     GetDestinations();
   }, []);
-
 
   // Get user's current location
   useEffect(() => {
@@ -118,51 +117,53 @@ const Home = () => {
   // Calculate TSP route when destinations are updated
 
   const calculateTSPRoute = async () => {
-  if (destinations.length < 2) {
-    setTogglePlanFormAndCalculateRoute(false);
-    alert("Please add at least two destinations");
-    return;
-  }
+    if (destinations.length < 2) {
+      setTogglePlanFormAndCalculateRoute(false);
+      alert("Please add at least two destinations");
+      return;
+    }
 
-  setIsLoading(true);
-  try {
-    console.log("Calculating TSP route for destinations:", destinations);
-    const res = await axios.post("http://localhost:8080/api/map/solveTsp", {
-      destinations,
-    });
+    setIsLoading(true);
+    try {
+      console.log("Calculating TSP route for destinations:", destinations);
+      const res = await axios.post("http://localhost:8080/api/map/solveTsp", {
+        destinations,
+      });
 
-    console.log("TSP route response:", res.data);
-    const { path, tspResponse }: {
-      path: [number, number][], tspResponse: Record<string, { id: string; order: number }>
-    } = res.data;
-    console.log("TSP Order:", tspResponse);
+      console.log("TSP route response:", res.data);
+      const {
+        path,
+        tspResponse,
+      }: {
+        path: [number, number][];
+        tspResponse: Record<string, { id: string; order: number }>;
+      } = res.data;
+      console.log("TSP Order:", tspResponse);
 
-    const tspDataResponse = Object.values(tspResponse);
-    console.log("TSP Data Response:", tspDataResponse);
+      const tspDataResponse = Object.values(tspResponse);
+      console.log("TSP Data Response:", tspDataResponse);
 
-    setPlannedDestination(tspDataResponse)
+      setPlannedDestination(tspDataResponse);
 
-    const order = tspDataResponse.map(item => item?.order);
-  //  console.log("TSP Order Indices:", order);
+      const order = tspDataResponse.map((item) => item?.order);
+      //  console.log("TSP Order Indices:", order);
 
-    if (!Array.isArray(path)) throw new Error("Invalid path");
+      if (!Array.isArray(path)) throw new Error("Invalid path");
 
-    setTspOrder(order);
-    setPathCoords(path);
-  } catch (err) {
-    console.error("Failed to calculate route:", err);
-    alert("Failed to calculate TSP route");
-  } finally {
-    setIsLoading(false);
-  }
-};
+      setTspOrder(order);
+      setPathCoords(path);
+    } catch (err) {
+      console.error("Failed to calculate route:", err);
+      alert("Failed to calculate TSP route");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  // hanlde toggle state
 
-// hanlde toggle state 
-
-const handletoggle = () => {
-  setTogglePlanFormAndCalculateRoute(p => !p);
-}
-
+  const handletoggle = () => {
+    setTogglePlanFormAndCalculateRoute((p) => !p);
+  };
 
   useEffect(() => {
     if (selectedMarker !== null) {
@@ -171,24 +172,18 @@ const handletoggle = () => {
     }
   }, [selectedMarker]);
 
-
-  // to show plan form 
-    const handleSubmit = async (planName: string) => {
-      console.log("Planned Destination:", plannedDestination);
-      console.log("Plan Name: ", planName);
-      const desination = plannedDestination.slice(0, -1);
-      const data = {
-        planName, destinations:desination
-      }
-     await dispatch(createPlan(data));
-      console.log(data);
-    }
-
- 
-
-   
-
-
+  // to show plan form
+  const handleSubmit = async (planName: string) => {
+    console.log("Planned Destination:", plannedDestination);
+    console.log("Plan Name: ", planName);
+    const desination = plannedDestination.slice(0, -1);
+    const data = {
+      planName,
+      destinations: desination,
+    };
+    await dispatch(createPlan(data));
+    console.log(data);
+  };
 
   return (
     <div className="flex">
@@ -254,46 +249,44 @@ const handletoggle = () => {
           setOverlayView={setOverlayView}
         />
         {/* Calculate TSP Button */}
-        {
-          togglePlanFormAndCalculateRoute
-          ? (
-            <button
-          disabled={isLoading}
-          onClick={() => {
-            calculateTSPRoute();
-            handletoggle();
-          }}
-          className="absolute top-3 right-16 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[1.2rem] shadow-lg"
-        >
-          {isLoading ? "Calculating..." : "Calculate Route"}
-        </button>
-          )
-          : (
-            <button
+        {togglePlanFormAndCalculateRoute ? (
+          <button
+            disabled={isLoading}
+            onClick={() => {
+              calculateTSPRoute();
+              handletoggle();
+            }}
+            className="absolute top-3 right-16 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[1.2rem] shadow-lg"
+          >
+            {isLoading ? "Calculating..." : "Calculate Route"}
+          </button>
+        ) : (
+          <button
             onClick={() => {
               setIsOpenPlanForm(true);
-             // alert("Click")
-            }} className="absolute top-3 right-16 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[1.2rem] shadow-lg">
-              Save Plan
-            </button>
-          )
-        }
-
-         
+              // alert("Click")
+            }}
+            className="absolute top-3 right-16 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[1.2rem] shadow-lg"
+          >
+            Save Plan
+          </button>
+        )}
       </div>
       {
         // form overlay
-        isOpenPlanForm && 
-        <PlanFormCard
-        isOpen={isOpenPlanForm}
-        mode="create"
-        onSubmit={handleSubmit}
-        onClose={()=>{setIsOpenPlanForm(false)
-           handletoggle();
-        }}
-        />
+        isOpenPlanForm && (
+          <PlanFormCard
+            isOpen={isOpenPlanForm}
+            mode="create"
+            onSubmit={handleSubmit}
+            onClose={() => {
+              setIsOpenPlanForm(false);
+              handletoggle();
+            }}
+          />
+        )
       }
-     
+
       <Footer />
     </div>
   );
