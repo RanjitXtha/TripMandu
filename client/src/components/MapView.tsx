@@ -7,6 +7,7 @@ import type {
   OverlayView,
   NearByDestinationType,
 } from "../types/types";
+import { useSearchLocation } from "../features/searchHook";
 
 type LocationWithTouristId = Location & { touristId?: number };
 
@@ -57,6 +58,8 @@ const MapView = ({
   const [mapLoaded, setMapLoaded] = useState(false);
   const markersRef = useRef<maplibregl.Marker[]>([]);
 
+  const { selectedLocation } = useSearchLocation();
+
   // Helper function to get display number for markers
   const getDisplayNumber = (destinationIndex: number): number => {
     if (tspOrder.length === 0) {
@@ -73,6 +76,7 @@ const MapView = ({
     return position + 1; // Convert to 1-based numbering
   };
 
+
   useEffect(() => {
     if (!mapLoaded || !mapRef.current) return;
 
@@ -86,6 +90,7 @@ const MapView = ({
     if (showTouristMarkers) {
       touristDestinations.forEach((place, index) => {
         // const popupId = `tourist-info-${index}`;
+       // console.log("PLACE: ", place);
         const html = `
         <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
           <h3 class="font-semibold text-lg text-center">${place.name}</h3>
@@ -279,6 +284,49 @@ const MapView = ({
         }
       });
     }
+
+     if (selectedLocation) {
+    const { lat, lon, name } = selectedLocation;
+
+    const popupHtml = `
+      <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm">
+        <h3 class="font-semibold text-lg text-center">${name ?? "Searched Location"}</h3>
+        <button id="addDestinations" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-0 px-2 py-2 transition cursor-pointer" onclick='window.addDest(${selectedLocation.id})'>Add Destination</button>
+      </div>
+    `;
+
+    const popup = new maplibregl.Popup({ offset: 25 }).setHTML(popupHtml);
+
+    const el = document.createElement("div");
+    el.className = "custom-marker";
+    el.style.width = "24px";
+    el.style.height = "24px";
+    el.style.borderRadius = "50%";
+    el.style.backgroundColor = "blue";
+    el.style.border = "2px solid white";
+    el.style.cursor = "pointer";
+
+    const marker = new maplibregl.Marker({ element: el })
+      .setLngLat([lon, lat])
+      .setPopup(popup)
+      .addTo(mapRef.current!);
+
+    markersRef.current.push(marker);
+
+    mapRef.current.flyTo({ center: [lon, lat], zoom: 15 });
+
+    setOverlayView("showSite");
+
+
+     popup.on("open", () => {
+          const addDestination = document.getElementById("addDestinations");
+          addDestination?.addEventListener("click", () => {
+            setOverlayView("none");
+            setDestinations((prev) => [...prev, selectedLocation]); 
+          });
+        });
+    
+  }
   }, [
     mapLoaded,
     clickMarkers,
@@ -289,6 +337,7 @@ const MapView = ({
     touristDestinations,
     setSelectedMarker,
     setDestinations,
+    selectedLocation
   ]);
 
   // Map click handlers for adding custom markers or setting start/end

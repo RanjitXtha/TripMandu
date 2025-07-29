@@ -3,6 +3,8 @@ import { useState } from "react";
 import type { RootState } from "../app/store";
 import { useNavigate } from "react-router-dom";
 import { clearUser } from "../features/auth";
+import SearchLocation from "./SearchLocation";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   onSelectView: (view: "none" | "popularSite" | "routePlanner") => void;
@@ -27,11 +29,13 @@ const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
     navigate("/login");
   };
 
+
   return (
     <header className="absolute z-5 bg-white right-1/2 transform translate-x-1/2 flex items-center justify-between p-3 mt-2 w-2/3 h-[50px] rounded-full shadow-lg m-auto">
       <h1 className="text-xl font-bold">TripMandu</h1>
+      <SearchLocation />
       <nav className="flex gap-6">
-        <button
+        {/* <button
           onClick={() => {
             setSelectedMarker(null);
             onSelectView("popularSite");
@@ -39,7 +43,11 @@ const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
           className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black  hover:bg-gray-100 hover:underline"
         >
           Popular Sites
-        </button>
+        </button> */}
+        <Link to={"/plan"}
+        className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black  hover:bg-gray-100 hover:underline">
+        Manage Your Plan
+        </Link>
         <button
           onClick={() => {
             setSelectedMarker(null);

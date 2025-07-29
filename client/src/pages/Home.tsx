@@ -18,10 +18,11 @@ import type { PlanDestination } from "../types/plan.type";
 
 // for redux management states and exports
 import { useDispatch } from "react-redux";
-import type { AppDispatch, RootState } from "../app/store";
-import { createPlan, getAllPlans } from "../features/plan";
-import { useSelector } from "react-redux";
-import type { RootOptions } from "react-dom/client";
+import type { AppDispatch } from "../app/store";
+import { createPlan } from "../features/plan";
+import { useSearchLocation } from "../features/searchHook";
+// import { useSelector } from "react-redux";
+// import type { RootOptions } from "react-dom/client";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -53,6 +54,13 @@ const Home = () => {
   const [isOpenPlanForm, setIsOpenPlanForm] = useState<boolean>(false);
   const [togglePlanFormAndCalculateRoute, setTogglePlanFormAndCalculateRoute] = useState<boolean>(true);
   const [plannedDestination, setPlannedDestination] = useState<PlanDestination[]>([])
+
+
+  // get searched location(and selectd)
+
+  const { selectedLocation } = useSearchLocation();
+
+  console.log("Selected location is:", selectedLocation);
 
 //  get all location points
   useEffect(() => {
@@ -159,6 +167,7 @@ const handletoggle = () => {
   useEffect(() => {
     if (selectedMarker !== null) {
       setOverlayView("showSite");
+      console.log("From selected marker: ", selectedMarker)
     }
   }, [selectedMarker]);
 
@@ -175,15 +184,10 @@ const handletoggle = () => {
       console.log(data);
     }
 
-    // just for fun
+ 
 
-    useEffect(() => {
-      const allPaln = dispatch(getAllPlans());
-      console.log("all palb by user", allPaln);
-    }, [])
+   
 
-    const plan = useSelector((state: RootState) => state.plan);
-    console.log(plan);
 
 
   return (

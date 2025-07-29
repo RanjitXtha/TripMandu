@@ -42,6 +42,8 @@ const ShowSites = ({
     getNearByDestination();
   }, []);
 
+  
+
   return (
     <div className="w-[400px]">
       {onBack && (

@@ -171,3 +171,30 @@ export const getAllLocations = asyncHandler(async (req: Request, res: Response) 
     new ApiResponse(200, results, "All locations retrieved successfully")
   );
 });
+
+export const getAllLocationQuery = asyncHandler(async (req: Request, res: Response) => {
+
+  const search = (req.query.search as string || "").trim();
+
+    let query = `
+    SELECT 
+      id, name, description, image,
+      ST_Y(location::geometry) AS lat,
+      ST_X(location::geometry) AS lon
+    FROM "Destination"
+  `;
+
+  if(search) {
+    query += `
+      WHERE 
+        LOWER(name) LIKE LOWER('%${search}%') OR
+        LOWER(description) LIKE LOWER('%${search}%')
+    `;
+  }
+
+  const results = await prisma.$queryRawUnsafe<any[]>(query);
+
+  return res.status(200).json(
+    new ApiResponse(200, results, "All locations retrieved successfully")
+  );
+});

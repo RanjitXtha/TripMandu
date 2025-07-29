@@ -2,11 +2,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from '../utils/axiosInstance';
 
-import type { PlanResponse, PlanForm } from "../types/plan.type";
+import type { PlanResponse, Plan, PlanForm } from "../types/plan.type";
 const TOKEN = localStorage.getItem("token");
 
 interface InitialPlan {
-  plan: PlanForm[];
+  plan: Plan[];
   isLoading: boolean;
 }
 
@@ -68,15 +68,17 @@ export const updatePlan = createAsyncThunk<PlanResponse, PlanForm>(
   }
 );
 
-export const deletePlanById = createAsyncThunk<string, string>(
-  "plan/deletePlanById",
+export const deltePlanById = createAsyncThunk<string, string>(
+  "plan/deltePlanById",
   async (id, thunkAPI) => {
     try {
-      await api.delete(`/plan/delete/${id}`, {
+      console.log("deleting id: ", id)
+      await api.delete(`/plan/deltePlanById?id=${id}`, {
         headers: {
           Authorization: `Bearer ${TOKEN}`,
         },
       });
+      
 
       return id;
     } catch (error: any) {
@@ -123,10 +125,10 @@ const planSlice = createSlice({
                     state.plan[index] = updatePlan;
                 }
             })
-            .addCase(deletePlanById.pending, (state) => {
+            .addCase(deltePlanById.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(deletePlanById.fulfilled, (state, action) => {
+            .addCase(deltePlanById.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.plan = state.plan.filter(p => p.id !== action.payload)
             })

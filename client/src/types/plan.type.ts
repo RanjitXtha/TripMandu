@@ -6,15 +6,32 @@ export interface PlanDestination {
     order: number;
 }
 
+export interface Destination {
+    id: string;
+    name: string;
+}
+
+export interface NewPlanDestination {
+    id: string;
+    date: string;
+    destination: Destination;
+    order: number
+}
 export interface PlanForm {
     id?: string;
     planName: string;
     destinations: PlanDestination[];
 }
 
+export interface Plan {
+    id: string;
+    name: string;
+    destinations: NewPlanDestination[];
+}
+
 export interface PlanResponse {
     success: boolean;
-    data: PlanForm[];
+    data: Plan[];
     message: string;
 }
 
@@ -30,9 +47,9 @@ interface DestinationDetails {
 }
 
 
-interface PlanSingle {
+export interface PlanSingle {
     id: string;
-    name: string;
+    planName: string;
     destinations: DestinationDetails[];
 }
 

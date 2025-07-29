@@ -40,7 +40,12 @@ export const createPlan = asyncHandler(
         destinations: {
          select: {
           id: true,
-          destinationId: true,
+          destination: {
+            select: {
+              id: true,
+              name: true
+            }
+          },
           order: true,
           date: true
         }
@@ -93,7 +98,12 @@ const destinations = await prisma.travelPlan.findMany({
     destinations: {
       select: {
         id: true,
-        destinationId: true,
+        destination: {
+          select: {
+            id: true,
+            name: true
+          }
+        },
         order: true,
         date: true,
       }
@@ -243,7 +253,12 @@ export const updatePlanById = asyncHandler(async(req: AuthenticatedRequest, res:
       destinations: {
         select: {
           id: true,
-          destinationId: true,
+          destination: {
+            select: {
+              id: true,
+              name: true
+            }
+          },
           order: true,
           date: true
         }

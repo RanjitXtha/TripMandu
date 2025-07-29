@@ -46,3 +46,15 @@ export async function getNearByLocationsByCoOrdinate(lat: number, long: number):
     throw error;
   }
 }
+
+export async function getLocationByName(search: string): Promise<DestinatinReponse> {
+  try {
+    const response = await api.get<DestinatinReponse>(`/destination/getLocationByName?search=${search}`);
+    return response.data;
+  } catch (error) {
+    if(error instanceof Error) {
+      console.log(error.message || "Somethign went wrong");
+    }
+    throw error;
+  }
+}
