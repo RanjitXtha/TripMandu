@@ -59,7 +59,8 @@ const Register = () => {
 
     try {
         const response = await registerFormData(formData);
-        console.log(response);
+        console.log("kfdkl k: ", response);
+        
         if(response?.success) {
             alert(response?.message);
             navigate("/login");
@@ -67,7 +68,13 @@ const Register = () => {
         }
 
     } catch (err: any) {
+      console.log(err.status);
+      if(err.status === 403) {
+        setError("Email already taken");
+      }
+      else {
         setError(err?.message || "register failed");
+      }
 
     }finally {
         setLoading(false);

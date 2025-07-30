@@ -198,3 +198,4 @@ export const getAllLocationQuery = asyncHandler(async (req: Request, res: Respon
     new ApiResponse(200, results, "All locations retrieved successfully")
   );
 });
+

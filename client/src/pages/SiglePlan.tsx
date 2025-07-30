@@ -63,10 +63,10 @@ const SinglePlan = () => {
                     <p className="text-sm text-gray-700 mb-2">{d.description}</p>
                     <div className="flex justify-between items-center text-sm">
                       <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full font-medium">
-                        Stop #{d.order}
+                        Stop #{d.order + 1}
                       </span>
                       <span className="text-gray-500">
-                        {new Date(d.date).toDateString()}
+                        {/* for date if avilable */}
                       </span>
                     </div>
                   </div>

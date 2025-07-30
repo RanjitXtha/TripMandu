@@ -57,6 +57,8 @@ const Home = () => {
     PlanDestination[]
   >([]);
 
+  
+
 
   // get searched location(and selectd)
 

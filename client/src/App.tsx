@@ -35,6 +35,7 @@ const App = () => {
     };
     localHost();
   }, [dispatch]);
+  
   return (
     <BrowserRouter>
       <Routes>

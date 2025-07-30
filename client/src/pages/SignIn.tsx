@@ -36,7 +36,7 @@ const SignIn = () => {
     setError(null);
 
     try {
-      const response = await LoginFromData(loginData); // pass loginData here
+      const response = await LoginFromData(loginData); 
 
       if (response?.success) {
         console.log(response);
@@ -51,12 +51,18 @@ const SignIn = () => {
         alert(response.message || "Login successful");
 
         navigate("/");
-        setError(null);
-      } else {
-        setError(response?.message || "Login failed");
       }
     } catch (err: any) {
+      console.log(err);
+      if(err.status === 404) {
+        setError("User not found");
+      }
+      else if(err.status === 403) {
+        setError("Incorrect password.");
+      }
+      else {
       setError(err?.message || "Login failed");
+      }
     } finally {
       setLoading(false);
     }

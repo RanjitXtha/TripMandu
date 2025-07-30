@@ -9,6 +9,7 @@ import type {
 } from "../types/types";
 import { useSearchLocation } from "../features/searchHook";
 
+
 type LocationWithTouristId = Location & { touristId?: number };
 
 declare global {
@@ -24,7 +25,7 @@ interface MapViewProps {
   clickMarkers: Location[];
   setClickMarkers: React.Dispatch<React.SetStateAction<Location[]>>;
   destinations: LocationWithTouristId[];
-  setDestinations: React.Dispatch<React.SetStateAction<Location[]>>;
+  setDestinations: React.Dispatch<React.SetStateAction<LocationWithTouristId[]>>;
   markerMode: "none" | "start" | "end";
   setMarkerMode: (mode: "none" | "start" | "end") => void;
   addDestinationMode: boolean;
@@ -77,7 +78,6 @@ const MapView = ({
     return position + 1; // Convert to 1-based numbering
   };
 
-
   useEffect(() => {
     if (!mapLoaded || !mapRef.current) return;
 
@@ -90,8 +90,6 @@ const MapView = ({
     // Tourist destination markers (only when not showing route)
     if (showTouristMarkers) {
       touristDestinations.forEach((place, index) => {
-        // const popupId = `tourist-info-${index}`;
-       // console.log("PLACE: ", place);
         const html = `
         <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
           <h3 class="font-semibold text-lg text-center">${place.name}</h3>
@@ -113,6 +111,8 @@ const MapView = ({
         el.style.backgroundColor = "tomato";
         el.style.border = "2px solid white";
         el.style.cursor = "pointer";
+
+      
 
         const marker = new maplibregl.Marker({ element: el })
           .setLngLat([place.lon, place.lat])
@@ -136,13 +136,6 @@ const MapView = ({
           }
         });
 
-        // popup.on("open", () => {
-        //   const addDestination = document.getElementById("addDestination");
-        //   addDestination?.addEventListener("click", () => {
-        //     setOverlayView("none");
-        //   });
-        // });
-
         popup.on("close", () => {
           if (lastSelectedMarkerRef.current === index) {
             setTimeout(() => setOverlayView("none"), 0);
@@ -162,6 +155,9 @@ const MapView = ({
       </div>
       `;
 
+
+      
+
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
 
       const el = document.createElement("div");
@@ -172,6 +168,7 @@ const MapView = ({
       el.style.backgroundColor = "purple";
       el.style.border = "2px solid white";
       el.style.cursor = "pointer";
+     
 
       const marker = new maplibregl.Marker({ element: el })
         .setLngLat([place.lon, place.lat])
@@ -299,48 +296,90 @@ const MapView = ({
       });
     }
 
-     if (selectedLocation) {
-    const { lat, lon, name } = selectedLocation;
+    // Selected location marker 
+    if (selectedLocation) {
+      const { lat, lon, name, id } = selectedLocation;
 
-    const popupHtml = `
-      <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm">
-        <h3 class="font-semibold text-lg text-center">${name ?? "Searched Location"}</h3>
-        <button id="addDestinations" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-0 px-2 py-2 transition cursor-pointer" onclick='window.addDest(${selectedLocation.id})'>Add Destination</button>
-      </div>
-    `;
+      // Check if this location is already added as a destination
+      const isAlreadyDestination = destinations.some(dest => 
+        dest.id === id);
 
-    const popup = new maplibregl.Popup({ offset: 25 }).setHTML(popupHtml);
+      // Only show search marker if it's not already added as a destination
+      if (!isAlreadyDestination) {
+        // Find if this selected location matches any tourist destination
+        const touristIndex = touristDestinations.findIndex(
+          (td) => td.id === id);
 
-    const el = document.createElement("div");
-    el.className = "custom-marker";
-    el.style.width = "24px";
-    el.style.height = "24px";
-    el.style.borderRadius = "50%";
-    el.style.backgroundColor = "blue";
-    el.style.border = "2px solid white";
-    el.style.cursor = "pointer";
+        const popupHtml = `
+          <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm">
+            <h3 class="font-semibold text-lg text-center">${name ?? "Searched Location"}</h3>
+            <hr class="mt-1 mb-3">
+            <button id="addDestinations" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-0 px-2 py-2 transition cursor-pointer">Add Destination</button>
+          </div>
+        `;
 
-    const marker = new maplibregl.Marker({ element: el })
-      .setLngLat([lon, lat])
-      .setPopup(popup)
-      .addTo(mapRef.current!);
+        const popup = new maplibregl.Popup({ offset: 25, closeButton: true }).setHTML(popupHtml);
 
-    markersRef.current.push(marker);
+        const el = document.createElement("div");
+        el.className = "custom-marker";
+        el.style.width = "24px";
+        el.style.height = "24px";
+        el.style.borderRadius = "50%";
+        el.style.backgroundColor = "blue";
+        el.style.border = "2px solid white";
+        el.style.cursor = "pointer";
 
-    mapRef.current.flyTo({ center: [lon, lat], zoom: 15 });
+        const marker = new maplibregl.Marker({ element: el })
+          .setLngLat([lon, lat])
+          .setPopup(popup)
+          .addTo(mapRef.current!);
 
-    setOverlayView("showSite");
+        markersRef.current.push(marker);
 
+        mapRef.current.flyTo({ center: [lon, lat], zoom: 15 });
 
-     popup.on("open", () => {
+        // Behave like tourist destination markers
+        marker.getElement().addEventListener("click", () => {
+          if (touristIndex !== -1) {
+            lastSelectedMarkerRef.current = touristIndex;
+
+            if (selectedMarker === touristIndex) {
+              setSelectedMarker(null);
+              setTimeout(() => setSelectedMarker(touristIndex), 0); // force remount
+            } else {
+              setSelectedMarker(touristIndex);
+            }
+          }
+          setOverlayView("showSite");
+        });
+
+        popup.on("open", () => {
           const addDestination = document.getElementById("addDestinations");
           addDestination?.addEventListener("click", () => {
             setOverlayView("none");
-            setDestinations((prev) => [...prev, selectedLocation]); 
+            if (touristIndex !== -1) {
+              // If it's a tourist destination, add with touristId
+              setDestinations((prev) => [...prev, { 
+                lat, 
+                lon, 
+                id, 
+                name,
+                touristId: touristIndex 
+              }]);
+            } else {
+              // If it's not a tourist destination, add without touristId
+              setDestinations((prev) => [...prev, { lat, lon, id, name }]);
+            }
           });
         });
-    
-  }
+
+        popup.on("close", () => {
+          if (touristIndex !== -1 && lastSelectedMarkerRef.current === touristIndex) {
+            setTimeout(() => setOverlayView("none"), 0);
+          }
+        });
+      }
+    }
   }, [
     mapLoaded,
     clickMarkers,
@@ -351,7 +390,8 @@ const MapView = ({
     touristDestinations,
     setSelectedMarker,
     setDestinations,
-    selectedLocation
+    selectedLocation,
+    setOverlayView
   ]);
 
   // Map click handlers for adding custom markers or setting start/end
@@ -413,7 +453,7 @@ const MapView = ({
         if (!td) return;
         setDestinations((prev) => [
           ...prev,
-          { lat: td.lat, lon: td.lon, id: td?.id },
+          { lat: td.lat, lon: td.lon, touristId: touristIndexOrLatlng, id: td?.id },
         ]);
       } else if (Array.isArray(touristIndexOrLatlng)) {
         setDestinations((prev) => [
@@ -424,7 +464,7 @@ const MapView = ({
     };
     window.delDest = (index: number) => removeDestination(index);
     window.delClick = (lat: number, lon: number) => removeClickMarker(lat, lon);
-  }, [touristDestinations]);
+  }, [touristDestinations, setDestinations]);
 
   return (
     <div>
@@ -455,6 +495,7 @@ const MapView = ({
                   type: "LineString",
                   coordinates: pathCoords.map(([lat, lon]) => [lon, lat]),
                 },
+                properties: {}
               }}
             >
               <Layer
