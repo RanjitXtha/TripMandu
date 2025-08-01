@@ -292,7 +292,7 @@ const MapView = ({
   ]);
 
   // Map click handlers for adding custom markers or setting start/end
-  useEffect(() => {
+  useEffect(():any => {
     const handleClick = (e: maplibregl.MapMouseEvent) => {
       const latlng: [number, number] = [e.lngLat.lat, e.lngLat.lng];
       if (markerMode === "start") {

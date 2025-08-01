@@ -38,7 +38,10 @@ const Home = () => {
   const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
   const [tspOrder, setTspOrder] = useState<number[]>([]);
 
- 
+  const [mode, setMode] = useState<"foot" | "bicycle" | "car">("foot");
+
+
+
   useEffect(() => {
     const GetDestinations = async () => {
       try {
@@ -47,15 +50,15 @@ const Home = () => {
           throw new Error("Failed to fetch destinations");
         }
 
-        const destinations: TouristDestination[] = await response.json();
+        const touristDestinations: TouristDestination[] = await response.json();
 
-        const coords = destinations.map((d) => ({
+        const coords = touristDestinations.map((d) => ({
           name: d.name,
           lat: d.coordinates?.lat,
           lon: d.coordinates?.lon,
         }));
 
-        setTouristDestinations(destinations);
+        setTouristDestinations(touristDestinations);
         setTouristDestinationsCoords(coords);
       } catch (error) {
         console.error("Error fetching destinations:", error);
@@ -84,30 +87,39 @@ const Home = () => {
   }, [destinations]);
 
   const calculateTSPRoute = async () => {
-  if (destinations.length < 2) {
-    alert("Please add at least two destinations");
-    return;
-  }
+    if (destinations.length < 2) {
+      alert("Please add at least two destinations");
+      return;
+    }
 
-  setIsLoading(true);
-  try {
-    const res = await axios.post("http://localhost:8080/api/map-solveTsp", {
-      destinations,
+    setIsLoading(true);
+    const updatedDestinations = destinations.map((d: any) => {
+      return {
+        lat: Number(d.lat),
+        lon: Number(d.lon)
+      }
     });
+    console.log("Calculating TSP route for destinations:", updatedDestinations);
+    try {
+      const res = await axios.post("http://localhost:8080/api/map/solveTsp", {
+        destinations: updatedDestinations,
+        mode
+      });
 
-    const { path, tspOrder: order } = res.data;
+      const { path, tspOrder: order } = res.data;
+      console.log("TSP route calculated:", path);
 
-    if (!Array.isArray(path)) throw new Error("Invalid path");
+      if (!Array.isArray(path)) throw new Error("Invalid path");
 
-    setTspOrder(order);
-    setPathCoords(path);
-  } catch (err) {
-    console.error("Failed to calculate route:", err);
-    alert("Failed to calculate TSP route");
-  } finally {
-    setIsLoading(false);
-  }
-};
+      setTspOrder(order);
+      setPathCoords(path);
+    } catch (err) {
+      console.error("Failed to calculate route:", err);
+      alert("Failed to calculate TSP route");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
 
   useEffect(() => {
@@ -180,13 +192,36 @@ const Home = () => {
           setOverlayView={setOverlayView}
         />
         {/* Calculate TSP Button */}
-        <button
-          disabled={isLoading}
-          onClick={calculateTSPRoute}
-          className="absolute top-3 right-16 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[1.2rem] shadow-lg"
-        >
-          {isLoading ? "Calculating..." : "Calculate Route"}
-        </button>
+        <div className="flex flex-col gap-4">
+          <button
+            disabled={isLoading}
+            onClick={calculateTSPRoute}
+            className="absolute top-3 right-16 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[1.2rem] shadow-lg"
+          >
+            {isLoading ? "Calculating..." : "Calculate Route"}
+          </button>
+          
+          <div className="absolute top-16 right-16 flex space-x-2 z-50">
+            {(["foot", "bicycle", "car"] as const).map((m) => (
+              <button
+                key={m}
+                onClick={() => setMode(m)}
+                className={`px-4 py-2 rounded-[1.2rem] shadow-lg font-semibold
+                ${mode === m
+                    ? "bg-blue-700 text-white"
+                    : "bg-blue-300 text-blue-900 hover:bg-blue-400"
+                  }`}
+              >
+                {m.charAt(0).toUpperCase() + m.slice(1)}
+              </button>
+            ))}
+          </div>
+
+
+
+        </div>
+
+
       </div>
       <Footer />
     </div>

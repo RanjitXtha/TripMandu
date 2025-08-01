@@ -1,46 +1,64 @@
-import prisma from "./db/index.js";
-import { app } from "./app.js";
-import dotenv from 'dotenv'
-import { loadGraph } from "./utils/GraphLoader.js";
-import type { NodeMapType,GraphType, NodeType } from "./utils/types.js";
-
+import dotenv from "dotenv";
 dotenv.config();
 
-const PORT = Number(process.env.PORT) || 8080;
-export let nodeMap:NodeMapType = {};
-export let graph:GraphType = {};
+import prisma from "./db/index.js";
+import { app } from "./app.js";
+import { initGraphData } from "./utils/GraphLoader.js";
 
+import type { NodeMap_Type, Graph_Type } from "./utils/types.ts";
 
-async function main() {
-    try {
-        await prisma.$connect();
-        console.log("Prisma connected.");
+const PORT = process.env.PORT || 8080;
 
-        const loaded = await loadGraph();
-        nodeMap = loaded.nodeMap;
-        graph = loaded.graph;
-        console.log("Graph data loaded into memory.");
-
-
-        app.listen(PORT,'0.0.0.0',() => {
-            console.log(`Server is running on port ${PORT}`);
-        })
-    } catch (error:any) {
-        console.error(error?.message || "Error during db connection");
-        process.exit(1); 
-    }
+interface CachedGraph {
+  nodeMap: NodeMap_Type;
+  graph: Graph_Type;
+  turnRestrictions: Set<string>;
 }
 
-process.on('SIGINT', async () => {
-    console.log("Shutting down..");
-    await prisma.$disconnect();
-    process.exit(0);
-});
+// Global cache for all modes (foot/bicycle/car)
+const graphCache: Record<"foot" | "bicycle" | "car", CachedGraph> = {
+  foot: null!,
+  bicycle: null!,
+  car: null!,
+};
 
-process.on('SIGTERM', async () => {
-    console.log("Shutting down...");
-    await prisma.$disconnect();
-    process.exit(0);
+async function preloadGraphs() {
+  console.log("Preloading graphs...");
+
+  for (const mode of ["car", "foot", "bicycle"] as const) {
+    const { nodeMap, graph } = await initGraphData(mode);
+    graphCache[mode] = {
+      nodeMap,
+      graph,
+      turnRestrictions: new Set(), // can load turn restrictions separately if needed
+    };
+  }
+
+  console.log("All graphs preloaded.");
+}
+
+async function main() {
+  try {
+    await prisma.$connect();
+    console.log("Database connected");
+
+    await preloadGraphs();
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Startup failed:", error);
+    process.exit(1);
+  }
+}
+
+process.on("SIGINT", async () => {
+  console.log("SIGINT received, closing DB connection...");
+  await prisma.$disconnect();
+  process.exit(0);
 });
 
 main();
+
+export { graphCache };

@@ -8,20 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model graph_edges {
-  source   BigInt
-  target   BigInt
-  distance Float?
-
-  @@id([source, target])
-}
-
-model graph_nodes {
-  node_id BigInt @id
-  lat     Float?
-  lon     Float?
-}
-
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model spatial_ref_sys {
   srid      Int     @id
@@ -31,54 +17,74 @@ model spatial_ref_sys {
   proj4text String? @db.VarChar(2048)
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model turn_restrictions {
+  from_way     BigInt
+  via_node     BigInt
+  to_way       BigInt
+  vehicle_type String
 
-
-model User {
-  id          String              @id @default(uuid())
-  fName       String
-  lName       String
-  email       String              @unique
-  password    String
-  profile     String?
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
-
-  travelPlans TravelPlan[]
+  @@ignore
 }
 
-model TravelPlan {
-  id          String              @id @default(uuid())
-  user        User                @relation(fields: [userId], references: [id])
-  userId      String
-  name        String?            
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model routing_nodes {
+  id   BigInt                   @id
+  lat  Float
+  lon  Float
+  geom Unsupported("geometry")?
 
-  destinations PlanDestination[]
+  @@index([geom], map: "idx_routing_nodes_geom", type: Gist)
+  @@ignore
 }
 
-model Destination {
-  id          String              @id @default(uuid())
-  name        String
-  description String?
-  image       String?
-  // location    Unsupported("geometry")
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
-
-  plans       PlanDestination[]
+model routing_edges_bicycle {
+  id             BigInt                   @id
+  source         BigInt
+  target         BigInt
+  length_m       Float?                   @db.Real
+  cost           Float?                   @db.Real
+  oneway         Boolean?
+  oneway_bicycle Boolean?
+  maxspeed       Int?
+  lanes          Int?
+  name           String?
+  highway        String?
+  surface        String?
+  geom           Unsupported("geometry")?
+  bicycle        Boolean?
 }
 
-model PlanDestination {
-  id            String            @id @default(uuid())
-  plan          TravelPlan        @relation(fields: [planId], references: [id])
-  planId        String
+model routing_edges_car {
+  id             BigInt                   @id
+  source         BigInt
+  target         BigInt
+  length_m       Float?                   @db.Real
+  cost           Float?                   @db.Real
+  oneway         Boolean?
+  oneway_bicycle Boolean?
+  maxspeed       Int?
+  lanes          Int?
+  name           String?
+  highway        String?
+  surface        String?
+  geom           Unsupported("geometry")?
+  car            Boolean?
+}
 
-  destination   Destination       @relation(fields: [destinationId], references: [id])
-  destinationId String
-
-  order         Int            
-  date          DateTime?        
-
-  @@unique([planId, destinationId, order])
+model routing_edges_foot {
+  id             BigInt                   @id
+  source         BigInt
+  target         BigInt
+  length_m       Float?                   @db.Real
+  cost           Float?                   @db.Real
+  oneway         Boolean?
+  oneway_bicycle Boolean?
+  maxspeed       Int?
+  lanes          Int?
+  name           String?
+  highway        String?
+  surface        String?
+  geom           Unsupported("geometry")?
+  foot           Boolean?
 }
