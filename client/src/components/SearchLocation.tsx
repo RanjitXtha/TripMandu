@@ -1,16 +1,14 @@
-
 import { X } from "lucide-react";
 import { useSearchLocation } from "../features/searchHook";
 
-
 const SearchLocation = () => {
-  const { 
+  const {
     search,
     setSearch,
     searchLocations,
     handleSelectLocation,
     clearSearch,
-    selectedLocation
+    selectedLocation,
   } = useSearchLocation();
 
   console.log(selectedLocation);
@@ -19,8 +17,8 @@ const SearchLocation = () => {
     <div className="relative w-full max-w-md">
       <input
         type="text"
-        className="border border-black placeholder-black w-sm rounded-md py-2 px-2 pr-4"
-        placeholder="search.."
+        className="border border-black placeholder-black w-sm rounded-3xl py-1 px-2"
+        placeholder="Search..."
         onChange={(e) => setSearch(e.target.value)}
         value={search}
       />
@@ -51,6 +49,5 @@ const SearchLocation = () => {
     </div>
   );
 };
-
 
 export default SearchLocation;

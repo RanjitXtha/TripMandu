@@ -11,7 +11,6 @@ import Header from "../components/Header";
 import Overlay from "../components/Overlay";
 import Footer from "../components/Footer";
 import SiteCard from "../components/SiteCard";
-import PopularSites from "../components/PopularSites";
 import { getAllPoints, type Destination } from "../apiHandle/detination";
 import PlanFormCard from "../components/plan/PlanForm";
 import type { PlanDestination } from "../types/plan.type";
@@ -201,11 +200,10 @@ const Home = () => {
   };
 
   useEffect(() => {
-  if (!destinations || destinations.length < 2) return;
-  if (!id) return;
+    if (!destinations || destinations.length < 2) return;
+    if (!id) return;
     calculateTSPRoute();
-
-}, [destinations, id]);
+  }, [destinations, id]);
   // hanlde toggle state
 
   const handletoggle = () => {
@@ -229,17 +227,15 @@ const Home = () => {
       destinations: desination,
     };
 
-    if(mode === "edit") {
-      await dispatch(updatePlan({ formData: data, id: id!}));
+    if (mode === "edit") {
+      await dispatch(updatePlan({ formData: data, id: id! }));
       setDestinations([]);
       navigate("/");
     } else {
-    await dispatch(createPlan(data));
-    setDestinations([]);
+      await dispatch(createPlan(data));
+      setDestinations([]);
     }
-   // console.log(data);
-
-
+    // console.log(data);
   };
 
   return (
@@ -260,18 +256,18 @@ const Home = () => {
             <SiteCard
               key={`site-${selectedMarker}`} // force remount
               {...touristDestinations[selectedMarker]}
-              onBack={() => setOverlayView("none")} //  back handler
+              onClose={() => setOverlayView("none")} //  back handler
             />
           )}
 
-          {overlayView === "popularSite" && selectedMarker === null && (
+          {/* {overlayView === "popularSite" && selectedMarker === null && (
             <PopularSites
               myloc={myloc}
               setNearByDestinations={setNearByDestinations}
-              onBack={() => setOverlayView("none")}
+              onClose={() => setOverlayView("none")}
               touristDestinations={touristDestinations}
             />
-          )}
+          )} */}
 
           {overlayView === "routePlanner" && (
             <RoutePlanner
@@ -281,7 +277,7 @@ const Home = () => {
               setMarkerMode={setMarkerMode}
               addDestinationMode={addDestinationMode}
               setAddDestinationMode={setAddDestinationMode}
-              onBack={() => setOverlayView("none")}
+              onClose={() => setOverlayView("none")}
             />
           )}
         </Overlay>
