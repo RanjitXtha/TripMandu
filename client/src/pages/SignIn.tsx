@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { LoginFrom } from "../types/user";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { LoginFromData } from "../apiHandle/user";
 import type { User } from "../types/user";
 import { setUser } from "../features/auth";
@@ -69,7 +69,11 @@ const SignIn = () => {
   };
 
   return (
-    <div className="w-full bg-gradient-to-r from-gray-200 to-gray-100 min-h-screen flex items-center justify-center">
+    <div>
+      <div className="w-full p-4 bg-gray-300">
+        <Link to="/" className="text-3xl">Map</Link>
+      </div>
+      <div className="w-full bg-gradient-to-r from-gray-200 to-gray-100 min-h-screen flex items-center justify-center">
       <div className="w-4/5 md:w-3/5 bg-white shadow-xl p-8 m-8">
         <h2 className="text-xl text-center font-bold text-blue-600">Login</h2>
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -112,6 +116,7 @@ const SignIn = () => {
         </form>
         {error && <p className="text-center text-red-500 mt-2">{error}</p>}
       </div>
+    </div>
     </div>
   );
 };

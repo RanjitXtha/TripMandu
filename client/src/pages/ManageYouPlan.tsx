@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getAllPlans } from "../features/plan";
 import PlanCard from "../components/plan/PlanCard";
+import { Link } from "react-router";
 
 
 const ManageYourPlan = () => {
@@ -15,6 +16,9 @@ const ManageYourPlan = () => {
  // console.log(plan);
   return (
     <div className="w-full min-h-screen bg-gray-200">
+      <div className="w-full p-4 bg-gray-300">
+        <Link to="/" className="text-3xl">Map</Link>
+      </div>
       <div className="p-8">
 
         <h2 className="text-3xl text-gray-800 mb-6 text-left">Manage your Plan</h2>

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import type { RegisterForm } from "../types/user";
 import React, { useState } from "react";
 import { registerFormData } from "../apiHandle/user";
@@ -82,7 +82,11 @@ const Register = () => {
   };
 
   return (
-    <div
+    <div>
+      <div className="w-full p-4 bg-gray-300">
+        <Link to="/" className="text-3xl">Map</Link>
+      </div>
+      <div
       className="w-full bg-gradient-to-r from-gray-200 to-gray-100 min-h-screen
     flex items-center justify-center"
     >
@@ -167,6 +171,7 @@ const Register = () => {
         </form>
         {error && <p className="text-center text-red-500">{error}</p>}
       </div>
+    </div>
     </div>
   );
 };

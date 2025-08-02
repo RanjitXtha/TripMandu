@@ -19,10 +19,15 @@ import type { PlanDestination } from "../types/plan.type";
 // for redux management states and exports
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../app/store";
-import { createPlan } from "../features/plan";
+import { createPlan, updatePlan } from "../features/plan";
 import { useSearchLocation } from "../features/searchHook";
 // import { useSelector } from "react-redux";
 // import type { RootOptions } from "react-dom/client";
+
+// for view and update
+import { useParams } from "react-router";
+import { planById } from "../apiHandle/plan";
+import { useNavigate } from "react-router";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -57,8 +62,41 @@ const Home = () => {
     PlanDestination[]
   >([]);
 
-  
+  // for update and view
 
+  const { id } = useParams<{ id: string }>();
+  const [planeName, setPlanName] = useState<string>("");
+  const [mode, setMode] = useState<"create" | "edit">("create");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // console.log("console log:", id);
+    const getPlan = async () => {
+      if (!id) return;
+      try {
+        const res = await planById(id);
+        setPlanName(res.data.planName);
+        console.log("planeName: ", planeName);
+        setMode("edit");
+        //  console.log("destinations: ", res);
+
+        const des: Location[] = res.data.destinations.map((d) => ({
+          id: d.id,
+          name: d.name,
+          lat: d.latitude,
+          lon: d.longitude,
+        }));
+
+        //console.log("destination is: ", des);
+
+        setDestinations(des);
+      } catch (error) {
+        console.error("Failed to fetch plan by ID:", error);
+      }
+    };
+
+    getPlan();
+  }, [id]);
 
   // get searched location(and selectd)
 
@@ -66,7 +104,7 @@ const Home = () => {
 
   console.log("Selected location is:", selectedLocation);
 
-//  get all location points
+  //  get all location points
   useEffect(() => {
     const GetDestinations = async () => {
       try {
@@ -161,6 +199,13 @@ const Home = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+  if (!destinations || destinations.length < 2) return;
+  if (!id) return;
+    calculateTSPRoute();
+
+}, [destinations, id]);
   // hanlde toggle state
 
   const handletoggle = () => {
@@ -170,7 +215,7 @@ const Home = () => {
   useEffect(() => {
     if (selectedMarker !== null) {
       setOverlayView("showSite");
-      console.log("From selected marker: ", selectedMarker)
+      console.log("From selected marker: ", selectedMarker);
     }
   }, [selectedMarker]);
 
@@ -183,8 +228,18 @@ const Home = () => {
       planName,
       destinations: desination,
     };
+
+    if(mode === "edit") {
+      await dispatch(updatePlan({ formData: data, id: id!}));
+      setDestinations([]);
+      navigate("/");
+    } else {
     await dispatch(createPlan(data));
-    console.log(data);
+    setDestinations([]);
+    }
+   // console.log(data);
+
+
   };
 
   return (
@@ -288,6 +343,19 @@ const Home = () => {
           />
         )
       }
+
+      {isOpenPlanForm && mode === "edit" && (
+        <PlanFormCard
+          mode="edit"
+          isOpen={isOpenPlanForm}
+          planeName={planeName}
+          onSubmit={handleSubmit}
+          onClose={() => {
+            setIsOpenPlanForm(false);
+            handletoggle();
+          }}
+        />
+      )}
 
       <Footer />
     </div>

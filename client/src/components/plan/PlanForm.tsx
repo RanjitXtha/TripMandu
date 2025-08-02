@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import type { PlanForm } from "../../types/plan.type";
 
 // overlay for plan form
 
@@ -7,24 +6,24 @@ interface PlanFormProps {
     mode: "edit" | "create";
     isOpen: boolean;
     onSubmit: (data: string) => void;
-    initialvalue?: PlanForm;//when editing get the initial title
+    planeName?: string;//when editing get the initial title
     onClose: ()=> void
 }
 
 
-const PlanFormCard: React.FC<PlanFormProps> = ({mode="create", isOpen, onSubmit, initialvalue, onClose}) => {
+const PlanFormCard: React.FC<PlanFormProps> = ({mode="create", isOpen, onSubmit, planeName, onClose}) => {
     const [planName, setPlanName] = useState<string>('');
    // console.log("Hello from plan form");
 
 
     useEffect(() => {
-        if(initialvalue && mode === "edit") {
-            setPlanName(initialvalue.planName);
+        if(planeName && mode === "edit") {
+            setPlanName(planeName);
         }
         else {
             setPlanName('');
         }
-    }, [initialvalue]);
+    }, [planeName]);
 
     if(!isOpen) return null;
 

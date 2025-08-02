@@ -13,7 +13,7 @@ interface HeaderProps {
 
 const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
   const user = useSelector((state: RootState) => state.user);
-  console.log(user);
+ // console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,7 +32,9 @@ const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
 
   return (
     <header className="absolute z-5 bg-white right-1/2 transform translate-x-1/2 flex items-center justify-between p-3 mt-2 w-2/3 h-[50px] rounded-full shadow-lg m-auto">
-      <h1 className="text-xl font-bold">TripMandu</h1>
+      <h1 className="text-xl font-bold">
+        <Link to="/">TripMandu</Link>
+      </h1>
       <SearchLocation />
       <nav className="flex gap-6">
         {/* <button

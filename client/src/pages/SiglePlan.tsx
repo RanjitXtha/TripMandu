@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import type { PlanSingle } from "../types/plan.type";
 import { planById } from "../apiHandle/plan";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SinglePlan = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [detailsPlan, setDetailsPlan] = useState<PlanSingle | null>(null);
 
@@ -21,18 +24,31 @@ const SinglePlan = () => {
     getPlan();
   }, [id]);
 
+
+  const handleClick = () => {
+    if(id) {
+      navigate(`/${id}`);
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-blue-50 px-6 py-8 flex flex-col">
+    <div className="min-h-screen bg-blue-50flex flex-col">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
+      <div className="w-full p-4 bg-gray-300">
+        <Link to="/" className="text-3xl">Map</Link>
+      </div>
+     <div className="px-6 py-6">
+       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold text-blue-800">Plan Details</h1>
           {detailsPlan && (
             <p className="text-lg text-blue-600 mt-1">{detailsPlan.planName}</p>
           )}
         </div>
-        <button className="mt-4 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow transition">
-          ✏️ Update Plan
+        <button
+        onClick={() => handleClick()}
+         className="mt-4 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow transition">
+          ✏️ View Plan
         </button>
       </div>
 
@@ -75,6 +91,7 @@ const SinglePlan = () => {
           </div>
         )}
       </div>
+     </div>
     </div>
   );
 };

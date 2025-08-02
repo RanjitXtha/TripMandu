@@ -48,17 +48,19 @@ export const createPlan = createAsyncThunk<FormCUResponse, PlanForm>(
   }
 );
 
-export const updatePlan = createAsyncThunk<FormCUResponse, PlanForm>(
+export const updatePlan = createAsyncThunk<FormCUResponse, { formData: PlanForm, id: string }>(
   "plan/updatePlan",
-  async (formData, thunkAPI) => {
+  async ({formData, id}, thunkAPI) => {
     try {
+      //console.log(formData);
+      console.log("Id:", id);
       const res = await api.put<FormCUResponse>(
-        `/plan/updateRouteById/${formData.id}`,
+        `/plan/updateRouteById?id=${id}`,
         formData,
         {
           headers: {
-            Authorization: `Bearer ${TOKEN}`,
-          },
+          Authorization: `Bearer ${TOKEN}`,
+        },
         }
       );
       return res.data;

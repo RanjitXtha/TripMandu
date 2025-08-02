@@ -25,7 +25,7 @@ const App = () => {
         });
 
         if (response.data.success) {
-          console.log(response?.data?.data);
+         // console.log(response?.data?.data);
           const data: User = response?.data?.data;
           dispatch(setUser(data));
         }
@@ -46,6 +46,8 @@ const App = () => {
         <Route path="/plan" element={<ManageYourPlan />} />
         <Route path="/plan/:id" element={<SiglePlan />} />
         {/* Protected Route */}
+
+        <Route path="/:id" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

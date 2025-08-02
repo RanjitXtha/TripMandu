@@ -217,9 +217,9 @@ export const updatePlanById = asyncHandler(async(req: AuthenticatedRequest, res:
     throw new ApiError(403, "Id not found");
   }
 
-  const { planeName, destinations} = req.body;
+  const { planName, destinations} = req.body;
 
-  if(!planeName || !Array.isArray(destinations) || destinations.length === 0) {
+  if(!planName || !Array.isArray(destinations) || destinations.length === 0) {
     throw new ApiError(403, "ALl fields required");
   }
 
@@ -237,7 +237,7 @@ export const updatePlanById = asyncHandler(async(req: AuthenticatedRequest, res:
     const updatedPlan = await prisma.travelPlan.update({
     where: { id },
     data: {
-      name: planeName,
+      name: planName,
       destinations: {
         deleteMany: {},
         create: destinations.map((d: any) => ({
