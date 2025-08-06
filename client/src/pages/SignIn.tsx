@@ -68,14 +68,12 @@ const SignIn = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="w-full p-4 bg-gray-300">
-        <Link to="/" className="text-3xl">
-          Map
+      {/* <div className="w-full p-4 bg-gray-400">
+        <Link to="/" className="text-3xl hover:underline">
+          Visit map without logging in
         </Link>
-      </div>
-      <div className="w-full text-4xl text-center font-bold mx-auto">
-        TripMandu
-      </div>
+      </div> */}
+
       <div className="flex flex-1 w-full bg-gradient-to-r from-gray-400 to-gray-100 items-center justify-center">
         <div className="w-3/5 md:w-3/5 bg-white shadow-xl p-8 m-4 rounded-3xl">
           <h2 className="text-xl text-center font-bold text-blue-600">Login</h2>
@@ -121,6 +119,12 @@ const SignIn = () => {
               <NavLink to="/register" className="text-blue-700">
                 Register
               </NavLink>
+            </p>
+            <p className="text-center">
+              Or,{" "}
+              <Link to="/" className=" hover:underline">
+                visit map without logging in.
+              </Link>
             </p>
           </form>
           {error && <p className="text-center text-red-500 mt-2">{error}</p>}
