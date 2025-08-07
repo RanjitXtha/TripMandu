@@ -1,17 +1,18 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
 import type { RootState } from "../app/store";
 import { useNavigate } from "react-router-dom";
 import { clearUser } from "../features/auth";
 import SearchLocation from "./SearchLocation";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 interface HeaderProps {
   onSelectView: (view: "none" | "popularSite" | "routePlanner") => void;
   setSelectedMarker: React.Dispatch<React.SetStateAction<number | null>>;
+  resetState: () => void;
 }
 
-const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
+const Header = ({ onSelectView, setSelectedMarker, resetState }: HeaderProps) => {
   const user = useSelector((state: RootState) => state.user);
  // console.log(user);
   const dispatch = useDispatch();
@@ -33,7 +34,8 @@ const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
   return (
     <header className="absolute z-5 bg-white right-1/2 transform translate-x-1/2 flex items-center justify-between p-3 mt-2 w-2/3 h-[50px] rounded-full shadow-lg m-auto">
       <h1 className="text-xl font-bold">
-        <Link to="/">TripMandu</Link>
+        <Link to="/"
+        onClick={() => resetState()}>TripMandu</Link>
       </h1>
       <SearchLocation />
       <nav className="flex gap-6">
