@@ -10,6 +10,7 @@ interface SearchLocationContextType {
   selectedLocation: Destination | null;
   handleSelectLocation: (location: Destination) => void;
   clearSearch: () => void;
+  setSelectedLocation: (destination: Destination | null)=>void;
 }
 
 
@@ -58,6 +59,7 @@ export const SearchLocationProvider = ({ children }: { children: React.ReactNode
         setSearch,
         searchLocations,
         selectedLocation,
+        setSelectedLocation,
         handleSelectLocation,
         clearSearch,
       }}

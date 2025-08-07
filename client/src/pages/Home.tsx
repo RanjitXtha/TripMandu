@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import MapView from "../components/MapView";
 import RoutePlanner from "../components/RoutePlanner";
 import axios from "axios";
@@ -75,7 +75,7 @@ const Home = () => {
       try {
         const res = await planById(id);
         setPlanName(res.data.planName);
-        console.log("planeName: ", planeName);
+        // console.log("planeName: ", planeName);
         setMode("edit");
         //  console.log("destinations: ", res);
 
@@ -99,7 +99,7 @@ const Home = () => {
 
   // get searched location(and selectd)
 
-  const { selectedLocation } = useSearchLocation();
+  const { selectedLocation, setSelectedLocation } = useSearchLocation();
 
   console.log("Selected location is:", selectedLocation);
 
@@ -199,11 +199,16 @@ const Home = () => {
     }
   };
 
+  const firstLoad = useRef(true);
   useEffect(() => {
+    setSelectedLocation(null);
     if (!destinations || destinations.length < 2) return;
     if (!id) return;
-    calculateTSPRoute();
-  }, [destinations, id]);
+    if (firstLoad.current) {
+      calculateTSPRoute();
+      firstLoad.current = false;
+    }
+  }, [plannedDestination, destinations, id]);
   // hanlde toggle state
 
   const handletoggle = () => {
@@ -230,6 +235,8 @@ const Home = () => {
     if (mode === "edit") {
       await dispatch(updatePlan({ formData: data, id: id! }));
       setDestinations([]);
+      setPlannedDestination([]);
+
       navigate("/");
     } else {
       await dispatch(createPlan(data));
@@ -238,10 +245,24 @@ const Home = () => {
     // console.log(data);
   };
 
+  // to reset all
+
+  const resetState = useCallback(() => {
+    setSelectedMarker(null);
+    setPathCoords([]);
+    setSelectedLocation(null);
+    setClickMarkers([]);
+    setTouristDestinations([]);
+    // setTouristDestinationsCoords([]);
+    setTspOrder([]);
+    setDestinations([]);
+    setPlannedDestination([]);
+  }, []);
   return (
     <div className="flex">
       <Header
         setSelectedMarker={setSelectedMarker}
+        resetState={resetState}
         onSelectView={(view) => {
           setOverlayView(view);
           if (view === "popularSite") {
@@ -333,6 +354,8 @@ const Home = () => {
             mode="create"
             onSubmit={handleSubmit}
             onClose={() => {
+              setPathCoords([]);
+              setTspOrder([]);
               setIsOpenPlanForm(false);
               handletoggle();
             }}
@@ -349,6 +372,8 @@ const Home = () => {
           onClose={() => {
             setIsOpenPlanForm(false);
             handletoggle();
+            setPathCoords([]);
+            setTspOrder([]);
           }}
         />
       )}
