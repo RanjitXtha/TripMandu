@@ -27,6 +27,7 @@ import { useSearchLocation } from "../features/searchHook";
 import { useParams } from "react-router";
 import { planById } from "../apiHandle/plan";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -75,7 +76,7 @@ const Home = () => {
       try {
         const res = await planById(id);
         setPlanName(res.data.planName);
-       // console.log("planeName: ", planeName);
+        // console.log("planeName: ", planeName);
         setMode("edit");
         //  console.log("destinations: ", res);
 
@@ -200,6 +201,7 @@ const Home = () => {
   };
 
   const firstLoad = useRef(true);
+
   useEffect(() => {
     if (!destinations || destinations.length < 2) return;
     if (!id) return;
@@ -243,17 +245,26 @@ const Home = () => {
 
   // to reset all
 
-   const resetState = useCallback(() => {
+  const location = useLocation();
+
+  const resetState = useCallback(() => {
     setSelectedMarker(null);
     setPathCoords([]);
     setSelectedLocation(null);
     setClickMarkers([]);
-     setTouristDestinations([]);
+    setTouristDestinations([]);
     // setTouristDestinationsCoords([]);
     setTspOrder([]);
     setDestinations([]);
     setPlannedDestination([]);
   }, []);
+
+  useEffect(() => {
+    resetState();
+  }, [location.pathname, resetState]);
+
+  const isLoggedIn = Boolean(localStorage.getItem("token"));
+
   return (
     <div className="flex">
       <Header
@@ -319,7 +330,43 @@ const Home = () => {
           setOverlayView={setOverlayView}
         />
         {/* Calculate TSP Button */}
-        {togglePlanFormAndCalculateRoute ? (
+        <div className="absolute top-3 right-10 flex gap-2">
+          {!togglePlanFormAndCalculateRoute && (
+            <>
+              <button
+                disabled={destinations.length < 2}
+                onClick={() => {
+                  if (!isLoggedIn) {
+                    navigate("/login");
+                    return;
+                  }
+                  setIsOpenPlanForm(true);
+                  resetState();
+                }}
+                className={`px-4 py-2 rounded-[1.2rem] shadow-lg text-white 
+    ${
+      destinations.length < 2
+        ? "bg-gray-500 cursor-not-allowed hover:bg-gray-500"
+        : "bg-blue-600 hover:bg-blue-700"
+    }`}
+              >
+                Save Plan
+              </button>
+
+              <button
+                onClick={() => {
+                  resetState();
+                  setIsOpenPlanForm(false);
+                }}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-[1.2rem] shadow-lg"
+              >
+                Reset
+              </button>
+            </>
+          )}
+        </div>
+
+        {togglePlanFormAndCalculateRoute && (
           <button
             disabled={isLoading}
             onClick={() => {
@@ -329,16 +376,6 @@ const Home = () => {
             className="absolute top-3 right-16 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[1.2rem] shadow-lg"
           >
             {isLoading ? "Calculating..." : "Calculate Route"}
-          </button>
-        ) : (
-          <button
-            onClick={() => {
-              setIsOpenPlanForm(true);
-              // alert("Click")
-            }}
-            className="absolute top-3 right-16 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[1.2rem] shadow-lg"
-          >
-            Save Plan
           </button>
         )}
       </div>
