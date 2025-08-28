@@ -12,7 +12,11 @@ interface HeaderProps {
   resetState: () => void;
 }
 
-const Header = ({ onSelectView, setSelectedMarker, resetState }: HeaderProps) => {
+const Header = ({
+  onSelectView,
+  setSelectedMarker,
+  resetState,
+}: HeaderProps) => {
   const user = useSelector((state: RootState) => state.user);
   // console.log(user);
   const dispatch = useDispatch();
@@ -33,8 +37,9 @@ const Header = ({ onSelectView, setSelectedMarker, resetState }: HeaderProps) =>
   return (
     <header className="absolute z-5 bg-white right-1/2 transform translate-x-1/2 flex items-center justify-between p-3 mt-2 w-2/3 h-[50px] rounded-full shadow-lg m-auto">
       <h1 className="text-xl font-bold">
-        <Link to="/"
-        onClick={() => resetState()}>TripMandu</Link>
+        <Link to="/" onClick={() => resetState()}>
+          TripMandu
+        </Link>
       </h1>
       <div className="mx-1">
         <SearchLocation />
@@ -94,7 +99,7 @@ const Header = ({ onSelectView, setSelectedMarker, resetState }: HeaderProps) =>
               <div className="absolute right-0 mt-3 w-28 bg-white shadow-md rounded-full z-10">
                 <button
                   onClick={handleLogout}
-                  className="w-full px-4 py-2 text-center text-sm hover:bg-gray-100"
+                  className="w-full px-4 py-2 text-center rounded-full text-sm hover:bg-gray-100"
                 >
                   Logout
                 </button>
