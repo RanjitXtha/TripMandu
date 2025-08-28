@@ -86,40 +86,107 @@ function nearestNode(point: NodeType, nodeMap: NodeMapType): number | null {
 }
 
 // Greedy TSP solver (returns order of indices to visit)
+// function solveTSP(locations: NodeType[]): number[] {
+//   console.log("Solving TSP for locations:", locations);
+//   const n = locations.length;
+//   if (n === 0) return [];
+
+//   const visited = new Array(n).fill(false);
+//   const order: number[] = [0];
+//   visited[0] = true;
+
+//   let current = 0;
+
+//   for (let step = 1; step < n; step++) {
+//     let nearest = -1;
+//     let minDist = Infinity;
+
+//     for (let i = 0; i < n; i++) {
+//       if (!visited[i]) {
+//         const dist = haversineDistance(locations[current], locations[i]);
+//         if (dist < minDist) {
+//           minDist = dist;
+//           nearest = i;
+//         }
+//       }
+//     }
+
+//     if (nearest !== -1) {
+//       visited[nearest] = true;
+//       order.push(nearest);
+//       current = nearest;
+//     }
+//   }
+
+//   order.push(0); // Return to start
+//   return order;
+// }
+
 function solveTSP(locations: NodeType[]): number[] {
-  console.log("Solving TSP for locations:", locations);
   const n = locations.length;
   if (n === 0) return [];
 
-  const visited = new Array(n).fill(false);
-  const order: number[] = [0];
-  visited[0] = true;
+  const dist = Array.from({ length: n }, () => Array(n).fill(0));
 
-  let current = 0;
-
-  for (let step = 1; step < n; step++) {
-    let nearest = -1;
-    let minDist = Infinity;
-
-    for (let i = 0; i < n; i++) {
-      if (!visited[i]) {
-        const dist = haversineDistance(locations[current], locations[i]);
-        if (dist < minDist) {
-          minDist = dist;
-          nearest = i;
-        }
-      }
-    }
-
-    if (nearest !== -1) {
-      visited[nearest] = true;
-      order.push(nearest);
-      current = nearest;
+  // Precompute distances
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      dist[i][j] = haversineDistance(locations[i], locations[j]);
     }
   }
 
-  order.push(0); // Return to start
-  return order;
+  const size = 1 << n; // Total subsets
+  const dp: number[][] = Array.from({ length: size }, () => Array(n).fill(Infinity));
+  const parent: number[][] = Array.from({ length: size }, () => Array(n).fill(-1));
+
+  dp[1][0] = 0; // Start at city 0
+
+  // Iterate over all masks
+  for (let mask = 1; mask < size; mask++) {
+    for (let u = 0; u < n; u++) {
+      if (!(mask & (1 << u))) continue;
+
+      for (let v = 0; v < n; v++) {
+        if (mask & (1 << v)) continue;
+
+        const nextMask = mask | (1 << v);
+        const newDist = dp[mask][u] + dist[u][v];
+
+        if (newDist < dp[nextMask][v]) {
+          dp[nextMask][v] = newDist;
+          parent[nextMask][v] = u;
+        }
+      }
+    }
+  }
+
+  // Reconstruct path
+  const fullMask = (1 << n) - 1;
+  let last = 0;
+  let minCost = Infinity;
+
+  for (let i = 1; i < n; i++) {
+    const cost = dp[fullMask][i] + dist[i][0];
+    if (cost < minCost) {
+      minCost = cost;
+      last = i;
+    }
+  }
+
+  const path: number[] = [];
+  let mask = fullMask;
+
+  while (last !== -1) {
+    path.push(last);
+    const temp = parent[mask][last];
+    mask ^= 1 << last;
+    last = temp;
+  }
+
+  path.reverse();
+  path.push(0); // Return to start
+  return path;
 }
+
 
 export { aStar, nearestNode, solveTSP, haversineDistance };

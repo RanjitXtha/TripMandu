@@ -10,6 +10,8 @@ import type { User } from "./types/user";
 import Home from "./pages/Home";
 import ManageYourPlan from "./pages/ManageYouPlan";
 import SiglePlan from "./pages/SiglePlan";
+import ProtectedRoute from "./components/ProtectedRoute";
+
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -25,7 +27,7 @@ const App = () => {
         });
 
         if (response.data.success) {
-         // console.log(response?.data?.data);
+          // console.log(response?.data?.data);
           const data: User = response?.data?.data;
           dispatch(setUser(data));
         }
@@ -35,7 +37,7 @@ const App = () => {
     };
     localHost();
   }, [dispatch]);
-  
+
   return (
     <BrowserRouter>
       <Routes>
@@ -43,11 +45,35 @@ const App = () => {
         {/* Unprotected Route */}
         <Route path="register" element={<Register />} />
         <Route path="login" element={<SignIn />} />
-        <Route path="/plan" element={<ManageYourPlan />} />
-        <Route path="/plan/:id" element={<SiglePlan />} />
+        {/* <Route path="/plan" element={<ManageYourPlan />} /> */}
+        <Route
+          path="/plan"
+          element={
+            <ProtectedRoute>
+              <ManageYourPlan />
+            </ProtectedRoute>
+          }
+        />
+        {/* <Route path="/plan/:id" element={<SiglePlan />} /> */}
+        <Route
+          path="/plan/:id"
+          element={
+            <ProtectedRoute>
+              <SiglePlan />
+            </ProtectedRoute>
+          }
+        />
         {/* Protected Route */}
 
-        <Route path="/:id" element={<Home />} />
+        {/*  <Route path="/:id" element={<Home />} /> */}
+        <Route
+          path="/:id"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
