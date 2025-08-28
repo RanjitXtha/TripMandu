@@ -334,7 +334,7 @@ const MapView = ({
           closeButton: true,
         }).setHTML(popupHtml);
 
-         const el = document.createElement("div");
+        const el = document.createElement("div");
         el.className = "custom-marker";
         el.style.width = "40px";
         el.style.height = "40px";
@@ -520,6 +520,9 @@ const MapView = ({
               [85.2025, 27.566721], // Southwest corner (lng, lat)
               [85.561371, 27.815708], // Northeast corner (lng, lat)
             ]);
+
+            const scrollZoom = target.scrollZoom;
+            scrollZoom.setWheelZoomRate(0.02);
           }}
         >
           <NavigationControl position="top-right" />

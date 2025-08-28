@@ -11,7 +11,6 @@ import Header from "../components/Header";
 import Overlay from "../components/Overlay";
 import Footer from "../components/Footer";
 import SiteCard from "../components/SiteCard";
-import PopularSites from "../components/PopularSites";
 import { getAllPoints, type Destination } from "../apiHandle/detination";
 import PlanFormCard from "../components/plan/PlanForm";
 import type { PlanDestination } from "../types/plan.type";
@@ -202,14 +201,10 @@ const Home = () => {
 
   const firstLoad = useRef(true);
   useEffect(() => {
-    setSelectedLocation(null);
     if (!destinations || destinations.length < 2) return;
     if (!id) return;
-    if (firstLoad.current) {
-      calculateTSPRoute();
-      firstLoad.current = false;
-    }
-  }, [plannedDestination, destinations, id]);
+    calculateTSPRoute();
+  }, [destinations, id]);
   // hanlde toggle state
 
   const handletoggle = () => {
@@ -278,18 +273,18 @@ const Home = () => {
             <SiteCard
               key={`site-${selectedMarker}`} // force remount
               {...touristDestinations[selectedMarker]}
-              onBack={() => setOverlayView("none")} //  back handler
+              onClose={() => setOverlayView("none")} //  back handler
             />
           )}
 
-          {overlayView === "popularSite" && selectedMarker === null && (
+          {/* {overlayView === "popularSite" && selectedMarker === null && (
             <PopularSites
               myloc={myloc}
               setNearByDestinations={setNearByDestinations}
-              onBack={() => setOverlayView("none")}
+              onClose={() => setOverlayView("none")}
               touristDestinations={touristDestinations}
             />
-          )}
+          )} */}
 
           {overlayView === "routePlanner" && (
             <RoutePlanner
@@ -299,7 +294,7 @@ const Home = () => {
               setMarkerMode={setMarkerMode}
               addDestinationMode={addDestinationMode}
               setAddDestinationMode={setAddDestinationMode}
-              onBack={() => setOverlayView("none")}
+              onClose={() => setOverlayView("none")}
             />
           )}
         </Overlay>

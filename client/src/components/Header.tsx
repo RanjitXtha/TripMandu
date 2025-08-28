@@ -14,7 +14,7 @@ interface HeaderProps {
 
 const Header = ({ onSelectView, setSelectedMarker, resetState }: HeaderProps) => {
   const user = useSelector((state: RootState) => state.user);
- // console.log(user);
+  // console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,14 +30,15 @@ const Header = ({ onSelectView, setSelectedMarker, resetState }: HeaderProps) =>
     navigate("/login");
   };
 
-
   return (
     <header className="absolute z-5 bg-white right-1/2 transform translate-x-1/2 flex items-center justify-between p-3 mt-2 w-2/3 h-[50px] rounded-full shadow-lg m-auto">
       <h1 className="text-xl font-bold">
         <Link to="/"
         onClick={() => resetState()}>TripMandu</Link>
       </h1>
-      <SearchLocation />
+      <div className="mx-1">
+        <SearchLocation />
+      </div>
       <nav className="flex gap-6">
         {/* <button
           onClick={() => {
@@ -48,9 +49,11 @@ const Header = ({ onSelectView, setSelectedMarker, resetState }: HeaderProps) =>
         >
           Popular Sites
         </button> */}
-        <Link to={"/plan"}
-        className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black  hover:bg-gray-100 hover:underline">
-        Manage Your Plan
+        <Link
+          to={"/plan"}
+          className="shadow-lg rounded-full p-2  text-sm font-medium text-gray-700 hover:text-black  hover:bg-gray-100 hover:underline"
+        >
+          Manage Plan
         </Link>
         <button
           onClick={() => {
