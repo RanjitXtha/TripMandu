@@ -200,13 +200,16 @@ const Home = () => {
     }
   };
 
-  const firstLoad = useRef(true);
-
+ const firstLoad = useRef(true);
   useEffect(() => {
+    setSelectedLocation(null);
     if (!destinations || destinations.length < 2) return;
     if (!id) return;
-    calculateTSPRoute();
-  }, [destinations, id]);
+    if (firstLoad.current) {
+      calculateTSPRoute();
+      firstLoad.current = false;
+    }
+  }, [plannedDestination, destinations, id]);
   // hanlde toggle state
 
   const handletoggle = () => {
@@ -341,7 +344,6 @@ const Home = () => {
                     return;
                   }
                   setIsOpenPlanForm(true);
-                  resetState();
                 }}
                 className={`px-4 py-2 rounded-[1.2rem] shadow-lg text-white 
     ${
@@ -355,8 +357,8 @@ const Home = () => {
 
               <button
                 onClick={() => {
+                  setTogglePlanFormAndCalculateRoute(true);
                   resetState();
-                  setIsOpenPlanForm(false);
                 }}
                 className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-[1.2rem] shadow-lg"
               >

@@ -122,9 +122,10 @@ const SignIn = () => {
             </p>
             <p className="text-center">
               Or,{" "}
-              <Link to="/" className=" hover:underline">
-                visit map without logging in.
+              <Link to="/" className=" hover:underline text-blue-500 italic">
+                visit map
               </Link>
+              {" "} without logging in.
             </p>
           </form>
           {error && <p className="text-center text-red-500 mt-2">{error}</p>}
