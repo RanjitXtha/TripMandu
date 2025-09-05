@@ -18,7 +18,7 @@ export async function initGraphData(mode: "car" | "foot" | "bicycle") {
     lat: number;
     lon: number;
   }[]>(`
-    SELECT id, ST_Y(geom::geometry) AS lat, ST_X(geom::geometry) AS lon
+    SELECT id, lat , lon
     FROM routing_nodes
     WHERE id IN (
       SELECT source FROM ${edgesTable}

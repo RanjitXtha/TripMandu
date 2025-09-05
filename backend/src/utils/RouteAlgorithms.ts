@@ -2,13 +2,7 @@ import TinyQueue from "tinyqueue";
 import type { NodeMap_Type, Graph_Type, NodeType } from "./types.js";
 import { appendFileSync } from "fs";
 
-function logToFile(message: string) {
-  try {
-    appendFileSync("astar.log", message + "\n");
-  } catch (err) {
-    console.error("Failed to write log:", err);
-  }
-}
+
 
 // Haversine distance in meters
 function distanceToTime(distanceMeters: number, speedKmh: number): number {
@@ -39,13 +33,10 @@ export function aStar(
   nodeMap: NodeMap_Type,
   defaultSpeedKmh: number = 50
 ): number[] | null {
-  logToFile(`Starting A* from ${startId} to ${goalId}`);
-  logToFile(`Graph nodes: ${Object.keys(nodeMap).length}, edges: ${Object.keys(graph).length}`);
-  logToFile(`Start node: ${JSON.stringify(nodeMap[startId])}`);
-  logToFile(`Goal node: ${JSON.stringify(nodeMap[goalId])}`);
+
 
   if (!nodeMap[startId] || !nodeMap[goalId]) {
-    logToFile("ERROR: Start or goal node is missing in nodeMap.");
+
     return null;
   }
 
@@ -61,7 +52,6 @@ export function aStar(
     if (visited.has(currentId)) continue;
     visited.add(currentId);
 
-    logToFile(`Visiting node ${currentId} with f = ${current.f.toFixed(2)}`);
 
     if (currentId === goalId) {
       const path = [currentId];
@@ -71,18 +61,15 @@ export function aStar(
         path.push(curr);
       }
       const result = path.reverse();
-      logToFile(`Final path found: ${result.join(" -> ")}`);
       return result;
     }
 
     const neighbors = graph[currentId] || [];
-    logToFile(`Neighbors of node ${currentId}: ${neighbors.map(n => n.to).join(", ")}`);
 
     for (const edge of neighbors) {
       const neighborId = Number(edge.to);
 
       if (!nodeMap[neighborId] || !nodeMap[goalId]) {
-        logToFile(`WARNING: Invalid node map for neighbor ${neighborId} or goal ${goalId}`);
         continue;
       }
 
@@ -95,14 +82,12 @@ export function aStar(
         const h = distanceToTime(hDist, defaultSpeedKmh);
         const f = tentativeG + h;
 
-        logToFile(` → Neighbor ${neighborId}: g=${tentativeG.toFixed(2)}, h=${h.toFixed(2)}, f=${f.toFixed(2)}`);
 
         queue.push({ id: neighborId, f });
       }
     }
   }
 
-  logToFile(`No path found from ${startId} to ${goalId}`);
   return null;
 }
 
@@ -156,7 +141,6 @@ export function solveGreedyTSP(locations: NodeType[]): number[] {
 
   // order.push(0); 
   // Return to start
-  logToFile("TSP Order: " + order.join(" -> "));
   return order;
 }
 
