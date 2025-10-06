@@ -5,7 +5,7 @@ import prisma from "./db/index.js";
 import { app } from "./app.js";
 import { initGraphData } from "./utils/GraphLoader.js";
 
-import type { NodeMap_Type, Graph_Type } from "./utils/types.ts";
+import type { NodeMap_Type, Graph_Type } from "./utils/types.js";
 
 const PORT = process.env.PORT || 8080;
 
@@ -15,26 +15,16 @@ interface CachedGraph {
   turnRestrictions: Set<string>;
 }
 
-// Global cache for all modes (foot/bicycle/car)
-const graphCache: Record<"foot" | "bicycle" | "car", CachedGraph> = {
-  foot: null!,
-  bicycle: null!,
-  car: null!,
-};
+// Global cache (only one graph, supports all modes)
+let graphCache: CachedGraph | null = null;
 
-async function preloadGraphs() {
-  console.log("Preloading graphs...");
+async function preloadGraph() {
+  console.log("Preloading unified graph...");
 
-  for (const mode of ["car", "foot", "bicycle"] as const) {
-    const { nodeMap, graph } = await initGraphData(mode);
-    graphCache[mode] = {
-      nodeMap,
-      graph,
-      turnRestrictions: new Set(), // can load turn restrictions separately if needed
-    };
-  }
+  const { nodeMap, graph, turnRestrictions } = await initGraphData(); // no mode param
+  graphCache = { nodeMap, graph, turnRestrictions };
 
-  console.log("All graphs preloaded.");
+  console.log("Unified graph preloaded.");
 }
 
 async function main() {
@@ -42,7 +32,7 @@ async function main() {
     await prisma.$connect();
     console.log("Database connected");
 
-    await preloadGraphs();
+    await preloadGraph();
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);

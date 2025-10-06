@@ -8,6 +8,9 @@ import type {
   NearByDestinationType,
 } from "../types/types";
 
+import stopsData from "../data/stops_data.json";
+import precomputedRoutes from "../data/routes_precomputed.json";
+
 type LocationWithTouristId = Location & { touristId?: number };
 
 declare global {
@@ -57,46 +60,51 @@ const MapView = ({
   const [mapLoaded, setMapLoaded] = useState(false);
   const markersRef = useRef<maplibregl.Marker[]>([]);
 
-  // Helper function to get display number for markers
-  const getDisplayNumber = (destinationIndex: number): number => {
-    if (tspOrder.length === 0) {
-      // If no TSP calculated, show sequential numbers
-      return destinationIndex + 1;
-    }
+  const [showStops, setShowStops] = useState(false);
+  const [selectedRouteId, setSelectedRouteId] = useState<string>("");
+  const [routeGeoJSON, setRouteGeoJSON] = useState<any[]>([]);
 
-    // Find the position of this destination in the TSP order
+  const getDisplayNumber = (destinationIndex: number) => {
+    if (tspOrder.length === 0) return destinationIndex + 1;
     const position = tspOrder.indexOf(destinationIndex);
-    if (position === -1) {
-      // If not found in TSP order (shouldn't happen), fallback to sequential
-      return destinationIndex + 1;
-    }
-    return position + 1; // Convert to 1-based numbering
+    return position === -1 ? destinationIndex + 1 : position + 1;
   };
 
+  // Convert precomputed routes into GeoJSON
+  useEffect(() => {
+    if (!mapLoaded) return;
+    const features = precomputedRoutes.map((route) => ({
+      type: "Feature",
+      properties: {
+        id: route.id,
+        name: route.name,
+        lineColor: route.color || "#FF0000",
+      },
+      geometry: {
+        type: "LineString",
+        coordinates: route.geometry,
+      },
+    }));
+    setRouteGeoJSON(features);
+  }, [mapLoaded]);
+
+  // Add/remove markers
   useEffect(() => {
     if (!mapLoaded || !mapRef.current) return;
-
-    // Clear old markers
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
 
     const showTouristMarkers = pathCoords.length === 0;
 
-    // Tourist destination markers (only when not showing route)
+    // Tourist markers
     if (showTouristMarkers) {
       touristDestinations.forEach((place, index) => {
-        // const popupId = `tourist-info-${index}`;
         const html = `
-        <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
-          <h3 class="font-semibold text-lg text-center">${place.name}</h3>
-          <button id="addDestination" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-0 px-2 py-2 transition cursor-pointer" onclick='window.addDest(${index})'>Add Destination</button><br/>
-        </div>
-        `;
-
-        const popup = new maplibregl.Popup({
-          offset: 25,
-          closeButton: true,
-        }).setHTML(html);
+          <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
+            <h3 class="font-semibold text-lg text-center">${place.name}</h3>
+            <button id="addDestination" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-0 px-2 py-2 transition cursor-pointer" onclick='window.addDest(${index})'>Add Destination</button><br/>
+          </div>`;
+        const popup = new maplibregl.Popup({ offset: 25, closeButton: true }).setHTML(html);
 
         const el = document.createElement("div");
         el.className = "custom-marker";
@@ -111,44 +119,28 @@ const MapView = ({
           .setLngLat([place.lon, place.lat])
           .setPopup(popup)
           .addTo(mapRef.current!);
-
         markersRef.current.push(marker);
 
         marker.getElement().addEventListener("click", () => {
           const map = mapRef.current;
-          if (map) {
-            map.flyTo({ center: [place.lon, place.lat], zoom: 15 });
-          }
-
+          if (map) map.flyTo({ center: [place.lon, place.lat], zoom: 15 });
           setOverlayView("showSite");
-
           if (selectedMarker === index) {
             setSelectedMarker(null);
-            setTimeout(() => setSelectedMarker(index), 0); // force remount
-          } else {
-            setSelectedMarker(index);
-          }
-        });
-
-        popup.on("open", () => {
-          const addDestination = document.getElementById("addDestination");
-          addDestination?.addEventListener("click", () => {
-            setOverlayView("none");
-          });
+            setTimeout(() => setSelectedMarker(index), 0);
+          } else setSelectedMarker(index);
         });
       });
     }
 
-    // Click markers (custom added markers)
+    // Click markers
     clickMarkers.forEach((place) => {
       const html = `
       <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
         <h3 class="font-semibold text-lg text-center">Custom Marker</h3>
         <button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-2 px-2 py-2 transition cursor-pointer" onclick='window.addDest([${place.lat}, ${place.lon}])'>Add Destination</button><br/>
         <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded-[1.2rem] shadow-lg mb-0  px-2 py-2 transition cursor-pointer"  onclick='window.delClick(${place.lat}, ${place.lon})'>Delete</button>
-      </div>
-      `;
-
+      </div>`;
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
 
       const el = document.createElement("div");
@@ -164,36 +156,22 @@ const MapView = ({
         .setLngLat([place.lon, place.lat])
         .setPopup(popup)
         .addTo(mapRef.current!);
-
       markersRef.current.push(marker);
     });
 
-    // Destination markers (selected destinations with route info)
+    // Destination markers
     destinations.forEach((place, i) => {
       const displayNumber = getDisplayNumber(i);
-      const popupId = `dest-info-${i}`;
-
-      // Use the name from touristDestinations if touristId exists
       const nameFromTourist =
-        place.touristId !== undefined && place.touristId !== null
-          ? touristDestinations[place.touristId]?.name
-          : place.name;
+        place.touristId !== undefined ? touristDestinations[place.touristId]?.name : place.name;
 
       const html = `
       <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm">
         <h3 class="font-semibold underline text-md text-center">Destination ${displayNumber}</h3>
-        ${
-          nameFromTourist
-            ? `<p class="font-bold text-md text-center">${nameFromTourist}</p>`
-            : ""
-        }
-        <div class="text-center">
-        ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}
-        </div>
+        ${nameFromTourist ? `<p class="font-bold text-md text-center">${nameFromTourist}</p>` : ""}
+        <div class="text-center">${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}</div>
         <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded-[1.2rem] shadow-lg mb-0 mt-1 px-2 py-2 transition cursor-pointer" onclick='window.delDest(${i})'>Remove</button><br/>
-        <button id="${popupId}" class="w-full text-blue-600 hover:underline mt-1 cursor-pointer">View Site Info</button>
-      </div>
-      `;
+      </div>`;
 
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
 
@@ -217,67 +195,23 @@ const MapView = ({
         .setLngLat([place.lon, place.lat])
         .setPopup(popup)
         .addTo(mapRef.current!);
-
       markersRef.current.push(marker);
-
-      popup.on("open", () => {
-        const btn = document.getElementById(popupId);
-        if (btn) {
-          btn.addEventListener("click", () => {
-            const markerId = place.touristId ?? i;
-
-            // Always set overlay view
-            setOverlayView("showSite");
-
-            // Force re-selection if same marker is selected
-            setSelectedMarker((prev) => {
-              if (prev === markerId) {
-                return null; // Unset to allow force update
-              } else {
-                return markerId;
-              }
-            });
-
-            // Reset to the same marker after brief delay (forces remount if needed)
-            setTimeout(() => {
-              setSelectedMarker(markerId);
-            }, 0);
-          });
-        }
-      });
     });
 
-    // My location marker with Add as Destination button
+    // My location marker
     if (myloc) {
       const popupId = "my-location-add-btn";
       const html = `
       <div class="w-[180px] p-3 bg-white rounded shadow-md text-sm space-y-2">
         <h3 class="font-semibold text-lg text-center">My Location</h3><br/>
         <button id="${popupId}" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-[1.2rem] shadow-lg mb-0 px-2 py-2 transition cursor-pointer">Add Destination</button>
-      </div>
-      `;
-
+      </div>`;
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
-
       const marker = new maplibregl.Marker({ color: "green" })
         .setLngLat([myloc.lon, myloc.lat])
         .setPopup(popup)
         .addTo(mapRef.current!);
-
       markersRef.current.push(marker);
-
-      popup.on("open", () => {
-        const btn = document.getElementById(popupId);
-        if (btn) {
-          btn.addEventListener("click", () => {
-            // Add my location as a destination without touristId
-            setDestinations((prev) => [
-              ...prev,
-              { lat: myloc.lat, lon: myloc.lon },
-            ]);
-          });
-        }
-      });
     }
   }, [
     mapLoaded,
@@ -287,28 +221,22 @@ const MapView = ({
     tspOrder,
     pathCoords,
     touristDestinations,
-    setSelectedMarker,
-    setDestinations,
   ]);
 
-  // Map click handlers for adding custom markers or setting start/end
-  useEffect(():any => {
+  // Map click handlers
+  useEffect(() => {
     const handleClick = (e: maplibregl.MapMouseEvent) => {
       const latlng: [number, number] = [e.lngLat.lat, e.lngLat.lng];
       if (markerMode === "start") {
-        setStart(latlng);
+        setDestinations((prev) => [{ lat: latlng[0], lon: latlng[1] }, ...prev.slice(1)]);
         setMarkerMode("none");
       } else if (markerMode === "end") {
-        setEnd(latlng);
+        setDestinations((prev) => [...prev.slice(0, -1), { lat: latlng[0], lon: latlng[1] }]);
         setMarkerMode("none");
       } else if (addDestinationMode) {
-        setClickMarkers((prev) => [
-          ...prev,
-          { lat: latlng[0], lon: latlng[1] },
-        ]);
+        setClickMarkers((prev) => [...prev, { lat: latlng[0], lon: latlng[1] }]);
       }
     };
-
     const map = mapRef.current;
     if (map) {
       map.on("click", handleClick);
@@ -316,85 +244,89 @@ const MapView = ({
     }
   }, [markerMode, addDestinationMode, setClickMarkers, setMarkerMode]);
 
-  const setStart = ([lat, lon]: [number, number]) => {
-    setDestinations((prev) => {
-      if (prev.length === 0) return [{ lat, lon }];
-      return [{ lat, lon }, ...prev.slice(1)];
-    });
-  };
-
-  const setEnd = ([lat, lon]: [number, number]) => {
-    setDestinations((prev) => {
-      if (prev.length === 0) return [{ lat, lon }];
-      if (prev.length === 1) return [prev[0], { lat, lon }];
-      return [...prev.slice(0, -1), { lat, lon }];
-    });
-  };
-
-  const removeDestination = (index: number) => {
-    setDestinations((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const removeClickMarker = (lat: number, lon: number) => {
-    setClickMarkers((prev) =>
-      prev.filter((m) => m.lat !== lat || m.lon !== lon)
-    );
-  };
-
-  // Setup global window functions
+  // Global window functions
   useEffect(() => {
-    window.addDest = (touristIndexOrLatlng: number | [number, number]) => {
-      if (typeof touristIndexOrLatlng === "number") {
-        const td = touristDestinations[touristIndexOrLatlng];
+    window.addDest = (arg: number | [number, number]) => {
+      if (typeof arg === "number") {
+        const td = touristDestinations[arg];
         if (!td) return;
-        setDestinations((prev) => [
-          ...prev,
-          { lat: td.lat, lon: td.lon, touristId: touristIndexOrLatlng },
-        ]);
-      } else if (Array.isArray(touristIndexOrLatlng)) {
-        setDestinations((prev) => [
-          ...prev,
-          { lat: touristIndexOrLatlng[0], lon: touristIndexOrLatlng[1] },
-        ]);
-      }
+        setDestinations((prev) => [...prev, { lat: td.lat, lon: td.lon, touristId: arg }]);
+      } else setDestinations((prev) => [...prev, { lat: arg[0], lon: arg[1] }]);
     };
-    window.delDest = (index: number) => removeDestination(index);
-    window.delClick = (lat: number, lon: number) => removeClickMarker(lat, lon);
+    window.delDest = (index: number) => setDestinations((prev) => prev.filter((_, i) => i !== index));
+    window.delClick = (lat: number, lon: number) => setClickMarkers((prev) => prev.filter((m) => m.lat !== lat || m.lon !== lon));
   }, [touristDestinations]);
 
   return (
     <div>
+      {/* Route selection + show stops */}
+      <div className="absolute top-2 left-2 z-10 bg-white shadow-md rounded p-2">
+        <label className="mr-2 font-medium">Select Route:</label>
+        <select
+          value={selectedRouteId}
+          onChange={(e) => setSelectedRouteId(e.target.value)}
+          className="border rounded px-2 py-1"
+        >
+          <option value="">-- Show All --</option>
+          {precomputedRoutes.map((r) => (
+            <option key={r.id} value={r.id}>{r.name}</option>
+          ))}
+        </select>
+        <label className="ml-4 font-medium">
+          <input type="checkbox" checked={showStops} onChange={() => setShowStops(!showStops)} className="mr-1"/>
+          Show Stops
+        </label>
+      </div>
+
       <div style={{ display: "flex", height: "100vh" }}>
         <Map
           mapLib={maplibregl}
           initialViewState={{ latitude: 27.67, longitude: 85.43, zoom: 14 }}
           mapStyle="https://tiles.openfreemap.org/styles/liberty"
           style={{ height: "100%", width: "100%" }}
-          onLoad={({ target }: { target: maplibregl.Map }) => {
+          onLoad={({ target }) => {
             mapRef.current = target;
             setMapLoaded(true);
           }}
         >
           <NavigationControl position="top-right" />
+
+          {/* Precomputed routes */}
+          {routeGeoJSON.filter(f => selectedRouteId === "" || f.properties.id === selectedRouteId).map((f, i) => (
+            <Source key={i} id={`route-${i}`} type="geojson" data={f}>
+              <Layer
+                id={`route-line-${i}`}
+                type="line"
+                paint={{ "line-color": f.properties.lineColor, "line-width": 3 }}
+              />
+            </Source>
+          ))}
+
+          {/* Path coordinates */}
           {pathCoords.length > 1 && (
             <Source
-              id="route"
+              id="user-path"
               type="geojson"
-              data={{
-                type: "Feature",
-                geometry: {
-                  type: "LineString",
-                  coordinates: pathCoords.map(([lat, lon]) => [lon, lat]),
-                },
-              }}
+              data={{ type: "Feature", geometry: { type: "LineString", coordinates: pathCoords.map(([lat, lon]) => [lon, lat]) } }}
             >
               <Layer
-                id="route-line"
+                id="user-path-line"
                 type="line"
                 paint={{ "line-color": "#0074D9", "line-width": 4 }}
               />
             </Source>
           )}
+
+          {/* Show stops if toggled */}
+          {showStops && mapLoaded && mapRef.current && stopsData.map((stop, i) => {
+            const marker = new maplibregl.Marker({ color: "red" })
+              .setLngLat([stop.lng, stop.lat])
+              .setPopup(new maplibregl.Popup().setText(stop.name))
+              .addTo(mapRef.current!);
+            markersRef.current.push(marker);
+            return null;
+          })}
+
         </Map>
       </div>
     </div>

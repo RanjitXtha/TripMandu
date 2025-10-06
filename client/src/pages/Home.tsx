@@ -15,6 +15,7 @@ import SiteCard from "../components/SiteCard";
 import PopularSites from "../components/PopularSites";
 import { getAllPoints, type Destination } from "../apiHandle/detination";
 
+
 const Home = () => {
   const [overlayView, setOverlayView] = useState<OverlayView>("none");
   const [destinations, setDestinations] = useState<Location[]>([]);
@@ -38,7 +39,7 @@ const Home = () => {
   const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
   const [tspOrder, setTspOrder] = useState<number[]>([]);
 
-  const [mode, setMode] = useState<"foot" | "bicycle" | "car">("foot");
+  const [mode, setMode] = useState<"foot" | "motorbike" | "car">("foot");
 
 
 
@@ -103,7 +104,8 @@ const Home = () => {
     try {
       const res = await axios.post("http://localhost:8080/api/map/solveTsp", {
         destinations: updatedDestinations,
-        mode
+        mode,
+        costType:"time"
       });
 
       const { path, tspOrder: order } = res.data;
@@ -202,7 +204,7 @@ const Home = () => {
           </button>
           
           <div className="absolute top-16 right-16 flex space-x-2 z-50">
-            {(["foot", "bicycle", "car"] as const).map((m) => (
+            {(["foot", "motorbike", "car"] as const).map((m) => (
               <button
                 key={m}
                 onClick={() => setMode(m)}

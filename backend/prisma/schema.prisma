@@ -19,75 +19,89 @@ model spatial_ref_sys {
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model turn_restrictions {
-  from_way     Int
+  from_edge    Int
   via_node     Int
-  to_way       Int
+  to_edge      Int
+  restriction  String?
   vehicle_type String?
 
-  @@id([from_way, via_node, to_way])
   @@ignore
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model routing_nodes {
-  id   Int                      @id
-  lat  Float
-  lon  Float
-  geom Unsupported("geometry")?
+  id                                                                    Int                       @id @default(autoincrement())
+  lat                                                                   Float
+  lon                                                                   Float
+  foot                                                                  Boolean?                  @default(false)
+  motorbike                                                             Boolean?                  @default(false)
+  car                                                                   Boolean?                  @default(false)
+  routing_edges_car_routing_edges_car_sourceTorouting_nodes             routing_edges_car[]       @relation("routing_edges_car_sourceTorouting_nodes")
+  routing_edges_car_routing_edges_car_targetTorouting_nodes             routing_edges_car[]       @relation("routing_edges_car_targetTorouting_nodes")
+  routing_edges_foot_routing_edges_foot_sourceTorouting_nodes           routing_edges_foot[]      @relation("routing_edges_foot_sourceTorouting_nodes")
+  routing_edges_foot_routing_edges_foot_targetTorouting_nodes           routing_edges_foot[]      @relation("routing_edges_foot_targetTorouting_nodes")
+  routing_edges_motorbike_routing_edges_motorbike_sourceTorouting_nodes routing_edges_motorbike[] @relation("routing_edges_motorbike_sourceTorouting_nodes")
+  routing_edges_motorbike_routing_edges_motorbike_targetTorouting_nodes routing_edges_motorbike[] @relation("routing_edges_motorbike_targetTorouting_nodes")
 
   @@ignore
 }
 
-model routing_edges_bicycle {
-  id             Int                      @id
-  source         Int
-  target         Int
-  length_m       Float?
-  cost           Float?
-  oneway         Boolean?
-  oneway_bicycle Boolean?
-  maxspeed       Int?
-  lanes          Int?
-  name           String?
-  highway        String?
-  surface        String?
-  geom           Unsupported("geometry")?
-  bicycle        Boolean?                 @default(true)
-  reverse_cost   Float?
-}
-
 model routing_edges_car {
-  id             Int                      @id
-  source         Int
-  target         Int
-  length_m       Float?
-  cost           Float?
-  oneway         Boolean?
-  oneway_bicycle Boolean?
-  maxspeed       Int?
-  lanes          Int?
-  name           String?
-  highway        String?
-  surface        String?
-  geom           Unsupported("geometry")?
-  car            Boolean?                 @default(true)
-  reverse_cost   Float?
+  id                                                    Int                      @id @default(autoincrement())
+  source                                                Int
+  target                                                Int
+  length_m                                              Float?
+  cost                                                  Float?
+  reverse_cost                                          Float?
+  oneway                                                Boolean?
+  oneway_motorbike                                      Boolean?
+  maxspeed                                              Int?
+  lanes                                                 Int?
+  name                                                  String?
+  highway                                               String?
+  surface                                               String?
+  geom                                                  Unsupported("geometry")?
+  car                                                   Boolean?
+  routing_nodes_routing_edges_car_sourceTorouting_nodes routing_nodes            @relation("routing_edges_car_sourceTorouting_nodes", fields: [source], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  routing_nodes_routing_edges_car_targetTorouting_nodes routing_nodes            @relation("routing_edges_car_targetTorouting_nodes", fields: [target], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model routing_edges_foot {
-  id             Int                      @id
-  source         Int
-  target         Int
-  length_m       Float?
-  cost           Float?
-  oneway         Boolean?
-  oneway_bicycle Boolean?
-  maxspeed       Int?
-  lanes          Int?
-  name           String?
-  highway        String?
-  surface        String?
-  geom           Unsupported("geometry")?
-  foot           Boolean?                 @default(true)
-  reverse_cost   Float?
+  id                                                     Int                      @id @default(autoincrement())
+  source                                                 Int
+  target                                                 Int
+  length_m                                               Float?
+  cost                                                   Float?
+  reverse_cost                                           Float?
+  oneway                                                 Boolean?
+  oneway_motorbike                                       Boolean?
+  maxspeed                                               Int?
+  lanes                                                  Int?
+  name                                                   String?
+  highway                                                String?
+  surface                                                String?
+  geom                                                   Unsupported("geometry")?
+  foot                                                   Boolean?
+  routing_nodes_routing_edges_foot_sourceTorouting_nodes routing_nodes            @relation("routing_edges_foot_sourceTorouting_nodes", fields: [source], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  routing_nodes_routing_edges_foot_targetTorouting_nodes routing_nodes            @relation("routing_edges_foot_targetTorouting_nodes", fields: [target], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model routing_edges_motorbike {
+  id                                                          Int                      @id @default(autoincrement())
+  source                                                      Int
+  target                                                      Int
+  length_m                                                    Float?
+  cost                                                        Float?
+  reverse_cost                                                Float?
+  oneway                                                      Boolean?
+  oneway_motorbike                                            Boolean?
+  maxspeed                                                    Int?
+  lanes                                                       Int?
+  name                                                        String?
+  highway                                                     String?
+  surface                                                     String?
+  geom                                                        Unsupported("geometry")?
+  motorbike                                                   Boolean?
+  routing_nodes_routing_edges_motorbike_sourceTorouting_nodes routing_nodes            @relation("routing_edges_motorbike_sourceTorouting_nodes", fields: [source], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  routing_nodes_routing_edges_motorbike_targetTorouting_nodes routing_nodes            @relation("routing_edges_motorbike_targetTorouting_nodes", fields: [target], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

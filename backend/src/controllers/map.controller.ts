@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { graphCache } from "../index.js";
-import { aStar, nearestNode, solveGreedyTSP } from "../utils/RouteAlgorithms.js";
+import { aStar, nearestNode, solveGreedyTSP, CostType } from "../utils/RouteAlgorithms.js";
 
 interface Location {
   lat: number;
@@ -10,70 +10,93 @@ interface Location {
   name?: string;
 }
 
-type Mode = "car" | "foot" | "bicycle";
+type Mode = "car" | "foot" | "motorbike";
 
 function getMode(mode: any): Mode {
-  if (mode === "car" || mode === "foot" || mode === "bicycle") return mode;
+  if (mode === "car" || mode === "foot" || mode === "motorbike") return mode;
   throw new ApiError(400, `Invalid mode: ${mode}`);
 }
 
+// --- GET ROUTE ---
 export const getRoute = asyncHandler(async (req: Request, res: Response) => {
-  const { start, end, mode = "car" } = req.body;
-  if (!start || !end) throw new ApiError(400, "Coordinates required");
+  const {
+    start,
+    end,
+    mode = "car",
+    costType = "length",
+  }: { start: Location; end: Location; mode?: Mode; costType?: CostType } = req.body;
+
+  if (!graphCache) throw new ApiError(500, "Graph not loaded");
 
   const transportMode = getMode(mode);
-  const cached = graphCache[transportMode];
-  if (!cached) throw new ApiError(500, `Graph not loaded for mode ${transportMode}`);
+  const { graph, nodeMap } = graphCache;
 
-  const { graph, nodeMap } = cached;
+  // Use mode-aware nearest node
+  const startId = nearestNode(start, nodeMap, graph, transportMode, costType);
+  const goalId = nearestNode(end, nodeMap, graph, transportMode, costType);
 
-  const startId = nearestNode(start, nodeMap);
-  const goalId = nearestNode(end, nodeMap);
+  if (startId == null || goalId == null)
+    throw new ApiError(400, `Nearest node not found for mode '${transportMode}'`);
 
-  if (startId == null || goalId == null) throw new ApiError(400, "Nearest node not found");
+  const result = aStar(startId, goalId, graph, nodeMap, transportMode, costType, 5);
+  if (!result)
+    throw new ApiError(
+      400,
+      `No path found between the selected points for mode '${transportMode}'`
+    );
 
-  const pathIds = aStar(startId, goalId, graph, nodeMap);
-  if (!pathIds) throw new ApiError(400, "Path not found");
-
-  const pathCoords = pathIds.map((id) => {
+  const pathCoords = result.path.map((id) => {
     const node = nodeMap[id];
     return [node.lat, node.lon];
   });
 
-  res.json({ path: pathCoords });
+  res.json({
+    path: pathCoords,
+    totalCost: result.totalCost,
+    costType,
+    mode: transportMode,
+  });
 });
 
-export const solveTSPHandler = asyncHandler(async (req: Request, res: Response) => {
-  const { destinations, mode = "car" }: { destinations: Location[]; mode?: Mode } = req.body;
+const SPEEDS: Record<Mode, number> = { foot: 1.39, motorbike: 7.8, car: 7.2 };
 
-  if (!Array.isArray(destinations) || destinations.length < 2) {
+// --- GREEDY TSP ---
+export const solveTSPHandler = asyncHandler(async (req: Request, res: Response) => {
+  const {
+    destinations,
+    mode = "car",
+    costType = "length",
+  }: { destinations: Location[]; mode?: Mode; costType?: CostType } = req.body;
+
+  if (!graphCache) throw new ApiError(500, "Graph not loaded");
+  if (!Array.isArray(destinations) || destinations.length < 2)
     throw new ApiError(400, "At least two destinations are required");
-  }
 
   const transportMode = getMode(mode);
-  const cached = graphCache[transportMode];
-  if (!cached) throw new ApiError(500, `Graph not loaded for mode ${transportMode}`);
+  const { graph, nodeMap } = graphCache;
 
-  const { graph, nodeMap } = cached;
-  const tspOrder = solveGreedyTSP(destinations);
+  // Mode-aware nearest nodes for each destination
+  const tspResult = solveGreedyTSP(destinations, graph, nodeMap, transportMode, costType, SPEEDS[transportMode]);
 
-  let fullPath: [number, number][] = [];
+  if (!tspResult)
+    throw new ApiError(
+      400,
+      `TSP path could not be computed for mode '${transportMode}'`
+    );
 
-  for (let i = 0; i < tspOrder.length - 1; i++) {
-    const from = destinations[tspOrder[i]];
-    const to = destinations[tspOrder[i + 1]];
-    const fromId = nearestNode(from, nodeMap);
-    const toId = nearestNode(to, nodeMap);
+  const fullPathCoords = tspResult.fullPath.map((id) => {
+    const node = nodeMap[id];
+    return [node.lat, node.lon];
+  });
 
-    if (fromId == null || toId == null) throw new ApiError(400, "Nearest node not found");
+  console.log(`Time: ${tspResult.totalCost/60}min, Distance: ${tspResult.totalDistance/1000}km`);
 
-    const segment = aStar(fromId, toId, graph, nodeMap);
-    if (!segment) throw new ApiError(400, `Path not found from ${fromId} to ${toId}`);
 
-    const coords = segment.map((id) => [nodeMap[id].lat, nodeMap[id].lon] as [number, number]);
-    if (i > 0 && coords.length) coords.shift(); // Avoid duplicate node
-    fullPath.push(...coords);
-  }
-
-  res.status(200).json({ path: fullPath, tspOrder });
+  res.status(200).json({
+    tspOrder: tspResult.tspOrder,
+    path: fullPathCoords,
+    totalCost: tspResult.totalCost,
+    mode: transportMode,
+    costType,
+  });
 });

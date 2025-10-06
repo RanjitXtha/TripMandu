@@ -1,79 +1,68 @@
 import prisma from "../db/index.js";
-import type { NodeMap_Type, Graph_Type } from "./types.ts";
+import type { NodeMap_Type, Graph_Type, EdgeType, ModeCost, TurnRestrictionSet, LoadGraphResult } from "./types.js";
 
-// Global memory cache
 export const nodeMap: NodeMap_Type = {};
 export const graph: Graph_Type = {};
+export const turnRestrictions: TurnRestrictionSet = new Set();
 
-export async function initGraphData(mode: "car" | "foot" | "bicycle") {
-  const graph: Graph_Type = {};
-  const nodeMap: NodeMap_Type = {};
+export async function initGraphData(): Promise<LoadGraphResult> {
+  // --- 1. Load nodes ---
+  if (!Object.keys(nodeMap).length) {
+    const nodes = await prisma.$queryRawUnsafe<{ id: number; lat: number; lon: number }[]>(`
+      SELECT id, lat, lon FROM routing_nodes
+    `);
+    for (const n of nodes) nodeMap[n.id] = { lat: n.lat, lon: n.lon };
+    console.log(`Loaded ${nodes.length} nodes.`);
+  }
 
-  console.log(`Loading routing_nodes for ${mode}...`);
+  const modes: Array<'car' | 'motorbike' | 'foot'> = ['car', 'motorbike', 'foot'];
 
-  const edgesTable = `routing_edges_${mode}`;
+  // --- 2. Load edges per mode ---
+  for (const mode of modes) {
+    const table = `routing_edges_${mode}`;
+    const edges = await prisma.$queryRawUnsafe<{
+      id: number;
+      source: number;
+      target: number;
+      cost: number;
+      reverse_cost: number;
+      length_m: number;
+    }[]>(`SELECT id, source, target, cost, reverse_cost, length_m FROM ${table}`);
 
-  const nodes = await prisma.$queryRawUnsafe<{
-    id: number;
-    lat: number;
-    lon: number;
-  }[]>(`
-    SELECT id, lat , lon
-    FROM routing_nodes
-    WHERE id IN (
-      SELECT source FROM ${edgesTable}
-      UNION
-      SELECT target FROM ${edgesTable}
-    )
+    for (const e of edges) {
+      // --- forward edge ---
+      let forward = graph[e.source]?.find(edge => edge.to === e.target);
+      if (!forward) {
+        forward = { to: e.target, length_m: e.length_m, modes: {} };
+        if (!graph[e.source]) graph[e.source] = [];
+        graph[e.source].push(forward);
+      }
+      forward.modes[mode] = { cost: e.cost, reverseCost: e.reverse_cost };
+
+      // --- backward edge (if traversable) ---
+      if (e.reverse_cost !== Infinity && e.reverse_cost != null) {
+        let backward = graph[e.target]?.find(edge => edge.to === e.source);
+        if (!backward) {
+          backward = { to: e.source, length_m: e.length_m, modes: {} };
+          if (!graph[e.target]) graph[e.target] = [];
+          graph[e.target].push(backward);
+        }
+        backward.modes[mode] = { cost: e.reverse_cost, reverseCost: e.cost };
+      }
+    }
+
+    console.log(`Loaded ${edges.length} edges for mode ${mode}.`);
+  }
+
+  // --- 3. Load turn restrictions ---
+  const restrictions = await prisma.$queryRawUnsafe<{ from_edge: number; via_node: number; to_edge: number }[]>(`
+    SELECT from_edge, via_node, to_edge FROM turn_restrictions
   `);
 
-  for (const n of nodes) {
-    nodeMap[n.id] = { lat: n.lat, lon: n.lon };
+  for (const r of restrictions) {
+    turnRestrictions.add(`${r.from_edge}-${r.via_node}-${r.to_edge}`);
   }
+  console.log(`Loaded ${turnRestrictions.size} turn restrictions.`);
 
-  console.log(`Loaded ${nodes.length} nodes for ${mode}.`);
-
-  console.log(`Loading ${edgesTable}...`);
-
-  const edges = await prisma.$queryRawUnsafe<{
-  id: number;
-  source: number;
-  target: number;
-  cost: number;          // for "car" and "bicycle"
-  reverse_cost: number;  // for "car" and "bicycle"
-  length_m?: number;     // only for "foot"
-}[]>(`
-  SELECT id, source, target, cost, reverse_cost ${mode === "foot" ? ", length_m" : ""}
-  FROM ${edgesTable}
-`);
-
-for (const edge of edges) {
-  const forwardCost = mode === "foot" ? edge.length_m  : edge.cost;
-  const backwardCost = mode === "foot" ? edge.length_m  : edge.reverse_cost;
-
-  if (!graph[edge.source]) graph[edge.source] = [];
-  graph[edge.source].push({
-    to: edge.target,
-    cost: Number(forwardCost),
-    edgeId: edge.id,
-    mode,
-  });
-
-  if (mode === "foot" || edge.reverse_cost >= 0) {
-    if (!graph[edge.target]) graph[edge.target] = [];
-    graph[edge.target].push({
-      to: edge.source,
-      cost: Number(backwardCost),
-      edgeId: edge.id,
-      mode,
-    });
-  }
-}
-
-  console.log(`Loaded ${edges.length} ${mode} edges.`);
-
-  return {
-    nodeMap,
-    graph,
-  };
+  return { nodeMap, graph, turnRestrictions };
 }

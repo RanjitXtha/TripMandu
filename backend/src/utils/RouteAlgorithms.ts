@@ -1,89 +1,114 @@
 import TinyQueue from "tinyqueue";
-import type { NodeMap_Type, Graph_Type, NodeType } from "./types.js";
-import { appendFileSync } from "fs";
+import type { NodeMap_Type, Graph_Type, NodeType, EdgeType } from "./types.js";
 
+export type CostType = "time" | "length";
 
-
-// Haversine distance in meters
-function distanceToTime(distanceMeters: number, speedKmh: number): number {
-  const speedMs = speedKmh * 1000 / 3600;
-  return distanceMeters / speedMs;
-}
-
-// Haversine distance between two geo points (in meters)
 export function haversineDistance(a: NodeType | null | undefined, b: NodeType): number {
-  if (!a || !b || typeof a.lat !== "number" || typeof a.lon !== "number" || typeof b.lat !== "number" || typeof b.lon !== "number") {
-    return Infinity;
-  }
+  if (!a || !b) return Infinity;
   const R = 6371e3;
   const toRad = (deg: number) => (deg * Math.PI) / 180;
   const dLat = toRad(b.lat - a.lat);
   const dLon = toRad(b.lon - a.lon);
   const lat1 = toRad(a.lat);
   const lat2 = toRad(b.lat);
-
   const aCalc = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
   return R * 2 * Math.atan2(Math.sqrt(aCalc), Math.sqrt(1 - aCalc));
 }
 
+// --- Distance to time in seconds (using m/s speed directly) ---
+export function distanceToTime(distanceMeters: number, speedMs: number): number {
+  if (!speedMs || speedMs <= 0) return Infinity;
+  return distanceMeters / speedMs; // seconds
+}
+
+// --- Mode-aware nearest node using m/s speed ---
+export function nearestNode(
+  point: NodeType,
+  nodeMap: NodeMap_Type,
+  graph: Graph_Type,
+  mode: "car" | "motorbike" | "foot",
+  costType: CostType = "length",
+  speedMs = 1.39 // default foot speed in m/s
+): number | null {
+  let nearest: number | null = null;
+  let minCost = Infinity;
+
+  for (const idStr in nodeMap) {
+    const id = Number(idStr);
+    const node = nodeMap[id];
+
+    // Only consider nodes with outgoing edges for the mode
+    const edges = graph[id];
+    if (!edges || !edges.some(e => e.modes[mode])) continue;
+
+    const dist = haversineDistance(point, node);
+    const cost = dist;
+
+    if (cost < minCost) {
+      minCost = cost;
+      nearest = id;
+    }
+  }
+
+  return nearest;
+}
+
+// --- A* using m/s speed ---
 export function aStar(
   startId: number,
   goalId: number,
   graph: Graph_Type,
   nodeMap: NodeMap_Type,
-  defaultSpeedKmh: number = 50
-): number[] | null {
-
-
-  if (!nodeMap[startId] || !nodeMap[goalId]) {
-
-    return null;
-  }
+  mode: "car" | "motorbike" | "foot",
+  costType: CostType = "length",
+  speedMs: number = 1.39
+): { path: number[]; totalCost: number; totalDistance: number } | null {
+  if (!nodeMap[startId] || !nodeMap[goalId]) return null;
 
   const queue = new TinyQueue([{ id: startId, f: 0 }], (a, b) => a.f - b.f);
   const gScore: Record<number, number> = { [startId]: 0 };
+  const gDistance: Record<number, number> = { [startId]: 0 }; // Track distance
   const cameFrom: Record<number, number> = {};
   const visited = new Set<number>();
 
   while (queue.length) {
     const current = queue.pop()!;
-    const currentId = Number(current.id);
-
+    const currentId = current.id;
     if (visited.has(currentId)) continue;
     visited.add(currentId);
 
-
     if (currentId === goalId) {
-      const path = [currentId];
-      let curr = currentId;
-      while (cameFrom.hasOwnProperty(curr)) {
-        curr = cameFrom[curr];
+      const path: number[] = [];
+      let curr: number | undefined = currentId;
+      while (curr !== undefined) {
         path.push(curr);
+        curr = cameFrom[curr];
       }
-      const result = path.reverse();
-      return result;
+      return { 
+        path: path.reverse(), 
+        totalCost: gScore[goalId], 
+        totalDistance: gDistance[goalId] 
+      };
     }
 
-    const neighbors = graph[currentId] || [];
-
+    const neighbors: EdgeType[] = graph[currentId] || [];
     for (const edge of neighbors) {
-      const neighborId = Number(edge.to);
+      if (!edge.modes[mode]) continue;
+      const neighborId = edge.to;
+      const edgeCost = costType === "time" ? edge.modes[mode].cost : edge.length_m;
+      if (edgeCost === undefined) continue;
 
-      if (!nodeMap[neighborId] || !nodeMap[goalId]) {
-        continue;
-      }
+      const tentativeG = (gScore[currentId] ?? Infinity) + edgeCost;
+      const tentativeDist = (gDistance[currentId] ?? 0) + edge.length_m;
 
-      const tentativeG = gScore[currentId] + edge.cost;
       if (tentativeG < (gScore[neighborId] ?? Infinity)) {
         cameFrom[neighborId] = currentId;
         gScore[neighborId] = tentativeG;
+        gDistance[neighborId] = tentativeDist;
 
         const hDist = haversineDistance(nodeMap[neighborId], nodeMap[goalId]);
-        const h = distanceToTime(hDist, defaultSpeedKmh);
-        const f = tentativeG + h;
-
-
-        queue.push({ id: neighborId, f });
+        const h = costType === "time" ? distanceToTime(hDist, speedMs) : hDist;
+        queue.push({ id: neighborId, f: tentativeG + h });
       }
     }
   }
@@ -92,59 +117,58 @@ export function aStar(
 }
 
 
-// Nearest node search (by haversine distance)
-export function nearestNode(point: NodeType, nodeMap: NodeMap_Type): number | null {
-  let nearest: number | null = null;
-  let minDist = Infinity;
+// --- Greedy TSP using m/s ---
+export function solveGreedyTSP(
+  points: NodeType[],
+  graph: Graph_Type,
+  nodeMap: NodeMap_Type,
+  mode: "car" | "motorbike" | "foot",
+  costType: CostType = "length",
+  speedMs: number = 1.39
+): { fullPath: number[]; totalCost: number; totalDistance: number; tspOrder: number[] } | null {
+  if (points.length === 0) return null;
 
-  for (const idStr in nodeMap) {
-    const id = Number(idStr);
-    const node = nodeMap[id];
-    const dist = haversineDistance(point, node);
-    if (dist < minDist) {
-      minDist = dist;
-      nearest = id;
-    }
+  const nodeIds: number[] = [];
+  for (const p of points) {
+    const nearest = nearestNode(p, nodeMap, graph, mode, costType, speedMs);
+    if (nearest == null) return null;
+    nodeIds.push(nearest);
   }
 
-  return Number(nearest);
-}
+  const unvisited = new Set(nodeIds.slice(1));
+  const tspOrder: number[] = [0];
+  const fullPath: number[] = [nodeIds[0]];
+  let totalCost = 0;
+  let totalDistance = 0;
+  let currentId = nodeIds[0];
 
-// Greedy TSP solver (by haversine distance)
-export function solveGreedyTSP(locations: NodeType[]): number[] {
-  const n = locations.length;
-  const visited = new Array(n).fill(false);
-  const order = [0];
-  visited[0] = true;
+  while (unvisited.size > 0) {
+    let bestNeighbor: number | null = null;
+    let bestResult: { path: number[]; totalCost: number; totalDistance: number } | null = null;
 
-  let current = 0;
-  for (let step = 1; step < n; step++) {
-    let next = -1;
-    let minDist = Infinity;
-
-    for (let i = 0; i < n; i++) {
-      if (!visited[i]) {
-        const dist = haversineDistance(locations[current], locations[i]);
-        if (dist < minDist) {
-          minDist = dist;
-          next = i;
-        }
+    for (const candidate of unvisited) {
+      const result = aStar(currentId, candidate, graph, nodeMap, mode, costType, speedMs);
+      if (!result) continue;
+      if (!bestResult || result.totalCost < bestResult.totalCost) {
+        bestResult = result;
+        bestNeighbor = candidate;
       }
     }
 
-    if (next !== -1) {
-      visited[next] = true;
-      order.push(next);
-      current = next;
-    }
+    if (!bestResult || bestNeighbor === null) return null;
+
+    fullPath.push(...bestResult.path.slice(1));
+    totalCost += bestResult.totalCost;
+    totalDistance += bestResult.totalDistance;
+
+    const destIndex = nodeIds.indexOf(bestNeighbor);
+    tspOrder.push(destIndex);
+
+    currentId = bestNeighbor;
+    unvisited.delete(bestNeighbor);
   }
+  
 
-  // order.push(0); 
-  // Return to start
-  return order;
+  return { fullPath, totalCost, totalDistance, tspOrder };
 }
-
-
-
-// Nearest node search (by haversine distance)
 
