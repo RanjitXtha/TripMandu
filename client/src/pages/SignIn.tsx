@@ -100,6 +100,7 @@ const SignIn = () => {
                 id="password"
                 type="password"
                 name="password"
+                minLength={8}
                 value={loginData.password}
                 onChange={handleInput}
                 required

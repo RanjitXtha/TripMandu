@@ -142,6 +142,7 @@ const Register = () => {
                 id="password"
                 type="password"
                 name="password"
+                minLength={8}
                 value={registerData.password}
                 onChange={handleInput}
                 required

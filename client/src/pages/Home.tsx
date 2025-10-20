@@ -255,7 +255,7 @@ const Home = () => {
     setPathCoords([]);
     setSelectedLocation(null);
     setClickMarkers([]);
-    setTouristDestinations([]);
+   // setTouristDestinations([]);
     // setTouristDestinationsCoords([]);
     setTspOrder([]);
     setDestinations([]);
