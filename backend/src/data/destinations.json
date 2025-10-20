@@ -1,0 +1,1183 @@
+[
+  {
+    "name": "Kathmandu Durbar Square",
+    "description": "One of three royal palace squares in the Kathmandu Valley, this UNESCO World Heritage Site is a historic plaza renowned for its exquisite architecture, temples, courtyards, and the Kumari Ghar, residence of the living goddess.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Basantapurpalace.JPG/330px-Basantapurpalace.JPG",
+    "coordinates": {
+      "lat": 27.7047132,
+      "lon": 85.3074368
+    },
+    "categories": [
+      "Heritage",
+      "Hindu",
+      "Historical"
+    ]
+  },
+  {
+    "name": "Patan Durbar Square",
+    "description": "Situated in the center of Lalitpur, this UNESCO World Heritage Site is a marvel of Newar architecture. The square is home to the medieval royal palace, along with a stunning array of temples and idols, including the famed Krishna Mandir.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Patan_Durbar_Square_entrance_2022.jpg/330px-Patan_Durbar_Square_entrance_2022.jpg",
+    "coordinates": {
+      "lat": 27.6735518,
+      "lon": 85.3252331
+    },
+    "categories": [
+      "Heritage",
+      "Hindu",
+      "Historical"
+    ]
+  },
+  {
+    "name": "Bhaktapur Durbar Square",
+    "description": "The royal palace plaza of the former Bhaktapur Kingdom and a UNESCO World Heritage Site. The square is famous for its rich culture and historical monuments, including the 55-Window Palace, the Golden Gate, and the nearby Nyatapola Temple.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Bhaktapur_Durbar_Square_area_at_dusk.jpg/330px-Bhaktapur_Durbar_Square_area_at_dusk.jpg",
+    "coordinates": {
+      "lat": 27.6721531,
+      "lon": 85.4283489
+    },
+    "categories": [
+      "Heritage",
+      "Hindu",
+      "Historical"
+    ]
+  },
+  {
+    "name": "Changu Narayan Temple",
+    "description": "Considered the oldest Hindu temple in Nepal, this ancient temple is dedicated to Lord Vishnu. Located on a high hilltop, it is adorned with some of the finest examples of stone, wood, and metal craft in the Kathmandu Valley.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Nepal_-_Changu_Narayan_%283566057331%29.jpg/330px-Nepal_-_Changu_Narayan_%283566057331%29.jpg",
+    "coordinates": {
+      "lat": 27.71635,
+      "lon": 85.42781
+    },
+    "categories": [
+      "Hindu",
+      "Nature",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Budhanilkantha Temple",
+    "description": "An open-air Hindu temple dedicated to Lord Vishnu, featuring a large reclining statue of the deity sleeping on a bed of cosmic serpents in a pool of water. It is a revered site for both Hindus and Buddhists.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Budhanilkantha_Narayan_Murti_%282023%29_-_IMG_03.jpg/330px-Budhanilkantha_Narayan_Murti_%282023%29_-_IMG_03.jpg",
+    "coordinates": {
+      "lat": 27.7686123,
+      "lon": 85.3653456
+    },
+    "categories": [
+      "Buddhist",
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Dakshinkali Temple",
+    "description": "A major Hindu temple dedicated to the goddess Kali, located 22 kilometers outside Kathmandu. It is one of the most important temples in Nepal and a primary site for animal sacrifices offered to the goddess.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Dakshin_Kali_main_Temple.JPG/330px-Dakshin_Kali_main_Temple.JPG",
+    "coordinates": {
+      "lat": 27.5975412,
+      "lon": 85.2633017
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Guhyeshwori Temple",
+    "description": "A revered Hindu temple dedicated to the goddess Guhyeshwori (a form of Sati/Parvati), located near Pashupatinath. It is considered a Shakti Peetha, a significant pilgrimage site where parts of Sati's body are believed to have fallen.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Guhyeshwari_Temple_in_Kathmandu.jpg/330px-Guhyeshwari_Temple_in_Kathmandu.jpg",
+    "coordinates": {
+      "lat": 27.7093225,
+      "lon": 85.3533478
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Krishna Mandir, Patan",
+    "description": "An exquisite Shikhara-style temple built in the 17th century, located in Patan Durbar Square. Constructed entirely of stone, it is famous for its intricate carvings depicting scenes from the Ramayana and Mahabharata epics.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Lalitpur_Patan_Durbar_Square_2023_02.jpg/330px-Lalitpur_Patan_Durbar_Square_2023_02.jpg",
+    "coordinates": {
+      "lat": 27.6733889,
+      "lon": 85.3253056
+    },
+    "categories": [
+      "Hindu"
+    ]
+  },
+  {
+    "name": "Nyatapola Temple",
+    "description": "Meaning 'five-story temple' in the Newar language, Nyatapola is Nepal's tallest pagoda temple. Commissioned in the early 18th century, this five-tiered structure is dedicated to the goddess Siddhi Lakshmi and is a masterpiece of architectural balance.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Kathmandu_und_Bhaktapur_2013-05-11_16-03-39.jpg/330px-Kathmandu_und_Bhaktapur_2013-05-11_16-03-39.jpg",
+    "coordinates": {
+      "lat": 27.6714891,
+      "lon": 85.4290324
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Dattatraya Temple",
+    "description": "Located in Bhaktapur's Dattatraya Square, this historic temple is dedicated to a syncretic deity combining Brahma, Vishnu, and Shiva. Legend holds that it was constructed from the wood of a single tree in the 15th century.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Dattatraya_Temple_Bhaktapur_Nepal_2022.jpg/330px-Dattatraya_Temple_Bhaktapur_Nepal_2022.jpg",
+    "coordinates": {
+      "lat": 27.67346,
+      "lon": 85.43536
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Taleju Bhawani Temple, Kathmandu",
+    "description": "A magnificent temple dedicated to Taleju Bhawani, the royal goddess of the Malla kings, located in Hanuman Dhoka. This temple is only open to the public once a year during the Dashain festival, adding to its mystique.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Taleju_Temple_%2817231063613%29_%28cropped%29_%28cropped%29.jpg/330px-Taleju_Temple_%2817231063613%29_%28cropped%29_%28cropped%29.jpg",
+    "coordinates": {
+      "lat": 27.7056111,
+      "lon": 85.3072222
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Akash Bhairav Temple",
+    "description": "Located in the busy market square of Indra Chowk in Kathmandu, this three-story temple is dedicated to Akash Bhairav, the 'god of the sky.' It plays a central role during the Indra Jatra festival, when the deity's idol is displayed.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Akash_Bhairab.JPG/330px-Akash_Bhairab.JPG",
+    "coordinates": {
+      "lat": 27.7063194,
+      "lon": 85.3102722
+    },
+    "categories": [
+      "Hindu",
+      "Market",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Kal Bhairav, Kathmandu",
+    "description": "A monumental 17th-century stone relief of Bhairav, a wrathful manifestation of Shiva, located in Kathmandu's Durbar Square. This large, terrifying image is an active open-air shrine and a major attraction within the UNESCO World Heritage site.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Kal_Bhairav%2C_Durbar_Square%2C_Kathmandu%2C_Nepal.jpg/330px-Kal_Bhairav%2C_Durbar_Square%2C_Kathmandu%2C_Nepal.jpg",
+    "coordinates": {
+      "lat": 27.7046835,
+      "lon": 85.3065412
+    },
+    "categories": [
+      "Heritage",
+      "Hindu",
+      "Historical"
+    ]
+  },
+  {
+    "name": "Sankata Temple",
+    "description": "A revered temple located at Te Bahal, Kathmandu, dedicated to the deity Sankata. The shrine is worshipped by both Hindus and Buddhists, especially on Saturdays, to ward off bad luck and sickness.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Sankata_Temple.jpg/330px-Sankata_Temple.jpg",
+    "coordinates": {
+      "lat": 27.7023806,
+      "lon": 85.31215
+    },
+    "categories": [
+      "Buddhist",
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Mahankal Temple, Kathmandu",
+    "description": "A significant Hindu temple dedicated to Mahankal, a wrathful form of Lord Shiva. Located near the city's center at Tundikhel, it is a major site of worship, drawing large crowds of devotees daily.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Mahankal_temple%2C_Kathmandu%2C_Nepal.JPG/330px-Mahankal_temple%2C_Kathmandu%2C_Nepal.JPG",
+    "coordinates": {
+      "lat": 27.7073115,
+      "lon": 85.3146958
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Shobha Bhagawati Temple",
+    "description": "A beautiful pagoda-style temple dedicated to the goddess Bhagawati, situated on the western bank of the Bishnumati River. The temple is an important site for rituals and worship, especially during the Dashain festival.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Shobha_Bhagwati_Temple_at_the_bank_of_Bishnumati_River.jpg/330px-Shobha_Bhagwati_Temple_at_the_bank_of_Bishnumati_River.jpg",
+    "coordinates": {
+      "lat": 27.7160752,
+      "lon": 85.3025184
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Naxal Bhagawati Temple",
+    "description": "A prominent and historically significant three-story pagoda temple located in the Naxal area of Kathmandu. It is dedicated to the goddess Bhagawati and is one of the most important Bhagawati temples in the valley.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Naxal_Bhagwati_Temple_at_Naxal%2C_Kathmandu.jpg/330px-Naxal_Bhagwati_Temple_at_Naxal%2C_Kathmandu.jpg",
+    "coordinates": {
+      "lat": 27.7176389,
+      "lon": 85.3283056
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Bajrayogini Temple, Sankhu",
+    "description": "A Tantric Buddhist temple complex located on a hilltop near the ancient town of Sankhu. Sacred to both Buddhists and Hindus, it is dedicated to the fierce goddess Vajrayogini and offers panoramic views of the surrounding valley.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Bajrayogini_Temple_at_Bajrayogini.jpg/330px-Bajrayogini_Temple_at_Bajrayogini.jpg",
+    "coordinates": {
+      "lat": 27.7471822,
+      "lon": 85.4831614
+    },
+    "categories": [
+      "Buddhist",
+      "Hindu",
+      "Nature",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Rato Macchindranath Temple, Patan",
+    "description": "A beautiful pagoda-style temple in Patan dedicated to Rato Macchindranath, the god of rain and harvest, who is revered by both Hindus and Buddhists. The temple is the center of the famous Rato Macchindranath Jatra, the longest chariot festival in Nepal.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Rato_Machhindranath_Temple%2C_Lalitpur%2C_Nepal.jpg/330px-Rato_Machhindranath_Temple%2C_Lalitpur%2C_Nepal.jpg",
+    "coordinates": {
+      "lat": 27.6763111,
+      "lon": 85.3230444
+    },
+    "categories": [
+      "Buddhist",
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Chandra Binayak Temple, Chabahil",
+    "description": "One of the four primary Ganesh temples of the Kathmandu Valley, this revered shrine is located in Chabahil. Devotees visit this temple to pray to Lord Ganesh for good fortune and the removal of obstacles.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Chandra_Binayak_Ganesh_Temple_at_Chabahil%2C_Kathmandu.jpg/330px-Chandra_Binayak_Ganesh_Temple_at_Chabahil%2C_Kathmandu.jpg",
+    "coordinates": {
+      "lat": 27.7173151,
+      "lon": 85.3465243
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Jalbinayak Temple, Chobhar",
+    "description": "A Hindu temple of Lord Ganesh located dramatically on a riverside cliff in Chobhar. It is one of the four original Ganesh temples of the Kathmandu Valley and is known for its picturesque and slightly precarious location.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Chobhar-Jal_Binayak-02-von_oben-2007-gje.jpg/330px-Chobhar-Jal_Binayak-02-von_oben-2007-gje.jpg",
+    "coordinates": {
+      "lat": 27.6584285,
+      "lon": 85.2935271
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Karyabinayak Mandir, Bungamati",
+    "description": "A peaceful Ganesh temple situated on a forested hill near the ancient Newar village of Bungamati. It is one of the four main 'Binayak' shrines in the valley and offers a serene atmosphere away from the city.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Karya_Binayak_Temple_at_Bungamati%2C_Lalitpur.jpg/330px-Karya_Binayak_Temple_at_Bungamati%2C_Lalitpur.jpg",
+    "coordinates": {
+      "lat": 27.6259341,
+      "lon": 85.2951987
+    },
+    "categories": [
+      "Hindu",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Adinath Temple, Chobhar",
+    "description": "A unique temple on a hilltop in Chobhar, sacred to both Hindus and Buddhists. The temple's facade is famously covered with a vast collection of metal pots, pans, and vessels nailed to the walls as offerings by devotees.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Adinath_Lokeshwar_Temple_at_Chobhar.jpg/330px-Adinath_Lokeshwar_Temple_at_Chobhar.jpg",
+    "coordinates": {
+      "lat": 27.6558112,
+      "lon": 85.2844356
+    },
+    "categories": [
+      "Buddhist",
+      "Hindu",
+      "Nature",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Doleshwor Mahadev Temple, Bhaktapur",
+    "description": "A revered temple of Lord Shiva, officially recognized as the head of the deity Kedarnath located in India. This recognition makes it a significant pilgrimage site for devotees who cannot make the journey to the main shrine.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Doleshwar_Mahadev.jpg/330px-Doleshwar_Mahadev.jpg",
+    "coordinates": {
+      "lat": 27.6389722,
+      "lon": 85.43825
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Ashok Binayak Temple",
+    "description": "One of the four original Ganesh temples in the Kathmandu Valley, located in Maru Tol near Durbar Square. It is often called 'Maru Ganesh' and is unique for not having a gajur (pinnacle) on its roof.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Ashok_Binayak_Temple%2C_Maru%2C_Kathmandu.jpg/330px-Ashok_Binayak_Temple%2C_Maru%2C_Kathmandu.jpg",
+    "coordinates": {
+      "lat": 27.7038444,
+      "lon": 85.3053167
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Kirateshwar Mahadev Temple",
+    "description": "A sacred Shiva temple located on a forested hill within the Pashupatinath area, across the Bagmati River. It holds special significance for the Kirati people and is famous for hosting classical music concerts on full moon nights.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Kirateshwar_Mahadev_Temple.jpg/330px-Kirateshwar_Mahadev_Temple.jpg",
+    "coordinates": {
+      "lat": 27.7101222,
+      "lon": 85.351975
+    },
+    "categories": [
+      "Hindu",
+      "Nature",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Seto Machhindranath Temple",
+    "description": "Located in the Jana Baha courtyard of central Kathmandu, this temple is dedicated to the 'White' Machhindranath (a form of Avalokiteshvara). It is a beautiful example of temple architecture and the focus of an annual chariot festival.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Seto_Machchhindra_03.jpg/330px-Seto_Machchhindra_03.jpg",
+    "coordinates": {
+      "lat": 27.7062333,
+      "lon": 85.3113
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Sheshnarayan Temple",
+    "description": "An ancient Hindu temple complex near the town of Pharping, dedicated to Lord Vishnu. The site is notable for its four ponds and the main deity image carved into a rock face, representing Vishnu resting on the cosmic serpent, Shesha.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Lord_Bishnu-Shesh_Narayan.JPG/330px-Lord_Bishnu-Shesh_Narayan.JPG",
+    "coordinates": {
+      "lat": 27.6189215,
+      "lon": 85.2673451
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Gokarneshwor Mahadev Temple",
+    "description": "A large and historically significant pagoda-style temple complex dedicated to Lord Shiva, located several kilometers northeast of Kathmandu. It is a major site for performing ancestor-worship rituals, especially during Gokarna Aunsi.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/CGokarnaMahadev.jpg/330px-CGokarnaMahadev.jpg",
+    "coordinates": {
+      "lat": 27.7395833,
+      "lon": 85.3879167
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Kumbheshwar Temple, Patan",
+    "description": "One of the oldest temples in Patan, built in the 14th century, and one of only two five-story pagoda temples in the valley. Dedicated to Shiva, its complex contains a natural spring and is a site of a major festival on Janai Purnima.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/A_morning_at_Kumbeshwar_Temple%2C_Patan_%28January_2023%29_-_IMG_09.jpg/330px-A_morning_at_Kumbeshwar_Temple%2C_Patan_%28January_2023%29_-_IMG_09.jpg",
+    "coordinates": {
+      "lat": 27.6767351,
+      "lon": 85.3259424
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Bagalamukhi Temple, Patan",
+    "description": "A highly revered temple dedicated to the goddess Bagalamukhi, one of the ten great Mahavidyas (wisdom goddesses) in Hinduism. It is located within the precinct of the Kumbheshwar Temple in Patan and attracts large numbers of worshippers daily.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Bagalamukhi_Temple_in_Patan_2.jpg/330px-Bagalamukhi_Temple_in_Patan_2.jpg",
+    "coordinates": {
+      "lat": 27.6766111,
+      "lon": 85.3258333
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Indreshwar Mahadev Temple, Panauti",
+    "description": "The main temple in the historic town of Panauti, dedicated to Lord Shiva. It is one of the oldest and largest surviving wooden pagoda temples in Nepal and stands at the sacred confluence of the Rosi and Punyamati rivers.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Indreshwor_Mahadev_Temple_Panauti_Nepal.jpg/330px-Indreshwor_Mahadev_Temple_Panauti_Nepal.jpg",
+    "coordinates": {
+      "lat": 27.5855278,
+      "lon": 85.5195
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Santaneshwor Mahadev Temple",
+    "description": "A popular Shiva temple located on a scenic hill in Jharuwarasi, Lalitpur, offering panoramic views of the Kathmandu Valley. The temple is especially popular among devotees praying for children (santān).",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Santaneshwor_Mahadev_Temple.jpg/330px-Santaneshwor_Mahadev_Temple.jpg",
+    "coordinates": {
+      "lat": 27.6111389,
+      "lon": 85.3525
+    },
+    "categories": [
+      "Hindu",
+      "Nature",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Amitabha Monastery",
+    "description": "Also known as the Druk Amitabha Mountain, this large Buddhist monastery is renowned for its impressive statues, murals, and panoramic views of the Kathmandu valley. The monastery is also famous for its 'Kung Fu Nuns'.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/AmitabhMonastery.jpg/330px-AmitabhMonastery.jpg",
+    "coordinates": {
+      "lat": 27.6433333,
+      "lon": 85.3166667
+    },
+    "categories": [
+      "Buddhist",
+      "Monastery"
+    ]
+  },
+  {
+    "name": "Boudha Stupa",
+    "description": "One of the largest spherical stupas in the world and a UNESCO World Heritage Site. Located in the Boudha area of Kathmandu, it is a focal point of Tibetan Buddhism in Nepal, with its massive mandala and all-seeing eyes of the Buddha.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Boudhanath_stupa_%2C_Kathmandu%2C_Nepal.jpg/330px-Boudhanath_stupa_%2C_Kathmandu%2C_Nepal.jpg",
+    "coordinates": {
+      "lat": 27.7215312,
+      "lon": 85.3615738
+    },
+    "categories": [
+      "Buddhist",
+      "Heritage",
+      "Historical",
+      "Stupa"
+    ]
+  },
+  {
+    "name": "Ka-Nying Shedrub Ling",
+    "description": "A prominent Tibetan Buddhist monastery near the great Boudha Stupa in Kathmandu. Representing both the Kagyu and Nyingma schools, it serves as a major center for Buddhist study and practice for both Nepali and international students.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Ka-Nying_Shedrub_Ling.jpg/330px-Ka-Nying_Shedrub_Ling.jpg",
+    "coordinates": {
+      "lat": 27.7239861,
+      "lon": 85.36275
+    },
+    "categories": [
+      "Buddhist"
+    ]
+  },
+  {
+    "name": "Kindo Baha",
+    "description": "A historic Buddhist monastery (vihara) located near Swayambhu Hill. It was a central hub for the revival of Theravada Buddhism in Nepal during the early 20th century.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Aksobhya_kimdol_1687.jpg/330px-Aksobhya_kimdol_1687.jpg",
+    "coordinates": {
+      "lat": 27.7126111,
+      "lon": 85.2951944
+    },
+    "categories": [
+      "Buddhist",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Kopan Monastery",
+    "description": "A prominent Tibetan Buddhist monastery perched on a hill overlooking the Boudhanath stupa. It is a major center for Buddhist study and meditation courses, belonging to the Foundation for the Preservation of the Mahayana Tradition (FPMT).",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Kopan_01.JPG/330px-Kopan_01.JPG",
+    "coordinates": {
+      "lat": 27.7423611,
+      "lon": 85.3643056
+    },
+    "categories": [
+      "Buddhist",
+      "Monastery",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Pranidhipurna Mahavihar",
+    "description": "A key Theravada Buddhist monastery located in Balambu, on the western outskirts of Kathmandu. The monastery played a crucial role in the revival of Theravada Buddhism in Nepal during the mid-20th century.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Balambu_bihar_kathmandu.jpg/330px-Balambu_bihar_kathmandu.jpg",
+    "coordinates": {
+      "lat": 27.6975278,
+      "lon": 85.253
+    },
+    "categories": [
+      "Buddhist",
+      "Monastery"
+    ]
+  },
+  {
+    "name": "Seto Gumba (Druk Amitabh Mountain)",
+    "description": "A beautiful Buddhist monastery also known as 'White Monastery', located on a hill north of Swayambhu. It is renowned for its stunning murals, serene atmosphere, and breathtaking sunrise and sunset views over the Kathmandu Valley.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Seto_Gumba_Kathmandu.jpg/330px-Seto_Gumba_Kathmandu.jpg",
+    "coordinates": {
+      "lat": 27.7258056,
+      "lon": 85.2613056
+    },
+    "categories": [
+      "Buddhist",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Swayambhunath Stupa",
+    "description": "An ancient religious complex atop a hill west of Kathmandu city, also known as the 'Monkey Temple'. It is one of the most sacred Buddhist sites in Nepal, featuring a large stupa with the all-seeing eyes of Buddha, surrounded by temples and shrines.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Swayambhu%2C_Kathmandu%2C_Nepal.jpg/330px-Swayambhu%2C_Kathmandu%2C_Nepal.jpg",
+    "coordinates": {
+      "lat": 27.7149722,
+      "lon": 85.29025
+    },
+    "categories": [
+      "Buddhist",
+      "Hindu",
+      "Nature",
+      "Stupa"
+    ]
+  },
+  {
+    "name": "Tergar Osel Ling Monastery",
+    "description": "A Tibetan Buddhist monastery located on the hills near Swayambhu. It is the main Himalayan monastery of the Tergar Meditation Community, led by the renowned meditation master Yongey Mingyur Rinpoche.",
+    "image": null,
+    "coordinates": {
+      "lat": 27.7179639,
+      "lon": 85.2766722
+    },
+    "categories": [
+      "Buddhist",
+      "Monastery",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Vidhyeshvari Vajra Yogini Temple",
+    "description": "A Newar Buddhist temple on the west bank of the Bishnumati River, near Swayambhu. It is dedicated to the tantric deity Vajrayogini and is an important stop on the pilgrimage route between Kathmandu Durbar Square and Swayambhunath.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Bidjeswori_temple_2016-06-06.jpg/330px-Bidjeswori_temple_2016-06-06.jpg",
+    "coordinates": {
+      "lat": 27.7169111,
+      "lon": 85.2994806
+    },
+    "categories": [
+      "Buddhist",
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Hiranya Varna Mahavihar (Golden Temple)",
+    "description": "A historical Buddhist monastery (vihara) located in Patan, popularly known as the Golden Temple. This magnificent three-story pagoda is famed for its gilded roof and facade, intricate decorative metalwork, and serene courtyard.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/2015-03-30_04-15_Nepal_926_Patan%2C_Lalitpur%2C_Golden_Temple_%2816769604853%29.jpg/330px-2015-03-30_04-15_Nepal_926_Patan%2C_Lalitpur%2C_Golden_Temple_%2816769604853%29.jpg",
+    "coordinates": {
+      "lat": 27.6754167,
+      "lon": 85.3248333
+    },
+    "categories": [
+      "Buddhist",
+      "Hindu",
+      "Monastery",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Taudaha Lake",
+    "description": "A tranquil freshwater lake on the southern outskirts of Kathmandu, known for its rich birdlife, especially migratory birds. It holds local legends connecting it to the serpent kings (Nagas) and is a peaceful escape from the city.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Photowalk_WLE_2023_in_Nepal_-_July_8_-_6.jpg/500px-Photowalk_WLE_2023_in_Nepal_-_July_8_-_6.jpg",
+    "coordinates": {
+      "lat": 27.6487139,
+      "lon": 85.2820306
+    },
+    "categories": [
+      "Lake",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Siddha Pokhari",
+    "description": "A historic and large rectangular man-made pond located near the main gate of Bhaktapur city. It's a popular spot for locals to relax and offers serene views, especially in the evening.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Siddha_Pokhari%2C_Bhaktapur.jpg/500px-Siddha_Pokhari%2C_Bhaktapur.jpg",
+    "coordinates": {
+      "lat": 27.6719822,
+      "lon": 85.42123
+    },
+    "categories": [
+      "Lake"
+    ]
+  },
+  {
+    "name": "Kamal Pokhari",
+    "description": "A historic pond in a central Kathmandu neighborhood, known for its lotus blooms ('Kamal') during season. Recently renovated, it serves as an important public space for recreation and relaxation.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Kamal_Pokhari_Historic_Pond_Kathmandu%2C_Nepal_Rajesh_Dhungana.jpg/500px-Kamal_Pokhari_Historic_Pond_Kathmandu%2C_Nepal_Rajesh_Dhungana.jpg",
+    "coordinates": {
+      "lat": 27.7107111,
+      "lon": 85.3251972
+    },
+    "categories": [
+      "Lake"
+    ]
+  },
+  {
+    "name": "Nag Pokhari (Naxal)",
+    "description": "A historic pond in Naxal, Kathmandu, featuring a prominent statue of a serpent (Nag) in its center. It's a significant cultural site, especially during the Nag Panchami festival dedicated to serpent deities.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Nag_Panchami_at_Nag_Pokhari%2C_Naxal_Kathmandu_Nepal-070A0773.jpg/500px-Nag_Panchami_at_Nag_Pokhari%2C_Naxal_Kathmandu_Nepal-070A0773.jpg",
+    "coordinates": {
+      "lat": 27.7132333,
+      "lon": 85.3246222
+    },
+    "categories": [
+      "Lake"
+    ]
+  },
+  {
+    "name": "Nagdaha",
+    "description": "A large natural lake located in Dhapakhel, Lalitpur, believed to be the ancient abode of the serpent king Nagraj. It's a vital wetland for various bird species and a popular local pilgrimage and recreational site.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/NagDaha_%283544462830%29.jpg/500px-NagDaha_%283544462830%29.jpg",
+    "coordinates": {
+      "lat": 27.6322389,
+      "lon": 85.3128944
+    },
+    "categories": [
+      "Lake",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Pimbahal Pond",
+    "description": "A traditional square-shaped pond located in a historic neighborhood of Patan, Lalitpur. Surrounded by ancient stupas and Newari architecture, it serves as a serene community gathering point.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Pimbhaal_pukhu_or_pond_pimbahal_patan.jpg/500px-Pimbhaal_pukhu_or_pond_pimbahal_patan.jpg",
+    "coordinates": {
+      "lat": 27.6709889,
+      "lon": 85.3204111
+    },
+    "categories": [
+      "Buddhist",
+      "Lake"
+    ]
+  },
+  {
+    "name": "Ikha Pokhari",
+    "description": "A historic pond located near the Itum Bahal courtyard in Kathmandu's old city. It's a smaller, traditional pond reflecting the historical water management systems and community life of the valley.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Kanya_mandir_school_and_ikha_pokhari_pond.jpg/500px-Kanya_mandir_school_and_ikha_pokhari_pond.jpg",
+    "coordinates": {
+      "lat": 27.7055,
+      "lon": 85.3045
+    },
+    "categories": [
+      "Lake"
+    ]
+  },
+  {
+    "name": "Bhandarkhal Pond",
+    "description": "A historic pond located within the royal garden complex of Patan Durbar Square. Part of the traditional water features of the Malla era, it is surrounded by lush greenery and historical structures.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Bhandarkhal_Pokhari_%28Kamal_Pokhari%29.jpg/330px-Bhandarkhal_Pokhari_%28Kamal_Pokhari%29.jpg",
+    "coordinates": {
+      "lat": 27.6738111,
+      "lon": 85.3253
+    },
+    "categories": [
+      "Lake",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Tusha Hiti",
+    "description": "A magnificent sunken royal bath and stone spout (hiti) located within Sundari Chowk of Patan Durbar Square. Known for its exquisite stone carvings of deities and gilded serpent spout, it's a masterpiece of Malla-era water architecture.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Tusha_Hiti_at_Sundari_Chowk%2C_Patan_Durbar_Square.jpg/330px-Tusha_Hiti_at_Sundari_Chowk%2C_Patan_Durbar_Square.jpg",
+    "coordinates": {
+      "lat": 27.6739,
+      "lon": 85.3255
+    },
+    "categories": [
+      "Cultural"
+    ]
+  },
+  {
+    "name": "Naag Pokhari (Bhaktapur)",
+    "description": "A historic royal pond located within the complex of Bhaktapur Durbar Square, next to the 55-Window Palace. It is known for its coiled serpent sculpture in the center and was once the ritual bathing spot for the Malla royalty.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Bhaktapur_Durbar_Square%2C_NepalIMG_8371_2018_14.jpg/500px-Bhaktapur_Durbar_Square%2C_NepalIMG_8371_2018_14.jpg",
+    "coordinates": {
+      "lat": 27.6725,
+      "lon": 85.429
+    },
+    "categories": [
+      "Lake"
+    ]
+  },
+  {
+    "name": "Thamel",
+    "description": "The vibrant and bustling heart of Kathmandu's tourist industry for over four decades. This lively neighborhood is a maze of narrow streets packed with hotels, restaurants, trekking agencies, and shops selling everything from handicrafts to mountaineering gear.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Thamel_at_night_-_Kathmandu%2C_Nepal_-_panoramio_%281%29.jpg/330px-Thamel_at_night_-_Kathmandu%2C_Nepal_-_panoramio_%281%29.jpg",
+    "coordinates": {
+      "lat": 27.7151556,
+      "lon": 85.3102194
+    },
+    "categories": [
+      "Cultural"
+    ]
+  },
+  {
+    "name": "Asan Bazaar",
+    "description": "A historic and chaotic bazaar square in central Kathmandu, serving as one of the city's main marketplaces for centuries. This vibrant intersection of six streets is famed for its traditional architecture, temples, and bustling trade in spices, textiles, and household goods.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/AnnapurnaAjima1.jpg/330px-AnnapurnaAjima1.jpg",
+    "coordinates": {
+      "lat": 27.7075,
+      "lon": 85.3122222
+    },
+    "categories": [
+      "Hindu",
+      "Market",
+      "Urban"
+    ]
+  },
+  {
+    "name": "Indra Chowk",
+    "description": "One of the most historic market squares in Kathmandu, located on the ancient trade route to Tibet. The Chowk is a bustling intersection known for its textile merchants and the prominent Akash Bhairav Temple.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Wangah_square.jpg/330px-Wangah_square.jpg",
+    "coordinates": {
+      "lat": 27.7063194,
+      "lon": 85.3102722
+    },
+    "categories": [
+      "Hindu",
+      "Market",
+      "Urban"
+    ]
+  },
+  {
+    "name": "New Road",
+    "description": "The financial hub and a busy high street in Kathmandu, created after the 1934 earthquake. It is one of the city's primary modern marketplaces, famous for its clothing, jewelry, and electronics shops, all centered around the iconic New Road Gate.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/%E0%A4%A8%E0%A5%8D%E0%A4%B9%E0%A5%81%E0%A4%B8%E0%A4%A4%E0%A4%95.JPG/330px-%E0%A4%A8%E0%A5%8D%E0%A4%B9%E0%A5%81%E0%A4%B8%E0%A4%A4%E0%A4%95.JPG",
+    "coordinates": {
+      "lat": 27.7034167,
+      "lon": 85.3123611
+    },
+    "categories": [
+      "Market",
+      "Urban"
+    ]
+  },
+  {
+    "name": "Durbar Marg",
+    "description": "An upscale, broad avenue in Kathmandu leading to the former Narayanhiti Royal Palace. It is considered the city's luxurious heart, flanked by high-end hotels, restaurants, brand-name stores, and commercial headquarters.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Royalpalacektm2006.JPG/330px-Royalpalacektm2006.JPG",
+    "coordinates": {
+      "lat": 27.7128333,
+      "lon": 85.3183056
+    },
+    "categories": [
+      "Urban"
+    ]
+  },
+  {
+    "name": "Patan Durbar Square Market",
+    "description": "The vibrant market area in and around the historic Patan Durbar Square. Visitors can find a rich collection of traditional Newari handicrafts, metal statues, wood carvings, and paintings sold in shops that blend with the ancient architecture.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Lalitpur_Patan_Durbar_Square_2023_02.jpg/330px-Lalitpur_Patan_Durbar_Square_2023_02.jpg",
+    "coordinates": {
+      "lat": 27.6735518,
+      "lon": 85.3252331
+    },
+    "categories": [
+      "Heritage",
+      "Historical",
+      "Market",
+      "Urban"
+    ]
+  },
+  {
+    "name": "Bhaktapur Durbar Square Market",
+    "description": "A marketplace integrated within the ancient city of Bhaktapur, known for its unique pottery, paper crafts (lokta), wood carvings, and the famous 'Ju Ju Dhau' (King's Curd). Shops are set among historic temples and palaces.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Pottery_Square%2C_Bhaktapur_01.jpg/330px-Pottery_Square%2C_Bhaktapur_01.jpg",
+    "coordinates": {
+      "lat": 27.6721531,
+      "lon": 85.4283489
+    },
+    "categories": [
+      "Heritage",
+      "Hindu",
+      "Historical",
+      "Market",
+      "Urban"
+    ]
+  },
+  {
+    "name": "Freak Street (Jhochhen Tole)",
+    "description": "The historic street south of Kathmandu Durbar Square that was the epicenter of the hippie trail in the 1960s and 70s. Today, it retains a bohemian vibe with budget guesthouses, small eateries, and handicraft shops.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Legal_hashish_shop_in_Kathmandu%2C_Nepal_in_1973.jpg/330px-Legal_hashish_shop_in_Kathmandu%2C_Nepal_in_1973.jpg",
+    "coordinates": {
+      "lat": 27.7027361,
+      "lon": 85.3071861
+    },
+    "categories": [
+      "Nature"
+    ]
+  },
+  {
+    "name": "National Museum of Nepal",
+    "description": "Located near the Swayambhu stupa, this is the largest museum in Nepal. It houses a vast collection of archaeological finds, historical artifacts, weapons, and art, including a renowned gallery dedicated to Buddhist art.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Nepal.Museum.JPG/330px-Nepal.Museum.JPG",
+    "coordinates": {
+      "lat": 27.7056,
+      "lon": 85.289
+    },
+    "categories": [
+      "Buddhist",
+      "Cultural",
+      "Museum"
+    ]
+  },
+  {
+    "name": "Patan Museum",
+    "description": "Housed in a meticulously restored palace in Patan Durbar Square, this museum is considered one of the finest in South Asia. It showcases Nepal's traditional sacred art, primarily Hindu and Buddhist bronze statues and gilt work.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Patan_Museum_Nepal_-_Courtyard_and_main_building.jpg/330px-Patan_Museum_Nepal_-_Courtyard_and_main_building.jpg",
+    "coordinates": {
+      "lat": 27.6739167,
+      "lon": 85.3255
+    },
+    "categories": [
+      "Buddhist",
+      "Cultural",
+      "Hindu",
+      "Museum"
+    ]
+  },
+  {
+    "name": "Narayanhiti Palace Museum",
+    "description": "The former royal palace of the Kingdom of Nepal, now a public museum. Visitors can tour the opulent halls, royal bedrooms, and throne room, gaining insight into the lives of Nepal's former monarchs.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Narayanhiti_Palace_Museum%2C_crop.jpg/330px-Narayanhiti_Palace_Museum%2C_crop.jpg",
+    "coordinates": {
+      "lat": 27.7156111,
+      "lon": 85.31975
+    },
+    "categories": [
+      "Cultural",
+      "Museum",
+      "Palace"
+    ]
+  },
+  {
+    "name": "Taragaon Museum",
+    "description": "A private museum near Boudhanath documenting the history of tourism and cultural heritage preservation in the Kathmandu Valley. It showcases architectural drawings, photos, and artworks from foreign artists who visited Nepal in the 20th century.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/The_Taragaon_Museum.jpg/330px-The_Taragaon_Museum.jpg",
+    "coordinates": {
+      "lat": 27.7204806,
+      "lon": 85.3562472
+    },
+    "categories": [
+      "Cultural",
+      "Heritage",
+      "Historical",
+      "Museum"
+    ]
+  },
+  {
+    "name": "Nepal Art Council Gallery",
+    "description": "A non-profit organization established in 1962 to promote Nepali art and artists. Its gallery in Baber Mahal hosts a wide variety of exhibitions, from traditional art to contemporary installations.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Nepal_Art_Council_at_Babar_Mahal_Revisited.jpg/330px-Nepal_Art_Council_at_Babar_Mahal_Revisited.jpg",
+    "coordinates": {
+      "lat": 27.6920278,
+      "lon": 85.3235
+    },
+    "categories": [
+      "Art",
+      "Cultural",
+      "Museum"
+    ]
+  },
+  {
+    "name": "Siddhartha Art Gallery",
+    "description": "A prominent contemporary art gallery located in the Baber Mahal Revisited complex. It plays a crucial role in promoting modern and contemporary Nepali artists and hosts a wide range of exhibitions and events.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Babar_Mahal_Revisited.jpg/330px-Babar_Mahal_Revisited.jpg",
+    "coordinates": {
+      "lat": 27.6922222,
+      "lon": 85.3236111
+    },
+    "categories": [
+      "Art",
+      "Cultural",
+      "Museum"
+    ]
+  },
+  {
+    "name": "Museum of Nepali Art (MONA)",
+    "description": "Located in the Kathmandu Guest House complex in Thamel, MONA is dedicated to showcasing the continuity of traditional Nepali art forms, including Paubha painting and metal sculpture, into the contemporary era.",
+    "image": null,
+    "coordinates": {
+      "lat": 27.717,
+      "lon": 85.313
+    },
+    "categories": [
+      "Art",
+      "Cultural",
+      "Museum"
+    ]
+  },
+  {
+    "name": "Nepal Academy of Fine Arts Gallery (NAFA)",
+    "description": "The official art gallery of the Nepal Academy of Fine Arts (NAFA), located in Sita Bhawan, Naxal. It serves as a national platform for exhibiting a diverse range of Nepali art, from traditional to contemporary.",
+    "image": null,
+    "coordinates": {
+      "lat": 27.7196111,
+      "lon": 85.3283056
+    },
+    "categories": [
+      "Art",
+      "Cultural",
+      "Museum"
+    ]
+  },
+  {
+    "name": "Natural History Museum of Nepal",
+    "description": "Located at the foot of Swayambhu Hill, this museum is dedicated to the rich flora and fauna of Nepal. It houses a vast collection of specimens, including insects, butterflies, birds, mammals, and plant fossils.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Natural_History_Museum_Nepal_-_2.jpg/330px-Natural_History_Museum_Nepal_-_2.jpg",
+    "coordinates": {
+      "lat": 27.7146389,
+      "lon": 85.2878056
+    },
+    "categories": [
+      "Cultural",
+      "Museum",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Hanuman Dhoka Palace Museum",
+    "description": "The museum complex within the old royal palace in Kathmandu Durbar Square. It includes several wings, such as the Tribhuvan Museum, dedicated to showcasing the lives and artifacts of Nepal's Shah dynasty kings.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Hanuman_Dhoka_Durbar_Square_Kathmandu_%282023%29_01.jpg/330px-Hanuman_Dhoka_Durbar_Square_Kathmandu_%282023%29_01.jpg",
+    "coordinates": {
+      "lat": 27.7042222,
+      "lon": 85.3075
+    },
+    "categories": [
+      "Cultural",
+      "Museum",
+      "Palace"
+    ]
+  },
+  {
+    "name": "Nepalese Army Museum",
+    "description": "Located in the Chhauni area of Kathmandu, this museum showcases Nepal's military history, from ancient times to modern UN peacekeeping missions. Exhibits include historical weapons, uniforms, and dioramas.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Nepalese_Army_Museum_at_Chhauni%2C_Kathmandu.jpg/330px-Nepalese_Army_Museum_at_Chhauni%2C_Kathmandu.jpg",
+    "coordinates": {
+      "lat": 27.7065,
+      "lon": 85.2905
+    },
+    "categories": [
+      "Cultural",
+      "Museum"
+    ]
+  },
+  {
+    "name": "Nepal Money Museum",
+    "description": "The Nepal Money Museum, operated by the Nepal Rastra Bank, is located in Baluwatar. It displays a comprehensive collection of Nepali coins and banknotes, tracing the country's monetary history from ancient times to the present day.",
+    "image": null,
+    "coordinates": {
+      "lat": 27.721,
+      "lon": 85.3289
+    },
+    "categories": [
+      "Cultural",
+      "Museum"
+    ]
+  },
+  {
+    "name": "Nepal Postal Museum",
+    "description": "Located within the historic General Post Office (GPO) building near Dharahara, this museum showcases the history of postal services in Nepal. It features a collection of stamps, postmarks, and other philatelic materials.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/General_Post_Office%2C_Sundhara%2C_Kathmandu.JPG/330px-General_Post_Office%2C_Sundhara%2C_Kathmandu.JPG",
+    "coordinates": {
+      "lat": 27.7003056,
+      "lon": 85.3116111
+    },
+    "categories": [
+      "Cultural",
+      "Museum"
+    ]
+  },
+  {
+    "name": "Patan Industrial Estate",
+    "description": "An industrial area in Lalitpur that houses numerous workshops and showrooms for Nepali handicrafts. Visitors can tour facilities producing metalwork, carpets, and wood carvings, effectively serving as a living museum of Nepali craft.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Patan_Industrial_Estate.jpg/330px-Patan_Industrial_Estate.jpg",
+    "coordinates": {
+      "lat": 27.6595,
+      "lon": 85.3168
+    },
+    "categories": [
+      "Industrial"
+    ]
+  },
+  {
+    "name": "Changunarayan Living Traditional Museum",
+    "description": "A private museum located near the Changu Narayan Temple complex. It displays a collection of ancient coins, tools, and artifacts, alongside demonstrating traditional Newari life, culture, and architecture.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Nepal_-_Changu_Narayan_%283566057331%29.jpg/330px-Nepal_-_Changu_Narayan_%283566057331%29.jpg",
+    "coordinates": {
+      "lat": 27.7163056,
+      "lon": 85.4280278
+    },
+    "categories": [
+      "Cultural",
+      "Hindu",
+      "Museum"
+    ]
+  },
+  {
+    "name": "Garden of Dreams",
+    "description": "A beautifully restored neo-classical garden located next to Thamel. Created in the 1920s, it is a serene oasis with pavilions, fountains, and exotic plants, offering a peaceful escape from the city's hustle.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Garden_of_Dreams.jpg/500px-Garden_of_Dreams.jpg",
+    "coordinates": {
+      "lat": 27.7121667,
+      "lon": 85.3153333
+    },
+    "categories": [
+      "Garden",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Central Zoo",
+    "description": "The only national zoo in Nepal, located in Jawalakhel, Lalitpur. Established in 1932, it houses a variety of native and international animals and serves as a center for wildlife conservation and education.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Pond_inside_the_central_zoo%2C_Jawalakhel.jpg/500px-Pond_inside_the_central_zoo%2C_Jawalakhel.jpg",
+    "coordinates": {
+      "lat": 27.6712,
+      "lon": 85.3125
+    },
+    "categories": [
+      "Park"
+    ]
+  },
+  {
+    "name": "Shivapuri Nagarjun National Park",
+    "description": "Located on the northern fringe of the Kathmandu Valley, this protected area is the valley's primary water source. It offers rich biodiversity, numerous hiking trails, and spiritual sites, including the origins of the Bagmati and Bishnumati rivers.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/A_view_of_Shivapuri_national_park_from_Sundarijal.jpg/500px-A_view_of_Shivapuri_national_park_from_Sundarijal.jpg",
+    "coordinates": {
+      "lat": 27.7958333,
+      "lon": 85.40925
+    },
+    "categories": [
+      "National",
+      "Nature",
+      "Park"
+    ]
+  },
+  {
+    "name": "National Botanical Garden, Godawari",
+    "description": "Officially known as the National Botanical Garden, this expansive garden located in Godawari is a center for plant conservation, education, and research. It is renowned for its rich collection of indigenous and exotic plants, featuring special-themed gardens like the Orchid House, Fern Garden, and Rock Garden.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/National_Botanical_Garden%2C_Godawari%2C_Lalitpur.jpg/1280px-National_Botanical_Garden%2C_Godawari%2C_Lalitpur.jpg",
+    "coordinates": {
+      "lat": 27.6159671,
+      "lon": 85.3853118
+    },
+    "categories": [
+      "Garden",
+      "National",
+      "Nature",
+      "Park"
+    ]
+  },
+  {
+    "name": "Nagarkot",
+    "description": "A famous hill station east of Kathmandu, celebrated for its breathtaking panoramic views of the Himalayan range, including Annapurna, Manaslu, Ganesh Himal, Langtang, and, on exceptionally clear days, Mount Everest. It's a popular destination for sunrise and sunset views over the mountains.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/View_from_Nagarkot.jpg/1280px-View_from_Nagarkot.jpg",
+    "coordinates": {
+      "lat": 27.7173875,
+      "lon": 85.5212881
+    },
+    "categories": [
+      "Hindu",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Rani Pokhari",
+    "description": "A historic artificial pond located in the heart of Kathmandu. Built in the 17th century, it holds deep cultural and religious significance. At its center is a temple dedicated to Lord Shiva. The pond was extensively renovated after the 2015 earthquake and is particularly important during the festivals of Tihar and Chhath.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Rani_Pokhari_after_reconstruction_2020.jpg/1280px-Rani_Pokhari_after_reconstruction_2020.jpg",
+    "coordinates": {
+      "lat": 27.7086889,
+      "lon": 85.31495
+    },
+    "categories": [
+      "Hindu",
+      "Lake"
+    ]
+  },
+  {
+    "name": "Budhanilkantha Temple",
+    "description": "A significant Hindu open-air temple dedicated to Lord Vishnu. The site is famous for its large reclining statue of Vishnu, carved from a single block of black basalt stone, making it the largest stone carving in Nepal. The statue appears to float in a sacred pond, and the temple is an important pilgrimage site for Hindus.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Budhanilkantha_Temple_premises.jpg/1280px-Budhanilkantha_Temple_premises.jpg",
+    "coordinates": {
+      "lat": 27.76865,
+      "lon": 85.3644028
+    },
+    "categories": [
+      "Hindu",
+      "Temple"
+    ]
+  },
+  {
+    "name": "Bhrikutimandap Park",
+    "description": "A large recreational area and exhibition center in Kathmandu. It features sprawling gardens, an amusement park known as 'Fun Park,' and several halls used for national and international trade fairs, conventions, and events. It serves as a major social and commercial hub in the city.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Bhrikutimandap_Exhibition_Hall.jpg/1024px-Bhrikutimandap_Exhibition_Hall.jpg",
+    "coordinates": {
+      "lat": 27.7011111,
+      "lon": 85.3188889
+    },
+    "categories": [
+      "Nature",
+      "Park"
+    ]
+  },
+  {
+    "name": "Sundarijal",
+    "description": "A scenic area at the foothills of the Shivapuri Nagarjun National Park, known for its picturesque waterfalls, canyons, and river. It serves as a popular gateway for hiking and trekking, and also holds historical significance with one of Nepal's oldest hydro-power stations. It is a major source of drinking water for the Kathmandu Valley.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sundarijal_Dam.jpg/1280px-Sundarijal_Dam.jpg",
+    "coordinates": {
+      "lat": 27.7554972,
+      "lon": 85.4217111
+    },
+    "categories": [
+      "Hindu",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Chandragiri Hills",
+    "description": "A prominent hill southwest of Kathmandu, accessible by a modern cable car. The summit features the Bhaleshwor Mahadev Temple, a park, and a viewing tower that offers stunning 360-degree views of the Kathmandu Valley and the vast Himalayan ranges from Annapurna to Everest on clear days.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Chandragiri_Hills_Resort.jpg/1280px-Chandragiri_Hills_Resort.jpg",
+    "coordinates": {
+      "lat": 27.6775861,
+      "lon": 85.2215306
+    },
+    "categories": [
+      "Hill",
+      "Hindu",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Champadevi Hill",
+    "description": "A popular hiking destination located on the southwestern rim of the Kathmandu Valley. The trail leads through lush pine forests to the summit, which hosts a small Buddhist and Hindu shrine. It offers excellent panoramic views of the city and the central and western Himalayan ranges.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Stupa_at_the_top_of_Champadevi_Hill.jpg/1280px-Stupa_at_the_top_of_Champadevi_Hill.jpg",
+    "coordinates": {
+      "lat": 27.6391472,
+      "lon": 85.2638861
+    },
+    "categories": [
+      "Buddhist",
+      "Hill",
+      "Hindu",
+      "Nature"
+    ]
+  }
+]

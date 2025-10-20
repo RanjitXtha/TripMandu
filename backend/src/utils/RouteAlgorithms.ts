@@ -222,3 +222,24 @@ export function solveGreedyTSP(
 }
 
 
+export type Vector = { [word: string]: number };
+
+export function textToVector(text: string): Record<string, number> {
+  const words = text.toLowerCase().match(/\w+/g) || [];
+  const freq: Record<string, number> = {};
+  words.forEach((word) => {
+    freq[word] = (freq[word] || 0) + 1;
+  });
+  return freq;
+}
+
+export function cosineSimilarity(vecA: Record<string, number>, vecB: Record<string, number>): number {
+  const allWords = new Set([...Object.keys(vecA), ...Object.keys(vecB)]);
+  const dotProduct = Array.from(allWords).reduce((sum, word) => sum + (vecA[word] || 0) * (vecB[word] || 0), 0);
+  const magA = Math.sqrt(Object.values(vecA).reduce((sum, val) => sum + val * val, 0));
+  const magB = Math.sqrt(Object.values(vecB).reduce((sum, val) => sum + val * val, 0));
+  if (magA === 0 || magB === 0) return 0;
+  return dotProduct / (magA * magB);
+}
+
+

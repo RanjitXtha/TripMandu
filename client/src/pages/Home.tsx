@@ -57,7 +57,7 @@ const Home = () => {
   useEffect(() => {
     const GetDestinations = async () => {
       try {
-        const response = await fetch("/destinations.json");
+        const response = await fetch("/new_destinations.json");
         if (!response.ok) {
           throw new Error("Failed to fetch destinations");
         }
@@ -130,6 +130,25 @@ const Home = () => {
     }
   };
 
+  const fetchRecommendations = async (name: string, type: "similar" | "nearby") => {
+    try {
+      const res = await axios.post("http://localhost:8080/api/map/recommend", { name, type });
+      return res.data.recommendations;
+    } catch (err) {
+      console.error("Failed to fetch recommendations:", err);
+      return [];
+    }
+  };
+
+
+  useEffect(() => {
+    const fetchRecommendation = async () => {
+     const recommendation =  await fetchRecommendations("Seto Machhindranath Temple","nearby");
+      console.log(recommendation);
+    }
+
+    fetchRecommendation();
+  }, [])
   useEffect(() => {
     if (selectedMarker !== null) {
       setOverlayView("showSite");
@@ -217,7 +236,7 @@ const Home = () => {
           currentSegmentIndex={currentSegmentIndex}
           showAllSegments={showAllSegments}
         />
-        
+
         {/* Compact Floating Control Panel */}
         <div className="absolute top-6 left-6 z-[999] pointer-events-none">
           <div className="pointer-events-auto">
@@ -245,21 +264,20 @@ const Home = () => {
                     <button
                       key={m}
                       onClick={() => setMode(m)}
-                      className={`p-2.5 rounded-full transition-all ${
-                        mode === m
+                      className={`p-2.5 rounded-full transition-all ${mode === m
                           ? "bg-blue-600 text-white shadow-sm"
                           : "text-gray-600 hover:bg-gray-100"
-                      }`}
+                        }`}
                       title={m.charAt(0).toUpperCase() + m.slice(1)}
                     >
                       {m === "foot" && (
-                       <Footprints />
+                        <Footprints />
                       )}
                       {m === "motorbike" && (
                         <Bike />
                       )}
                       {m === "car" && (
-                       <Car />
+                        <Car />
                       )}
                     </button>
                   ))}

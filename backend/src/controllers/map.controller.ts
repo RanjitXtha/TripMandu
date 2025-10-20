@@ -3,6 +3,10 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { graphCache } from "../index.js";
 import { aStar, nearestNode, solveGreedyTSP, CostType } from "../utils/RouteAlgorithms.js";
+import destinationRaw from "../data/destinations.json" with { type: "json" };
+import { textToVector, cosineSimilarity } from "../utils/RouteAlgorithms.js";
+import {haversineDistance} from "../utils/RouteAlgorithms.js";
+
 
 interface Location {
   lat: number;
@@ -130,3 +134,80 @@ export const solveTSPHandler = asyncHandler(async (req: Request, res: Response) 
   });
 });
 
+interface Destination {
+  name: string;
+  description: string;
+  categories: string[];
+  coordinates: { lat: number; lon: number };
+  [key: string]: any;
+}
+
+const destinations = (destinationRaw as any[]).map((d) => ({
+  ...d,
+  categories: d.categories || (d.category ? [d.category] : []),
+}));
+
+// Adjustable max distance in KM for nearby
+const MAX_DISTANCE_KM = 5;
+
+export const getRecommendations = asyncHandler(async (req: Request, res: Response) => {
+  const { name, type }: { name: string; type: "nearby" | "similar" } = req.body;
+
+  if (!name || !type) {
+    return res.status(400).json({ error: "Missing required fields: 'name' and 'type'" });
+  }
+
+  const target = destinations.find((d) => d.name === name);
+  if (!target) {
+    return res.status(404).json({ error: "Destination not found" });
+  }
+
+  // Compute scores or distances for all others
+  const results = destinations
+    .filter((d) => d.name !== name)
+    .map((d) => {
+      const dist = haversineDistance(
+        { lat: target.coordinates.lat, lon: target.coordinates.lon },
+        { lat: d.coordinates.lat, lon: d.coordinates.lon }
+      ) / 1000;
+
+      let similarity = 0;
+      if (type === "similar") {
+        const vecA = textToVector(target.name + " " + target.description + " " + target.categories.join(" "));
+        const vecB = textToVector(d.name + " " + d.description + " " + d.categories.join(" "));
+        similarity = cosineSimilarity(vecA, vecB);
+      }
+
+      return {
+        ...d,
+        similarityScore: similarity,
+        distanceKm: parseFloat(dist.toFixed(2)),
+      };
+    });
+
+  let filtered;
+
+  if (type === "nearby") {
+    filtered = results
+      .filter((r) => r.distanceKm <= MAX_DISTANCE_KM)
+      .sort((a, b) => a.distanceKm - b.distanceKm);
+  } else {
+    filtered = results
+      .filter((r) => r.similarityScore >= 0.2)
+      .sort((a, b) => b.similarityScore - a.similarityScore);
+  }
+
+  // Optional: fallback from nearby → similar if no results found
+  if (type === "nearby" && filtered.length === 0) {
+    console.warn(`No nearby found for '${name}', falling back to similarity`);
+    filtered = results
+      .filter((r) => r.similarityScore >= 0.2)
+      .sort((a, b) => b.similarityScore - a.similarityScore);
+  }
+
+  // Optional: Debug distances
+  // console.log(`Distances from ${name}:`, results.map(r => ({ name: r.name, km: r.distanceKm })));
+
+  const recommendations = filtered.slice(0, 5);
+  res.json({ recommendations });
+});

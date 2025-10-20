@@ -9,4 +9,5 @@ router.route("/getNearbyLocations").get(getNearByLocations);
 router.route("/insertMany").post(insertManyLoacatioins);
 router.route("/getAllLocations").get(getAllLocations)
 
+
 export default router;
