@@ -125,7 +125,19 @@ export function solveGreedyTSP(
   mode: "car" | "motorbike" | "foot",
   costType: CostType = "length",
   speedMs: number = 1.39
-): { fullPath: number[]; totalCost: number; totalDistance: number; tspOrder: number[] } | null {
+): {
+  fullPath: number[];
+  totalCost: number;
+  totalDistance: number;
+  tspOrder: number[];
+  segments: Array<{
+    path: number[];
+    cost: number;
+    distance: number;
+    fromIndex: number;
+    toIndex: number;
+  }>;
+} | null {
   if (points.length === 0) return null;
 
   const nodeIds: number[] = [];
@@ -138,9 +150,18 @@ export function solveGreedyTSP(
   const unvisited = new Set(nodeIds.slice(1));
   const tspOrder: number[] = [0];
   const fullPath: number[] = [nodeIds[0]];
+  const segments: Array<{
+    path: number[];
+    cost: number;
+    distance: number;
+    fromIndex: number;
+    toIndex: number;
+  }> = [];
+  
   let totalCost = 0;
   let totalDistance = 0;
   let currentId = nodeIds[0];
+  let currentDestIndex = 0;
 
   while (unvisited.size > 0) {
     let bestNeighbor: number | null = null;
@@ -157,18 +178,47 @@ export function solveGreedyTSP(
 
     if (!bestResult || bestNeighbor === null) return null;
 
+    const destIndex = nodeIds.indexOf(bestNeighbor);
+    
+    // Store segment information
+    segments.push({
+      path: bestResult.path,
+      cost: bestResult.totalCost,
+      distance: bestResult.totalDistance,
+      fromIndex: currentDestIndex,
+      toIndex: destIndex
+    });
+
     fullPath.push(...bestResult.path.slice(1));
     totalCost += bestResult.totalCost;
     totalDistance += bestResult.totalDistance;
 
-    const destIndex = nodeIds.indexOf(bestNeighbor);
     tspOrder.push(destIndex);
 
     currentId = bestNeighbor;
+    currentDestIndex = destIndex;
     unvisited.delete(bestNeighbor);
   }
-  
 
-  return { fullPath, totalCost, totalDistance, tspOrder };
+  // 🔁 Add final leg to return to start for round trip
+  const returnPath = aStar(currentId, nodeIds[0], graph, nodeMap, mode, costType, speedMs);
+  if (!returnPath) return null;
+
+  segments.push({
+    path: returnPath.path,
+    cost: returnPath.totalCost,
+    distance: returnPath.totalDistance,
+    fromIndex: currentDestIndex,
+    toIndex: 0
+  });
+
+  fullPath.push(...returnPath.path.slice(1));
+  totalCost += returnPath.totalCost;
+  totalDistance += returnPath.totalDistance;
+
+  tspOrder.push(0); // Return to starting point
+
+  return { fullPath, totalCost, totalDistance, tspOrder, segments };
 }
+
 

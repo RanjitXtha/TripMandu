@@ -3,6 +3,7 @@ import { useState } from "react";
 import type { RootState } from "../app/store";
 import { useNavigate } from "react-router-dom";
 import { clearUser } from "../features/auth";
+import { Map, MapPin, Navigation, LogOut, User } from "lucide-react";
 
 interface HeaderProps {
   onSelectView: (view: "none" | "popularSite" | "routePlanner") => void;
@@ -11,10 +12,10 @@ interface HeaderProps {
 
 const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
   const user = useSelector((state: RootState) => state.user);
-  // console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeView, setActiveView] = useState<"none" | "popularSite" | "routePlanner">("none");
 
   const handleLogout = () => {
     dispatch(clearUser());
@@ -27,73 +28,109 @@ const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
     navigate("/login");
   };
 
+  const handleViewChange = (view: "none" | "popularSite" | "routePlanner") => {
+    setSelectedMarker(null);
+    onSelectView(view);
+    setActiveView(view);
+  };
+
   return (
-    <header className="absolute z-5 bg-white right-1/2 transform translate-x-1/2 flex items-center justify-between p-3 mt-2 w-2/3 h-[50px] rounded-full shadow-lg m-auto">
-      <h1 className="text-xl font-bold">TripMandu</h1>
-      <nav className="flex gap-6">
-        <button
-          onClick={() => {
-            setSelectedMarker(null);
-            onSelectView("popularSite");
-          }}
-          className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black  hover:bg-gray-100 hover:underline"
-        >
-          Popular Sites
-        </button>
-        <button
-          onClick={() => {
-            setSelectedMarker(null);
-            onSelectView("none");
-          }}
-          className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black  hover:bg-gray-100 hover:underline"
-        >
-          Map
-        </button>
-
-        <button
-          onClick={() => {
-            setSelectedMarker(null);
-            onSelectView("routePlanner");
-          }}
-          className="shadow-lg rounded-full p-2 text-sm font-medium text-gray-700 hover:text-black  hover:bg-gray-100 hover:underline"
-        >
-          Plan Itinerary
-        </button>
-      </nav>
-
-      <div className="relative">
-        {user?.email ? (
-          <div>
-            <div
-              onClick={() => setMenuOpen((prev) => !prev)}
-              className="w-9 h-9 overflow-hidden rounded-full bg-gray-300 flex items-center justify-center cursor-pointer"
-            >
-              <img
-                className="h-full w-full rounded-full"
-                src={user.profile}
-                alt="profile"
-              />
-            </div>
-
-            {menuOpen && (
-              <div className="absolute right-0 mt-3 w-28 bg-white shadow-md rounded-full z-10">
-                <button
-                  onClick={handleLogout}
-                  className="w-full px-4 py-2 text-center text-sm hover:bg-gray-100"
-                >
-                  Logout
-                </button>
-              </div>
-            )}
+    <header className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] w-full max-w-4xl px-4">
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-200 px-6 py-3 flex items-center justify-between">
+        {/* Logo */}
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <Map className="w-5 h-5 text-white" />
           </div>
-        ) : (
+          <h1 className="text-xl font-bold text-gray-900">TripMandu</h1>
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex items-center gap-2">
           <button
-            onClick={handleLogin}
-            className="px-4 py-2 bg-blue-600 text-white rounded-full text-sm hover:bg-blue-700"
+            onClick={() => handleViewChange("popularSite")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${
+              activeView === "popularSite"
+                ? "bg-blue-600 text-white"
+                : "text-gray-700 hover:bg-gray-100"
+            }`}
           >
-            Login
+            <MapPin size={16} />
+            <span>Popular Sites</span>
           </button>
-        )}
+          <button
+            onClick={() => handleViewChange("none")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${
+              activeView === "none"
+                ? "bg-blue-600 text-white"
+                : "text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            <Map size={16} />
+            <span>Map</span>
+          </button>
+          <button
+            onClick={() => handleViewChange("routePlanner")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${
+              activeView === "routePlanner"
+                ? "bg-blue-600 text-white"
+                : "text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            <Navigation size={16} />
+            <span>Plan Route</span>
+          </button>
+        </nav>
+
+        {/* User Menu */}
+        <div className="relative">
+          {user?.email ? (
+            <div>
+              <button
+                onClick={() => setMenuOpen((prev) => !prev)}
+                className="w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 transition overflow-hidden border-2 border-gray-300 flex items-center justify-center"
+              >
+                {user.profile ? (
+                  <img
+                    className="w-full h-full object-cover"
+                    src={user.profile}
+                    alt="Profile"
+                  />
+                ) : (
+                  <User size={20} className="text-gray-600" />
+                )}
+              </button>
+
+              {menuOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 z-10"
+                    onClick={() => setMenuOpen(false)}
+                  ></div>
+                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-xl border border-gray-200 z-20 overflow-hidden">
+                    <div className="px-4 py-3 border-b border-gray-200">
+                      <p className="text-sm font-semibold text-gray-900 truncate">{user.email}</p>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-100 transition flex items-center gap-2"
+                    >
+                      <LogOut size={16} />
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={handleLogin}
+              className="px-5 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition"
+            >
+              Login
+            </button>
+          )}
+        </div>
       </div>
     </header>
   );

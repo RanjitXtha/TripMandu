@@ -58,7 +58,7 @@ export const getRoute = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-const SPEEDS: Record<Mode, number> = { foot: 1.39, motorbike: 7.8, car: 7.2 };
+const SPEEDS: Record<Mode, number> = { foot: 1.39, motorbike: 7.8, car: 6 };
 
 // --- GREEDY TSP ---
 export const solveTSPHandler = asyncHandler(async (req: Request, res: Response) => {
@@ -89,14 +89,44 @@ export const solveTSPHandler = asyncHandler(async (req: Request, res: Response) 
     return [node.lat, node.lon];
   });
 
-  console.log(`Time: ${tspResult.totalCost/60}min, Distance: ${tspResult.totalDistance/1000}km`);
+  // Convert segments to coordinate format
+  const segmentsCoords = tspResult.segments.map(segment => ({
+    path: segment.path.map(id => {
+      const node = nodeMap[id];
+      return [node.lat, node.lon];
+    }),
+    cost: segment.cost,
+    distance: segment.distance,
+    fromIndex: segment.fromIndex,
+    toIndex: segment.toIndex
+  }));
 
+  let factor = 1.5;
+
+  if (transportMode === "foot") {
+    factor = 1.3;
+  } else if (transportMode === "car") {
+    factor = 1.6;
+  } else {
+    factor = 1.5;
+  }
+
+  console.log(`Time: ${(tspResult.totalCost * factor) / 60}min, Distance: ${tspResult.totalDistance / 1000}km`);
 
   res.status(200).json({
     tspOrder: tspResult.tspOrder,
     path: fullPathCoords,
-    totalCost: tspResult.totalCost,
+    segments: segmentsCoords.map(seg => ({
+      path: seg.path,
+      cost: (seg.cost * factor) / 60,
+      distance: seg.distance / 1000,
+      fromIndex: seg.fromIndex,
+      toIndex: seg.toIndex
+    })),
+    totalCost: (tspResult.totalCost * factor) / 60,
+    totalDistance: tspResult.totalDistance / 1000,
     mode: transportMode,
     costType,
   });
 });
+
