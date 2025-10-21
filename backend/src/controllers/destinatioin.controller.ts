@@ -2,7 +2,6 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { aStar, nearestNode, haversineDistance } from '../utils/RouteAlgorithms.js';
 import { Request, Response } from "express";
-import { graph,nodeMap } from "../index.js";
 import prisma from "../db/index.js";
 import type { AuthenticatedUser, AuthenticatedRequest } from "../middleware/auth.js";
 import { ApiResponse } from "../utils/ApiResponse.js";

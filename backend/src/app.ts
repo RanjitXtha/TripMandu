@@ -31,6 +31,10 @@ import mapRouter from "./routes/map.route.js";
 //   console.log("req made")
 //   res.send('Hello')
 // })
-
+import planRouter from "./routes/travelPlan.route.js"
+import userRouter from "./routes/user.route.js"
 app.use(mapRouter);
+
+app.use("/api/user", userRouter);
+app.use("/api/plan", planRouter);
 export { app };

@@ -8,42 +8,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model spatial_ref_sys {
-  srid      Int     @id
-  auth_name String? @db.VarChar(256)
-  auth_srid Int?
-  srtext    String? @db.VarChar(2048)
-  proj4text String? @db.VarChar(2048)
+model Destination {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  image       String?
+  categories  String[]
+  lat         Float?
+  lon         Float?
+  plans       PlanDestination[]
+
+  @@map("destinations")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-model turn_restrictions {
-  from_edge    Int
-  via_node     Int
-  to_edge      Int
-  restriction  String?
-  vehicle_type String?
-
-  @@ignore
+model User {
+  id          String       @id @default(uuid())
+  fName       String
+  lName       String
+  email       String       @unique
+  password    String
+  profile     String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  travelPlans TravelPlan[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-model routing_nodes {
-  id                                                                    Int                       @id @default(autoincrement())
-  lat                                                                   Float
-  lon                                                                   Float
-  foot                                                                  Boolean?                  @default(false)
-  motorbike                                                             Boolean?                  @default(false)
-  car                                                                   Boolean?                  @default(false)
-  routing_edges_car_routing_edges_car_sourceTorouting_nodes             routing_edges_car[]       @relation("routing_edges_car_sourceTorouting_nodes")
-  routing_edges_car_routing_edges_car_targetTorouting_nodes             routing_edges_car[]       @relation("routing_edges_car_targetTorouting_nodes")
-  routing_edges_foot_routing_edges_foot_sourceTorouting_nodes           routing_edges_foot[]      @relation("routing_edges_foot_sourceTorouting_nodes")
-  routing_edges_foot_routing_edges_foot_targetTorouting_nodes           routing_edges_foot[]      @relation("routing_edges_foot_targetTorouting_nodes")
-  routing_edges_motorbike_routing_edges_motorbike_sourceTorouting_nodes routing_edges_motorbike[] @relation("routing_edges_motorbike_sourceTorouting_nodes")
-  routing_edges_motorbike_routing_edges_motorbike_targetTorouting_nodes routing_edges_motorbike[] @relation("routing_edges_motorbike_targetTorouting_nodes")
+model TravelPlan {
+  id           String            @id @default(uuid())
+  userId       String
+  name         String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  destinations PlanDestination[]
+  user         User              @relation(fields: [userId], references: [id])
+}
 
-  @@ignore
+
+model PlanDestination {
+  id             String       @id @default(uuid())
+  planId         String
+  destinationId  Int
+  order          Int
+  date           DateTime?
+  destination    Destination  @relation(fields: [destinationId], references: [id])
+  plan           TravelPlan   @relation(fields: [planId], references: [id])
+
+  @@unique([planId, destinationId, order])
 }
 
 model routing_edges_car {
@@ -104,4 +114,39 @@ model routing_edges_motorbike {
   motorbike                                                   Boolean?
   routing_nodes_routing_edges_motorbike_sourceTorouting_nodes routing_nodes            @relation("routing_edges_motorbike_sourceTorouting_nodes", fields: [source], references: [id], onDelete: NoAction, onUpdate: NoAction)
   routing_nodes_routing_edges_motorbike_targetTorouting_nodes routing_nodes            @relation("routing_edges_motorbike_targetTorouting_nodes", fields: [target], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model routing_nodes {
+  id                                                                    Int                       @id @default(autoincrement())
+  lat                                                                   Float
+  lon                                                                   Float
+  foot                                                                  Boolean?                  @default(false)
+  motorbike                                                             Boolean?                  @default(false)
+  car                                                                   Boolean?                  @default(false)
+  routing_edges_car_routing_edges_car_sourceTorouting_nodes             routing_edges_car[]       @relation("routing_edges_car_sourceTorouting_nodes")
+  routing_edges_car_routing_edges_car_targetTorouting_nodes             routing_edges_car[]       @relation("routing_edges_car_targetTorouting_nodes")
+  routing_edges_foot_routing_edges_foot_sourceTorouting_nodes           routing_edges_foot[]      @relation("routing_edges_foot_sourceTorouting_nodes")
+  routing_edges_foot_routing_edges_foot_targetTorouting_nodes           routing_edges_foot[]      @relation("routing_edges_foot_targetTorouting_nodes")
+  routing_edges_motorbike_routing_edges_motorbike_sourceTorouting_nodes routing_edges_motorbike[] @relation("routing_edges_motorbike_sourceTorouting_nodes")
+  routing_edges_motorbike_routing_edges_motorbike_targetTorouting_nodes routing_edges_motorbike[] @relation("routing_edges_motorbike_targetTorouting_nodes")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model spatial_ref_sys {
+  srid      Int     @id
+  auth_name String? @db.VarChar(256)
+  auth_srid Int?
+  srtext    String? @db.VarChar(2048)
+  proj4text String? @db.VarChar(2048)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model turn_restrictions {
+  from_edge    Int
+  via_node     Int
+  to_edge      Int
+  restriction  String?
+  vehicle_type String?
+
+  @@ignore
 }
