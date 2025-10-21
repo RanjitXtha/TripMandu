@@ -53,6 +53,8 @@ const Home = () => {
   const [currentSegmentIndex, setCurrentSegmentIndex] = useState(0);
   const [showAllSegments, setShowAllSegments] = useState(true);
   const [showControls, setShowControls] = useState(true);
+  const [recommendations, setRecommendations] = useState([]);
+  const [mapTarget, setMapTarget] = useState<{ lat: number; lon: number } | null>(null);
 
   useEffect(() => {
     const GetDestinations = async () => {
@@ -133,22 +135,28 @@ const Home = () => {
   const fetchRecommendations = async (name: string, type: "similar" | "nearby") => {
     try {
       const res = await axios.post("http://localhost:8080/api/map/recommend", { name, type });
-      return res.data.recommendations;
+      setRecommendations(res.data.recommendations);
+      console.log(res.data.recommendations);
     } catch (err) {
-      console.error("Failed to fetch recommendations:", err);
-      return [];
+      setRecommendations([]);
     }
   };
 
-
-  useEffect(() => {
-    const fetchRecommendation = async () => {
-     const recommendation =  await fetchRecommendations("Seto Machhindranath Temple","nearby");
-      console.log(recommendation);
+  const handleRecommendationClick = (lat: number, lon: number, name: string) => {
+    // Find the tourist destination index by name
+    const destinationIndex = touristDestinations.findIndex(
+      dest => dest.name === name
+    );
+    
+    if (destinationIndex !== -1) {
+      setSelectedMarker(destinationIndex);
+      setMapTarget({ lat, lon });
+      
+      // Fetch recommendations for the new destination
+      fetchRecommendations(name, 'similar');
     }
+  };
 
-    fetchRecommendation();
-  }, [])
   useEffect(() => {
     if (selectedMarker !== null) {
       setOverlayView("showSite");
@@ -174,6 +182,8 @@ const Home = () => {
               key={`site-${selectedMarker}`}
               {...touristDestinations[selectedMarker]}
               onBack={() => setOverlayView("none")}
+              recommendations={recommendations}
+              onRecommendationClick={handleRecommendationClick}
             />
           )}
           {overlayView === "popularSite" && selectedMarker === null && (
@@ -235,6 +245,8 @@ const Home = () => {
           setOverlayView={setOverlayView}
           currentSegmentIndex={currentSegmentIndex}
           showAllSegments={showAllSegments}
+          fetchRecommendations={fetchRecommendations}
+          mapTarget={mapTarget}
         />
 
         {/* Compact Floating Control Panel */}
@@ -265,20 +277,14 @@ const Home = () => {
                       key={m}
                       onClick={() => setMode(m)}
                       className={`p-2.5 rounded-full transition-all ${mode === m
-                          ? "bg-blue-600 text-white shadow-sm"
-                          : "text-gray-600 hover:bg-gray-100"
+                        ? "bg-blue-600 hover:bg-blue-400 text-white shadow-sm"
+                        : "text-gray-600 hover:bg-gray-100"
                         }`}
                       title={m.charAt(0).toUpperCase() + m.slice(1)}
                     >
-                      {m === "foot" && (
-                        <Footprints />
-                      )}
-                      {m === "motorbike" && (
-                        <Bike />
-                      )}
-                      {m === "car" && (
-                        <Car />
-                      )}
+                      {m === "foot" && <Footprints size={18} />}
+                      {m === "motorbike" && <Bike size={18} />}
+                      {m === "car" && <Car size={18} />}
                     </button>
                   ))}
                 </div>
@@ -288,7 +294,7 @@ const Home = () => {
                   <button
                     disabled={isLoading}
                     onClick={calculateTSPRoute}
-                    className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-4 py-2.5 rounded-full shadow-lg font-medium text-sm transition-all flex items-center justify-center gap-2 border border-blue-700"
+                    className="w-full bg-blue-600 hover:bg-blue-400 disabled:bg-gray-400 text-white px-4 py-2.5 rounded-full shadow-lg font-medium text-sm transition-all flex items-center justify-center gap-2"
                   >
                     {isLoading ? (
                       <>

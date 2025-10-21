@@ -31,7 +31,7 @@ interface MapViewProps {
   markerMode: "none" | "start" | "end";
   setMarkerMode: (mode: "none" | "start" | "end") => void;
   addDestinationMode: boolean;
-  setAddDestinationMode : React.Dispatch<React.SetStateAction<boolean>>;
+  setAddDestinationMode: React.Dispatch<React.SetStateAction<boolean>>;
   myloc: { lat: number; lon: number } | null;
   pathCoords: [number, number][];
   pathSegments: PathSegment[];
@@ -42,6 +42,9 @@ interface MapViewProps {
   tspOrder: number[];
   currentSegmentIndex: number;
   showAllSegments: boolean;
+  fetchRecommendations: (name: string, type: 'nearby' | 'similar') => void
+  mapTarget?: { lat: number; lon: number } | null;
+
 }
 
 const getSegmentColor = (index: number, total: number) => {
@@ -76,6 +79,9 @@ const MapView = ({
   tspOrder,
   currentSegmentIndex,
   showAllSegments,
+  fetchRecommendations,
+    mapTarget
+
 }: MapViewProps) => {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -139,6 +145,17 @@ const MapView = ({
   }, [mapLoaded, markerMode, addDestinationMode, setDestinations, setMarkerMode, setClickMarkers]);
 
   useEffect(() => {
+    if (mapTarget && mapRef.current) {
+      mapRef.current.flyTo({
+        center: [mapTarget.lon, mapTarget.lat],
+        zoom: 15,
+        duration: 1500, // smooth animation
+        essential: true
+      });
+    }
+  }, [mapTarget]);
+
+  useEffect(() => {
     if (!mapLoaded || !mapRef.current) return;
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
@@ -173,6 +190,11 @@ const MapView = ({
         marker.getElement().addEventListener("click", () => {
           mapRef.current?.flyTo({ center: [place.lon, place.lat], zoom: 15 });
           setOverlayView("showSite");
+
+          if (place.name) {
+            console.log("calling 2")
+            fetchRecommendations(place.name, 'similar');
+          }
           if (selectedMarker === index) {
             setSelectedMarker(null);
             setTimeout(() => setSelectedMarker(index), 0);
@@ -290,7 +312,7 @@ const MapView = ({
   useEffect(() => {
     if (!mapRef.current) return;
     const canvas = mapRef.current.getCanvas();
-    
+
     if (markerMode !== "none" || addDestinationMode) {
       canvas.style.cursor = "crosshair";
     } else {
