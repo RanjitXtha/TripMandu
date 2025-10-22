@@ -20,6 +20,7 @@ export type TouristDestination = {
   description: string;
   image: string;
   name: string;
+  id: string;
 };
 
 export type NearByDestinationType = {

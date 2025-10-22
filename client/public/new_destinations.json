@@ -11,7 +11,8 @@
       "Heritage",
       "Hindu",
       "Historical"
-    ]
+    ],
+    "id": 1
   },
   {
     "name": "Patan Durbar Square",
@@ -25,7 +26,8 @@
       "Heritage",
       "Hindu",
       "Historical"
-    ]
+    ],
+    "id": 2
   },
   {
     "name": "Bhaktapur Durbar Square",
@@ -39,7 +41,8 @@
       "Heritage",
       "Hindu",
       "Historical"
-    ]
+    ],
+    "id": 3
   },
   {
     "name": "Changu Narayan Temple",
@@ -53,7 +56,8 @@
       "Hindu",
       "Nature",
       "Temple"
-    ]
+    ],
+    "id": 4
   },
   {
     "name": "Budhanilkantha Temple",
@@ -67,7 +71,8 @@
       "Buddhist",
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 5
   },
   {
     "name": "Dakshinkali Temple",
@@ -80,7 +85,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 6
   },
   {
     "name": "Guhyeshwori Temple",
@@ -93,7 +99,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 7
   },
   {
     "name": "Krishna Mandir, Patan",
@@ -105,7 +112,8 @@
     },
     "categories": [
       "Hindu"
-    ]
+    ],
+    "id": 8
   },
   {
     "name": "Nyatapola Temple",
@@ -118,7 +126,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 9
   },
   {
     "name": "Dattatraya Temple",
@@ -131,7 +140,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 10
   },
   {
     "name": "Taleju Bhawani Temple, Kathmandu",
@@ -144,7 +154,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 11
   },
   {
     "name": "Akash Bhairav Temple",
@@ -158,7 +169,8 @@
       "Hindu",
       "Market",
       "Temple"
-    ]
+    ],
+    "id": 12
   },
   {
     "name": "Kal Bhairav, Kathmandu",
@@ -172,7 +184,8 @@
       "Heritage",
       "Hindu",
       "Historical"
-    ]
+    ],
+    "id": 13
   },
   {
     "name": "Sankata Temple",
@@ -186,7 +199,8 @@
       "Buddhist",
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 14
   },
   {
     "name": "Mahankal Temple, Kathmandu",
@@ -199,7 +213,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 15
   },
   {
     "name": "Shobha Bhagawati Temple",
@@ -212,7 +227,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 16
   },
   {
     "name": "Naxal Bhagawati Temple",
@@ -225,7 +241,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 17
   },
   {
     "name": "Bajrayogini Temple, Sankhu",
@@ -240,7 +257,8 @@
       "Hindu",
       "Nature",
       "Temple"
-    ]
+    ],
+    "id": 18
   },
   {
     "name": "Rato Macchindranath Temple, Patan",
@@ -254,7 +272,8 @@
       "Buddhist",
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 19
   },
   {
     "name": "Chandra Binayak Temple, Chabahil",
@@ -267,7 +286,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 20
   },
   {
     "name": "Jalbinayak Temple, Chobhar",
@@ -280,7 +300,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 21
   },
   {
     "name": "Karyabinayak Mandir, Bungamati",
@@ -293,7 +314,8 @@
     "categories": [
       "Hindu",
       "Nature"
-    ]
+    ],
+    "id": 22
   },
   {
     "name": "Adinath Temple, Chobhar",
@@ -308,7 +330,8 @@
       "Hindu",
       "Nature",
       "Temple"
-    ]
+    ],
+    "id": 23
   },
   {
     "name": "Doleshwor Mahadev Temple, Bhaktapur",
@@ -321,7 +344,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 24
   },
   {
     "name": "Ashok Binayak Temple",
@@ -334,7 +358,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 25
   },
   {
     "name": "Kirateshwar Mahadev Temple",
@@ -348,7 +373,8 @@
       "Hindu",
       "Nature",
       "Temple"
-    ]
+    ],
+    "id": 26
   },
   {
     "name": "Seto Machhindranath Temple",
@@ -361,7 +387,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 27
   },
   {
     "name": "Sheshnarayan Temple",
@@ -374,7 +401,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 28
   },
   {
     "name": "Gokarneshwor Mahadev Temple",
@@ -387,7 +415,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 29
   },
   {
     "name": "Kumbheshwar Temple, Patan",
@@ -400,7 +429,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 30
   },
   {
     "name": "Bagalamukhi Temple, Patan",
@@ -413,7 +443,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 31
   },
   {
     "name": "Indreshwar Mahadev Temple, Panauti",
@@ -426,11 +457,12 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 32
   },
   {
     "name": "Santaneshwor Mahadev Temple",
-    "description": "A popular Shiva temple located on a scenic hill in Jharuwarasi, Lalitpur, offering panoramic views of the Kathmandu Valley. The temple is especially popular among devotees praying for children (santān).",
+    "description": "A popular Shiva temple located on a scenic hill in Jharuwarasi, Lalitpur, offering panoramic views of the Kathmandu Valley. The temple is especially popular among devotees praying for children (sant\u0101n).",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Santaneshwor_Mahadev_Temple.jpg/330px-Santaneshwor_Mahadev_Temple.jpg",
     "coordinates": {
       "lat": 27.6111389,
@@ -440,7 +472,8 @@
       "Hindu",
       "Nature",
       "Temple"
-    ]
+    ],
+    "id": 33
   },
   {
     "name": "Amitabha Monastery",
@@ -453,7 +486,8 @@
     "categories": [
       "Buddhist",
       "Monastery"
-    ]
+    ],
+    "id": 34
   },
   {
     "name": "Boudha Stupa",
@@ -468,7 +502,8 @@
       "Heritage",
       "Historical",
       "Stupa"
-    ]
+    ],
+    "id": 35
   },
   {
     "name": "Ka-Nying Shedrub Ling",
@@ -480,7 +515,8 @@
     },
     "categories": [
       "Buddhist"
-    ]
+    ],
+    "id": 36
   },
   {
     "name": "Kindo Baha",
@@ -493,7 +529,8 @@
     "categories": [
       "Buddhist",
       "Nature"
-    ]
+    ],
+    "id": 37
   },
   {
     "name": "Kopan Monastery",
@@ -507,7 +544,8 @@
       "Buddhist",
       "Monastery",
       "Nature"
-    ]
+    ],
+    "id": 38
   },
   {
     "name": "Pranidhipurna Mahavihar",
@@ -520,7 +558,8 @@
     "categories": [
       "Buddhist",
       "Monastery"
-    ]
+    ],
+    "id": 39
   },
   {
     "name": "Seto Gumba (Druk Amitabh Mountain)",
@@ -533,7 +572,8 @@
     "categories": [
       "Buddhist",
       "Nature"
-    ]
+    ],
+    "id": 40
   },
   {
     "name": "Swayambhunath Stupa",
@@ -548,7 +588,8 @@
       "Hindu",
       "Nature",
       "Stupa"
-    ]
+    ],
+    "id": 41
   },
   {
     "name": "Tergar Osel Ling Monastery",
@@ -562,7 +603,8 @@
       "Buddhist",
       "Monastery",
       "Nature"
-    ]
+    ],
+    "id": 42
   },
   {
     "name": "Vidhyeshvari Vajra Yogini Temple",
@@ -576,7 +618,8 @@
       "Buddhist",
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 43
   },
   {
     "name": "Hiranya Varna Mahavihar (Golden Temple)",
@@ -591,7 +634,8 @@
       "Hindu",
       "Monastery",
       "Temple"
-    ]
+    ],
+    "id": 44
   },
   {
     "name": "Taudaha Lake",
@@ -604,7 +648,8 @@
     "categories": [
       "Lake",
       "Nature"
-    ]
+    ],
+    "id": 45
   },
   {
     "name": "Siddha Pokhari",
@@ -616,7 +661,8 @@
     },
     "categories": [
       "Lake"
-    ]
+    ],
+    "id": 46
   },
   {
     "name": "Kamal Pokhari",
@@ -628,7 +674,8 @@
     },
     "categories": [
       "Lake"
-    ]
+    ],
+    "id": 47
   },
   {
     "name": "Nag Pokhari (Naxal)",
@@ -640,7 +687,8 @@
     },
     "categories": [
       "Lake"
-    ]
+    ],
+    "id": 48
   },
   {
     "name": "Nagdaha",
@@ -653,7 +701,8 @@
     "categories": [
       "Lake",
       "Nature"
-    ]
+    ],
+    "id": 49
   },
   {
     "name": "Pimbahal Pond",
@@ -666,7 +715,8 @@
     "categories": [
       "Buddhist",
       "Lake"
-    ]
+    ],
+    "id": 50
   },
   {
     "name": "Ikha Pokhari",
@@ -678,7 +728,8 @@
     },
     "categories": [
       "Lake"
-    ]
+    ],
+    "id": 51
   },
   {
     "name": "Bhandarkhal Pond",
@@ -691,7 +742,8 @@
     "categories": [
       "Lake",
       "Nature"
-    ]
+    ],
+    "id": 52
   },
   {
     "name": "Tusha Hiti",
@@ -703,7 +755,8 @@
     },
     "categories": [
       "Cultural"
-    ]
+    ],
+    "id": 53
   },
   {
     "name": "Naag Pokhari (Bhaktapur)",
@@ -715,7 +768,8 @@
     },
     "categories": [
       "Lake"
-    ]
+    ],
+    "id": 54
   },
   {
     "name": "Thamel",
@@ -727,7 +781,8 @@
     },
     "categories": [
       "Cultural"
-    ]
+    ],
+    "id": 55
   },
   {
     "name": "Asan Bazaar",
@@ -741,7 +796,8 @@
       "Hindu",
       "Market",
       "Urban"
-    ]
+    ],
+    "id": 56
   },
   {
     "name": "Indra Chowk",
@@ -755,7 +811,8 @@
       "Hindu",
       "Market",
       "Urban"
-    ]
+    ],
+    "id": 57
   },
   {
     "name": "New Road",
@@ -768,7 +825,8 @@
     "categories": [
       "Market",
       "Urban"
-    ]
+    ],
+    "id": 58
   },
   {
     "name": "Durbar Marg",
@@ -780,7 +838,8 @@
     },
     "categories": [
       "Urban"
-    ]
+    ],
+    "id": 59
   },
   {
     "name": "Patan Durbar Square Market",
@@ -795,7 +854,8 @@
       "Historical",
       "Market",
       "Urban"
-    ]
+    ],
+    "id": 60
   },
   {
     "name": "Bhaktapur Durbar Square Market",
@@ -811,7 +871,8 @@
       "Historical",
       "Market",
       "Urban"
-    ]
+    ],
+    "id": 61
   },
   {
     "name": "Freak Street (Jhochhen Tole)",
@@ -823,7 +884,8 @@
     },
     "categories": [
       "Nature"
-    ]
+    ],
+    "id": 62
   },
   {
     "name": "National Museum of Nepal",
@@ -837,7 +899,8 @@
       "Buddhist",
       "Cultural",
       "Museum"
-    ]
+    ],
+    "id": 63
   },
   {
     "name": "Patan Museum",
@@ -852,7 +915,8 @@
       "Cultural",
       "Hindu",
       "Museum"
-    ]
+    ],
+    "id": 64
   },
   {
     "name": "Narayanhiti Palace Museum",
@@ -866,7 +930,8 @@
       "Cultural",
       "Museum",
       "Palace"
-    ]
+    ],
+    "id": 65
   },
   {
     "name": "Taragaon Museum",
@@ -881,7 +946,8 @@
       "Heritage",
       "Historical",
       "Museum"
-    ]
+    ],
+    "id": 66
   },
   {
     "name": "Nepal Art Council Gallery",
@@ -895,7 +961,8 @@
       "Art",
       "Cultural",
       "Museum"
-    ]
+    ],
+    "id": 67
   },
   {
     "name": "Siddhartha Art Gallery",
@@ -909,7 +976,8 @@
       "Art",
       "Cultural",
       "Museum"
-    ]
+    ],
+    "id": 68
   },
   {
     "name": "Museum of Nepali Art (MONA)",
@@ -923,7 +991,8 @@
       "Art",
       "Cultural",
       "Museum"
-    ]
+    ],
+    "id": 69
   },
   {
     "name": "Nepal Academy of Fine Arts Gallery (NAFA)",
@@ -937,7 +1006,8 @@
       "Art",
       "Cultural",
       "Museum"
-    ]
+    ],
+    "id": 70
   },
   {
     "name": "Natural History Museum of Nepal",
@@ -951,7 +1021,8 @@
       "Cultural",
       "Museum",
       "Nature"
-    ]
+    ],
+    "id": 71
   },
   {
     "name": "Hanuman Dhoka Palace Museum",
@@ -965,7 +1036,8 @@
       "Cultural",
       "Museum",
       "Palace"
-    ]
+    ],
+    "id": 72
   },
   {
     "name": "Nepalese Army Museum",
@@ -978,7 +1050,8 @@
     "categories": [
       "Cultural",
       "Museum"
-    ]
+    ],
+    "id": 73
   },
   {
     "name": "Nepal Money Museum",
@@ -991,7 +1064,8 @@
     "categories": [
       "Cultural",
       "Museum"
-    ]
+    ],
+    "id": 74
   },
   {
     "name": "Nepal Postal Museum",
@@ -1004,7 +1078,8 @@
     "categories": [
       "Cultural",
       "Museum"
-    ]
+    ],
+    "id": 75
   },
   {
     "name": "Patan Industrial Estate",
@@ -1016,7 +1091,8 @@
     },
     "categories": [
       "Industrial"
-    ]
+    ],
+    "id": 76
   },
   {
     "name": "Changunarayan Living Traditional Museum",
@@ -1030,7 +1106,8 @@
       "Cultural",
       "Hindu",
       "Museum"
-    ]
+    ],
+    "id": 77
   },
   {
     "name": "Garden of Dreams",
@@ -1043,7 +1120,8 @@
     "categories": [
       "Garden",
       "Nature"
-    ]
+    ],
+    "id": 78
   },
   {
     "name": "Central Zoo",
@@ -1055,7 +1133,8 @@
     },
     "categories": [
       "Park"
-    ]
+    ],
+    "id": 79
   },
   {
     "name": "Shivapuri Nagarjun National Park",
@@ -1069,7 +1148,8 @@
       "National",
       "Nature",
       "Park"
-    ]
+    ],
+    "id": 80
   },
   {
     "name": "National Botanical Garden, Godawari",
@@ -1084,7 +1164,8 @@
       "National",
       "Nature",
       "Park"
-    ]
+    ],
+    "id": 81
   },
   {
     "name": "Nagarkot",
@@ -1097,7 +1178,8 @@
     "categories": [
       "Hindu",
       "Nature"
-    ]
+    ],
+    "id": 82
   },
   {
     "name": "Rani Pokhari",
@@ -1110,7 +1192,8 @@
     "categories": [
       "Hindu",
       "Lake"
-    ]
+    ],
+    "id": 83
   },
   {
     "name": "Budhanilkantha Temple",
@@ -1123,7 +1206,8 @@
     "categories": [
       "Hindu",
       "Temple"
-    ]
+    ],
+    "id": 84
   },
   {
     "name": "Bhrikutimandap Park",
@@ -1136,7 +1220,8 @@
     "categories": [
       "Nature",
       "Park"
-    ]
+    ],
+    "id": 85
   },
   {
     "name": "Sundarijal",
@@ -1149,7 +1234,8 @@
     "categories": [
       "Hindu",
       "Nature"
-    ]
+    ],
+    "id": 86
   },
   {
     "name": "Chandragiri Hills",
@@ -1163,7 +1249,8 @@
       "Hill",
       "Hindu",
       "Nature"
-    ]
+    ],
+    "id": 87
   },
   {
     "name": "Champadevi Hill",
@@ -1178,6 +1265,7 @@
       "Hill",
       "Hindu",
       "Nature"
-    ]
+    ],
+    "id": 88
   }
 ]

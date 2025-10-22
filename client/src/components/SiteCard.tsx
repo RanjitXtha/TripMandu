@@ -24,6 +24,7 @@ const SiteCard: React.FC<SiteCardProps> = ({
   description,
   image,
   name,
+  id,
   onBack,
   recommendations = [],
   onRecommendationClick
