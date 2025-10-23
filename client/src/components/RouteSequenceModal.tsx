@@ -1,11 +1,11 @@
 import { useState } from "react";
 import type { PathSegment } from "../pages/Home";
-import type { Location } from "../types/types";
+import type { Location, TouristDestination } from "../types/types";
 
 interface RouteSequenceModalProps {
   segments: PathSegment[];
   destinations: Location[];
-  touristDestinations: Location[];
+  touristDestinations: TouristDestination[];
   tspOrder: number[];
   totalDistance: number;
   totalCost: number;
@@ -44,6 +44,7 @@ const RouteSequenceModal = ({
   setShowAllSegments,
 }: RouteSequenceModalProps) => {
   const getDestinationName = (index: number) => {
+    console.log("destinations:",destinations)
     const dest = destinations[index];
     if (!dest) return `Stop ${index + 1}`;
     
@@ -76,10 +77,10 @@ const RouteSequenceModal = ({
   const currentSegment = segments[currentSegmentIndex];
 
   return (
-    <div className="fixed right-6 top-20 bottom-6 w-[360px] flex items-stretch z-[1000] pointer-events-none">
+    <div className="fixed right-6 top-20 bottom-6 w-[360px] flex items-stretch z-[500] pointer-events-none">
       <div className="bg-white rounded-2xl shadow-2xl w-full flex flex-col overflow-hidden pointer-events-auto border border-gray-100">
         {/* Compact Header */}
-        <div className="bg-gradient-to-br from-blue-50 to-white border-b border-gray-100 px-5 py-4">
+        <div className="bg-gradient-to-br border-gray-100 px-5 py-4">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-bold text-gray-900">Route Details</h2>
             <button

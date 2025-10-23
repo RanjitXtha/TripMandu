@@ -140,6 +140,7 @@ export function solveGreedyTSP(
 } | null {
   if (points.length === 0) return null;
 
+  // Find nearest nodes for all points
   const nodeIds: number[] = [];
   for (const p of points) {
     const nearest = nearestNode(p, nodeMap, graph, mode, costType, speedMs);
@@ -147,9 +148,104 @@ export function solveGreedyTSP(
     nodeIds.push(nearest);
   }
 
-  const unvisited = new Set(nodeIds.slice(1));
-  const tspOrder: number[] = [0];
-  const fullPath: number[] = [nodeIds[0]];
+  const n = nodeIds.length;
+  
+  // For single point, just return it
+  if (n === 1) {
+    return {
+      fullPath: [nodeIds[0]],
+      totalCost: 0,
+      totalDistance: 0,
+      tspOrder: [0, 0],
+      segments: []
+    };
+  }
+
+  // Precompute all pairwise paths and costs
+  const pathCache: { [key: string]: { path: number[]; totalCost: number; totalDistance: number } } = {};
+  
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      if (i === j) continue;
+      const result = aStar(nodeIds[i], nodeIds[j], graph, nodeMap, mode, costType, speedMs);
+      if (!result) return null;
+      pathCache[`${i}-${j}`] = result;
+    }
+  }
+
+  // Held-Karp algorithm using bitmask DP
+  // dp[mask][i] = minimum cost to visit all nodes in mask ending at node i
+  const dp: { [key: string]: number } = {};
+  const parent: { [key: string]: number } = {};
+
+  // Initialize: start from node 0
+  dp['1-0'] = 0; // mask=1 (only node 0 visited), ending at node 0
+
+  // Iterate through all subsets
+  for (let mask = 1; mask < (1 << n); mask++) {
+    // Check if starting node (0) is in the mask
+    if ((mask & 1) === 0) continue;
+
+    for (let last = 0; last < n; last++) {
+      // Check if 'last' is in the current mask
+      if ((mask & (1 << last)) === 0) continue;
+
+      const key = `${mask}-${last}`;
+      if (!(key in dp)) continue;
+
+      // Try adding each unvisited node
+      for (let next = 0; next < n; next++) {
+        if (mask & (1 << next)) continue; // Already visited
+
+        const newMask = mask | (1 << next);
+        const newKey = `${newMask}-${next}`;
+        const newCost = dp[key] + pathCache[`${last}-${next}`].totalCost;
+
+        if (!(newKey in dp) || newCost < dp[newKey]) {
+          dp[newKey] = newCost;
+          parent[newKey] = last;
+        }
+      }
+    }
+  }
+
+  // Find the best tour (all nodes visited, ending at any node)
+  const allVisited = (1 << n) - 1;
+  let bestCost = Infinity;
+  let bestLast = -1;
+
+  for (let last = 1; last < n; last++) {
+    const key = `${allVisited}-${last}`;
+    if (!(key in dp)) continue;
+
+    // Add cost to return to start
+    const tourCost = dp[key] + pathCache[`${last}-0`].totalCost;
+    if (tourCost < bestCost) {
+      bestCost = tourCost;
+      bestLast = last;
+    }
+  }
+
+  if (bestLast === -1) return null;
+
+  // Reconstruct the tour
+  const tour: number[] = [];
+  let mask = allVisited;
+  let current = bestLast;
+
+  while (mask > 1) {
+    tour.push(current);
+    const key = `${mask}-${current}`;
+    const prev = parent[key];
+    mask ^= (1 << current);
+    current = prev;
+  }
+  tour.push(0);
+  tour.reverse();
+
+  // Build the full path and segments
+  const tspOrder: number[] = [...tour, 0]; // Add return to start
+  const fullPath: number[] = [nodeIds[tour[0]]];
   const segments: Array<{
     path: number[];
     cost: number;
@@ -157,70 +253,47 @@ export function solveGreedyTSP(
     fromIndex: number;
     toIndex: number;
   }> = [];
-  
+
   let totalCost = 0;
   let totalDistance = 0;
-  let currentId = nodeIds[0];
-  let currentDestIndex = 0;
 
-  while (unvisited.size > 0) {
-    let bestNeighbor: number | null = null;
-    let bestResult: { path: number[]; totalCost: number; totalDistance: number } | null = null;
+  // Add segments for the tour
+  for (let i = 0; i < tour.length - 1; i++) {
+    const from = tour[i];
+    const to = tour[i + 1];
+    const segment = pathCache[`${from}-${to}`];
 
-    for (const candidate of unvisited) {
-      const result = aStar(currentId, candidate, graph, nodeMap, mode, costType, speedMs);
-      if (!result) continue;
-      if (!bestResult || result.totalCost < bestResult.totalCost) {
-        bestResult = result;
-        bestNeighbor = candidate;
-      }
-    }
-
-    if (!bestResult || bestNeighbor === null) return null;
-
-    const destIndex = nodeIds.indexOf(bestNeighbor);
-    
-    // Store segment information
     segments.push({
-      path: bestResult.path,
-      cost: bestResult.totalCost,
-      distance: bestResult.totalDistance,
-      fromIndex: currentDestIndex,
-      toIndex: destIndex
+      path: segment.path,
+      cost: segment.totalCost,
+      distance: segment.totalDistance,
+      fromIndex: from,
+      toIndex: to
     });
 
-    fullPath.push(...bestResult.path.slice(1));
-    totalCost += bestResult.totalCost;
-    totalDistance += bestResult.totalDistance;
-
-    tspOrder.push(destIndex);
-
-    currentId = bestNeighbor;
-    currentDestIndex = destIndex;
-    unvisited.delete(bestNeighbor);
+    fullPath.push(...segment.path.slice(1));
+    totalCost += segment.totalCost;
+    totalDistance += segment.totalDistance;
   }
 
-  // 🔁 Add final leg to return to start for round trip
-  const returnPath = aStar(currentId, nodeIds[0], graph, nodeMap, mode, costType, speedMs);
-  if (!returnPath) return null;
+  // Add return segment to start
+  const lastNode = tour[tour.length - 1];
+  const returnSegment = pathCache[`${lastNode}-0`];
 
   segments.push({
-    path: returnPath.path,
-    cost: returnPath.totalCost,
-    distance: returnPath.totalDistance,
-    fromIndex: currentDestIndex,
+    path: returnSegment.path,
+    cost: returnSegment.totalCost,
+    distance: returnSegment.totalDistance,
+    fromIndex: lastNode,
     toIndex: 0
   });
 
-  fullPath.push(...returnPath.path.slice(1));
-  totalCost += returnPath.totalCost;
-  totalDistance += returnPath.totalDistance;
-
-  tspOrder.push(0); // Return to starting point
+  fullPath.push(...returnSegment.path.slice(1));
+  totalCost += returnSegment.totalCost;
+  totalDistance += returnSegment.totalDistance;
 
   return { fullPath, totalCost, totalDistance, tspOrder, segments };
 }
-
 
 export type Vector = { [word: string]: number };
 

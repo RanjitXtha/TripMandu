@@ -20,6 +20,7 @@ app.use(cookieParser());
 // routes file
 
 import mapRouter from "./routes/map.route.js";
+import destinationRouter from './routes/destination.route.js'
 // import router from "./routes/user.route.js";
 // import destinationRouter from "./routes/destination.route.js";
 // import planRouter from "./routes/travelPlan.route.js";
@@ -37,4 +38,5 @@ app.use(mapRouter);
 
 app.use("/api/user", userRouter);
 app.use("/api/plan", planRouter);
+app.use("/api/destination",destinationRouter)
 export { app };

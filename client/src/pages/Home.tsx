@@ -15,6 +15,9 @@ import Footer from "../components/Footer";
 import SiteCard from "../components/SiteCard";
 import PopularSites from "../components/PopularSites";
 import { Bike, Car, Footprints } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../app/store";
+import { fetchFavourites } from "../features/favourites";
 
 export interface PathSegment {
   path: [number, number][];
@@ -55,6 +58,20 @@ const Home = () => {
   const [showControls, setShowControls] = useState(true);
   const [recommendations, setRecommendations] = useState([]);
   const [mapTarget, setMapTarget] = useState<{ lat: number; lon: number } | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const userId = useSelector((state: RootState) => state.user.id);
+
+  useEffect(() => {
+    const getFavourites = async () => {
+      if (userId) {
+        const favourites = await dispatch(fetchFavourites(userId));
+        console.log(favourites.payload);
+      }
+    }
+
+    getFavourites()
+  }, [userId, dispatch]);
+
 
   useEffect(() => {
     const GetDestinations = async () => {
@@ -147,11 +164,11 @@ const Home = () => {
     const destinationIndex = touristDestinations.findIndex(
       dest => dest.name === name
     );
-    
+
     if (destinationIndex !== -1) {
       setSelectedMarker(destinationIndex);
       setMapTarget({ lat, lon });
-      
+
       // Fetch recommendations for the new destination
       fetchRecommendations(name, 'similar');
     }
@@ -189,7 +206,6 @@ const Home = () => {
           {overlayView === "popularSite" && selectedMarker === null && (
             <PopularSites
               myloc={myloc}
-              setNearByDestinations={setNearByDestinations}
               onBack={() => setOverlayView("none")}
               touristDestinations={touristDestinations}
             />
@@ -212,7 +228,7 @@ const Home = () => {
         <RouteSequenceModal
           segments={pathSegments}
           destinations={destinations}
-          touristDestinations={touristDestinationsCoords}
+          touristDestinations={touristDestinations}
           tspOrder={tspOrder}
           totalDistance={totalDistance || 0}
           totalCost={totalCost || 0}
@@ -226,7 +242,7 @@ const Home = () => {
 
       <div className="flex-1 relative">
         <MapView
-          touristDestinations={touristDestinationsCoords}
+          touristDestinations={touristDestinations}
           clickMarkers={clickMarkers}
           setClickMarkers={setClickMarkers}
           destinations={destinations}
@@ -250,8 +266,8 @@ const Home = () => {
         />
 
         {/* Compact Floating Control Panel */}
-        <div className="absolute top-6 left-6 z-[999] pointer-events-none">
-          <div className="pointer-events-auto">
+        <div className="absolute top-4 right-12 z-[999] pointer-events-none">
+          <div className="pointer-events-auto w-full flex flex-col items-end">
             {/* Collapse/Expand Button */}
             <button
               onClick={() => setShowControls(!showControls)}

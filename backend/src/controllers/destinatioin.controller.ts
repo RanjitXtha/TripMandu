@@ -1,12 +1,12 @@
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js"
-import { aStar, nearestNode, haversineDistance } from '../utils/RouteAlgorithms.js';
+import { aStar, nearestNode, haversineDistance, textToVector, cosineSimilarity } from '../utils/RouteAlgorithms.js';
 import { Request, Response } from "express";
 import prisma from "../db/index.js";
 import type { AuthenticatedUser, AuthenticatedRequest } from "../middleware/auth.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-export const getLocationName = asyncHandler(async(req: Request, res: Response) => {
+export const getLocationName = asyncHandler(async (req: Request, res: Response) => {
   const lat = req.query.lat as string | undefined;
   const lon = req.query.long as string | undefined;
 
@@ -17,7 +17,7 @@ export const getLocationName = asyncHandler(async(req: Request, res: Response) =
   const latitude = parseFloat(lat);
   const longitude = parseFloat(lon);
 
-    if (isNaN(latitude) || isNaN(longitude)) {
+  if (isNaN(latitude) || isNaN(longitude)) {
     throw new ApiError(400, "Invalid latitude or longitude format.");
   }
 
@@ -32,16 +32,16 @@ export const getLocationName = asyncHandler(async(req: Request, res: Response) =
   LIMIT 1;
 `, longitude, latitude);
 
-console.log(results);
+  console.log(results);
 
-return res.status(200)
-.json(
-    new ApiResponse(200, results, "Data retrieve successfully")
-);
+  return res.status(200)
+    .json(
+      new ApiResponse(200, results, "Data retrieve successfully")
+    );
 
 });
 
-export const getNearByLocations = asyncHandler(async(req: Request, res: Response) => {
+export const getNearByLocations = asyncHandler(async (req: Request, res: Response) => {
   const lat = req.query.lat as string | undefined;
   const lon = req.query.long as string | undefined;
 
@@ -52,7 +52,7 @@ export const getNearByLocations = asyncHandler(async(req: Request, res: Response
   const latitude = parseFloat(lat);
   const longitude = parseFloat(lon);
 
-    if (isNaN(latitude) || isNaN(longitude)) {
+  if (isNaN(latitude) || isNaN(longitude)) {
     throw new ApiError(400, "Invalid latitude or longitude format.");
   }
 
@@ -69,17 +69,17 @@ export const getNearByLocations = asyncHandler(async(req: Request, res: Response
   LIMIT 10;
 `, longitude, latitude);
 
-console.log(results);
+  console.log(results);
 
-return res.status(200)
-.json(
-    new ApiResponse(200, results, "Data retrieve successfully")
-);
+  return res.status(200)
+    .json(
+      new ApiResponse(200, results, "Data retrieve successfully")
+    );
 
 });
 
-export const insertNewLoacatioins = asyncHandler(async(req: Request, res: Response) => {
-    const { name, description, image, latitude, longitude } = req.body;
+export const insertNewLoacatioins = asyncHandler(async (req: Request, res: Response) => {
+  const { name, description, image, latitude, longitude } = req.body;
 
   if (!name || latitude === undefined || longitude === undefined) {
     throw new ApiError(400, "Name, latitude, and longitude are required.");
@@ -100,15 +100,15 @@ export const insertNewLoacatioins = asyncHandler(async(req: Request, res: Respon
   console.log(result);
 
   return res.status(201)
-        .json(
-            new ApiResponse(201,  {
-      name,
-      description,
-      image,
-      latitude: lat,
-      longitude: lon,
-    }, "Data inserted successfully.")
-        );
+    .json(
+      new ApiResponse(201, {
+        name,
+        description,
+        image,
+        latitude: lat,
+        longitude: lon,
+      }, "Data inserted successfully.")
+    );
 });
 
 export const insertManyLoacatioins = asyncHandler(async (req: Request, res: Response) => {
@@ -170,4 +170,138 @@ export const getAllLocations = asyncHandler(async (req: Request, res: Response) 
   return res.status(200).json(
     new ApiResponse(200, results, "All locations retrieved successfully")
   );
+});
+
+
+export const addFavorite = asyncHandler(async (req: Request, res: Response) => {
+  const { userId, destinationId } = req.body;
+
+  if (!userId || !destinationId) {
+    return res.status(400).json({ error: "userId and destinationId are required." });
+  }
+
+  // Prevent duplicates
+  const existing = await prisma.userFavoriteDestination.findFirst({
+    where: {
+      userId,
+      destinationId,
+    },
+  });
+
+  if (existing) {
+    return res.status(409).json({ message: "Destination already favorited." });
+  }
+
+  const favorite = await prisma.userFavoriteDestination.create({
+    data: {
+      userId,
+      destinationId,
+    },
+  });
+
+  res.status(201).json({ message: "Favorite added", favorite });
+});
+
+export const getFavorites = asyncHandler(async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return res.status(400).json({ error: "userId is required." });
+  }
+
+  const favorites = await prisma.userFavoriteDestination.findMany({
+    where: { userId },
+    include: {
+      destination: true, // This includes the full Destination data
+    },
+  });
+
+  // Optional: Clean response structure
+  const cleanedFavorites = favorites.map((fav) => ({
+    id: fav.id,
+    destinationId: fav.destinationId,
+    destination: {
+      id: fav.destination.id,
+      name: fav.destination.name,
+      description: fav.destination.description,
+      image: fav.destination.image,
+      categories: fav.destination.categories,
+      lat: fav.destination.lat,
+      lon: fav.destination.lon,
+    },
+  }));
+
+  res.status(200).json({ favorites: cleanedFavorites });
+});
+
+export const deleteFavorite = asyncHandler(async (req: Request, res: Response) => {
+  const { userId, destinationId } = req.body;
+
+  if (!userId || !destinationId) {
+    return res.status(400).json({ error: "userId and destinationId are required." });
+  }
+
+  const existing = await prisma.userFavoriteDestination.findFirst({
+    where: { userId, destinationId },
+  });
+
+  if (!existing) {
+    return res.status(404).json({ message: "Favorite not found." });
+  }
+
+  await prisma.userFavoriteDestination.delete({
+    where: { id: existing.id },
+  });
+
+  res.status(200).json({ message: "Favorite removed successfully." });
+});
+
+export const getUserRecommendations = asyncHandler(async (req: Request, res: Response) => {
+  const { userId } = req.query;
+  if (!userId || typeof userId !== "string") {
+    return res.status(400).json({ error: "userId is required in query parameters." });
+  }
+
+  // Step 1: Get user's favorites with destination info
+  const favorites = await prisma.userFavoriteDestination.findMany({
+    where: { userId },
+    include: { destination: true },
+  });
+
+  if (favorites.length === 0) {
+    return res.json({ recommendations: [] });
+  }
+
+  const favoriteVectors = favorites.map(({ destination }) =>
+    textToVector(`${destination.name} ${destination.description ?? ""} ${destination.categories.join(" ")}`)
+  );
+
+  // Step 2: Get all destinations from DB
+  const allDestinations = await prisma.destination.findMany();
+  const favoritedIds = new Set(favorites.map(f => f.destinationId));
+
+  // Step 3: Score all non-favorited destinations
+  const recommendations = allDestinations
+    .filter(d => !favoritedIds.has(d.id))
+    .map(d => {
+      const vector = textToVector(`${d.name} ${d.description ?? ""} ${d.categories.join(" ")}`);
+      const avgSimilarity =
+        favoriteVectors.reduce((sum, vec) => sum + cosineSimilarity(vector, vec), 0) / favoriteVectors.length;
+
+      return {
+        id: d.id,
+        name: d.name,
+        description: d.description,
+        image: d.image,
+        categories: d.categories,
+        lat: d.lat,
+        lon: d.lon,
+        similarityScore: avgSimilarity,
+      };
+    })
+    .filter(d => d.similarityScore >= 0.2)
+    .sort((a, b) => b.similarityScore - a.similarityScore)
+    .slice(0, 5);
+
+  res.json({ recommendations });
 });

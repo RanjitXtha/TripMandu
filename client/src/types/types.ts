@@ -21,6 +21,7 @@ export type TouristDestination = {
   image: string;
   name: string;
   id: string;
+  categories: string[];
 };
 
 export type NearByDestinationType = {

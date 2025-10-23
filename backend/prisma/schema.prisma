@@ -17,6 +17,8 @@ model Destination {
   lat         Float?
   lon         Float?
   plans       PlanDestination[]
+  favoritedBy   UserFavoriteDestination[]
+
 
   @@map("destinations")
 }
@@ -31,6 +33,8 @@ model User {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   travelPlans TravelPlan[]
+  favorites     UserFavoriteDestination[]
+
 }
 
 model TravelPlan {
@@ -55,6 +59,20 @@ model PlanDestination {
 
   @@unique([planId, destinationId, order])
 }
+
+model UserFavoriteDestination {
+  id            Int         @id @default(autoincrement())
+  userId        String
+  destinationId Int
+  createdAt     DateTime    @default(now())
+
+  user          User        @relation(fields: [userId], references: [id])
+  destination   Destination @relation(fields: [destinationId], references: [id])
+
+  @@unique([userId, destinationId])
+  @@map("user_favorite_destinations")
+}
+
 
 model routing_edges_car {
   id                                                    Int                      @id @default(autoincrement())
