@@ -10,6 +10,8 @@ export type Location = {
   name?: string;
   lat: number;
   lon: number;
+  touristId?: number;
+
 };
 
 export type TouristDestination = {

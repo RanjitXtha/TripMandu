@@ -67,11 +67,9 @@ const Home = () => {
         const favourites = await dispatch(fetchFavourites(userId));
         console.log(favourites.payload);
       }
-    }
-
-    getFavourites()
+    };
+    getFavourites();
   }, [userId, dispatch]);
-
 
   useEffect(() => {
     const GetDestinations = async () => {
@@ -114,6 +112,14 @@ const Home = () => {
     setCurrentSegmentIndex(0);
   }, [destinations]);
 
+  /** ✅ Helper: add a destination with name and touristId */
+  const addDestinationFromTourist = (lat: number, lon: number, name: string, touristId?: number) => {
+    setDestinations((prev) => [
+      ...prev,
+      { lat, lon, name, touristId },
+    ]);
+  };
+
   const calculateTSPRoute = async () => {
     if (destinations.length < 2) {
       alert("Please add at least two destinations");
@@ -122,13 +128,13 @@ const Home = () => {
     setIsLoading(true);
     const updatedDestinations = destinations.map((d: any) => ({
       lat: Number(d.lat),
-      lon: Number(d.lon)
+      lon: Number(d.lon),
     }));
     try {
       const res = await axios.post("http://localhost:8080/api/map/solveTsp", {
         destinations: updatedDestinations,
         mode,
-        costType: "time"
+        costType: "time",
       });
       const { path, segments, tspOrder: order, totalCost, totalDistance } = res.data;
       setTotalCost(totalCost);
@@ -160,17 +166,17 @@ const Home = () => {
   };
 
   const handleRecommendationClick = (lat: number, lon: number, name: string) => {
-    // Find the tourist destination index by name
     const destinationIndex = touristDestinations.findIndex(
-      dest => dest.name === name
+      (dest) => dest.name === name
     );
-
     if (destinationIndex !== -1) {
       setSelectedMarker(destinationIndex);
       setMapTarget({ lat, lon });
 
-      // Fetch recommendations for the new destination
-      fetchRecommendations(name, 'similar');
+      /** ✅ Add to destinations properly with name + touristId */
+      addDestinationFromTourist(lat, lon, name, destinationIndex);
+
+      fetchRecommendations(name, "similar");
     }
   };
 
