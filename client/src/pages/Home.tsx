@@ -3,6 +3,7 @@ import MapView from "../components/MapView";
 import RoutePlanner from "../components/RoutePlanner";
 import RouteSequenceModal from "../components/RouteSequenceModal";
 import axios from "axios";
+import { useParams, useNavigate } from "react-router";
 import type {
   Location,
   TouristDestination,
@@ -18,6 +19,10 @@ import { Bike, Car, Footprints } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../app/store";
 import { fetchFavourites } from "../features/favourites";
+import PlanFormCard from "../components/plan/PlanForm";
+import { createPlan } from "../features/plan";
+import type { PlanDestination } from "../types/plan.type";
+import { mapOrderToId } from "../utils/helper";
 
 export interface PathSegment {
   path: [number, number][];
@@ -42,10 +47,18 @@ const Home = () => {
   const [myloc, setMyloc] = useState<{ lat: number; lon: number } | null>(null);
   const [addDestinationMode, setAddDestinationMode] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState<null | number>(null);
-  const [nearByDestinations, setNearByDestinations] = useState<NearByDestinationType[]>([]);
-  const [touristDestinations, setTouristDestinations] = useState<TouristDestination[]>([]);
-  const [touristDestinationsCoords, setTouristDestinationsCoords] = useState<Location[]>([]);
-  const [markerMode, setMarkerMode] = useState<"none" | "start" | "end">("none");
+  const [nearByDestinations, setNearByDestinations] = useState<
+    NearByDestinationType[]
+  >([]);
+  const [touristDestinations, setTouristDestinations] = useState<
+    TouristDestination[]
+  >([]);
+  const [touristDestinationsCoords, setTouristDestinationsCoords] = useState<
+    Location[]
+  >([]);
+  const [markerMode, setMarkerMode] = useState<"none" | "start" | "end">(
+    "none"
+  );
   const [pathCoords, setPathCoords] = useState<[number, number][]>([]);
   const [pathSegments, setPathSegments] = useState<PathSegment[]>([]);
   const [tspOrder, setTspOrder] = useState<number[]>([]);
@@ -57,7 +70,10 @@ const Home = () => {
   const [showAllSegments, setShowAllSegments] = useState(true);
   const [showControls, setShowControls] = useState(true);
   const [recommendations, setRecommendations] = useState([]);
-  const [mapTarget, setMapTarget] = useState<{ lat: number; lon: number } | null>(null);
+  const [mapTarget, setMapTarget] = useState<{
+    lat: number;
+    lon: number;
+  } | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const userId = useSelector((state: RootState) => state.user.id);
 
@@ -98,7 +114,8 @@ const Home = () => {
   useEffect(() => {
     if (!navigator.geolocation) return;
     const watchId = navigator.geolocation.watchPosition(
-      (pos) => setMyloc({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+      (pos) =>
+        setMyloc({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
       (err) => console.error("Location error:", err),
       { enableHighAccuracy: true, maximumAge: 1000, timeout: 10000 }
     );
@@ -113,11 +130,13 @@ const Home = () => {
   }, [destinations]);
 
   /** ✅ Helper: add a destination with name and touristId */
-  const addDestinationFromTourist = (lat: number, lon: number, name: string, touristId?: number) => {
-    setDestinations((prev) => [
-      ...prev,
-      { lat, lon, name, touristId },
-    ]);
+  const addDestinationFromTourist = (
+    lat: number,
+    lon: number,
+    name: string,
+    touristId: number
+  ) => {
+    setDestinations((prev) => [...prev, { lat, lon, name, touristId }]);
   };
 
   const calculateTSPRoute = async () => {
@@ -126,17 +145,33 @@ const Home = () => {
       return;
     }
     setIsLoading(true);
+
+    console.log("Destination need to be calculate: ", destinations);
     const updatedDestinations = destinations.map((d: any) => ({
       lat: Number(d.lat),
       lon: Number(d.lon),
     }));
+    console.log("updatedDestintion need: ", updatedDestinations);
     try {
       const res = await axios.post("http://localhost:8080/api/map/solveTsp", {
         destinations: updatedDestinations,
         mode,
         costType: "time",
       });
-      const { path, segments, tspOrder: order, totalCost, totalDistance } = res.data;
+      const {
+        path,
+        segments,
+        tspOrder: order,
+        totalCost,
+        totalDistance,
+      } = res.data;
+
+      //const orderData = { order: tspOrder };
+    
+     const formDesintaion = mapOrderToId(destinations, order);
+     setPlannedDestination(formDesintaion);
+
+     console.log("formDesi:", formDesintaion);
       setTotalCost(totalCost);
       setTotalDistance(totalDistance);
       if (!Array.isArray(path)) throw new Error("Invalid path");
@@ -155,9 +190,15 @@ const Home = () => {
     }
   };
 
-  const fetchRecommendations = async (name: string, type: "similar" | "nearby") => {
+  const fetchRecommendations = async (
+    name: string,
+    type: "similar" | "nearby"
+  ) => {
     try {
-      const res = await axios.post("http://localhost:8080/api/map/recommend", { name, type });
+      const res = await axios.post("http://localhost:8080/api/map/recommend", {
+        name,
+        type,
+      });
       setRecommendations(res.data.recommendations);
       console.log(res.data.recommendations);
     } catch (err) {
@@ -165,7 +206,11 @@ const Home = () => {
     }
   };
 
-  const handleRecommendationClick = (lat: number, lon: number, name: string) => {
+  const handleRecommendationClick = (
+    lat: number,
+    lon: number,
+    name: string
+  ) => {
     const destinationIndex = touristDestinations.findIndex(
       (dest) => dest.name === name
     );
@@ -185,6 +230,43 @@ const Home = () => {
       setOverlayView("showSite");
     }
   }, [selectedMarker]);
+  // for update and view
+
+  //const { id } = useParams<{ id: string }>();
+  //const [planeame, setPlanName] = useState<string>("");
+  const [formMode, setFormMode] = useState<"create" | "edit">("create");
+  const [isOpenPlanForm, setIsOpenPlanForm] = useState<boolean>(false);
+  const [plannedDestination, setPlannedDestination] = useState<
+    PlanDestination[]
+  >([]);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (planName: string) => {
+    console.log("Planned Destination:", plannedDestination);
+    console.log("Plan Name: ", planName);
+    const desination = plannedDestination.slice(0, -1);
+    const data = {
+      name: planName,
+      destinations: desination,
+    };
+
+    if (formMode === "edit") {
+      await dispatch(updatePlan({ formData: data, id: id! }));
+      setDestinations([]);
+      setPlannedDestination([]);
+
+      navigate("/");
+    } else {
+      await dispatch(createPlan(data));
+      setDestinations([]);
+      setPlannedDestination([]);
+    }
+    // console.log(data);
+  };
+
+  const saveRoute = () => {
+    setIsOpenPlanForm(true);
+  };
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50">
@@ -280,11 +362,26 @@ const Home = () => {
               className="mb-3 bg-white hover:bg-gray-50 rounded-full shadow-lg p-3 transition-all border border-gray-200"
               title={showControls ? "Hide controls" : "Show controls"}
             >
-              <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-5 h-5 text-gray-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 {showControls ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 )}
               </svg>
             </button>
@@ -298,10 +395,11 @@ const Home = () => {
                     <button
                       key={m}
                       onClick={() => setMode(m)}
-                      className={`p-2.5 rounded-full transition-all ${mode === m
-                        ? "bg-blue-600 hover:bg-blue-400 text-white shadow-sm"
-                        : "text-gray-600 hover:bg-gray-100"
-                        }`}
+                      className={`p-2.5 rounded-full transition-all ${
+                        mode === m
+                          ? "bg-blue-600 hover:bg-blue-400 text-white shadow-sm"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`}
                       title={m.charAt(0).toUpperCase() + m.slice(1)}
                     >
                       {m === "foot" && <Footprints size={18} />}
@@ -310,7 +408,6 @@ const Home = () => {
                     </button>
                   ))}
                 </div>
-
                 {/* Action Buttons - Stacked */}
                 {destinations.length >= 2 && (
                   <button
@@ -320,30 +417,98 @@ const Home = () => {
                   >
                     {isLoading ? (
                       <>
-                        <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        <svg
+                          className="w-4 h-4 animate-spin"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
                         </svg>
                         <span>Calculating...</span>
                       </>
                     ) : (
                       <>
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                          />
                         </svg>
                         <span>Calculate Route</span>
                       </>
                     )}
                   </button>
                 )}
-
+                {destinations.length >= 2 && (
+                  <button
+                    // disabled={isLoading}
+                    onClick={saveRoute}
+                    className="w-full bg-blue-600 hover:bg-blue-400 disabled:bg-gray-400 text-white px-4 py-2.5 rounded-full shadow-lg font-medium text-sm transition-all flex items-center justify-center gap-2"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                      />
+                    </svg>
+                    <span>Save Route</span>
+                  </button>
+                )}
+                {isOpenPlanForm && (
+                <PlanFormCard
+                  isOpen={isOpenPlanForm}
+                  mode="create"
+                  onSubmit={handleSubmit}
+                  onClose={() => {
+                    setPathCoords([]);
+                    setTspOrder([]);
+                    setIsOpenPlanForm(false);
+                  }}
+                />
+                )}
                 {pathSegments.length > 0 && (
                   <button
                     onClick={() => setShowRouteModal(true)}
                     className="w-full bg-white hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-full shadow-lg font-medium text-sm transition-all flex items-center justify-center gap-2 border border-gray-200"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                      />
                     </svg>
                     <span>View Route</span>
                   </button>
@@ -354,25 +519,52 @@ const Home = () => {
         </div>
 
         {/* Minimal Trip Summary - Bottom */}
-        {tspOrder.length > 0 && totalCost !== null && totalDistance !== null && !showRouteModal && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[999] pointer-events-none">
-            <div className="bg-white/95 backdrop-blur-sm rounded-full shadow-lg px-5 py-2.5 flex items-center gap-3 border border-gray-200/50 pointer-events-auto">
-              <div className="flex items-center gap-1.5">
-                <svg className="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span className="text-sm font-semibold text-gray-900">{formatDuration(totalCost)}</span>
-              </div>
-              <div className="w-px h-3 bg-gray-300"></div>
-              <div className="flex items-center gap-1.5">
-                <svg className="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                </svg>
-                <span className="text-sm font-semibold text-gray-900">{totalDistance.toFixed(1)} km</span>
+        {tspOrder.length > 0 &&
+          totalCost !== null &&
+          totalDistance !== null &&
+          !showRouteModal && (
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[999] pointer-events-none">
+              <div className="bg-white/95 backdrop-blur-sm rounded-full shadow-lg px-5 py-2.5 flex items-center gap-3 border border-gray-200/50 pointer-events-auto">
+                <div className="flex items-center gap-1.5">
+                  <svg
+                    className="w-3.5 h-3.5 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span className="text-sm font-semibold text-gray-900">
+                    {formatDuration(totalCost)}
+                  </span>
+                </div>
+                <div className="w-px h-3 bg-gray-300"></div>
+                <div className="flex items-center gap-1.5">
+                  <svg
+                    className="w-3.5 h-3.5 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                    />
+                  </svg>
+                  <span className="text-sm font-semibold text-gray-900">
+                    {totalDistance.toFixed(1)} km
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     </div>
   );

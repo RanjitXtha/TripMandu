@@ -290,7 +290,7 @@ const MapView = ({
         if (!td) return;
         setDestinations((prev) => [
           ...prev,
-          { lat: td.coordinates.lat, lon: td.coordinates.lon },
+          { lat: td.coordinates.lat, lon: td.coordinates.lon, id: td.id },
         ]);
       } else {
         setDestinations((prev) => [...prev, { lat: arg[0], lon: arg[1] }]);

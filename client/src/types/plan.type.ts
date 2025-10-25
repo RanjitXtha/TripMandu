@@ -1,21 +1,19 @@
-// only for response not detailed one destination
-
 export interface PlanDestination {
-    id: string;
-    destinationId?: string;
+    id: number; // always required and must be a number
     order: number;
+    date?:Date;
 }
 
 export interface Destination {
-    id: Number;
+    id: number;
     name: string;
 }
 
 export interface NewPlanDestination {
     id: string;
-    date: string;
+    date?: string;
     destination: Destination;
-    order: number
+    order: number;
 }
 
 export interface PlanForm {
@@ -37,17 +35,16 @@ export interface PlanResponse {
 }
 
 interface DestinationDetails {
-    id: Number;
+    id: number;
     name: string;
     description: string;
     image?: string;
     latitude: number;
-    longitude: number,
-    order: 1,
+    longitude: number;
+    order: number;
     date: Date;
-    categories: String[]
+    categories: string[];
 }
-
 
 export interface PlanSingle {
     id: string;
@@ -62,7 +59,7 @@ export interface PlanResponseById {
 }
 
 export interface FormCUResponse {
-  message: string;
-  success:boolean;
-  data: Plan;
+    message: string;
+    success: boolean;
+    data: Plan;
 }

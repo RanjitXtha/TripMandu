@@ -23,6 +23,7 @@ const PlanCard: React.FC<PlanProps> = ({ plan }) => {
   const handleView = () => {
     navigate(`/plan/${plan.id}`);
   };
+  console.log("Plan", plan)
   return (
     <div className="w-full max-w-3xl mx-auto p-6 bg-white rounded-2xl shadow-md space-y-4">
       {/* Header: Name + Actions */}

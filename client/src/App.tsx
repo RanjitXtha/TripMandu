@@ -8,7 +8,9 @@ import type { AppDispatch } from "./app/store";
 import { useDispatch } from "react-redux";
 import type { User } from "./types/user";
 import Home from "./pages/Home";
-import Plan from "./pages/ManageYourPlan";
+import ManageYourPlan from "./pages/ManageYourPlan";
+import ProtectedRoute from "./components/ProtectedRoute";
+import SinglePlan from "./pages/SinglePlan";
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -41,7 +43,24 @@ const App = () => {
         {/* Unprotected Route */}
         <Route path="register" element={<Register />} />
         <Route path="login" element={<SignIn />} />
-        <Route path="plan" element={<Plan />} />
+               <Route
+          path="/plan"
+          element={
+            <ProtectedRoute>
+              <ManageYourPlan />
+            </ProtectedRoute>
+          }
+        />
+
+
+         <Route
+          path="/plan/:id"
+          element={
+            <ProtectedRoute>
+              <SinglePlan />
+            </ProtectedRoute>
+          }
+        />
         {/* Protected Route */}
       </Routes>
     </BrowserRouter>

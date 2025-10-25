@@ -3,7 +3,8 @@ import { useState } from "react";
 import type { RootState } from "../app/store";
 import { useNavigate } from "react-router-dom";
 import { clearUser } from "../features/auth";
-import { Map, MapPin, Navigation, LogOut, User } from "lucide-react";
+import { Map, MapPin, Navigation, LogOut, User, Notebook } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   onSelectView: (view: "none" | "popularSite" | "routePlanner") => void;
@@ -47,6 +48,18 @@ const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
 
         {/* Navigation */}
         <nav className="flex items-center gap-2">
+
+          <Link to="/plan"
+            onClick={() => handleViewChange("routePlanner")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${
+              activeView === "routePlanner"
+                ? "bg-blue-600 text-white"
+                : "text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            <Notebook size={16} />
+            <span>View Plans</span>
+          </Link>
           <button
             onClick={() => handleViewChange("popularSite")}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${
