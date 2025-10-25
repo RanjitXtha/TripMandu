@@ -54,7 +54,7 @@ const PlanFormCard: React.FC<PlanFormProps> = ({
       className="fixed inset-0 w-full h-full flex items-center justify-center z-50 bg-black/20 backdrop-blur-sm"
       onClick={handleBackdropClick}
     >
-      <div className="bg-white/90 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl p-8 w-full max-w-md mx-4 relative animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-white backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl p-8 w-full max-w-md mx-4 relative animate-in fade-in zoom-in-95 duration-200">
         {/* Close Button */}
         <div className="absolute top-4 right-4">
           <CloseButton onClick={onClose} />
@@ -100,7 +100,7 @@ const PlanFormCard: React.FC<PlanFormProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-3 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors duration-200 font-medium"
+              className="flex-1 px-4 py-3 text-gray-600 bg-gray-300 hover:bg-gray-400 hover:text-white rounded-xl transition-colors duration-200 font-medium"
               disabled={isSubmitting}
             >
               Cancel

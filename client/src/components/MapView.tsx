@@ -47,8 +47,16 @@ interface MapViewProps {
 
 const getSegmentColor = (index: number, total: number) => {
   const colors = [
-    "#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A", "#98D8C8",
-    "#F7DC6F", "#BB8FCE", "#F8B739", "#52B788", "#E63946",
+    "#FF3B30", // Vibrant Red
+    "#34C759", // Bright Green
+    "#007AFF", // Bold Blue
+    "#AF52DE", // Purple
+    "#5AC8FA", // Sky Blue
+    "#FF2D55", // Pinkish Red
+    "#30D158", // Lime Green
+    "#5856D6", // Indigo
+    "#FF375F", // Hot Pink
+    "#0A84FF", // Deep Blue
   ];
   if (total <= colors.length) {
     return colors[index % colors.length];
@@ -99,34 +107,22 @@ const MapView = ({
       const { lat, lng } = e.lngLat;
 
       if (markerMode === "start") {
-        const existingDest = destinations[0];
-        setDestinations((prev) => [
-          {
-            ...existingDest,
-            lat,
-            lon: lng,
-            name: existingDest?.name || "Start Location"
-          },
-          ...prev.slice(1)
-        ]);
+        setDestinations((prev) => {
+          const newDest = { lat, lon: lng, name: "Start Location" };
+          if (prev.length === 0) return [newDest];
+          return [newDest, ...prev.slice(1)];
+        });
         setMarkerMode("none");
       } else if (markerMode === "end") {
-        const existingDest = destinations[destinations.length - 1];
-        setDestinations((prev) => [
-          ...prev.slice(0, -1),
-          {
-            ...existingDest,
-            lat,
-            lon: lng,
-            name: existingDest?.name || "End Location"
-          }
-        ]);
+        setDestinations((prev) => {
+          const newDest = { lat, lon: lng, name: "End Location" };
+          if (prev.length === 0) return [newDest];
+          if (prev.length === 1) return [...prev, newDest];
+          return [...prev.slice(0, -1), newDest];
+        });
         setMarkerMode("none");
       } else if (addDestinationMode) {
-        setClickMarkers((prev) => [
-          ...prev,
-          { id: `custom-${Date.now()}`, name: `Custom Marker ${prev.length + 1}`, lat, lon: lng },
-        ]);
+        setClickMarkers((prev) => [...prev, { lat, lon: lng }]);
       }
     };
 
@@ -353,9 +349,7 @@ const MapView = ({
 
       <Map
         mapLib={maplibregl}
-        minZoom={11}
-        maxZoom={40}
-     
+
 
         initialViewState={{ latitude: 27.67, longitude: 85.43, zoom: 14 }}
         mapStyle="https://tiles.openfreemap.org/styles/liberty"

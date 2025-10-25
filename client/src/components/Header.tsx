@@ -70,7 +70,7 @@ const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
               }`}
           >
             <MapPin size={16} />
-            <span>Popular Sites</span>
+            <span>Sites</span>
           </button>
           <button
             onClick={() => handleViewChange("none")}

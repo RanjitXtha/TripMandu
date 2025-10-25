@@ -181,7 +181,7 @@ const PopularSites: React.FC<PopularSitesProps> = ({
               }`}
           >
             <TrendingUp size={14} />
-            <span>Popular</span>
+            <span>Sites</span>
           </button>
 
           <button
