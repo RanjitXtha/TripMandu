@@ -61,6 +61,15 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/:id"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
         {/* Protected Route */}
       </Routes>
     </BrowserRouter>

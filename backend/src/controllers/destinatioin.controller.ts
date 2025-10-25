@@ -159,18 +159,37 @@ export const insertManyLoacatioins = asyncHandler(async (req: Request, res: Resp
 });
 
 export const getAllLocations = asyncHandler(async (req: Request, res: Response) => {
-  const results = await prisma.$queryRawUnsafe<any[]>(`
-    SELECT 
-      id, name, description, image,
-      ST_Y(location::geometry) AS lat,
-      ST_X(location::geometry) AS lon
-    FROM "Destination"
-  `);
+  // Fetch all destinations
+  const results = await prisma.destination.findMany({
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      image: true,
+      lat: true,
+      lon: true,
+      categories: true,
+    },
+  });
+
+  // Format response data
+  const formattedResults = results.map((dest) => ({
+    id: dest.id,
+    name: dest.name,
+    description: dest.description,
+    image: dest.image,
+    coordinates: {
+      lat: dest.lat,
+      lon: dest.lon,
+    },
+    categories: dest.categories,
+  }));
 
   return res.status(200).json(
-    new ApiResponse(200, results, "All locations retrieved successfully")
+    new ApiResponse(200, formattedResults, "All locations retrieved successfully")
   );
 });
+
 
 
 export const addFavorite = asyncHandler(async (req: Request, res: Response) => {

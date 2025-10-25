@@ -20,9 +20,10 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../app/store";
 import { fetchFavourites } from "../features/favourites";
 import PlanFormCard from "../components/plan/PlanForm";
-import { createPlan } from "../features/plan";
+import { createPlan, updatePlan } from "../features/plan";
 import type { PlanDestination } from "../types/plan.type";
 import { mapOrderToId } from "../utils/helper";
+import { planById } from "../apiHandle/plan";
 
 export interface PathSegment {
   path: [number, number][];
@@ -167,11 +168,11 @@ const Home = () => {
       } = res.data;
 
       //const orderData = { order: tspOrder };
-    
-     const formDesintaion = mapOrderToId(destinations, order);
-     setPlannedDestination(formDesintaion);
 
-     console.log("formDesi:", formDesintaion);
+      const formDesintaion = mapOrderToId(destinations, order);
+      setPlannedDestination(formDesintaion);
+
+      // console.log("formDesi:", formDesintaion);
       setTotalCost(totalCost);
       setTotalDistance(totalDistance);
       if (!Array.isArray(path)) throw new Error("Invalid path");
@@ -217,10 +218,6 @@ const Home = () => {
     if (destinationIndex !== -1) {
       setSelectedMarker(destinationIndex);
       setMapTarget({ lat, lon });
-
-      /** ✅ Add to destinations properly with name + touristId */
-      addDestinationFromTourist(lat, lon, name, destinationIndex);
-
       fetchRecommendations(name, "similar");
     }
   };
@@ -232,8 +229,39 @@ const Home = () => {
   }, [selectedMarker]);
   // for update and view
 
-  //const { id } = useParams<{ id: string }>();
-  //const [planeame, setPlanName] = useState<string>("");
+  const { id } = useParams<{ id: string }>();
+  const [planeame, setPlanName] = useState<string>("");
+
+  useEffect(() => {
+    // console.log("console log:", id);
+    const getPlan = async () => {
+      if (!id) return;
+      try {
+        const res = await planById(id);
+        console.log("Response: ", res?.data);
+        setPlanName(res.data?.planName);
+        // console.log("planeName: ", planeName);
+        setFormMode("edit");
+        //  console.log("destinations: ", res);
+
+        const des: Location[] = res.data.destinations.map((d) => ({
+          id: d.id,
+          name: d.name,
+          lat: d.latitude,
+          lon: d.longitude,
+        }));
+
+        //console.log("destination is: ", des);
+
+        setDestinations(des);
+      } catch (error) {
+        console.error("Failed to fetch plan by ID:", error);
+      }
+    };
+
+    getPlan();
+  }, [id]);
+
   const [formMode, setFormMode] = useState<"create" | "edit">("create");
   const [isOpenPlanForm, setIsOpenPlanForm] = useState<boolean>(false);
   const [plannedDestination, setPlannedDestination] = useState<
@@ -480,17 +508,33 @@ const Home = () => {
                     <span>Save Route</span>
                   </button>
                 )}
+                {/* plan form during creation */}
                 {isOpenPlanForm && (
-                <PlanFormCard
-                  isOpen={isOpenPlanForm}
-                  mode="create"
-                  onSubmit={handleSubmit}
-                  onClose={() => {
-                    setPathCoords([]);
-                    setTspOrder([]);
-                    setIsOpenPlanForm(false);
-                  }}
-                />
+                  <PlanFormCard
+                    isOpen={isOpenPlanForm}
+                    mode="create"
+                    onSubmit={handleSubmit}
+                    onClose={() => {
+                      setPathCoords([]);
+                      setTspOrder([]);
+                      setIsOpenPlanForm(false);
+                    }}
+                  />
+                )}
+                {/* plan form during updation */}
+                {isOpenPlanForm && formMode === "edit" && (
+                  <PlanFormCard
+                    mode="edit"
+                    isOpen={isOpenPlanForm}
+                    planeName={planeame}
+                    onSubmit={handleSubmit}
+                    onClose={() => {
+                      setIsOpenPlanForm(false);
+                      // handletoggle();
+                      setPathCoords([]);
+                      setTspOrder([]);
+                    }}
+                  />
                 )}
                 {pathSegments.length > 0 && (
                   <button

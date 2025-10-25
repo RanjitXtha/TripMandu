@@ -18,7 +18,7 @@ export interface NewPlanDestination {
 
 export interface PlanForm {
     id?: string;
-    planName: string;
+    name: string;
     destinations: PlanDestination[];
 }
 

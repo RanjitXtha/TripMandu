@@ -83,10 +83,8 @@ const MapView = ({
   const mapRef = useRef<maplibregl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const markersRef = useRef<maplibregl.Marker[]>([]);
-  const [showStops, setShowStops] = useState(false);
-  const [selectedRouteId, setSelectedRouteId] = useState<string>("empty");
   const [routeGeoJSON, setRouteGeoJSON] = useState<any[]>([]);
-  const [controlPanelOpen, setControlPanelOpen] = useState(false);
+  const [selectedRouteId, setSelectedRouteId] = useState<string>("empty");
 
   const getDisplayNumber = (destinationIndex: number) => {
     if (tspOrder.length === 0) return destinationIndex + 1;
@@ -94,24 +92,7 @@ const MapView = ({
     return position === -1 ? destinationIndex + 1 : position + 1;
   };
 
-  // useEffect(() => {
-  //   if (!mapLoaded) return;
-  //   const features = precomputedRoutes.map((route) => ({
-  //     type: "Feature",
-  //     properties: {
-  //       id: route.id,
-  //       name: route.name,
-  //       lineColor: route.color || "#FF0000",
-  //     },
-  //     geometry: {
-  //       type: "LineString",
-  //       coordinates: route.geometry,
-  //     },
-  //   }));
-  //   setRouteGeoJSON(features);
-  // }, [mapLoaded]);
-
-  // Handle map click (start/end/custom destination)
+  // 🟢 Map click (add custom or start/end markers)
   useEffect(() => {
     if (!mapLoaded || !mapRef.current) return;
 
@@ -119,23 +100,42 @@ const MapView = ({
       const { lat, lng } = e.lngLat;
 
       if (markerMode === "start") {
-        setDestinations((prev) => [{ lat, lon: lng }, ...prev.slice(1)]);
+        const existingDest = destinations[0];
+        setDestinations((prev) => [
+          {
+            ...existingDest,
+            lat,
+            lon: lng,
+            name: existingDest?.name || "Start Location"
+          },
+          ...prev.slice(1)
+        ]);
         setMarkerMode("none");
       } else if (markerMode === "end") {
-        setDestinations((prev) => [...prev.slice(0, -1), { lat, lon: lng }]);
+        const existingDest = destinations[destinations.length - 1];
+        setDestinations((prev) => [
+          ...prev.slice(0, -1),
+          {
+            ...existingDest,
+            lat,
+            lon: lng,
+            name: existingDest?.name || "End Location"
+          }
+        ]);
         setMarkerMode("none");
       } else if (addDestinationMode) {
-        setClickMarkers((prev) => [...prev, { lat, lon: lng }]);
+        setClickMarkers((prev) => [
+          ...prev,
+          { id: `custom-${Date.now()}`, name: `Custom Marker ${prev.length + 1}`, lat, lon: lng },
+        ]);
       }
     };
 
     mapRef.current.on("click", handleMapClick);
-    return () => {
-      mapRef.current?.off("click", handleMapClick);
-    };
+    return () => mapRef.current?.off("click", handleMapClick);
   }, [mapLoaded, markerMode, addDestinationMode, setDestinations, setMarkerMode, setClickMarkers]);
 
-  // Smooth camera fly when mapTarget changes
+  // 🟢 Camera fly animation
   useEffect(() => {
     if (mapTarget && mapRef.current) {
       mapRef.current.flyTo({
@@ -147,7 +147,7 @@ const MapView = ({
     }
   }, [mapTarget]);
 
-  // Draw markers
+  // 🟢 Draw all markers and popups
   useEffect(() => {
     if (!mapLoaded || !mapRef.current) return;
 
@@ -159,14 +159,14 @@ const MapView = ({
     if (showTouristMarkers) {
       touristDestinations.forEach((place, index) => {
         const html = `
-          <div class="w-[180px] p-3 bg-white rounded-lg shadow-lg text-sm space-y-2 border border-gray-100">
-            <h3 class="font-semibold text-base text-center text-gray-900">${place.name}</h3>
-            <button id="addDestination" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm px-3 py-2 transition font-medium" onclick='window.addDest(${index})'>Add Destination</button>
+          <div class="w-[180px] p-3 bg-white rounded-lg shadow-lg text-sm border border-gray-100">
+            <h3 class="font-semibold text-base text-center">${place.name}</h3>
+            <button class="w-full bg-blue-600 text-white rounded px-3 py-2 mt-2"
+              onclick='window.addDest(${index})'>Add Destination</button>
           </div>`;
         const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
 
         const el = document.createElement("div");
-        el.className = "custom-marker";
         Object.assign(el.style, {
           width: "18px",
           height: "18px",
@@ -174,7 +174,7 @@ const MapView = ({
           backgroundColor: "#EF4444",
           border: "2px solid white",
           cursor: "pointer",
-          boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.3)",
         });
 
         const marker = new maplibregl.Marker({ element: el })
@@ -189,22 +189,21 @@ const MapView = ({
             zoom: 15,
           });
           setOverlayView("showSite");
-          if (place.name) fetchRecommendations(place.name, "similar");
-          if (selectedMarker === index) {
-            setSelectedMarker(null);
-            setTimeout(() => setSelectedMarker(index), 0);
-          } else setSelectedMarker(index);
+          fetchRecommendations(place.name, "similar");
+          setSelectedMarker(selectedMarker === index ? null : index);
         });
       });
     }
 
-    // Custom click markers
+    // 🟣 Custom click markers
     clickMarkers.forEach((place) => {
       const html = `
-        <div class="w-[180px] p-3 bg-white rounded-lg shadow-lg text-sm space-y-2 border border-gray-100">
-          <h3 class="font-semibold text-base text-center text-gray-900">Custom Marker</h3>
-          <button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm px-3 py-2 transition font-medium" onclick='window.addDest([${place.lat}, ${place.lon}])'>Add Destination</button>
-          <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-sm px-3 py-2 transition font-medium" onclick='window.delClick(${place.lat}, ${place.lon})'>Delete</button>
+        <div class="w-[180px] p-3 bg-white rounded-lg shadow-lg text-sm border border-gray-100">
+          <h3 class="font-semibold text-base text-center">${place.name || "Custom Marker"}</h3>
+          <button class="w-full bg-blue-600 text-white rounded px-3 py-2 mt-2"
+            onclick='window.addDest([${place.lat}, ${place.lon}])'>Add Destination</button>
+          <button class="w-full bg-red-600 text-white rounded px-3 py-2 mt-2"
+            onclick='window.delClick(${place.lat}, ${place.lon})'>Delete</button>
         </div>`;
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
 
@@ -216,7 +215,7 @@ const MapView = ({
         backgroundColor: "#9333EA",
         border: "2px solid white",
         cursor: "pointer",
-        boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+        boxShadow: "0 2px 4px rgba(0,0,0,0.3)",
       });
 
       const marker = new maplibregl.Marker({ element: el })
@@ -226,17 +225,17 @@ const MapView = ({
       markersRef.current.push(marker);
     });
 
-    // Destination markers
+    // 🟢 Destination markers
     destinations.forEach((place, i) => {
       const displayNumber = getDisplayNumber(i);
       const html = `
         <div class="w-[200px] p-3 bg-white rounded-lg shadow-lg text-sm border border-gray-100">
           <div class="flex items-center gap-2 mb-2">
             <div class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold">${displayNumber}</div>
-            <h3 class="font-semibold text-gray-900">Destination ${displayNumber}</h3>
+            <h3 class="font-semibold text-gray-900">${place.name || `Destination ${displayNumber}`}</h3>
           </div>
           <div class="text-xs text-gray-500 mb-2">${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}</div>
-          <button class="w-full bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-sm px-3 py-2 transition font-medium" onclick='window.delDest(${i})'>Remove</button>
+          <button class="w-full bg-red-600 text-white rounded px-3 py-2" onclick='window.delDest(${i})'>Remove</button>
         </div>`;
 
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
@@ -266,12 +265,13 @@ const MapView = ({
       markersRef.current.push(marker);
     });
 
-    // My location marker
+    // 🟢 My location marker
     if (myloc) {
       const html = `
-        <div class="w-[180px] p-3 bg-white rounded-lg shadow-lg text-sm space-y-2 border border-gray-100">
-          <h3 class="font-semibold text-base text-center text-gray-900">My Location</h3>
-          <button class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm px-3 py-2 transition font-medium" onclick='window.addDest([${myloc.lat}, ${myloc.lon}])'>Add Destination</button>
+        <div class="w-[180px] p-3 bg-white rounded-lg shadow-lg text-sm border border-gray-100">
+          <h3 class="font-semibold text-base text-center">My Location</h3>
+          <button class="w-full bg-blue-600 text-white rounded px-3 py-2 mt-2"
+            onclick='window.addDest([${myloc.lat}, ${myloc.lon}])'>Add Destination</button>
         </div>`;
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(html);
       const marker = new maplibregl.Marker({ color: "#10B981" })
@@ -282,7 +282,7 @@ const MapView = ({
     }
   }, [mapLoaded, clickMarkers, destinations, myloc, tspOrder, pathCoords, touristDestinations]);
 
-  // Global helpers
+  // 🟢 Global helpers (patched to include name/id)
   useEffect(() => {
     window.addDest = (arg: number | [number, number]) => {
       if (typeof arg === "number") {
@@ -290,23 +290,41 @@ const MapView = ({
         if (!td) return;
         setDestinations((prev) => [
           ...prev,
-          { lat: td.coordinates.lat, lon: td.coordinates.lon, id: td.id },
+          {
+            id: td.id,
+            name: td.name,
+            lat: td.coordinates.lat,
+            lon: td.coordinates.lon,
+            touristId: arg,
+          },
         ]);
       } else {
-        setDestinations((prev) => [...prev, { lat: arg[0], lon: arg[1] }]);
+        const [lat, lon] = arg;
+        setDestinations((prev) => [
+          ...prev,
+          {
+            id: `custom-${Date.now()}`,
+            name: `Custom Location ${prev.length + 1}`,
+            lat,
+            lon,
+          },
+        ]);
       }
     };
+
     window.delDest = (index: number) =>
       setDestinations((prev) => prev.filter((_, i) => i !== index));
+
     window.delClick = (lat: number, lon: number) =>
       setClickMarkers((prev) => prev.filter((m) => m.lat !== lat || m.lon !== lon));
   }, [touristDestinations, setDestinations, setClickMarkers]);
 
-  // Cursor feedback
+  // 🟢 Cursor feedback
   useEffect(() => {
     if (!mapRef.current) return;
     const canvas = mapRef.current.getCanvas();
-    if (markerMode !== "none" || addDestinationMode) canvas.style.cursor = "crosshair";
+    if (markerMode !== "none" || addDestinationMode)
+      canvas.style.cursor = "crosshair";
     else canvas.style.cursor = "";
   }, [markerMode, addDestinationMode]);
 
@@ -346,23 +364,10 @@ const MapView = ({
       >
         <NavigationControl position="top-right" />
 
-        {/* Precomputed Routes */}
-        {routeGeoJSON
-          .filter((f) => selectedRouteId === "" || f.properties.id === selectedRouteId)
-          .map((f, i) => (
-            <Source key={i} id={`route-${i}`} type="geojson" data={f}>
-              <Layer
-                id={`route-line-${i}`}
-                type="line"
-                paint={{ "line-color": f.properties.lineColor, "line-width": 3 }}
-              />
-            </Source>
-          ))}
-
-        {/* Dynamic Path Segments */}
+        {/* Path segments (as before) */}
         {pathSegments.length > 0 &&
-          (showAllSegments ? (
-            pathSegments.map((segment, i) => {
+          (showAllSegments
+            ? pathSegments.map((segment, i) => {
               const color = getSegmentColor(i, pathSegments.length);
               return (
                 <Source
@@ -392,14 +397,12 @@ const MapView = ({
                     paint={{
                       "line-color": color,
                       "line-width": 5,
-                      "line-opacity": 1,
                     }}
                   />
                 </Source>
               );
             })
-          ) : (
-            (() => {
+            : (() => {
               const segment = pathSegments[currentSegmentIndex];
               const color = getSegmentColor(currentSegmentIndex, pathSegments.length);
               return (
@@ -420,7 +423,6 @@ const MapView = ({
                     paint={{
                       "line-color": "#fff",
                       "line-width": 8,
-                      "line-opacity": 0.9,
                     }}
                   />
                   <Layer
@@ -429,13 +431,11 @@ const MapView = ({
                     paint={{
                       "line-color": color,
                       "line-width": 6,
-                      "line-opacity": 1,
                     }}
                   />
                 </Source>
               );
-            })()
-          ))}
+            })())}
       </Map>
     </div>
   );
