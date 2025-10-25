@@ -92,8 +92,7 @@ const MapView = ({
     return position === -1 ? destinationIndex + 1 : position + 1;
   };
 
-  // 🟢 Map click (add custom or start/end markers)
-  useEffect(() => {
+  useEffect((): any => {
     if (!mapLoaded || !mapRef.current) return;
 
     const handleMapClick = (e: maplibregl.MapMouseEvent) => {
@@ -354,6 +353,10 @@ const MapView = ({
 
       <Map
         mapLib={maplibregl}
+        minZoom={11}
+        maxZoom={40}
+     
+
         initialViewState={{ latitude: 27.67, longitude: 85.43, zoom: 14 }}
         mapStyle="https://tiles.openfreemap.org/styles/liberty"
         style={{ height: "100%", width: "100%" }}

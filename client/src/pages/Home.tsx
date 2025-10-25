@@ -24,6 +24,8 @@ import { createPlan, updatePlan } from "../features/plan";
 import type { PlanDestination } from "../types/plan.type";
 import { mapOrderToId } from "../utils/helper";
 import { planById } from "../apiHandle/plan";
+import ManageYourPlan from "./ManageYourPlan";
+import PlanCreationBanner from "../components/plan/PlanCreationBanner";
 
 export interface PathSegment {
   path: [number, number][];
@@ -75,6 +77,7 @@ const Home = () => {
     lat: number;
     lon: number;
   } | null>(null);
+  const [isCreatingPlan, setIsCreatingPlan] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const userId = useSelector((state: RootState) => state.user.id);
 
@@ -245,7 +248,8 @@ const Home = () => {
         //  console.log("destinations: ", res);
 
         const des: Location[] = res.data.destinations.map((d) => ({
-          id: d.id,
+          touristId: d.id,
+          id:d.id,
           name: d.name,
           lat: d.latitude,
           lon: d.longitude,
@@ -294,6 +298,7 @@ const Home = () => {
 
   const saveRoute = () => {
     setIsOpenPlanForm(true);
+    setIsCreatingPlan(false);
   };
 
   return (
@@ -307,6 +312,22 @@ const Home = () => {
           }
         }}
       />
+
+      {
+        destinations.length !==0  && (
+          <button onClick={()=>{
+            setDestinations([]);
+            navigate('/');
+          }}
+          className="bg-blue-600 drop-shadow-md shadow-black hover:bg-blue-400 fixed px-4 py-2 top-6 rounded-3xl z-1000 right-26 text-white">Clear</button>
+        )
+      }
+
+      {
+        isCreatingPlan && (
+          <PlanCreationBanner onBack={()=>setIsCreatingPlan(false)} />
+        )
+      }
 
       {overlayView !== "none" && (
         <Overlay>
@@ -337,6 +358,11 @@ const Home = () => {
               onBack={() => setOverlayView("none")}
             />
           )}
+          {overlayView === "planner" && (
+            <ManageYourPlan setOverlayView={setOverlayView} setIsCreatingPlan={setIsCreatingPlan} onBack={() => setOverlayView("none")}
+            />
+          )
+          }
         </Overlay>
       )}
 
@@ -423,11 +449,10 @@ const Home = () => {
                     <button
                       key={m}
                       onClick={() => setMode(m)}
-                      className={`p-2.5 rounded-full transition-all ${
-                        mode === m
-                          ? "bg-blue-600 hover:bg-blue-400 text-white shadow-sm"
-                          : "text-gray-600 hover:bg-gray-100"
-                      }`}
+                      className={`p-2.5 rounded-full transition-all ${mode === m
+                        ? "bg-blue-600 hover:bg-blue-400 text-white shadow-sm"
+                        : "text-gray-600 hover:bg-gray-100"
+                        }`}
                       title={m.charAt(0).toUpperCase() + m.slice(1)}
                     >
                       {m === "foot" && <Footprints size={18} />}
@@ -486,7 +511,7 @@ const Home = () => {
                     )}
                   </button>
                 )}
-                {destinations.length >= 2 && (
+                {pathSegments.length > 0 && (
                   <button
                     // disabled={isLoading}
                     onClick={saveRoute}

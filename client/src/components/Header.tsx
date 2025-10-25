@@ -7,7 +7,7 @@ import { Map, MapPin, Navigation, LogOut, User, Notebook } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface HeaderProps {
-  onSelectView: (view: "none" | "popularSite" | "routePlanner") => void;
+  onSelectView: (view: "none" | "popularSite" | "routePlanner" | "planner") => void;
   setSelectedMarker: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
@@ -16,7 +16,7 @@ const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeView, setActiveView] = useState<"none" | "popularSite" | "routePlanner">("none");
+  const [activeView, setActiveView] = useState<"none" | "popularSite" | "routePlanner" | "planner">("none");
 
   const handleLogout = () => {
     dispatch(clearUser());
@@ -29,7 +29,7 @@ const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
     navigate("/login");
   };
 
-  const handleViewChange = (view: "none" | "popularSite" | "routePlanner") => {
+  const handleViewChange = (view: "none" | "popularSite" | "routePlanner" | "planner") => {
     setSelectedMarker(null);
     onSelectView(view);
     setActiveView(view);
@@ -39,56 +39,55 @@ const Header = ({ onSelectView, setSelectedMarker }: HeaderProps) => {
     <header className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] w-full max-w-4xl px-4">
       <div className="bg-white rounded-2xl shadow-lg border border-gray-200 px-6 py-3 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-2">
+        <button onClick={()=>{
+          setActiveView("none")
+          navigate("/")
+        }} className="flex items-center gap-2">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
             <Map className="w-5 h-5 text-white" />
           </div>
           <h1 className="text-xl font-bold text-gray-900">TripMandu</h1>
-        </div>
+        </button>
 
         {/* Navigation */}
         <nav className="flex items-center gap-2">
 
-          <Link to="/plan"
-            onClick={() => handleViewChange("routePlanner")}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${
-              activeView === "routePlanner"
-                ? "bg-blue-600 text-white"
-                : "text-gray-700 hover:bg-gray-100"
-            }`}
+          <button
+            onClick={() => handleViewChange("planner")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${activeView === "planner"
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-gray-100"
+              }`}
           >
             <Notebook size={16} />
             <span>View Plans</span>
-          </Link>
+          </button>
           <button
             onClick={() => handleViewChange("popularSite")}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${
-              activeView === "popularSite"
-                ? "bg-blue-600 text-white"
-                : "text-gray-700 hover:bg-gray-100"
-            }`}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${activeView === "popularSite"
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-gray-100"
+              }`}
           >
             <MapPin size={16} />
             <span>Popular Sites</span>
           </button>
           <button
             onClick={() => handleViewChange("none")}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${
-              activeView === "none"
-                ? "bg-blue-600 text-white"
-                : "text-gray-700 hover:bg-gray-100"
-            }`}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${activeView === "none"
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-gray-100"
+              }`}
           >
             <Map size={16} />
             <span>Map</span>
           </button>
           <button
             onClick={() => handleViewChange("routePlanner")}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${
-              activeView === "routePlanner"
-                ? "bg-blue-600 text-white"
-                : "text-gray-700 hover:bg-gray-100"
-            }`}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${activeView === "routePlanner"
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-gray-100"
+              }`}
           >
             <Navigation size={16} />
             <span>Plan Route</span>

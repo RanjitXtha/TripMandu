@@ -14,7 +14,7 @@ interface Recommendation {
   lat: number;
   lon: number;
   categories: string[];
-  similarityScore: number;
+  similarityScore?: number;
 }
 
 interface PopularSitesProps {
@@ -39,19 +39,69 @@ const PopularSites: React.FC<PopularSitesProps> = ({
   const userId = useSelector((state: RootState) => state.user.id);
   const favourites = useSelector((state: RootState) => state.favourites.items);
 
+  const defaultRecommendations: Recommendation[] = [
+    {
+      name: "Kathmandu Durbar Square",
+      description: "One of three royal palace squares in the Kathmandu Valley, this UNESCO World Heritage Site is a historic plaza renowned for its exquisite architecture, temples, courtyards, and the Kumari Ghar, residence of the living goddess.",
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Basantapurpalace.JPG/330px-Basantapurpalace.JPG",
+        lat: 27.7047132,
+        lon: 85.3074368,
+      categories: ["Heritage", "Hindu", "Historical"],
+      id: 1,
+    },
+    {
+      name: "Patan Durbar Square",
+      description: "Situated in the center of Lalitpur, this UNESCO World Heritage Site is a marvel of Newar architecture. The square is home to the medieval royal palace, along with a stunning array of temples and idols, including the famed Krishna Mandir.",
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Patan_Durbar_Square_entrance_2022.jpg/330px-Patan_Durbar_Square_entrance_2022.jpg",
+        lat: 27.6735518,
+        lon: 85.3252331,
+      categories: ["Heritage", "Hindu", "Historical"],
+      id: 2,
+    },
+    {
+      name: "Bhaktapur Durbar Square",
+      description: "The royal palace plaza of the former Bhaktapur Kingdom and a UNESCO World Heritage Site. The square is famous for its rich culture and historical monuments, including the 55-Window Palace, the Golden Gate, and the nearby Nyatapola Temple.",
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Bhaktapur_Durbar_Square_area_at_dusk.jpg/330px-Bhaktapur_Durbar_Square_area_at_dusk.jpg",
+
+      lat: 27.6721531,
+      lon: 85.4283489,
+
+      categories: ["Heritage", "Hindu", "Historical"],
+      id: 3,
+    },
+    {
+      name: "Changu Narayan Temple",
+      description: "Considered the oldest Hindu temple in Nepal, this ancient temple is dedicated to Lord Vishnu. Located on a high hilltop, it is adorned with some of the finest examples of stone, wood, and metal craft in the Kathmandu Valley.",
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Nepal_-_Changu_Narayan_%283566057331%29.jpg/330px-Nepal_-_Changu_Narayan_%283566057331%29.jpg",
+        lat: 27.71635,
+        lon: 85.42781,
+      categories: ["Hindu", "Nature", "Temple"],
+      id: 4,
+    },
+    {
+      name: "Budhanilkantha Temple",
+      description: "An open-air Hindu temple dedicated to Lord Vishnu, featuring a large reclining statue of the deity sleeping on a bed of cosmic serpents in a pool of water. It is a revered site for both Hindus and Buddhists.",
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Budhanilkantha_Narayan_Murti_%282023%29_-_IMG_03.jpg/330px-Budhanilkantha_Narayan_Murti_%282023%29_-_IMG_03.jpg",
+        lat: 27.7686123,
+        lon: 85.3653456,
+      categories: ["Buddhist", "Hindu", "Temple"],
+      id: 5,
+    },
+  ]
   // Fetch Recommendations
   useEffect(() => {
     const fetchRecommendations = async () => {
-      if (!userId || favourites.length === 0) {
-        setRecommendations([]);
-        return;
-      }
-
+ 
       setIsLoadingRec(true);
       try {
         const res = await axios.get("http://localhost:8080/api/destination/recommendations", {
           params: { userId },
         });
+        console.log("Recommendations response:", res.data);
+        if(res.data.recommendations.length === 0) {
+          setRecommendations(defaultRecommendations);
+          return;
+        }
         setRecommendations(res.data.recommendations || []);
       } catch (err) {
         console.error("Failed to fetch recommendations:", err);
@@ -126,8 +176,8 @@ const PopularSites: React.FC<PopularSitesProps> = ({
           <button
             onClick={() => setActiveTab("popular")}
             className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg font-medium text-xs transition-all ${activeTab === "popular"
-                ? "bg-blue-600 text-white shadow-sm"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? "bg-blue-600 text-white shadow-sm"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
           >
             <TrendingUp size={14} />
@@ -137,8 +187,8 @@ const PopularSites: React.FC<PopularSitesProps> = ({
           <button
             onClick={() => setActiveTab("recommended")}
             className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg font-medium text-xs transition-all ${activeTab === "recommended"
-                ? "bg-blue-600 text-white shadow-sm"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? "bg-blue-600 text-white shadow-sm"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
           >
             <Sparkles size={14} />
@@ -148,8 +198,8 @@ const PopularSites: React.FC<PopularSitesProps> = ({
           <button
             onClick={() => setActiveTab("favourites")}
             className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg font-medium text-xs transition-all ${activeTab === "favourites"
-                ? "bg-blue-600 text-white shadow-sm"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? "bg-blue-600 text-white shadow-sm"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
           >
             <Heart size={14} />
@@ -171,7 +221,7 @@ const PopularSites: React.FC<PopularSitesProps> = ({
             ))}
           </div>
         )}
-        
+
         {activeTab === "recommended" && (
           <div>
             {isLoadingRec ? (
@@ -181,19 +231,7 @@ const PopularSites: React.FC<PopularSitesProps> = ({
                   <p className="text-sm text-gray-600">Loading...</p>
                 </div>
               </div>
-            ) : !userId || favourites.length === 0 ? (
-              <div className="text-center py-12 px-4">
-                <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Sparkles size={24} className="text-gray-400" />
-                </div>
-                <h3 className="text-base font-semibold text-gray-900 mb-2">
-                  No Recommendations
-                </h3>
-                <p className="text-xs text-gray-600">
-                  Add destinations to favorites to get personalized suggestions!
-                </p>
-              </div>
-            ) : recommendations.length === 0 ? (
+            ) :recommendations.length === 0 ? (
               <div className="text-center py-12 px-4">
                 <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <Sparkles size={24} className="text-gray-400" />
