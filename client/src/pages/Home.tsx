@@ -114,6 +114,7 @@ const Home = () => {
 
   /** ✅ Helper: add a destination with name and touristId */
   const addDestinationFromTourist = (lat: number, lon: number, name: string, touristId?: number) => {
+    console.log("Adding destination:", { lat, lon, name, touristId });
     setDestinations((prev) => [
       ...prev,
       { lat, lon, name, touristId },
@@ -172,10 +173,6 @@ const Home = () => {
     if (destinationIndex !== -1) {
       setSelectedMarker(destinationIndex);
       setMapTarget({ lat, lon });
-
-      /** ✅ Add to destinations properly with name + touristId */
-      addDestinationFromTourist(lat, lon, name, destinationIndex);
-
       fetchRecommendations(name, "similar");
     }
   };
