@@ -45,7 +45,6 @@ const RouteSequenceModal = ({
 }: RouteSequenceModalProps) => {
   
   const getDestinationName = (index: number) => {
-   console.log("destinations:",destinations)
     
     const dest = destinations[index];
     if (!dest) return `Stop ${index + 1}`;
