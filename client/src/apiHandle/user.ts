@@ -9,6 +9,7 @@ export const registerFormData = async (formData: FormData) => {
       },
     });
 
+    console.log("Respone: ", response);
     return response.data;
   } catch (error) {
     console.error("Error while registering:", error);
@@ -22,5 +23,6 @@ export const LoginFromData = async( data: LoginFrom)=> {
     return response.data;
   } catch (error:any) {
     console.error(error?.message || "login error");
+    throw error;
   }
 }

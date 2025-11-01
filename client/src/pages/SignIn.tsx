@@ -66,8 +66,10 @@ const SignIn = () => {
       }
     } catch (err: any) {
       if (err.status === 404) setError("User not found");
+    
       else if (err.status === 403) setError("Incorrect password");
       else setError(err?.message || "Login failed");
+        console.log("error:", err);
     } finally {
       setLoading(false);
     }
