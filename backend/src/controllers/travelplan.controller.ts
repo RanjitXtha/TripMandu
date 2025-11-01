@@ -6,6 +6,9 @@ import { AuthenticatedRequest, AuthenticatedUser } from "../middleware/auth.js";
 import prisma from "../db/index.js";
 import { connect } from "http2";
 import { Prisma } from "@prisma/client";
+import { aStar, CostType, nearestNode } from "../utils/RouteAlgorithms.js";
+import { Mode, SPEEDS } from "./map.controller.js";
+import { graphCache } from "../index.js";
 
 export const createPlan = asyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
@@ -135,7 +138,7 @@ export const getPlanDestinationById = asyncHandler(
       throw new ApiError(400, "Plan ID is required");
     }
 
-    // Fetch the travel plan with its destinations and related destination data
+    // Fetch travel plan (ordered destinations)
     const travelPlan = await prisma.travelPlan.findUnique({
       where: { id: planId },
       include: {
@@ -160,36 +163,136 @@ export const getPlanDestinationById = asyncHandler(
       },
     });
 
-    // Check if plan exists and belongs to the current user
     if (!travelPlan || travelPlan.userId !== user.id) {
       throw new ApiError(404, "Plan not found or access denied");
     }
 
-    // Prepare the response
+    const destinations = travelPlan.destinations.map((pd) => ({
+      id: pd.destination.id,
+      name: pd.destination.name,
+      description: pd.destination.description,
+      image: pd.destination.image,
+      latitude: pd.destination.lat,
+      longitude: pd.destination.lon,
+      categories: pd.destination.categories,
+      order: pd.order,
+      date: pd.date ? pd.date.toISOString().split("T")[0] : null,
+    }));
+
+    if (destinations.length < 2) {
+      return res.status(200).json(
+        new ApiResponse(200, { planName: travelPlan.name, destinations }, "Plan retrieved")
+      );
+    }
+
+    // Ensure graph cache exists
+    if (!graphCache) throw new ApiError(500, "Graph not loaded");
+
+    const { graph, nodeMap } = graphCache;
+    const transportMode: Mode = "car" as Mode;
+    const costType: CostType = "length";
+    const speed = SPEEDS[transportMode];
+
+    // Snap destinations to nearest nodes
+
+    const destinationNodes: Array<{ dest: typeof destinations[0]; nodeId: number }> = [];
+    for (const dest of destinations) {
+      const nearest = nearestNode(
+        { lat: dest.latitude!, lon: dest.longitude! },
+        nodeMap,
+        graph,
+        transportMode,
+        costType,
+        speed
+      );
+
+      if (nearest == null) {
+        console.warn(`No nearest node found for destination: ${dest.name}`);
+        continue;
+      }
+
+      destinationNodes.push({ dest, nodeId: nearest });
+    }
+
+    if (destinationNodes.length < 2) {
+      return res.status(200).json(
+        new ApiResponse(200, { planName: travelPlan.name, destinations }, "Plan retrieved")
+      );
+    }
+
+    // Prepare route points for round-trip
+    const routeNodeIds = destinationNodes.map(d => d.nodeId);
+    routeNodeIds.push(routeNodeIds[0]); // return to start
+
+    const segments: Array<{
+      path: number[];
+      cost: number;
+      distance: number;
+      fromIndex: number;
+      toIndex: number;
+    }> = [];
+
+    let totalDistance = 0;
+    let totalCost = 0;
+    const fullPath: number[] = [];
+
+    // Run A* between consecutive nodes
+    for (let i = 0; i < routeNodeIds.length - 1; i++) {
+      const fromNode = routeNodeIds[i];
+      const toNode = routeNodeIds[i + 1];
+
+      const result = aStar(fromNode, toNode, graph, nodeMap, transportMode, costType, speed);
+      if (!result) {
+        console.warn(`A* failed between nodes ${fromNode} -> ${toNode}`);
+        continue;
+      }
+
+      segments.push({
+        path: result.path,
+        cost: result.totalCost,
+        distance: result.totalDistance,
+        fromIndex: i,
+        toIndex: (i + 1) % destinationNodes.length,
+      });
+
+      totalCost += result.totalCost;
+      totalDistance += result.totalDistance;
+
+      if (i === 0) fullPath.push(...result.path);
+      else fullPath.push(...result.path.slice(1));
+    }
+
+    // Convert node IDs to coordinates for frontend
+    const fullPathCoords = fullPath.map(id => [nodeMap[id].lat, nodeMap[id].lon]);
+
+    const factor = transportMode === "foot" ? 1.3 : transportMode === "motorbike" ? 1.4 : 1.5;
+
+    const segmentsCoords = segments.map(seg => ({
+      path: seg.path.map(id => [nodeMap[id].lat, nodeMap[id].lon]),
+      costMinutes: (seg.cost * factor) / 60,
+      distanceKm: seg.distance / 1000,
+      fromIndex: seg.fromIndex,
+      toIndex: seg.toIndex,
+    }));
+
     const response = {
-      planName: travelPlan.name || "",
-      destinations: travelPlan.destinations.map((pd) => ({
-        id: pd.destination.id,
-        name: pd.destination.name,
-        description: pd.destination.description,
-        image: pd.destination.image,
-        latitude: pd.destination.lat,
-        longitude: pd.destination.lon,
-        categories: pd.destination.categories,
-        order: pd.order,
-        date: pd.date ? pd.date.toISOString().split("T")[0] : null,
-      })),
+      planName: travelPlan.name,
+      destinations,
+      route: {
+        path: fullPathCoords,
+        segments: segmentsCoords,
+        totalCostMinutes: (totalCost * factor) / 60,
+        totalDistanceKm: totalDistance / 1000,
+        mode: transportMode,
+        costType,
+        roundTrip: true,
+      },
     };
 
-    return res.status(200).json(
-      new ApiResponse(
-        200,
-        response,
-        "Plan destinations retrieved successfully"
-      )
-    );
+    return res.status(200).json(new ApiResponse(200, response, "Round-trip plan retrieved and routed"));
   }
 );
+
 
 
 export const deletePlanById = asyncHandler(

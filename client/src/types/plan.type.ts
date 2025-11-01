@@ -47,10 +47,29 @@ interface DestinationDetails {
 }
 
 export interface PlanSingle {
-    id: string;
-    planName: string;
-    destinations: DestinationDetails[];
+  id: string;
+  planName: string;
+  destinations: DestinationDetails[];
+  route?: RouteDetails; // Optional in case route isn't generated yet
 }
+
+export interface RouteDetails {
+  costType: "time" | "length";
+  mode: "foot" | "motorbike" | "car";
+  path: [number, number][]; // Full route path
+  segments: RouteSegment[];
+  totalCostMinutes: number;
+  totalDistanceKm: number;
+}
+
+export interface RouteSegment {
+  path: [number, number][];
+  costMinutes: number;
+  distanceKm: number;
+  fromIndex: number;
+  toIndex: number;
+}
+
 
 export interface PlanResponseById {
     success: boolean;

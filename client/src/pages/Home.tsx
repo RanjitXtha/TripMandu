@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import MapView from "../components/MapView";
 import RoutePlanner from "../components/RoutePlanner";
 import RouteSequenceModal from "../components/RouteSequenceModal";
@@ -80,12 +80,14 @@ const Home = () => {
   const [isCreatingPlan, setIsCreatingPlan] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const userId = useSelector((state: RootState) => state.user.id);
+  
+  // ✅ Ref to track if we're loading a plan (to prevent clearing paths)
+  const isLoadingPlanRef = useRef(false);
 
   useEffect(() => {
     const getFavourites = async () => {
       if (userId) {
         const favourites = await dispatch(fetchFavourites(userId));
-        console.log(favourites.payload);
       }
     };
     getFavourites();
@@ -126,7 +128,14 @@ const Home = () => {
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
+  // ✅ Only clear paths when manually changing destinations (not when loading a plan)
   useEffect(() => {
+    if (isLoadingPlanRef.current) {
+      console.log("Skipping path clear - loading plan");
+      return;
+    }
+    
+    console.log("Clearing paths due to destination change");
     setPathCoords([]);
     setPathSegments([]);
     setTspOrder([]);
@@ -150,12 +159,10 @@ const Home = () => {
     }
     setIsLoading(true);
 
-    console.log("Destination need to be calculate: ", destinations);
     const updatedDestinations = destinations.map((d: any) => ({
       lat: Number(d.lat),
       lon: Number(d.lon),
     }));
-    console.log("updatedDestintion need: ", updatedDestinations);
     try {
       const res = await axios.post("http://localhost:8080/api/map/solveTsp", {
         destinations: updatedDestinations,
@@ -170,12 +177,15 @@ const Home = () => {
         totalDistance,
       } = res.data;
 
-      //const orderData = { order: tspOrder };
+      console.log("TSP Result:", res.data);
+
+      if (totalCost === 0 || totalDistance === 0) {
+        alert("Failed to calculate valid route between the selected destinations.");
+      }
 
       const formDesintaion = mapOrderToId(destinations, order);
       setPlannedDestination(formDesintaion);
 
-      // console.log("formDesi:", formDesintaion);
       setTotalCost(totalCost);
       setTotalDistance(totalDistance);
       if (!Array.isArray(path)) throw new Error("Invalid path");
@@ -204,7 +214,6 @@ const Home = () => {
         type,
       });
       setRecommendations(res.data.recommendations);
-      console.log(res.data.recommendations);
     } catch (err) {
       setRecommendations([]);
     }
@@ -230,41 +239,101 @@ const Home = () => {
       setOverlayView("showSite");
     }
   }, [selectedMarker]);
-  // for update and view
 
+  // for update and view
   const { id } = useParams<{ id: string }>();
   const [planeame, setPlanName] = useState<string>("");
 
-  useEffect(() => {
-    // console.log("console log:", id);
-    const getPlan = async () => {
-      if (!id) return;
-      try {
-        const res = await planById(id);
-        console.log("Response: ", res?.data);
-        setPlanName(res.data?.planName);
-        // console.log("planeName: ", planeName);
-        setFormMode("edit");
-        //  console.log("destinations: ", res);
+  // ✅ Load plan by ID with proper flag management
+useEffect(() => {
+  const getPlan = async () => {
+    console.log("Fetching plan for id:", id);
+    if (!id) return;
+    
+    isLoadingPlanRef.current = true;
+    
+    try {
+      const res = await planById(id);
+      const data = res?.data;
+      console.log("Loaded plan:", data);
 
-        const des: Location[] = res.data.destinations.map((d) => ({
-          touristId: d.id,
-          id:d.id,
-          name: d.name,
-          lat: d.latitude,
-          lon: d.longitude,
+      setPlanName(data.planName);
+      setFormMode("edit");
+
+      // Map destination coordinates
+      const des: Location[] = data.destinations.map((d: any) => ({
+        touristId: d.id,
+        id: d.id,
+        name: d.name,
+        lat: d.latitude,
+        lon: d.longitude,
+      }));
+      console.log("Mapped destinations:", des);
+
+      if (data.route) {
+        const route = data.route;
+
+        // ✅ CRITICAL FIX: Backend sends [lat, lon], keep it that way
+        // The path from backend is already [lat, lon][]
+        const pathCoords: [number, number][] = route.path;
+
+        // Normalize segments - backend already sends [lat, lon]
+        const normalizedSegments: PathSegment[] = (route.segments || []).map((seg: any) => ({
+          path: seg.path, // Already [lat, lon][]
+          cost: seg.costMinutes,
+          distance: seg.distanceKm,
+          fromIndex: seg.fromIndex,
+          toIndex: seg.toIndex,
         }));
 
-        //console.log("destination is: ", des);
-
+        // Set everything at once
         setDestinations(des);
-      } catch (error) {
-        console.error("Failed to fetch plan by ID:", error);
-      }
-    };
+        setPathCoords(pathCoords);
+        setPathSegments(normalizedSegments);
+        setTotalCost(route.totalCostMinutes);
+        setTotalDistance(route.totalDistanceKm);
+        setMode(route.mode);
+        
+        // Generate tspOrder from destination indices
+        const tspOrder = des.map((_, index) => index);
+        setTspOrder(tspOrder);
 
-    getPlan();
-  }, [id]);
+        setCurrentSegmentIndex(0);
+        setShowAllSegments(true);
+        setShowRouteModal(true);
+      } else {
+        setDestinations(des);
+      }
+    } catch (error) {
+      console.error("Failed to fetch plan by ID:", error);
+    } finally {
+      setTimeout(() => {
+        isLoadingPlanRef.current = false;
+      }, 100);
+    }
+  };
+
+  getPlan();
+}, [id]);
+
+
+useEffect(() => {
+  console.log("MapView coordinate details:", {
+    pathCoordsLength: pathCoords.length,
+    segmentsLength: pathSegments.length,
+    firstPathCoord: pathCoords[0],
+    lastPathCoord: pathCoords[pathCoords.length - 1],
+    firstSegment: pathSegments[0] ? {
+      pathLength: pathSegments[0].path.length,
+      firstCoord: pathSegments[0].path[0],
+      lastCoord: pathSegments[0].path[pathSegments[0].path.length - 1]
+    } : null,
+    // Check if coordinates look valid (Kathmandu area)
+    coordsValid: pathCoords.length > 0 && 
+      pathCoords[0][0] > 27 && pathCoords[0][0] < 28 &&
+      pathCoords[0][1] > 85 && pathCoords[0][1] < 86
+  });
+}, [pathCoords, pathSegments]);
 
   const [formMode, setFormMode] = useState<"create" | "edit">("create");
   const [isOpenPlanForm, setIsOpenPlanForm] = useState<boolean>(false);
@@ -274,8 +343,6 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (planName: string) => {
-    console.log("Planned Destination:", plannedDestination);
-    console.log("Plan Name: ", planName);
     const desination = plannedDestination.slice(0, -1);
     const data = {
       name: planName,
@@ -286,14 +353,12 @@ const Home = () => {
       await dispatch(updatePlan({ formData: data, id: id! }));
       setDestinations([]);
       setPlannedDestination([]);
-
       navigate("/");
     } else {
       await dispatch(createPlan(data));
       setDestinations([]);
       setPlannedDestination([]);
     }
-    // console.log(data);
   };
 
   const saveRoute = () => {
@@ -313,21 +378,27 @@ const Home = () => {
         }}
       />
 
-      {
-        destinations.length !==0  && (
-          <button onClick={()=>{
+      {destinations.length !== 0 && (
+        <button
+          onClick={() => {
             setDestinations([]);
-            navigate('/');
+            navigate("/");
           }}
-          className="bg-blue-600 drop-shadow-md shadow-black hover:bg-blue-400 fixed px-4 py-2 top-6 rounded-3xl z-1000 right-26 text-white">Clear</button>
-        )
-      }
+          className="bg-blue-600 drop-shadow-md shadow-black hover:bg-blue-400 fixed px-4 py-2 top-6 rounded-3xl z-1000 right-26 text-white"
+        >
+          Clear
+        </button>
+      )}
 
-      {
-        isCreatingPlan && (
-          <PlanCreationBanner onBack={()=>setIsCreatingPlan(false)} />
-        )
-      }
+      {isCreatingPlan && (
+        <PlanCreationBanner onBack={() => setIsCreatingPlan(false)} />
+      )}
+
+      {destinations.length === 1 && (
+        <div className="absolute text-white text-lg bg-blue-600 font-bold flex justify-center items-center py-6 px-4 z-1000 top-24 left-1/2 -translate-x-1/2 rounded-lg">
+          <p>Select at least 2 destinations</p>
+        </div>
+      )}
 
       {overlayView !== "none" && (
         <Overlay>
@@ -359,10 +430,12 @@ const Home = () => {
             />
           )}
           {overlayView === "planner" && (
-            <ManageYourPlan setOverlayView={setOverlayView} setIsCreatingPlan={setIsCreatingPlan} onBack={() => setOverlayView("none")}
+            <ManageYourPlan
+              setOverlayView={setOverlayView}
+              setIsCreatingPlan={setIsCreatingPlan}
+              onBack={() => setOverlayView("none")}
             />
-          )
-          }
+          )}
         </Overlay>
       )}
 
@@ -449,10 +522,11 @@ const Home = () => {
                     <button
                       key={m}
                       onClick={() => setMode(m)}
-                      className={`p-2.5 rounded-full transition-all ${mode === m
-                        ? "bg-blue-600 hover:bg-blue-400 text-white shadow-sm"
-                        : "text-gray-600 hover:bg-gray-100"
-                        }`}
+                      className={`p-2.5 rounded-full transition-all ${
+                        mode === m
+                          ? "bg-blue-600 hover:bg-blue-400 text-white shadow-sm"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`}
                       title={m.charAt(0).toUpperCase() + m.slice(1)}
                     >
                       {m === "foot" && <Footprints size={18} />}
@@ -513,7 +587,6 @@ const Home = () => {
                 )}
                 {pathSegments.length > 0 && (
                   <button
-                    // disabled={isLoading}
                     onClick={saveRoute}
                     className="w-full bg-blue-600 hover:bg-blue-400 disabled:bg-gray-400 text-white px-4 py-2.5 rounded-full shadow-lg font-medium text-sm transition-all flex items-center justify-center gap-2"
                   >
@@ -534,7 +607,7 @@ const Home = () => {
                   </button>
                 )}
                 {/* plan form during creation */}
-                {isOpenPlanForm && (
+                {isOpenPlanForm && formMode === "create" && (
                   <PlanFormCard
                     isOpen={isOpenPlanForm}
                     mode="create"
@@ -555,7 +628,6 @@ const Home = () => {
                     onSubmit={handleSubmit}
                     onClose={() => {
                       setIsOpenPlanForm(false);
-                      // handletoggle();
                       setPathCoords([]);
                       setTspOrder([]);
                     }}

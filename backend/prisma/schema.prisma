@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Destination {
-  id          Int      @id @default(autoincrement())
+  id          Int                       @id @default(autoincrement())
   name        String
   description String?
   image       String?
@@ -17,24 +17,22 @@ model Destination {
   lat         Float?
   lon         Float?
   plans       PlanDestination[]
-  favoritedBy   UserFavoriteDestination[]
-
+  favoritedBy UserFavoriteDestination[]
 
   @@map("destinations")
 }
 
 model User {
-  id          String       @id @default(uuid())
+  id          String                    @id @default(uuid())
   fName       String
   lName       String
-  email       String       @unique
+  email       String                    @unique
   password    String
   profile     String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  createdAt   DateTime                  @default(now())
+  updatedAt   DateTime                  @updatedAt
   travelPlans TravelPlan[]
-  favorites     UserFavoriteDestination[]
-
+  favorites   UserFavoriteDestination[]
 }
 
 model TravelPlan {
@@ -47,15 +45,14 @@ model TravelPlan {
   user         User              @relation(fields: [userId], references: [id])
 }
 
-
 model PlanDestination {
-  id             String       @id @default(uuid())
-  planId         String
-  destinationId  Int
-  order          Int
-  date           DateTime?
-  destination    Destination  @relation(fields: [destinationId], references: [id])
-  plan           TravelPlan   @relation(fields: [planId], references: [id])
+  id            String      @id @default(uuid())
+  planId        String
+  destinationId Int
+  order         Int
+  date          DateTime?
+  destination   Destination @relation(fields: [destinationId], references: [id])
+  plan          TravelPlan  @relation(fields: [planId], references: [id])
 
   @@unique([planId, destinationId, order])
 }
@@ -65,14 +62,12 @@ model UserFavoriteDestination {
   userId        String
   destinationId Int
   createdAt     DateTime    @default(now())
-
-  user          User        @relation(fields: [userId], references: [id])
   destination   Destination @relation(fields: [destinationId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
 
   @@unique([userId, destinationId])
   @@map("user_favorite_destinations")
 }
-
 
 model routing_edges_car {
   id                                                    Int                      @id @default(autoincrement())

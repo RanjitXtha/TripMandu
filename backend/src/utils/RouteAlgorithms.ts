@@ -118,7 +118,7 @@ export function aStar(
 
 
 // --- Greedy TSP using m/s ---
-export function solveGreedyTSP(
+export function solveHeldKarpTSP(
   points: NodeType[],
   graph: Graph_Type,
   nodeMap: NodeMap_Type,

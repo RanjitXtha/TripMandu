@@ -8,7 +8,7 @@ async function runRegisterUserTest() {
     body: {
       fName: "snk",
       lName: "ktri",
-      email: `snkk@gmail.com`, // unique
+      email: `snkkk@gmail.com`, // unique
       password: "Password123",
     },
     file: undefined, // or { path: "./dummy-profile.jpg" } to test upload

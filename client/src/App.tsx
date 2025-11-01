@@ -26,7 +26,6 @@ const App = () => {
         });
 
         if (response.data.success) {
-          console.log(response?.data?.data);
           const data: User = response?.data?.data;
           dispatch(setUser(data));
         }

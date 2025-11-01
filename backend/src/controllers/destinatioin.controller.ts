@@ -304,6 +304,7 @@ export const getUserRecommendations = asyncHandler(async (req: Request, res: Res
     .filter(d => !favoritedIds.has(d.id))
     .map(d => {
       const vector = textToVector(`${d.name} ${d.description ?? ""} ${d.categories.join(" ")}`);
+      console.log("Vector: ", vector);
       const avgSimilarity =
         favoriteVectors.reduce((sum, vec) => sum + cosineSimilarity(vector, vec), 0) / favoriteVectors.length;
 

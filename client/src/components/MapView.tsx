@@ -8,9 +8,6 @@ import type {
   NearByDestinationType,
   TouristDestination,
 } from "../types/types";
-
-import stopsData from "../data/stops_data.json";
-import precomputedRoutes from "../data/routes_precomputed.json";
 import type { PathSegment } from "../pages/Home";
 
 declare global {
@@ -81,7 +78,6 @@ const MapView = ({
   selectedMarker,
   setSelectedMarker,
   setOverlayView,
-  nearByDestinations,
   tspOrder,
   currentSegmentIndex,
   showAllSegments,
@@ -91,8 +87,6 @@ const MapView = ({
   const mapRef = useRef<maplibregl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const markersRef = useRef<maplibregl.Marker[]>([]);
-  const [routeGeoJSON, setRouteGeoJSON] = useState<any[]>([]);
-  const [selectedRouteId, setSelectedRouteId] = useState<string>("empty");
 
   const getDisplayNumber = (destinationIndex: number) => {
     if (tspOrder.length === 0) return destinationIndex + 1;
@@ -129,6 +123,7 @@ const MapView = ({
     mapRef.current.on("click", handleMapClick);
     return () => mapRef.current?.off("click", handleMapClick);
   }, [mapLoaded, markerMode, addDestinationMode, setDestinations, setMarkerMode, setClickMarkers]);
+
 
   // 🟢 Camera fly animation
   useEffect(() => {
@@ -349,8 +344,6 @@ const MapView = ({
 
       <Map
         mapLib={maplibregl}
-
-
         initialViewState={{ latitude: 27.67, longitude: 85.43, zoom: 14 }}
         mapStyle="https://tiles.openfreemap.org/styles/liberty"
         style={{ height: "100%", width: "100%" }}
@@ -361,7 +354,7 @@ const MapView = ({
       >
         <NavigationControl position="top-right" />
 
-        {/* Path segments (as before) */}
+        {/* ✅ Path segments - Convert [lat, lon] to [lon, lat] for MapLibre */}
         {pathSegments.length > 0 &&
           (showAllSegments
             ? pathSegments.map((segment, i) => {

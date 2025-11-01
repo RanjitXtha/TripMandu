@@ -2,10 +2,10 @@ import { Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { graphCache } from "../index.js";
-import { aStar, nearestNode, solveGreedyTSP, CostType } from "../utils/RouteAlgorithms.js";
+import { aStar, nearestNode, solveHeldKarpTSP, CostType } from "../utils/RouteAlgorithms.js";
 import destinationRaw from "../data/destinations.json" with { type: "json" };
 import { textToVector, cosineSimilarity } from "../utils/RouteAlgorithms.js";
-import {haversineDistance} from "../utils/RouteAlgorithms.js";
+import { haversineDistance } from "../utils/RouteAlgorithms.js";
 
 
 interface Location {
@@ -14,7 +14,7 @@ interface Location {
   name?: string;
 }
 
-type Mode = "car" | "foot" | "motorbike";
+export type Mode = "car" | "foot" | "motorbike";
 
 function getMode(mode: any): Mode {
   if (mode === "car" || mode === "foot" || mode === "motorbike") return mode;
@@ -62,7 +62,7 @@ export const getRoute = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-const SPEEDS: Record<Mode, number> = { foot: 1.39, motorbike: 7.8, car: 6 };
+export const SPEEDS: Record<Mode, number> = { foot: 1.39, motorbike: 7.8, car: 6 };
 
 // --- GREEDY TSP ---
 export const solveTSPHandler = asyncHandler(async (req: Request, res: Response) => {
@@ -80,7 +80,7 @@ export const solveTSPHandler = asyncHandler(async (req: Request, res: Response) 
   const { graph, nodeMap } = graphCache;
 
   // Mode-aware nearest nodes for each destination
-  const tspResult = solveGreedyTSP(destinations, graph, nodeMap, transportMode, costType, SPEEDS[transportMode]);
+  const tspResult = solveHeldKarpTSP(destinations, graph, nodeMap, transportMode, costType, SPEEDS[transportMode]);
 
   if (!tspResult)
     throw new ApiError(

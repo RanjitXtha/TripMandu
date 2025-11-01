@@ -1,4 +1,4 @@
-import { solveGreedyTSP } from "../utils/RouteAlgorithms.js";
+import { solveHeldKarpTSP } from "../utils/RouteAlgorithms.js";
 import { graphCache } from "../index.js";
 
 
@@ -16,7 +16,7 @@ async function testTSP() {
     { lat: 27.7172, lon: 85.3620 },
   ];
 
-  const result = solveGreedyTSP(points, graph, nodeMap, "car", "length", 1.39);
+  const result = solveHeldKarpTSP(points, graph, nodeMap, "car", "length", 1.39);
   console.log("Result:", result);
 }
 
