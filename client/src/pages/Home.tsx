@@ -80,7 +80,7 @@ const Home = () => {
   const [isCreatingPlan, setIsCreatingPlan] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const userId = useSelector((state: RootState) => state.user.id);
-  
+
   // ✅ Ref to track if we're loading a plan (to prevent clearing paths)
   const isLoadingPlanRef = useRef(false);
 
@@ -134,7 +134,7 @@ const Home = () => {
       console.log("Skipping path clear - loading plan");
       return;
     }
-    
+
     console.log("Clearing paths due to destination change");
     setPathCoords([]);
     setPathSegments([]);
@@ -234,6 +234,10 @@ const Home = () => {
     }
   };
 
+  const handleFly = (lat: number, lon: number) => {
+    setMapTarget({ lat, lon })
+  }
+
   useEffect(() => {
     if (selectedMarker !== null) {
       setOverlayView("showSite");
@@ -245,95 +249,95 @@ const Home = () => {
   const [planeame, setPlanName] = useState<string>("");
 
   // ✅ Load plan by ID with proper flag management
-useEffect(() => {
-  const getPlan = async () => {
-    console.log("Fetching plan for id:", id);
-    if (!id) return;
-    
-    isLoadingPlanRef.current = true;
-    
-    try {
-      const res = await planById(id);
-      const data = res?.data;
-      console.log("Loaded plan:", data);
+  useEffect(() => {
+    const getPlan = async () => {
+      console.log("Fetching plan for id:", id);
+      if (!id) return;
 
-      setPlanName(data.planName);
-      setFormMode("edit");
+      isLoadingPlanRef.current = true;
 
-      // Map destination coordinates
-      const des: Location[] = data.destinations.map((d: any) => ({
-        touristId: d.id,
-        id: d.id,
-        name: d.name,
-        lat: d.latitude,
-        lon: d.longitude,
-      }));
-      console.log("Mapped destinations:", des);
+      try {
+        const res = await planById(id);
+        const data = res?.data;
+        console.log("Loaded plan:", data);
 
-      if (data.route) {
-        const route = data.route;
+        setPlanName(data.planName);
+        setFormMode("edit");
 
-        // ✅ CRITICAL FIX: Backend sends [lat, lon], keep it that way
-        // The path from backend is already [lat, lon][]
-        const pathCoords: [number, number][] = route.path;
-
-        // Normalize segments - backend already sends [lat, lon]
-        const normalizedSegments: PathSegment[] = (route.segments || []).map((seg: any) => ({
-          path: seg.path, // Already [lat, lon][]
-          cost: seg.costMinutes,
-          distance: seg.distanceKm,
-          fromIndex: seg.fromIndex,
-          toIndex: seg.toIndex,
+        // Map destination coordinates
+        const des: Location[] = data.destinations.map((d: any) => ({
+          touristId: d.id,
+          id: d.id,
+          name: d.name,
+          lat: d.latitude,
+          lon: d.longitude,
         }));
+        console.log("Mapped destinations:", des);
 
-        // Set everything at once
-        setDestinations(des);
-        setPathCoords(pathCoords);
-        setPathSegments(normalizedSegments);
-        setTotalCost(route.totalCostMinutes);
-        setTotalDistance(route.totalDistanceKm);
-        setMode(route.mode);
-        
-        // Generate tspOrder from destination indices
-        const tspOrder = des.map((_, index) => index);
-        setTspOrder(tspOrder);
+        if (data.route) {
+          const route = data.route;
 
-        setCurrentSegmentIndex(0);
-        setShowAllSegments(true);
-        setShowRouteModal(true);
-      } else {
-        setDestinations(des);
+          // ✅ CRITICAL FIX: Backend sends [lat, lon], keep it that way
+          // The path from backend is already [lat, lon][]
+          const pathCoords: [number, number][] = route.path;
+
+          // Normalize segments - backend already sends [lat, lon]
+          const normalizedSegments: PathSegment[] = (route.segments || []).map((seg: any) => ({
+            path: seg.path, // Already [lat, lon][]
+            cost: seg.costMinutes,
+            distance: seg.distanceKm,
+            fromIndex: seg.fromIndex,
+            toIndex: seg.toIndex,
+          }));
+
+          // Set everything at once
+          setDestinations(des);
+          setPathCoords(pathCoords);
+          setPathSegments(normalizedSegments);
+          setTotalCost(route.totalCostMinutes);
+          setTotalDistance(route.totalDistanceKm);
+          setMode(route.mode);
+
+          // Generate tspOrder from destination indices
+          const tspOrder = des.map((_, index) => index);
+          setTspOrder(tspOrder);
+
+          setCurrentSegmentIndex(0);
+          setShowAllSegments(true);
+          setShowRouteModal(true);
+        } else {
+          setDestinations(des);
+        }
+      } catch (error) {
+        console.error("Failed to fetch plan by ID:", error);
+      } finally {
+        setTimeout(() => {
+          isLoadingPlanRef.current = false;
+        }, 100);
       }
-    } catch (error) {
-      console.error("Failed to fetch plan by ID:", error);
-    } finally {
-      setTimeout(() => {
-        isLoadingPlanRef.current = false;
-      }, 100);
-    }
-  };
+    };
 
-  getPlan();
-}, [id]);
+    getPlan();
+  }, [id]);
 
 
-useEffect(() => {
-  console.log("MapView coordinate details:", {
-    pathCoordsLength: pathCoords.length,
-    segmentsLength: pathSegments.length,
-    firstPathCoord: pathCoords[0],
-    lastPathCoord: pathCoords[pathCoords.length - 1],
-    firstSegment: pathSegments[0] ? {
-      pathLength: pathSegments[0].path.length,
-      firstCoord: pathSegments[0].path[0],
-      lastCoord: pathSegments[0].path[pathSegments[0].path.length - 1]
-    } : null,
-    // Check if coordinates look valid (Kathmandu area)
-    coordsValid: pathCoords.length > 0 && 
-      pathCoords[0][0] > 27 && pathCoords[0][0] < 28 &&
-      pathCoords[0][1] > 85 && pathCoords[0][1] < 86
-  });
-}, [pathCoords, pathSegments]);
+  useEffect(() => {
+    console.log("MapView coordinate details:", {
+      pathCoordsLength: pathCoords.length,
+      segmentsLength: pathSegments.length,
+      firstPathCoord: pathCoords[0],
+      lastPathCoord: pathCoords[pathCoords.length - 1],
+      firstSegment: pathSegments[0] ? {
+        pathLength: pathSegments[0].path.length,
+        firstCoord: pathSegments[0].path[0],
+        lastCoord: pathSegments[0].path[pathSegments[0].path.length - 1]
+      } : null,
+      // Check if coordinates look valid (Kathmandu area)
+      coordsValid: pathCoords.length > 0 &&
+        pathCoords[0][0] > 27 && pathCoords[0][0] < 28 &&
+        pathCoords[0][1] > 85 && pathCoords[0][1] < 86
+    });
+  }, [pathCoords, pathSegments]);
 
   const [formMode, setFormMode] = useState<"create" | "edit">("create");
   const [isOpenPlanForm, setIsOpenPlanForm] = useState<boolean>(false);
@@ -416,6 +420,7 @@ useEffect(() => {
               myloc={myloc}
               onBack={() => setOverlayView("none")}
               touristDestinations={touristDestinations}
+              onSiteClick={handleFly}
             />
           )}
           {overlayView === "routePlanner" && (
@@ -522,11 +527,10 @@ useEffect(() => {
                     <button
                       key={m}
                       onClick={() => setMode(m)}
-                      className={`p-2.5 rounded-full transition-all ${
-                        mode === m
+                      className={`p-2.5 rounded-full transition-all ${mode === m
                           ? "bg-blue-600 hover:bg-blue-400 text-white shadow-sm"
                           : "text-gray-600 hover:bg-gray-100"
-                      }`}
+                        }`}
                       title={m.charAt(0).toUpperCase() + m.slice(1)}
                     >
                       {m === "foot" && <Footprints size={18} />}

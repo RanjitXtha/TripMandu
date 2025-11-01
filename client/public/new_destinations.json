@@ -594,7 +594,7 @@
   {
     "name": "Tergar Osel Ling Monastery",
     "description": "A Tibetan Buddhist monastery located on the hills near Swayambhu. It is the main Himalayan monastery of the Tergar Meditation Community, led by the renowned meditation master Yongey Mingyur Rinpoche.",
-    "image": null,
+    "image": "https://images.squarespace-cdn.com/content/v1/648db6ba0ac2fb3561c437e1/7226cad6-3360-40b3-a343-57b0cbe4e86b/DJI_0278-2.jpg",
     "coordinates": {
       "lat": 27.7179639,
       "lon": 85.2766722
@@ -905,7 +905,7 @@
   {
     "name": "Patan Museum",
     "description": "Housed in a meticulously restored palace in Patan Durbar Square, this museum is considered one of the finest in South Asia. It showcases Nepal's traditional sacred art, primarily Hindu and Buddhist bronze statues and gilt work.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Patan_Museum_Nepal_-_Courtyard_and_main_building.jpg/330px-Patan_Museum_Nepal_-_Courtyard_and_main_building.jpg",
+    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/ed/9f/16/patan-durbar-square-inside.jpg?w=800&h=-1&s=1",
     "coordinates": {
       "lat": 27.6739167,
       "lon": 85.3255
@@ -969,8 +969,8 @@
     "description": "A prominent contemporary art gallery located in the Baber Mahal Revisited complex. It plays a crucial role in promoting modern and contemporary Nepali artists and hosts a wide range of exhibitions and events.",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Siddhartha_Art_Gallery.jpg/2560px-Siddhartha_Art_Gallery.jpg",
     "coordinates": {
-      "lat": 27.6922222,
-      "lon": 85.3236111
+      "lat": 27.69451319519554,
+      "lon": 85.32268819495049
     },
     "categories": [
       "Art",
@@ -1042,7 +1042,7 @@
   {
     "name": "Nepalese Army Museum",
     "description": "Located in the Chhauni area of Kathmandu, this museum showcases Nepal's military history, from ancient times to modern UN peacekeeping missions. Exhibits include historical weapons, uniforms, and dioramas.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Nepalese_Army_Museum_at_Chhauni%2C_Kathmandu.jpg/330px-Nepalese_Army_Museum_at_Chhauni%2C_Kathmandu.jpg",
+    "image": "https://ktmguide.com/wp-content/uploads/2019/09/m2.jpg",
     "coordinates": {
       "lat": 27.7065,
       "lon": 85.2905
@@ -1128,8 +1128,8 @@
     "description": "The only national zoo in Nepal, located in Jawalakhel, Lalitpur. Established in 1932, it houses a variety of native and international animals and serves as a center for wildlife conservation and education.",
     "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Pond_inside_the_central_zoo%2C_Jawalakhel.jpg/500px-Pond_inside_the_central_zoo%2C_Jawalakhel.jpg",
     "coordinates": {
-      "lat": 27.6712,
-      "lon": 85.3125
+      "lat": 27.6730649627172,
+      "lon": 85.31167743672303
     },
     "categories": [
       "Park"
@@ -1170,7 +1170,7 @@
   {
     "name": "Nagarkot",
     "description": "A famous hill station east of Kathmandu, celebrated for its breathtaking panoramic views of the Himalayan range, including Annapurna, Manaslu, Ganesh Himal, Langtang, and, on exceptionally clear days, Mount Everest. It's a popular destination for sunrise and sunset views over the mountains.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/View_from_Nagarkot.jpg/1280px-View_from_Nagarkot.jpg",
+    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/40/02/28/nagarkot.jpg?w=1100&h=1100&s=1",
     "coordinates": {
       "lat": 27.7173875,
       "lon": 85.5212881
@@ -1198,7 +1198,7 @@
   {
     "name": "Budhanilkantha Temple",
     "description": "A significant Hindu open-air temple dedicated to Lord Vishnu. The site is famous for its large reclining statue of Vishnu, carved from a single block of black basalt stone, making it the largest stone carving in Nepal. The statue appears to float in a sacred pond, and the temple is an important pilgrimage site for Hindus.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Budhanilkantha_Temple_premises.jpg/1280px-Budhanilkantha_Temple_premises.jpg",
+    "image": "https://sacredsites.com/images/asia/nepal/Kathmandu-Budanilkantha-2.webp",
     "coordinates": {
       "lat": 27.76865,
       "lon": 85.3644028
@@ -1240,7 +1240,7 @@
   {
     "name": "Chandragiri Hills",
     "description": "A prominent hill southwest of Kathmandu, accessible by a modern cable car. The summit features the Bhaleshwor Mahadev Temple, a park, and a viewing tower that offers stunning 360-degree views of the Kathmandu Valley and the vast Himalayan ranges from Annapurna to Everest on clear days.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Chandragiri_Hills_Resort.jpg/1280px-Chandragiri_Hills_Resort.jpg",
+    "image": "https://www.chandragirihills.com/wp-content/themes/yootheme/cache/88/bhaleshwor-mahadeve-templet-8850f2d3.jpeg",
     "coordinates": {
       "lat": 27.6775861,
       "lon": 85.2215306
@@ -1255,7 +1255,7 @@
   {
     "name": "Champadevi Hill",
     "description": "A popular hiking destination located on the southwestern rim of the Kathmandu Valley. The trail leads through lush pine forests to the summit, which hosts a small Buddhist and Hindu shrine. It offers excellent panoramic views of the city and the central and western Himalayan ranges.",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Stupa_at_the_top_of_Champadevi_Hill.jpg/1280px-Stupa_at_the_top_of_Champadevi_Hill.jpg",
+    "image": "https://www.ruggedtrailsnepal.com/uploads/img/champadevi-hill-day-hike-kathmandu.jpg",
     "coordinates": {
       "lat": 27.6391472,
       "lon": 85.2638861
