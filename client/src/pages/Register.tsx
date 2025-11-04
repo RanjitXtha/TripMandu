@@ -13,7 +13,6 @@ const Register = () => {
     profile: undefined,
   });
 
-  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState<boolean>(false);
