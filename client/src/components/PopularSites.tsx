@@ -279,10 +279,12 @@ const PopularSites: React.FC<PopularSitesProps> = ({
               </div>
             ) : (
               filteredData.map((site) => {
-                return <div key={site.id} onClick={() => handleCardClick(site.coordinates.lat, site.coordinates.lon)}>
+                return <div key={site.id}>
                   <SiteCard
                     key={site.id}
                     {...site}
+                    handleCardClick={handleCardClick}
+                    showsimilarity={false}
                   />
                 </div>
               })
@@ -322,7 +324,6 @@ const PopularSites: React.FC<PopularSitesProps> = ({
                 {filteredData.map((rec, index) => (
                   <button
                     key={index}
-                    onClick={() => handleCardClick(rec.coodinates.lat, rec.coordinates.lon)}
                     className="w-full bg-white hover:bg-gray-50 rounded-xl border border-gray-200 hover:border-purple-300 overflow-hidden transition-all hover:shadow-md text-left"
                   >
                     <div className="relative">
@@ -399,10 +400,12 @@ const PopularSites: React.FC<PopularSitesProps> = ({
             ) : (
               <div className="space-y-4">
                 {filteredData.map((site) => (
-                  <div key={site.id} onClick={() => handleCardClick(site.coordinates.lat, site.coordinates.lon)}>
+                  <div key={site.id}>
                     <SiteCard
                       key={site.id}
                       {...site}
+                      handleCardClick={handleCardClick}
+                      showsimilarity={false}
                     />
                   </div>
                 ))}

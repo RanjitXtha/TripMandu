@@ -4,8 +4,6 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { Request, Response } from "express";
 import { AuthenticatedRequest, AuthenticatedUser } from "../middleware/auth.js";
 import prisma from "../db/index.js";
-import { connect } from "http2";
-import { Prisma } from "@prisma/client";
 import { aStar, CostType, nearestNode } from "../utils/RouteAlgorithms.js";
 import { Mode, SPEEDS } from "./map.controller.js";
 import { graphCache } from "../index.js";
@@ -76,26 +74,6 @@ export const getPlanByUser = asyncHandler(
     }
 
     const userId = user.id; // make sure this is safe!
-
-    // const query = `
-    //   SELECT
-    //     d.id,
-    //     d.name,
-    //     d.description,
-    //     d.image,
-    //     ST_Y(d.location::geometry) AS latitude,
-    //     ST_X(d.location::geometry) AS longitude,
-    //     pd."planId",
-    //     pd.order,
-    //     pd.date
-    //   FROM "PlanDestination" pd
-    //   JOIN "Destination" d ON pd."destinationId" = d.id
-    //   JOIN "TravelPlan" tp ON tp.id = pd."planId"
-    //   WHERE tp."userId" = '${userId}'
-    //   ORDER BY pd.date, pd.order;
-    // `;
-
-    // const destinations = await prisma.$queryRawUnsafe(query);
 
     const destinations = await prisma.travelPlan.findMany({
       where: {

@@ -13,6 +13,9 @@ export async function initGraphData(): Promise<LoadGraphResult> {
     `);
     for (const n of nodes) nodeMap[n.id] = { lat: n.lat, lon: n.lon };
     console.log(`Loaded ${nodes.length} nodes.`);
+
+    // Log first 5 nodes as a sample
+    const nodeSample = Object.entries(nodeMap).slice(0, 5);
   }
 
   const modes: Array<'car' | 'motorbike' | 'foot'> = ['car', 'motorbike', 'foot'];
@@ -51,7 +54,6 @@ export async function initGraphData(): Promise<LoadGraphResult> {
       }
     }
 
-    console.log(`Loaded ${edges.length} edges for mode ${mode}.`);
   }
 
   // --- 3. Load turn restrictions ---
@@ -62,7 +64,14 @@ export async function initGraphData(): Promise<LoadGraphResult> {
   for (const r of restrictions) {
     turnRestrictions.add(`${r.from_edge}-${r.via_node}-${r.to_edge}`);
   }
-  console.log(`Loaded ${turnRestrictions.size} turn restrictions.`);
+
+  // Log a small sample of the graph
+  const graphSampleKeys = Object.keys(graph).slice(0, 3);
+  const graphSample: Record<number, any> = {};
+  graphSampleKeys.forEach(key => {
+    const numericKey = Number(key); // Convert string key to number
+    graphSample[numericKey] = graph[numericKey];
+  });
 
   return { nodeMap, graph, turnRestrictions };
 }

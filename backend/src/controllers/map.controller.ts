@@ -21,47 +21,6 @@ function getMode(mode: any): Mode {
   throw new ApiError(400, `Invalid mode: ${mode}`);
 }
 
-// --- GET ROUTE ---
-export const getRoute = asyncHandler(async (req: Request, res: Response) => {
-  const {
-    start,
-    end,
-    mode = "car",
-    costType = "length",
-  }: { start: Location; end: Location; mode?: Mode; costType?: CostType } = req.body;
-
-  if (!graphCache) throw new ApiError(500, "Graph not loaded");
-
-  const transportMode = getMode(mode);
-  const { graph, nodeMap } = graphCache;
-
-  // Use mode-aware nearest node
-  const startId = nearestNode(start, nodeMap, graph, transportMode, costType);
-  const goalId = nearestNode(end, nodeMap, graph, transportMode, costType);
-
-  if (startId == null || goalId == null)
-    throw new ApiError(400, `Nearest node not found for mode '${transportMode}'`);
-
-  const result = aStar(startId, goalId, graph, nodeMap, transportMode, costType, 5);
-  if (!result)
-    throw new ApiError(
-      400,
-      `No path found between the selected points for mode '${transportMode}'`
-    );
-
-  const pathCoords = result.path.map((id) => {
-    const node = nodeMap[id];
-    return [node.lat, node.lon];
-  });
-
-  res.json({
-    path: pathCoords,
-    totalCost: result.totalCost,
-    costType,
-    mode: transportMode,
-  });
-});
-
 export const SPEEDS: Record<Mode, number> = { foot: 1.39, motorbike: 7.8, car: 6 };
 
 // --- GREEDY TSP ---
@@ -148,7 +107,6 @@ const destinations = (destinationRaw as any[]).map((d) => ({
   categories: d.categories || (d.category ? [d.category] : []),
 }));
 
-// Adjustable max distance in KM for nearby
 const MAX_DISTANCE_KM = 5;
 
 export const getRecommendations = asyncHandler(async (req: Request, res: Response) => {
@@ -163,7 +121,6 @@ export const getRecommendations = asyncHandler(async (req: Request, res: Respons
     return res.status(404).json({ error: "Destination not found" });
   }
 
-  // Compute scores or distances for all others
   const results = destinations
     .filter((d) => d.name !== name)
     .map((d) => {
@@ -198,7 +155,6 @@ export const getRecommendations = asyncHandler(async (req: Request, res: Respons
       .sort((a, b) => b.similarityScore - a.similarityScore);
   }
 
-  // Optional: fallback from nearby → similar if no results found
   if (type === "nearby" && filtered.length === 0) {
     console.warn(`No nearby found for '${name}', falling back to similarity`);
     filtered = results
@@ -206,8 +162,6 @@ export const getRecommendations = asyncHandler(async (req: Request, res: Respons
       .sort((a, b) => b.similarityScore - a.similarityScore);
   }
 
-  // Optional: Debug distances
-  // console.log(`Distances from ${name}:`, results.map(r => ({ name: r.name, km: r.distanceKm })));
 
   const recommendations = filtered.slice(0, 5);
   res.json({ recommendations });

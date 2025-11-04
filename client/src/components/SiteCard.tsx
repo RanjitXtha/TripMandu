@@ -21,6 +21,12 @@ interface SiteCardProps extends TouristDestination {
   onBack?: () => void;
   recommendations?: Recommendation[];
   onRecommendationClick?: (lat: number, lon: number, name: string) => void;
+  handleCardClick?: (lat: number, lon: number) => void;
+  coordinates: {
+    lat: number;
+    lon: number;
+  };
+  showsimilarity: boolean;
 }
 
 const SiteCard: React.FC<SiteCardProps> = ({
@@ -28,9 +34,12 @@ const SiteCard: React.FC<SiteCardProps> = ({
   image,
   name,
   id,
+  coordinates,
   onBack,
   recommendations = [],
   onRecommendationClick,
+  handleCardClick,
+  showsimilarity = true,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
   const userId = useSelector((state: RootState) => state.user.id);
@@ -56,7 +65,7 @@ const SiteCard: React.FC<SiteCardProps> = ({
   return (
     <div className="w-full max-w-[30rem] h-full flex flex-col bg-white overflow-hidden">
       {/* Header with Image */}
-      <div className="relative">
+      <div className="relative" onClick={() => handleCardClick && handleCardClick(coordinates.lat, coordinates.lon)}>
         <img src={image} alt={name} className="w-full h-56 object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
 
@@ -74,11 +83,10 @@ const SiteCard: React.FC<SiteCardProps> = ({
         {/* Favourite Button */}
         <button
           onClick={handleFavouriteClick}
-          className={`absolute top-4 left-4 p-2 rounded-full transition-all shadow-lg ${
-            isAlreadyFavourited
-              ? "bg-red-500 text-white"
-              : "bg-white/90 text-gray-700"
-          }`}
+          className={`absolute top-4 left-4 p-2 rounded-full transition-all shadow-lg ${isAlreadyFavourited
+            ? "bg-red-500 text-white"
+            : "bg-white/90 text-gray-700"
+            }`}
           aria-label="Favorite"
         >
           <Heart size={18} fill={isAlreadyFavourited ? "currentColor" : "none"} />
@@ -103,7 +111,7 @@ const SiteCard: React.FC<SiteCardProps> = ({
           <p className="text-sm text-gray-700 leading-relaxed">{description}</p>
         </div>
 
-        {recommendations && recommendations.length > 0 && (
+        {showsimilarity && recommendations && recommendations.length > 0 && (
           <div className="p-5">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide">

@@ -13,17 +13,6 @@
   height: 6px;
 }
 
-/* .custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-} */
-
-/* .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #2563eb; 
-  border-radius: 9999px;
-  border: 2px solid transparent;
-  background-clip: content-box; 
-} */
-
 .maplibregl-popup-content {
   background-color: #f9fafb !important;
   border-radius: 1.2rem !important;

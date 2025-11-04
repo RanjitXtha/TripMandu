@@ -12,7 +12,6 @@ import type {
 } from "../types/types";
 import Header from "../components/Header";
 import Overlay from "../components/Overlay";
-import Footer from "../components/Footer";
 import SiteCard from "../components/SiteCard";
 import PopularSites from "../components/PopularSites";
 import { Bike, Car, Footprints } from "lucide-react";
