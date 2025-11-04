@@ -108,12 +108,13 @@ export const solveTSPHandler = asyncHandler(async (req: Request, res: Response) 
   let factor = 1.5;
 
   if (transportMode === "foot") {
-    factor = 1.3;
+    factor = 1.2;
   } else if (transportMode === "car") {
-    factor = 1.5;
-  } else {
     factor = 1.4;
+  } else {
+    factor = 1.3;
   }
+
 
   console.log(`Time: ${(tspResult.totalCost * factor) / 60}min, Distance: ${tspResult.totalDistance / 1000}km`);
 

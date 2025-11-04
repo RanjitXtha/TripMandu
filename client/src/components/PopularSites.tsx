@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { X, MapPin, Sparkles, TrendingUp, Tag, Heart } from "lucide-react";
+import { X, MapPin, Sparkles, TrendingUp, Tag, Heart, Search } from "lucide-react";
 import type { TouristDestination } from "../types/types";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import type { RootState } from "../app/store";
-import SiteCard from "./SiteCard"; // ✅ Reuse your SiteCard
+import SiteCard from "./SiteCard";
 
 interface Recommendation {
   id: number;
@@ -21,7 +21,7 @@ interface PopularSitesProps {
   myloc: { lat: number; lon: number } | null;
   onBack?: () => void;
   touristDestinations: TouristDestination[];
-  onSiteClick?: (lat: number, lon: number, name: string) => void;
+  onSiteClick?: (lat: number, lon: number) => void;
 }
 
 const PopularSites: React.FC<PopularSitesProps> = ({
@@ -35,6 +35,7 @@ const PopularSites: React.FC<PopularSitesProps> = ({
   const [isLoadingRec, setIsLoadingRec] = useState(false);
   const [favouriteDetails, setFavouriteDetails] = useState<TouristDestination[]>([]);
   const [isLoadingFav, setIsLoadingFav] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const userId = useSelector((state: RootState) => state.user.id);
   const favourites = useSelector((state: RootState) => state.favourites.items);
@@ -44,8 +45,8 @@ const PopularSites: React.FC<PopularSitesProps> = ({
       name: "Kathmandu Durbar Square",
       description: "One of three royal palace squares in the Kathmandu Valley, this UNESCO World Heritage Site is a historic plaza renowned for its exquisite architecture, temples, courtyards, and the Kumari Ghar, residence of the living goddess.",
       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Basantapurpalace.JPG/330px-Basantapurpalace.JPG",
-        lat: 27.7047132,
-        lon: 85.3074368,
+      lat: 27.7047132,
+      lon: 85.3074368,
       categories: ["Heritage", "Hindu", "Historical"],
       id: 1,
     },
@@ -53,8 +54,8 @@ const PopularSites: React.FC<PopularSitesProps> = ({
       name: "Patan Durbar Square",
       description: "Situated in the center of Lalitpur, this UNESCO World Heritage Site is a marvel of Newar architecture. The square is home to the medieval royal palace, along with a stunning array of temples and idols, including the famed Krishna Mandir.",
       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Patan_Durbar_Square_entrance_2022.jpg/330px-Patan_Durbar_Square_entrance_2022.jpg",
-        lat: 27.6735518,
-        lon: 85.3252331,
+      lat: 27.6735518,
+      lon: 85.3252331,
       categories: ["Heritage", "Hindu", "Historical"],
       id: 2,
     },
@@ -62,10 +63,8 @@ const PopularSites: React.FC<PopularSitesProps> = ({
       name: "Bhaktapur Durbar Square",
       description: "The royal palace plaza of the former Bhaktapur Kingdom and a UNESCO World Heritage Site. The square is famous for its rich culture and historical monuments, including the 55-Window Palace, the Golden Gate, and the nearby Nyatapola Temple.",
       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Bhaktapur_Durbar_Square_area_at_dusk.jpg/330px-Bhaktapur_Durbar_Square_area_at_dusk.jpg",
-
       lat: 27.6721531,
       lon: 85.4283489,
-
       categories: ["Heritage", "Hindu", "Historical"],
       id: 3,
     },
@@ -73,8 +72,8 @@ const PopularSites: React.FC<PopularSitesProps> = ({
       name: "Changu Narayan Temple",
       description: "Considered the oldest Hindu temple in Nepal, this ancient temple is dedicated to Lord Vishnu. Located on a high hilltop, it is adorned with some of the finest examples of stone, wood, and metal craft in the Kathmandu Valley.",
       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Nepal_-_Changu_Narayan_%283566057331%29.jpg/330px-Nepal_-_Changu_Narayan_%283566057331%29.jpg",
-        lat: 27.71635,
-        lon: 85.42781,
+      lat: 27.71635,
+      lon: 85.42781,
       categories: ["Hindu", "Nature", "Temple"],
       id: 4,
     },
@@ -82,23 +81,37 @@ const PopularSites: React.FC<PopularSitesProps> = ({
       name: "Budhanilkantha Temple",
       description: "An open-air Hindu temple dedicated to Lord Vishnu, featuring a large reclining statue of the deity sleeping on a bed of cosmic serpents in a pool of water. It is a revered site for both Hindus and Buddhists.",
       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Budhanilkantha_Narayan_Murti_%282023%29_-_IMG_03.jpg/330px-Budhanilkantha_Narayan_Murti_%282023%29_-_IMG_03.jpg",
-        lat: 27.7686123,
-        lon: 85.3653456,
+      lat: 27.7686123,
+      lon: 85.3653456,
       categories: ["Buddhist", "Hindu", "Temple"],
       id: 5,
     },
-  ]
+  ];
+
+  // Filter function
+  const filterSites = (sites: any[]) => {
+    if (!searchQuery.trim()) return sites;
+
+    const query = searchQuery.toLowerCase();
+    return sites.filter(
+      (site) =>
+        site.name.toLowerCase().includes(query) ||
+        site.description.toLowerCase().includes(query) ||
+        (site.categories &&
+          site.categories.some((cat: string) => cat.toLowerCase().includes(query)))
+    );
+  };
+
   // Fetch Recommendations
   useEffect(() => {
     const fetchRecommendations = async () => {
- 
       setIsLoadingRec(true);
       try {
         const res = await axios.get("http://localhost:8080/api/destination/recommendations", {
           params: { userId },
         });
         console.log("Recommendations response:", res.data);
-        if(res.data.recommendations.length === 0) {
+        if (res.data.recommendations.length === 0) {
           setRecommendations(defaultRecommendations);
           return;
         }
@@ -148,11 +161,28 @@ const PopularSites: React.FC<PopularSitesProps> = ({
     fetchFavourites();
   }, [userId, favourites]);
 
-  const handleCardClick = (lat: number, lon: number, name: string) => {
+  const handleCardClick = (lat: number, lon: number) => {
+    console.log("Card clicked:", name, lat, lon);
     if (onSiteClick) {
-      onSiteClick(lat, lon, name);
+      onSiteClick(lat, lon);
     }
   };
+
+  // Get filtered data based on active tab
+  const getFilteredData = () => {
+    switch (activeTab) {
+      case "popular":
+        return filterSites(touristDestinations);
+      case "recommended":
+        return filterSites(recommendations);
+      case "favourites":
+        return filterSites(favouriteDetails);
+      default:
+        return [];
+    }
+  };
+
+  const filteredData = getFilteredData();
 
   return (
     <div className="w-[420px] h-full flex flex-col bg-white rounded-r-2xl shadow-2xl border-r border-gray-200">
@@ -167,6 +197,29 @@ const PopularSites: React.FC<PopularSitesProps> = ({
               aria-label="Close"
             >
               <X size={18} />
+            </button>
+          )}
+        </div>
+
+        {/* Search Bar */}
+        <div className="mb-3 relative">
+          <Search
+            size={16}
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          />
+          <input
+            type="text"
+            placeholder="Search destinations..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            >
+              <X size={16} />
             </button>
           )}
         </div>
@@ -212,13 +265,28 @@ const PopularSites: React.FC<PopularSitesProps> = ({
       <div className="flex-1 overflow-y-auto p-4">
         {activeTab === "popular" && (
           <div className="space-y-4">
-            {touristDestinations.map((site) => (
-              <SiteCard
-                key={site.id}
-                {...site}
-                onRecommendationClick={handleCardClick}
-              />
-            ))}
+            {filteredData.length === 0 ? (
+              <div className="text-center py-12 px-4">
+                <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Search size={24} className="text-gray-400" />
+                </div>
+                <h3 className="text-base font-semibold text-gray-900 mb-2">
+                  No Results Found
+                </h3>
+                <p className="text-xs text-gray-600">
+                  Try adjusting your search terms
+                </p>
+              </div>
+            ) : (
+              filteredData.map((site) => {
+                return <div key={site.id} onClick={() => handleCardClick(site.coordinates.lat, site.coordinates.lon)}>
+                  <SiteCard
+                    key={site.id}
+                    {...site}
+                  />
+                </div>
+              })
+            )}
           </div>
         )}
 
@@ -231,28 +299,38 @@ const PopularSites: React.FC<PopularSitesProps> = ({
                   <p className="text-sm text-gray-600">Loading...</p>
                 </div>
               </div>
-            ) :recommendations.length === 0 ? (
+            ) : filteredData.length === 0 ? (
               <div className="text-center py-12 px-4">
                 <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Sparkles size={24} className="text-gray-400" />
+                  {searchQuery ? (
+                    <Search size={24} className="text-gray-400" />
+                  ) : (
+                    <Sparkles size={24} className="text-gray-400" />
+                  )}
                 </div>
                 <h3 className="text-base font-semibold text-gray-900 mb-2">
-                  No Recommendations
+                  {searchQuery ? "No Results Found" : "No Recommendations"}
                 </h3>
                 <p className="text-xs text-gray-600">
-                  Add more favorites for better recommendations!
+                  {searchQuery
+                    ? "Try adjusting your search terms"
+                    : "Add more favorites for better recommendations!"}
                 </p>
               </div>
             ) : (
               <div className="space-y-3">
-                {recommendations.map((rec, index) => (
+                {filteredData.map((rec, index) => (
                   <button
                     key={index}
-                    onClick={() => handleCardClick(rec.lat, rec.lon, rec.name)}
+                    onClick={() => handleCardClick(rec.coodinates.lat, rec.coordinates.lon)}
                     className="w-full bg-white hover:bg-gray-50 rounded-xl border border-gray-200 hover:border-purple-300 overflow-hidden transition-all hover:shadow-md text-left"
                   >
                     <div className="relative">
-                      <img src={rec.image} alt={rec.name} className="w-full h-40 object-cover" />
+                      <img
+                        src={rec.image}
+                        alt={rec.name}
+                        className="w-full h-40 object-cover"
+                      />
                       <div className="absolute top-2 right-2 flex items-center gap-1 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
                         <Sparkles size={10} />
                         <span>For You</span>
@@ -264,7 +342,7 @@ const PopularSites: React.FC<PopularSitesProps> = ({
                       </h3>
                       {rec.categories && rec.categories.length > 0 && (
                         <div className="flex flex-wrap gap-1 mb-2">
-                          {rec.categories.slice(0, 2).map((cat, i) => (
+                          {rec.categories.slice(0, 2).map((cat: any, i: number) => (
                             <span
                               key={i}
                               className="inline-flex items-center gap-1 px-2 py-0.5 bg-purple-50 text-purple-700 rounded-full text-xs font-medium"
@@ -275,7 +353,9 @@ const PopularSites: React.FC<PopularSitesProps> = ({
                           ))}
                         </div>
                       )}
-                      <p className="text-xs text-gray-600 line-clamp-2 mb-2">{rec.description}</p>
+                      <p className="text-xs text-gray-600 line-clamp-2 mb-2">
+                        {rec.description}
+                      </p>
                       <div className="flex items-center gap-1 text-xs text-gray-500">
                         <MapPin size={11} />
                         <span>Recommended</span>
@@ -298,26 +378,33 @@ const PopularSites: React.FC<PopularSitesProps> = ({
                   <p className="text-sm text-gray-600">Loading favourites...</p>
                 </div>
               </div>
-            ) : favouriteDetails.length === 0 ? (
+            ) : filteredData.length === 0 ? (
               <div className="text-center py-12 px-4">
                 <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Heart size={24} className="text-gray-400" />
+                  {searchQuery ? (
+                    <Search size={24} className="text-gray-400" />
+                  ) : (
+                    <Heart size={24} className="text-gray-400" />
+                  )}
                 </div>
                 <h3 className="text-base font-semibold text-gray-900 mb-2">
-                  No Favourites Yet
+                  {searchQuery ? "No Results Found" : "No Favourites Yet"}
                 </h3>
                 <p className="text-xs text-gray-600">
-                  Tap the heart icon on any destination to add it to favourites.
+                  {searchQuery
+                    ? "Try adjusting your search terms"
+                    : "Tap the heart icon on any destination to add it to favourites."}
                 </p>
               </div>
             ) : (
               <div className="space-y-4">
-                {favouriteDetails.map((site) => (
-                  <SiteCard
-                    key={site.id}
-                    {...site}
-                    onRecommendationClick={handleCardClick}
-                  />
+                {filteredData.map((site) => (
+                  <div key={site.id} onClick={() => handleCardClick(site.coordinates.lat, site.coordinates.lon)}>
+                    <SiteCard
+                      key={site.id}
+                      {...site}
+                    />
+                  </div>
                 ))}
               </div>
             )}

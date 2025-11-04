@@ -7,12 +7,18 @@ import { setUser } from "../features/auth";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../app/store";
 
+interface FieldErrors {
+  email?: string;
+  password?: string;
+}
+
 const SignIn = () => {
   const [loginData, setLoginData] = useState<LoginFrom>({
     email: "",
     password: "",
   });
 
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState<boolean>(false);
